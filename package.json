@@ -7,6 +7,9 @@
   "author": "Lucas Turci and Thiago Preischadt",
   "license": "MIT",
   "private": true,
+  "scripts": {
+	  "webpack-dev-server": "webpack-dev-server"
+  },
   "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
