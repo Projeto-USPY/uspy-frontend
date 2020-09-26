@@ -1,0 +1,14 @@
+{
+  "name": "JupiterFront",
+  "version": "0.0.1",
+  "description": "Front-end of Jupiter++ website project",
+  "main": "index.js",
+  "repository": "https://github.com/lucasturci/JupiterFront",
+  "author": "Lucas Turci and Thiago Preischadt",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
