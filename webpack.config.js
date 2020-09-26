@@ -12,7 +12,11 @@ module.exports = {
 			test: /\.js$/,
 			exclude: /node_modules/,
 			include: /src/,
+			use: 'babel-loader',
 		}]
+	},
+	watchOptions: {
+		poll: 1000, // polls every second
 	},
 	devServer: {
 		historyApiFallback: true,
