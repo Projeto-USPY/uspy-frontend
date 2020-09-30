@@ -22,7 +22,6 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = (props) => {
 	const { buttons } = props
-	alert(buttons)
 	return <HideOnScroll {...props}>
 		<AppBar>
 			<Toolbar>
