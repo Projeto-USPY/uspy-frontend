@@ -26,7 +26,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
 	return <HideOnScroll {...props}>
 		<AppBar color='primary'>
 			<Toolbar className="toolbar">
-				<Typography variant="h6">Scroll to Hide App Bar</Typography>
+				<Typography variant="h6">Jupiter++</Typography>
 				<div>
 					{buttons.map((title, idx) => <Button className="h100" color="inherit" key={idx}>{title}</Button>)}
 				</div>
