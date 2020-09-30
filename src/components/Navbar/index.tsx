@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import Slide from '@material-ui/core/Slide'
+import './style.css'
 
 const HideOnScroll: React.FC<any> = ({
 	children
@@ -23,10 +24,12 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = (props) => {
 	const { buttons } = props
 	return <HideOnScroll {...props}>
-		<AppBar>
-			<Toolbar>
+		<AppBar color='primary'>
+			<Toolbar className="toolbar">
 				<Typography variant="h6">Scroll to Hide App Bar</Typography>
-				{buttons.map((title, idx) => <Button color="inherit" key={idx}>{title}</Button>)}
+				<div>
+					{buttons.map((title, idx) => <Button className="h100" color="inherit" key={idx}>{title}</Button>)}
+				</div>
 			</Toolbar>
 
 		</AppBar>
