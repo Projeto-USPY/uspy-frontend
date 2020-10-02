@@ -8,3 +8,8 @@
 main {
 	flex-grow: 1;
 }
+
+.inputfield {
+	width: 100%;
+	margin-top: 2rem;
+}
