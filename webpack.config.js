@@ -26,7 +26,8 @@ module.exports = {
 		]
 	},
 	resolve: {
-		extensions: ['.tsx', '.ts', '.js']
+		extensions: ['.tsx', '.ts', '.js'],
+		modules: [path.join(__dirname, 'node_modules'), path.join(__dirname, 'src')]
 	},
 	watchOptions: {
 		poll: 1000 // polls every second
