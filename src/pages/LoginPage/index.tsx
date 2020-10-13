@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from 'components/Navbar'
 import Container from '@material-ui/core/Container'
 import Footer from 'components/Footer'
@@ -11,6 +11,11 @@ import TextField from '@material-ui/core/TextField'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
 const LoginPage = () => {
+	const [nusp, setNusp] = useState('')
+	const handleNUSPInputChange = evt => {
+		const val = evt.target.value
+		if (/^[0-9]*$/.test(val)) setNusp(val)
+	}
 	return <>
 		<div className='main'>
 			<main>
@@ -25,12 +30,15 @@ const LoginPage = () => {
 										<Grid item>
 											<TextField
 												fullWidth
+												autoFocus
 												color='secondary'
 												label="Número USP"
 												name="NUSP"
 												size="small"
 												type="text"
 												variant="outlined"
+												value={nusp}
+												onChange={evt => handleNUSPInputChange(evt)}
 											/>
 										</Grid>
 										<Grid item>
