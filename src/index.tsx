@@ -5,6 +5,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import theme from 'theme'
 import LoginPage from 'pages/LoginPage'
+import RegisterPage from 'pages/RegisterPage'
 import HomePage from 'pages/HomePage'
 const App = () => {
 	return <>
@@ -12,6 +13,7 @@ const App = () => {
 			<BrowserRouter>
 				<Switch>
 					<Route exact path='/Login' component={LoginPage}/>
+					<Route exact path='/Cadastro' component={RegisterPage}/>
 					<Route path='/' component={HomePage}/>
 				</Switch>
 			</BrowserRouter>

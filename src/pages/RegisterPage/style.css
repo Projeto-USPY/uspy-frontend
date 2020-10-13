@@ -1,0 +1,25 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+}
+
+main {
+	flex-grow: 1;
+}
+
+.figure {
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+}
+
+.center-horizontal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+figcaption {
+	text-align: center;
+}

@@ -30,7 +30,7 @@ const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({ open, setOp
 		<DialogTitle id="alert-dialog-title">{'Esqueceu a senha?'}</DialogTitle>
 		<DialogContent>
 			<DialogContentText id="alert-dialog-description">
-            Caso tenha esquecido a senha, é preciso fornecer novamente o código de autenticação do seu resumo escolar, seguindo os mesmos passos do <Link color='secondary' href='/Cadastrar'>cadastro</Link>. Ao fazer isso, a sua conta será reconhecida e você poderá escolher uma nova senha.
+            Caso tenha esquecido a senha, é preciso fornecer novamente o código de autenticação do seu resumo escolar, seguindo os mesmos passos do <Link color='secondary' href='/Cadastro'>cadastro</Link>. Ao fazer isso, a sua conta será reconhecida e você poderá escolher uma nova senha.
 			</DialogContentText>
 		</DialogContent>
 		<DialogActions>
@@ -106,7 +106,7 @@ const LoginPage = () => {
 											<Link variant='caption' color='secondary' onClick={() => setDialogOpen(true)} style={{ cursor: 'pointer' }}>
 											Esqueci a senha
 											</Link>
-											<Link variant='caption' color='secondary' href='/Cadastrar'>
+											<Link variant='caption' color='secondary' href='/Cadastro'>
 											Cadastrar
 											</Link>
 										</Breadcrumbs>
