@@ -14,17 +14,18 @@ const LoginPage = () => {
 	return <>
 		<div className='main'>
 			<main>
-				<Navbar buttons={['Login', 'Cadastrar']}/>
+				<Navbar buttons={[{ title: 'Login', route: '/Login' }, { title: 'Cadastrar', route: '/Cadastro' }]} />
 				<div style={{ height: '150px' }}></div>
 				<Container style={{ backgroundColor: 'secondary' }}>
 					<Grid container justify='center'>
-						<Grid item xs={6}>
+						<Grid item md={6} xs={10}>
 							<Paper variant='outlined'>
 								<Box p={2}>
 									<Grid container spacing={2} alignItems='stretch' direction='column'>
 										<Grid item>
 											<TextField
 												fullWidth
+												color='secondary'
 												label="Número USP"
 												name="NUSP"
 												size="small"
@@ -36,6 +37,7 @@ const LoginPage = () => {
 											<TextField
 												fullWidth
 												label="Senha"
+												color='secondary'
 												name="senha"
 												size="small"
 												type="password"
@@ -45,7 +47,7 @@ const LoginPage = () => {
 										<Grid item>
 											<Button
 												fullWidth
-												color='primary'
+												color='secondary'
 												size="medium"
 												variant="outlined"
 											>

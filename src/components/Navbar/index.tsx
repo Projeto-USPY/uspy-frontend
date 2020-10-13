@@ -11,6 +11,7 @@ import { useTheme } from '@material-ui/core/styles'
 import Slide from '@material-ui/core/Slide'
 import MenuIcon from '@material-ui/icons/Menu'
 import IconButton from '@material-ui/core/IconButton'
+import { useHistory } from 'react-router-dom'
 import './style.css'
 import { ButtonGroup } from '@material-ui/core'
 
@@ -24,13 +25,18 @@ const HideOnScroll: React.FC<any> = ({
 	</Slide>
 }
 
+interface NavButton {
+	title: string
+	route: string
+}
 interface NavbarProps {
-	buttons: string[]
+	buttons: NavButton[]
 }
 
 const Navbar: React.FC<NavbarProps> = (props) => {
 	const { buttons } = props
 	const theme = useTheme()
+	const history = useHistory()
 	const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
 
 	const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
@@ -38,11 +44,11 @@ const Navbar: React.FC<NavbarProps> = (props) => {
 	if (isLarge && isMobileMenuVisible) setIsMobileMenuVisible(false)
 	const buttonsDiv = <>
 		<div>
-			{buttons.map((title, idx) => <Button className="h100" color="inherit" key={idx}>{title}</Button>)}
+			{buttons.map((props: NavButton, idx: number) => <Button className="h100" color="inherit" key={idx} onClick={() => history.push(props.route)}>{props.title}</Button>)}
 		</div>
 	</>
 	const menuIcon = <>
-		<IconButton color="secondary" aria-label="Menu" onClick={() => setIsMobileMenuVisible(!isMobileMenuVisible)}>
+		<IconButton style={{ color: 'white' }} aria-label="Menu" onClick={() => setIsMobileMenuVisible(!isMobileMenuVisible)}>
 			<MenuIcon />
 		</IconButton>
 	</>
@@ -51,7 +57,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
 		<Collapse in={isMobileMenuVisible}>
 			<Paper variant="outlined" square>
 				<ButtonGroup orientation="vertical" className="w100" color='primary'>
-					{buttons.map((title, idx) => <Button className="w100" key={idx}>{title}</Button>)}
+					{buttons.map((props: NavButton, idx: number) => <Button className="w100" key={idx} onClick={() => history.push(props.route)}> {props.title}</Button>)}
 				</ButtonGroup>
 			</Paper>
 		</Collapse>
