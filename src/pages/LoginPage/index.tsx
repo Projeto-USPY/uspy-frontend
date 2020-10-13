@@ -18,7 +18,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 
 interface ForgotPasswordDialogProps {
 	open: boolean
-	setOpen: any
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({ open, setOpen }) => {
 	return <Dialog
@@ -30,7 +30,7 @@ const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({ open, setOp
 		<DialogTitle id="alert-dialog-title">{'Esqueceu a senha?'}</DialogTitle>
 		<DialogContent>
 			<DialogContentText id="alert-dialog-description">
-            Caso tenha esquecido a senha, é preciso fornecer novamente o código de autenticação do seu resumo escolar, seguindo os mesmos passos do <Link color='secondary' href='/Cadastrar'>cadastro</Link>. Ao final do processo, a sua conta será reconhecida e você poderá escolher uma nova senha.
+            Caso tenha esquecido a senha, é preciso fornecer novamente o código de autenticação do seu resumo escolar, seguindo os mesmos passos do <Link color='secondary' href='/Cadastrar'>cadastro</Link>. Ao fazer isso, a sua conta será reconhecida e você poderá escolher uma nova senha.
 			</DialogContentText>
 		</DialogContent>
 		<DialogActions>
@@ -42,7 +42,7 @@ const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({ open, setOp
 }
 const LoginPage = () => {
 	const [nusp, setNusp] = useState('')
-	const [open, setOpen] = useState(false)
+	const [isDialogOpen, setDialogOpen] = useState(false)
 
 	console.log(open)
 	const handleNUSPInputChange = evt => {
@@ -103,7 +103,7 @@ const LoginPage = () => {
 								<Grid container justify='center'>
 									<Grid item>
 										<Breadcrumbs separator=' '>
-											<Link variant='caption' color='secondary' onClick={() => setOpen(true)} style={{ cursor: 'pointer' }}>
+											<Link variant='caption' color='secondary' onClick={() => setDialogOpen(true)} style={{ cursor: 'pointer' }}>
 											Esqueci a senha
 											</Link>
 											<Link variant='caption' color='secondary' href='/Cadastrar'>
@@ -121,7 +121,7 @@ const LoginPage = () => {
 			<Footer text='Made with love by Preischadt and Turci'/>
 		</div>
 
-		<ForgotPasswordDialog open={open} setOpen={setOpen}/>
+		<ForgotPasswordDialog open={isDialogOpen} setOpen={setDialogOpen}/>
 	</>
 }
 
