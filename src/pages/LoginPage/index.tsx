@@ -10,8 +10,41 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+
+interface ForgotPasswordDialogProps {
+	open: boolean
+	setOpen: any
+}
+const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({ open, setOpen }) => {
+	return <Dialog
+		open={open}
+		onClose={() => setOpen(false)}
+		aria-labelledby="alert-dialog-title"
+		aria-describedby="alert-dialog-description"
+	>
+		<DialogTitle id="alert-dialog-title">{'Esqueceu a senha?'}</DialogTitle>
+		<DialogContent>
+			<DialogContentText id="alert-dialog-description">
+            Caso tenha esquecido a senha, é preciso fornecer novamente o código de autenticação do seu resumo escolar, seguindo os mesmos passos do <Link color='secondary' href='/Cadastrar'>cadastro</Link>. Ao final do processo, a sua conta será reconhecida e você poderá escolher uma nova senha.
+			</DialogContentText>
+		</DialogContent>
+		<DialogActions>
+			<Button onClick={() => setOpen(false)} color="secondary" autoFocus>
+            Ok
+			</Button>
+		</DialogActions>
+	</Dialog>
+}
 const LoginPage = () => {
 	const [nusp, setNusp] = useState('')
+	const [open, setOpen] = useState(false)
+
+	console.log(open)
 	const handleNUSPInputChange = evt => {
 		const val = evt.target.value
 		if (/^[0-9]*$/.test(val)) setNusp(val)
@@ -70,10 +103,10 @@ const LoginPage = () => {
 								<Grid container justify='center'>
 									<Grid item>
 										<Breadcrumbs separator=' '>
-											<Link variant='caption' color='secondary' href='#'>
+											<Link variant='caption' color='secondary' onClick={() => setOpen(true)} style={{ cursor: 'pointer' }}>
 											Esqueci a senha
 											</Link>
-											<Link variant='caption' color='secondary' href='#'>
+											<Link variant='caption' color='secondary' href='/Cadastrar'>
 											Cadastrar
 											</Link>
 										</Breadcrumbs>
@@ -87,6 +120,8 @@ const LoginPage = () => {
 			</main>
 			<Footer text='Made with love by Preischadt and Turci'/>
 		</div>
+
+		<ForgotPasswordDialog open={open} setOpen={setOpen}/>
 	</>
 }
 
