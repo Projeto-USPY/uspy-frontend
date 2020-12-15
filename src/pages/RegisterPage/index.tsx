@@ -147,7 +147,7 @@ const RegisterPage = () => {
 	return <>
 		<div className='main'>
 			<main>
-				<Navbar buttons={[{ title: 'Login', route: '/Login' }, { title: 'Cadastrar', route: '/Cadastro' }]} />
+				<Navbar/>
 				<div style={{ height: '150px' }}></div>
 				<Container>
 					<Typography> Para registrar, use o código de autenticidade do seu resumo escolar mais atual. </Typography>

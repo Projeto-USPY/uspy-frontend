@@ -29,12 +29,10 @@ interface NavButton {
 	title: string
 	route: string
 }
-interface NavbarProps {
-	buttons: NavButton[]
-}
 
-const Navbar: React.FC<NavbarProps> = (props) => {
-	const { buttons } = props
+const buttons = [{ title: 'Login', route: '/Login' }, { title: 'Cadastrar', route: '/Cadastro' }]
+
+const Navbar = (props: any) => {
 	const theme = useTheme()
 	const history = useHistory()
 	const isLarge = useMediaQuery(theme.breakpoints.up('sm'))

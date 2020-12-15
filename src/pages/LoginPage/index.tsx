@@ -52,7 +52,7 @@ const LoginPage = () => {
 	return <>
 		<div className='main'>
 			<main>
-				<Navbar buttons={[{ title: 'Login', route: '/Login' }, { title: 'Cadastrar', route: '/Cadastro' }]} />
+				<Navbar/>
 				<div style={{ height: '150px' }}></div>
 				<Container style={{ backgroundColor: 'secondary' }}>
 					<Grid container justify='center'>

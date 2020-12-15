@@ -13,3 +13,21 @@ main {
 	width: 100%;
 	margin-top: 2rem;
 }
+
+.other-links {
+	width: 100%;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+@media screen and (min-width: 60em) {
+	.other-links * {
+		padding-left: 1rem;
+	}
+}
+
+@media screen and (max-width: 60em) {
+	.other-links {
+		justify-content: space-around;
+	}
+}
