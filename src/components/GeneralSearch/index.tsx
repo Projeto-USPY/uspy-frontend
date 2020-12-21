@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete'
 import TextField from '@material-ui/core/TextField'
+import { SearchDataContext } from 'HOCs/withSearchData'
 
 const GeneralSearch = () => {
-	const options = ['SCC0200', 'SMA0300', 'SME0107', 'SCC0201', 'SCC0257', 'SCC0255', 'SMA0301', 'Kalinka', 'Moacir', 'Mello']
+	const options = useContext(SearchDataContext)
 
 	const defaultFilterOptions = createFilterOptions<string>()
 	const autocompleteFilterOptions = (options: string[], state: any) => {
