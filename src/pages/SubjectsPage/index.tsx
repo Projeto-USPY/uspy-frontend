@@ -12,6 +12,7 @@ import MuiAccordionSummary from '@material-ui/core/AccordionSummary'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import CoursesData from '__mocks__/AllSubjects'
 
 const Accordion = withStyles({
 	root: {
@@ -55,47 +56,13 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails)
 
 interface SubjectInfo {
-	nome: string
-	code: string
+	Name: string
+	Code: string
 }
 
-const subjectsBCC: SubjectInfo[] = [{
-	nome: 'Introdução à Ciência de Computação I',
-	code: 'SCC0221'
-}, {
-	nome: 'Introdução à Ciência de Computação II',
-	code: 'SCC0201'
-}, {
-	nome: 'Algoritmos e Estruturas de Dados I',
-	code: 'SCC0202'
-}]
-
-const subjectsBSI: SubjectInfo[] = [{
-	nome: 'Introdução à Ciência de Computação I',
-	code: 'SSC0501'
-}, {
-	nome: 'Introdução a Sistemas de Informação	',
-	code: 'SSC0530'
-}, {
-	nome: 'Organização de Computadores Digitais',
-	code: 'SSC0511'
-}]
-
-const subjectsMat: SubjectInfo[] = [{
-	nome: 'Cálculo I',
-	code: 'SMA0301'
-}, {
-	nome: 'Álgebra Linear',
-	code: 'SMA0375'
-}, {
-	nome: 'Elementos de Matemática',
-	code: 'SMA0341'
-}]
-
-const cursos = {
-	BCC: subjectsBCC,
-	BSI: subjectsBSI,
-	Matemática: subjectsMat
+interface CourseInfo {
+	Name: string
+	Subjects: SubjectInfo[]
 }
 
 const MyListItem = withStyles(theme => ({
@@ -105,30 +72,31 @@ const MyListItem = withStyles(theme => ({
 }))(ListItem)
 
 function renderRow (s: SubjectInfo, clickCallback: Function) {
-	return <MyListItem button key={s.code} onClick={() => clickCallback(s.code)}>
-		<ListItemText primary={s.code + ' - ' + s.nome} disableTypography/>
+	return <MyListItem button key={s.Code} onClick={() => clickCallback(s.Code)}>
+		<ListItemText primary={s.Code + ' - ' + s.Name} disableTypography/>
 	</MyListItem>
 }
 
 const SubjectsPage = () => {
-	const [expandedAccordions, setExpandedAccordions] = useState({})
+	const [expandedAccordions, setExpandedAccordions] = useState(new Array(CoursesData.length).fill(false)) // array de inteiros
 
 	const clickItem = (code: string) => {
 		console.log('Clicou no ', code)
 	}
-	const handleAccordionClick = (key: string, state: boolean) => {
-		setExpandedAccordions({
-			...expandedAccordions,
-			[key]: state
-		})
+	const handleAccordionClick = (idx: number, state: boolean) => {
+		setExpandedAccordions([
+			...expandedAccordions.slice(0, idx),
+			state,
+			...expandedAccordions.slice(idx + 1)
+		])
 	}
-	const accordions = Object.keys(cursos).map((key: string) => {
-		const isExpanded = !!expandedAccordions[key]
-		return <Accordion key={key} square expanded={isExpanded} onChange={() => { handleAccordionClick(key, !isExpanded) }}>
-			<AccordionSummary expandIcon={<ExpandMoreIcon />}><Typography><strong>{key}</strong></Typography></AccordionSummary>
+	const accordions = CoursesData.map((c: CourseInfo, idx: number) => {
+		const isExpanded = !!expandedAccordions[idx]
+		return <Accordion key={c.Name} square expanded={isExpanded} onChange={() => { handleAccordionClick(idx, !isExpanded) }} TransitionProps={{ timeout: 200 }}>
+			<AccordionSummary expandIcon={<ExpandMoreIcon />}><Typography><strong>{c.Name}</strong></Typography></AccordionSummary>
 			<AccordionDetails>
 				<List style={{ width: '100%', fontFamily: 'Raleway, sans-serif' }} disablePadding>
-					{cursos[key].map(t => renderRow(t, clickItem))}
+					{c.Subjects.map(s => renderRow(s, clickItem))}
 				</List>
 			</AccordionDetails>
 		</Accordion>
@@ -139,7 +107,7 @@ const SubjectsPage = () => {
 			<div style={{ height: '150px' }}></div>
 
 			<Container>
-				<Typography> As disciplinas estão organizadas por curso </Typography>
+				<Typography> As disciplinas estão organizadas por curso: </Typography>
 				<br></br>
 				<Paper variant='outlined'>
 					{accordions}

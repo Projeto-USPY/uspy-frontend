@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from 'components/Navbar'
 import Footer from 'components/Footer'
 import Container from '@material-ui/core/Container'
@@ -12,11 +12,11 @@ import MuiAccordionSummary from '@material-ui/core/AccordionSummary'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import TeachersData from '__mocks__/AllProfessors'
 
 interface TeacherInfo {
-	nome: string
-	dep: string
-	id: number
+	Name: string
+	Department: string
 }
 
 const Accordion = withStyles({
@@ -60,66 +60,6 @@ const AccordionDetails = withStyles((theme) => ({
 	}
 }))(MuiAccordionDetails)
 
-const teachersSCC: TeacherInfo[] = [{
-	id: 0,
-	nome: 'Joao Batista',
-	dep: 'SCC'
-}, {
-	id: 1,
-	nome: 'Joao Batista',
-	dep: 'SCC'
-}, {
-	id: 2,
-	nome: 'Joao Batista',
-	dep: 'SCC'
-}, {
-	id: 3,
-	nome: 'Joao Batista',
-	dep: 'SCC'
-}]
-
-const teachersSSC: TeacherInfo[] = [{
-	id: 0,
-	nome: 'Joao Batista',
-	dep: 'SSC'
-}, {
-	id: 1,
-	nome: 'Joao Batista',
-	dep: 'SSC'
-}, {
-	id: 2,
-	nome: 'Joao Batista',
-	dep: 'SSC'
-}, {
-	id: 3,
-	nome: 'Joao Batista',
-	dep: 'SSC'
-}]
-
-const teachersSMA: TeacherInfo[] = [{
-	id: 0,
-	nome: 'Joao Batista',
-	dep: 'SMA'
-}, {
-	id: 1,
-	nome: 'Joao Batista',
-	dep: 'SMA'
-}, {
-	id: 2,
-	nome: 'Joao Batista',
-	dep: 'SMA'
-}, {
-	id: 3,
-	nome: 'Joao Batista',
-	dep: 'SMA'
-}]
-
-const teachers = {
-	SMA: teachersSMA,
-	SCC: teachersSCC,
-	SSC: teachersSSC
-}
-
 const MyListItem = withStyles(theme => ({
 	root: {
 		borderBottom: '1px solid #adadad'
@@ -127,8 +67,8 @@ const MyListItem = withStyles(theme => ({
 }))(ListItem)
 
 function renderRow (t: TeacherInfo, clickCallback: Function) {
-	return <MyListItem button key={t.id} onClick={() => clickCallback(t.id)}>
-		<ListItemText primary={t.nome} disableTypography/>
+	return <MyListItem button key={t.Name} onClick={() => clickCallback(t.Department)}>
+		<ListItemText primary={t.Name} disableTypography/>
 	</MyListItem>
 }
 
@@ -136,6 +76,17 @@ const TeachersPage = () => {
 	const clickItem = (id: number) => {
 		console.log('Clicou no id = ', id)
 	}
+
+	const [teachers, setTeachers] = useState({})
+
+	useEffect(() => {
+		const arr = {}
+		TeachersData.forEach((val: TeacherInfo) => {
+			if (!arr[val.Department]) arr[val.Department] = []
+			arr[val.Department].push(val)
+		})
+		setTeachers(arr)
+	}, [])
 
 	const [expandedAccordions, setExpandedAccordions] = useState({})
 
@@ -147,11 +98,12 @@ const TeachersPage = () => {
 	}
 	const accordions = Object.keys(teachers).map((key: string) => {
 		const isExpanded = !!expandedAccordions[key]
-		return <Accordion key={key} square expanded={isExpanded} onChange={() => { handleAccordionClick(key, !isExpanded) }}>
+		return <Accordion key={key} square expanded={isExpanded} onChange={() => handleAccordionClick(key, !isExpanded)} TransitionProps={{ timeout: 200 }}>
+
 			<AccordionSummary expandIcon={<ExpandMoreIcon />}><Typography><strong>{key}</strong></Typography></AccordionSummary>
 			<AccordionDetails>
 				<List style={{ width: '100%', fontFamily: 'Raleway, sans-serif' }} disablePadding>
-					{teachers[key].map(t => renderRow(t, clickItem))}
+					{teachers[key].map((t: TeacherInfo) => renderRow(t, clickItem))}
 				</List>
 			</AccordionDetails>
 		</Accordion>
