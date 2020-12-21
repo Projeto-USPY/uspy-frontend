@@ -9,11 +9,6 @@ main {
 	flex-grow: 1;
 }
 
-.inputfield {
-	width: 100%;
-	margin-top: 2rem;
-}
-
 .other-links {
 	width: 100%;
 	display: flex;
