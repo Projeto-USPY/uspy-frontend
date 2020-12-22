@@ -5,6 +5,11 @@
   "main": "index.js",
   "repository": "https://github.com/lucasturci/JupiterFront",
   "author": "Lucas Turci and Thiago Preischadt",
+  "scripts": {
+    "webpack-dev-server": "MODE=dev webpack-dev-server",
+    "dev": "webpack MODE=dev webpack",
+    "build": "webpack MODE=prod webpack"
+  },
   "license": "MIT",
   "private": true,
   "dependencies": {
@@ -38,6 +43,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.3.0",
+    "dotenv": "^8.2.0",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-config-standard": "^14.1.1",
