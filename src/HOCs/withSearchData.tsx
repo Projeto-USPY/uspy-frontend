@@ -1,11 +1,6 @@
 import React, { createContext, ReactElement, useEffect, useState } from 'react'
-import axios from 'axios'
+import { API } from 'API'
 export const SearchDataContext: React.Context<any> = createContext(['SCC210', 'Kalinka'])
-
-const API = axios.create({
-	baseURL: 'http://127.0.0.1:8081',
-	responseType: 'json'
-})
 
 function unique (arr: string[]): string[] {
 	return [...new Set(arr)]
