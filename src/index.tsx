@@ -9,6 +9,7 @@ import RegisterPage from 'pages/RegisterPage'
 import HomePage from 'pages/HomePage'
 import TeachersPage from 'pages/TeachersPage'
 import SubjectsPage from 'pages/SubjectsPage'
+import SubjectPage from 'pages/SubjectPage'
 
 const App = () => {
 	return <>
@@ -19,6 +20,7 @@ const App = () => {
 					<Route exact path='/Cadastro' component={RegisterPage}/>
 					<Route exact path='/Professores' component={TeachersPage}/>
 					<Route exact path='/Disciplinas' component={SubjectsPage}/>
+					<Route exact path='/Disciplinas/:code' component={SubjectPage}/>
 					<Route path='/' component={HomePage}/>
 				</Switch>
 			</BrowserRouter>

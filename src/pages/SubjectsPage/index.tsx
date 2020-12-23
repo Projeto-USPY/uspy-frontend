@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import Navbar from 'components/Navbar'
 import Footer from 'components/Footer'
 import Container from '@material-ui/core/Container'
@@ -79,9 +80,9 @@ function renderRow (s: SubjectInfo, clickCallback: Function) {
 
 const SubjectsPage = () => {
 	const [expandedAccordions, setExpandedAccordions] = useState(new Array(CoursesData.length).fill(false)) // array de inteiros
-
+	const history = useHistory()
 	const clickItem = (code: string) => {
-		console.log('Clicou no ', code)
+		history.push(`${history.location.pathname}/${code}`)
 	}
 	const handleAccordionClick = (idx: number, state: boolean) => {
 		setExpandedAccordions([

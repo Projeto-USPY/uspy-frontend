@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container'
 import Footer from 'components/Footer'
 import './style.css'
 import Typography from '@material-ui/core/Typography'
-import Link from '@material-ui/core/Link'
+import { Link } from 'react-router-dom'
 import GeneralSearch from 'components/GeneralSearch'
 import withSearchData from 'HOCs/withSearchData'
 
@@ -20,8 +20,8 @@ const HomePage = () => {
 					{withSearchData(<GeneralSearch/>)}
 
 					<div className='other-links'>
-						<Link variant='caption' color='secondary' href='/Professores'> Ver lista de professores </Link>
-						<Link variant='caption' color='secondary' href='/Disciplinas'> Ver lista de disciplinas </Link>
+						<Link to='/Professores'> <Typography variant='caption' color='secondary'>Ver lista de professores</Typography> </Link>
+						<Link to='/Disciplinas'> <Typography variant='caption' color='secondary'>Ver lista de disciplinas</Typography> </Link>
 					</div>
 				</Container>
 			</main>
