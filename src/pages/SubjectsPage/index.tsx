@@ -92,6 +92,7 @@ const SubjectsPage = () => {
 		])
 	}
 	const accordions = CoursesData.map((c: CourseInfo, idx: number) => {
+		console.log(idx)
 		const isExpanded = !!expandedAccordions[idx]
 		return <Accordion key={c.Name} square expanded={isExpanded} onChange={() => { handleAccordionClick(idx, !isExpanded) }} TransitionProps={{ timeout: 200 }}>
 			<AccordionSummary expandIcon={<ExpandMoreIcon />}><Typography><strong>{c.Name}</strong></Typography></AccordionSummary>
