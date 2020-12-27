@@ -10,6 +10,7 @@ import HomePage from 'pages/HomePage'
 import TeachersPage from 'pages/TeachersPage'
 import SubjectsPage from 'pages/SubjectsPage'
 import SubjectPage from 'pages/SubjectPage'
+import 'global.css'
 
 const App = () => {
 	return <>

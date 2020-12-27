@@ -2,6 +2,9 @@ import React, { useState, useEffect, ReactElement } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
+import Paper from '@material-ui/core/Paper'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { useParams } from 'react-router-dom'
 import Navbar from 'components/Navbar'
@@ -10,6 +13,7 @@ import { Subject } from 'types/Subject'
 import { getSubjectWithCourseAndCode } from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
+import CreditsIndicator from './CreditsIndicator'
 
 interface URLParameter {
 	course: string
@@ -55,6 +59,48 @@ const SubjectPage = () => {
 		<Typography variant='h4'>{`${subject?.code} - ${subject?.name}`}</Typography>
 		<br></br>
 		<CollapsibleText text={subject?.description} maxCharacters={200} Child={Typography as ReactElement} childrenProps={{}}/>
+		<br></br>
+		<br></br>
+		<Grid container spacing={5}>
+			<Grid item xs={12} sm={3}>
+				<Grid container spacing={5}>
+					<Grid item xs={12}>
+						<Card elevation={3} className='prompt'>
+							<div className='graybg'>
+								<CardContent>
+
+									<Grid container spacing={0}>
+										<Grid item xs={6}>
+											<CreditsIndicator value={subject?.class} title={'CA'}/>
+										</Grid>
+										<Grid item xs={6}>
+											<CreditsIndicator value={subject?.assign} title={'CT'}/>
+										</Grid>
+									</Grid>
+								</CardContent>
+							</div>
+							<CardContent>
+								Tipo: {subject?.optional ? 'Optativa' : 'Obrigatória'}<br/>
+								Curso: {course}<br/>
+								Requisitos: {subject?.requirements ? subject?.requirements.join(', ') : 'Nenhum'}<br/>
+								Carga horária: {subject?.hours}<br/>
+							</CardContent>
+						</Card>
+					</Grid>
+					<Grid item xs={12}>
+						<Paper>
+							Oi
+						</Paper>
+					</Grid>
+				</Grid>
+			</Grid>
+
+			<Grid item xs={12} sm={9}>
+				<Paper>
+					Ola
+				</Paper>
+			</Grid>
+		</Grid>
 	</>
 
 	const object =
