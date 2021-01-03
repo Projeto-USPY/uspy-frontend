@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import Navbar from 'components/Navbar'
 import Footer from 'components/Footer'
@@ -63,6 +63,7 @@ interface SubjectInfo {
 
 interface CourseInfo {
 	Name: string
+	Code: number
 	Subjects: SubjectInfo[]
 }
 
@@ -72,40 +73,43 @@ const MyListItem = withStyles(theme => ({
 	}
 }))(ListItem)
 
-function renderRow (s: SubjectInfo, clickCallback: Function) {
-	return <MyListItem button key={s.Code} onClick={() => clickCallback(s.Code)}>
+function renderRow (c: string, s: SubjectInfo, clickCallback: Function) {
+	return <MyListItem button key={s.Code} onClick={() => clickCallback(c, s.Code)}>
 		<ListItemText primary={s.Code + ' - ' + s.Name} disableTypography/>
 	</MyListItem>
 }
 
-const SubjectsPage = () => {
-	const [expandedAccordions, setExpandedAccordions] = useState(new Array(CoursesData.length).fill(false)) // array de inteiros
+interface SubjectListProps {
+	idx: number
+}
+const SubjectList: React.FC<SubjectListProps> = ({ idx }) => {
+	const [open, setOpen] = useState<boolean>(false)
+
 	const history = useHistory()
-	const clickItem = (code: string) => {
-		history.push(`${history.location.pathname}/${code}`)
+	const clickItem = (courseCode: string, code: string) => {
+		history.push(`${history.location.pathname}/${courseCode}/${code}`)
 	}
-	const handleAccordionClick = (idx: number, state: boolean) => {
-		setExpandedAccordions([
-			...expandedAccordions.slice(0, idx),
-			state,
-			...expandedAccordions.slice(idx + 1)
-		])
-	}
-	const accordions = CoursesData.map((c: CourseInfo, idx: number) => {
-		console.log(idx)
-		const isExpanded = !!expandedAccordions[idx]
-		return <Accordion key={c.Name} square expanded={isExpanded} onChange={() => { handleAccordionClick(idx, !isExpanded) }} TransitionProps={{ timeout: 200 }}>
-			<AccordionSummary expandIcon={<ExpandMoreIcon />}><Typography><strong>{c.Name}</strong></Typography></AccordionSummary>
-			<AccordionDetails>
-				<List style={{ width: '100%', fontFamily: 'Raleway, sans-serif' }} disablePadding>
-					{c.Subjects.map(s => renderRow(s, clickItem))}
-				</List>
-			</AccordionDetails>
-		</Accordion>
-	})
+
+	const list = useMemo(() => {
+		const code = CoursesData[idx].Code
+		return CoursesData[idx].Subjects.map(s => renderRow(code, s, clickItem))
+	}, [])
+
+	return <Accordion square expanded={open} onChange={() => { setOpen(!open) }} TransitionProps={{ timeout: 20 }}>
+		<AccordionSummary expandIcon={<ExpandMoreIcon />}><Typography><strong>{CoursesData[idx].Name}</strong></Typography></AccordionSummary>
+		<AccordionDetails>
+			<List style={{ width: '100%', fontFamily: 'Raleway, sans-serif' }} disablePadding>
+				{list}
+			</List>
+		</AccordionDetails>
+	</Accordion>
+}
+
+const SubjectsPage = () => {
+	const accordions = CoursesData.map((c: CourseInfo, idx: number) => <SubjectList key={c.Name} idx={idx}/>)
 	return <div className="main">
 		<main>
-			<Navbar/>
+			<Navbar key='navbar'/>
 			<div style={{ height: '150px' }}></div>
 
 			<Container>

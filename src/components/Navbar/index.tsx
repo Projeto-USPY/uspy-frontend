@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
@@ -36,9 +36,9 @@ const Navbar = (props: any) => {
 	const theme = useTheme()
 	const history = useHistory()
 	const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
-
 	const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
 
+	console.log('Renderizou')
 	if (isLarge && isMobileMenuVisible) setIsMobileMenuVisible(false)
 	const buttonsDiv = <>
 		<div>
@@ -71,4 +71,4 @@ const Navbar = (props: any) => {
 	</HideOnScroll>
 }
 
-export default Navbar
+export default memo(Navbar)
