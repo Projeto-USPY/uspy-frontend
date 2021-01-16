@@ -13,3 +13,14 @@ export interface Subject {
 		qtWorthit: number
 	}
 }
+
+export interface SubjectInfo {
+	code: string
+	name: string
+}
+
+export interface SubjectRelations {
+	code: string
+	predecessors: SubjectInfo[]
+	successors: SubjectInfo[]
+}
