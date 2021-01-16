@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
+import Radio from '@material-ui/core/Radio'
 import Typography from '@material-ui/core/Typography'
 import { useParams } from 'react-router-dom'
 import Navbar from 'components/Navbar'
@@ -34,6 +35,30 @@ function getBreadcrumbLinks (course: string, code: string) {
 	]
 }
 
+interface SubjectEvaluationRadioProps {
+	chosen: string
+	clickCallback: Function
+}
+
+const SubjectEvaluationRadio: React.FC<SubjectEvaluationRadioProps> = ({ chosen, clickCallback }) => {
+	const options = ['S', 'N']
+
+	return <Grid container justify='space-between' alignItems='center'>
+		<p> Vale a pena? </p>
+		{options.map(c => <div key={c}>
+			<Radio
+
+				checked={c === chosen}
+				onChange={() => clickCallback(c)}
+				value={c}
+			/>
+			<span>{c}</span>
+		</div>
+		)}
+
+	</Grid>
+}
+
 const SubjectPage = () => {
 	const { course, code } = useParams<URLParameter>()
 
@@ -55,12 +80,21 @@ const SubjectPage = () => {
 		})
 	}, [])
 
+	/* Data about subject reviews */
+	const evaluateSubject = false // if the user can review or (re-review) the subject
+	const recommendationRate = 58 // percentage of the reviews that recommend the subject
+	const totalOfReviews = 12345 // total number of reviews
+
 	const content = <>
 		<Typography variant='h4'>{`${subject?.code} - ${subject?.name}`}</Typography>
+
 		<br></br>
+
 		<CollapsibleText text={subject?.description} maxCharacters={200} Child={Typography as ReactElement} childrenProps={{}}/>
+
 		<br></br>
 		<br></br>
+
 		<Grid container spacing={5}>
 			<Grid item xs={12} sm={3}>
 				<Grid container spacing={5}>
@@ -88,9 +122,18 @@ const SubjectPage = () => {
 						</Card>
 					</Grid>
 					<Grid item xs={12}>
-						<Paper>
-							Oi
-						</Paper>
+						<Card elevation={3} className='prompt'>
+							<CardContent>
+								<p className="roboto-condensed"> {evaluateSubject ? 'AVALIE A DISCIPLINA' : 'SOBRE A DISCIPLINA'} </p>
+
+								{evaluateSubject
+									? <SubjectEvaluationRadio chosen=''/>
+									: <></>}
+								<p> {recommendationRate}% dos alunos dizem que essa disciplina vale a pena! </p>
+								<p> Total de reviews: {totalOfReviews}</p>
+
+							</CardContent>
+						</Card>
 					</Grid>
 				</Grid>
 			</Grid>
