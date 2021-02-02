@@ -15,6 +15,7 @@ import { getSubjectWithCourseAndCode } from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
 import CreditsIndicator from './CreditsIndicator'
+import GradeDistributionChart from './GradeDistributionChart'
 
 interface URLParameter {
 	course: string
@@ -87,6 +88,8 @@ const SubjectPage = () => {
 	const recommendationRate = 58 // percentage of the reviews that recommend the subject
 	const totalOfReviews = 12345 // total number of reviews
 
+	const approvalRatio = 54
+
 	const content = subject ? <>
 		<Typography variant='h4'>{`${subject.code} - ${subject.name}`}</Typography>
 
@@ -146,6 +149,9 @@ const SubjectPage = () => {
 					<Card elevation={3}>
 						<CardContent>
 							<Typography variant="h6"> Distribuição de Notas </Typography>
+							<GradeDistributionChart/>
+
+							<Typography variant='body1'> Taxa de Aprovação: {approvalRatio}%</Typography>
 						</CardContent>
 					</Card>
 				</Grid>
