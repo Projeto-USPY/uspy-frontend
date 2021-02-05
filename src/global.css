@@ -9,3 +9,11 @@
 .graybg {
 	background-color: #F1F1F1
 }
+
+.unselectable {
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+} 
