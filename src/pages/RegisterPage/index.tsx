@@ -19,6 +19,7 @@ import TextField from '@material-ui/core/TextField'
 import Link from '@material-ui/core/Link'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { register } from 'API'
 
 const useStyles = makeStyles((theme) => ({
 	input: {
@@ -140,9 +141,12 @@ const RegisterPage = () => {
 	const pwdOk = goodPassword(password[0]) || !showPwd0Error
 	const captchaOk = !showCaptchaError || /^[\w\d]{4}$/.test(captcha)
 
-	const register = () => {
-		const acceptedTerms = document.querySelector('#accept').value
-		if (!goodPassword(password[0])) {
+	const registerClick = () => {
+		const acceptedTerms = document.querySelector('#accept').checked
+		const authCode = ['0', '1', '2', '3'].reduce((prev, cur) => prev + '-' + document.querySelector(`#auth-code-${cur}`).value, '').substr(1)
+		if (!/^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCode)) {
+			alert('O código de autenticidade está incompleto')
+		} else if (!goodPassword(password[0])) {
 			alert('A senha está inválida')
 		} else if (!/^[\w\d]{4}$/.test(captcha)) {
 			alert('O captcha deve ter exatamente 4 caracteres com letras ou números')
@@ -150,11 +154,14 @@ const RegisterPage = () => {
 			alert('As senhas diferem')
 		} else if (!acceptedTerms) {
 			alert('Você deve aceitar os termos e condições')
+		} else {
+			register(authCode, password[0], captcha).catch(err => {
+				alert(err)
+			})
 		}
 		setShowPwd0Error(true)
 		setShowPwd1Error(true)
 		setShowCaptchaError(true)
-		console.log(password[0], password[1], captcha) // For now, just log
 	}
 
 	// Style stuff
@@ -173,7 +180,7 @@ const RegisterPage = () => {
 			color="secondary"
 			size="medium"
 			variant="outlined"
-			onClick={register}
+			onClick={registerClick}
 		>
 			Cadastrar
 		</Button>
@@ -193,7 +200,7 @@ const RegisterPage = () => {
 				color="secondary"
 				size="medium"
 				variant="outlined"
-				onClick={register}
+				onClick={registerClick}
 			>
 				Cadastrar
 			</Button>

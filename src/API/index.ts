@@ -41,3 +41,15 @@ export async function getSubjectRelations (course: string, code: string): Promis
 		throw err.request.status
 	}
 }
+
+export async function register (authCode: string, password: string, captcha: string) {
+	try {
+		await API.post('/account/create', {
+			access_key: authCode,
+			password: password,
+			captcha: captcha
+		})
+	} catch (err) {
+		throw err.request.status
+	}
+}
