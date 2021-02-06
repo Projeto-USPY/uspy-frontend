@@ -3,7 +3,9 @@ import { Subject, SubjectRelations } from 'types/Subject'
 
 export const API = axios.create({
 	baseURL: process.env.API_URL,
-	responseType: 'json'
+	responseType: 'json',
+	crossDomain: true,
+	allowCredentials: true
 })
 
 export async function getSubjectWithCourseAndCode (course: string, code: string): Promise<Subject> {
@@ -38,6 +40,19 @@ export async function getSubjectRelations (course: string, code: string): Promis
 
 		return data as SubjectRelations
 	} catch (err) {
+		throw err.request.status
+	}
+}
+
+// Returns promise with base64 string of the image
+export async function getRegistrationCaptcha (): Promise<string> {
+	try {
+		const response = await API.get('/account/captcha', {
+			responseType: 'blob'
+		})
+		return URL.createObjectURL(response.data)
+	} catch (err) {
+		console.log(err)
 		throw err.request.status
 	}
 }

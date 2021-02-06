@@ -19,7 +19,7 @@ import TextField from '@material-ui/core/TextField'
 import Link from '@material-ui/core/Link'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { register } from 'API'
+import { register, getRegistrationCaptcha } from 'API'
 
 const useStyles = makeStyles((theme) => ({
 	input: {
@@ -104,6 +104,13 @@ function goodPassword (pwd: string) {
 	return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(pwd)
 }
 const RegisterPage = () => {
+	const [captchaImg, setCaptchaImg] = useState<string>('')
+	useEffect(() => {
+		getRegistrationCaptcha().then(captchaImg => {
+			setCaptchaImg(captchaImg)
+		})
+	}, [])
+
 	// Elements of the first input
 	const inputs = [0, 1, 2, 3]
 	const [initialValues, setInitialValues] = useState(['', '', '', ''])
@@ -144,6 +151,7 @@ const RegisterPage = () => {
 	const registerClick = () => {
 		const acceptedTerms = document.querySelector('#accept').checked
 		const authCode = ['0', '1', '2', '3'].reduce((prev, cur) => prev + '-' + document.querySelector(`#auth-code-${cur}`).value, '').substr(1)
+
 		if (!/^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCode)) {
 			alert('O código de autenticidade está incompleto')
 		} else if (!goodPassword(password[0])) {
@@ -261,7 +269,7 @@ const RegisterPage = () => {
 							</Grid>
 						</Grid>
 						<Grid item container xs={12} sm={6} justify='center' alignItems='center'>
-							<div style={{ maxWidth: '400px', width: '100%' }}> <img src="https://uspdigital.usp.br/iddigital/CriarImagemTuring" style={{ width: '100%' }}/> </div>
+							<div style={{ maxWidth: '400px', width: '100%' }}> <img src={captchaImg} style={{ width: '100%' }}/> </div>
 							<div style={{ width: '100%', height: '1rem' }}/>
 							<TextField
 								label="Captcha"
