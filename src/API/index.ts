@@ -4,8 +4,7 @@ import { Subject, SubjectRelations } from 'types/Subject'
 export const API = axios.create({
 	baseURL: process.env.API_URL,
 	responseType: 'json',
-	crossDomain: true,
-	allowCredentials: true
+	withCredentials: true
 })
 
 export async function getSubjectWithCourseAndCode (course: string, code: string): Promise<Subject> {
