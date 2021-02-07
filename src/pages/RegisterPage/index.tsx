@@ -181,7 +181,7 @@ const RegisterPage = () => {
 		<FormGroup row>
 			<FormControlLabel
 				control={<Checkbox id="accept" disableRipple color='secondary'/>}
-				label="Aceito os termos e condições"
+				label={<>Aceito os <Link color='secondary' href='/Termos' target='_blank'> termos e condições </Link></>}
 			/>
 		</FormGroup>
 		<Button
@@ -198,7 +198,7 @@ const RegisterPage = () => {
 			<FormGroup row>
 				<FormControlLabel
 					control={<Checkbox id="accept" disableRipple color='secondary'/>}
-					label={<>Aceito <b>os</b> <Link color='secondary' href='https://uspdigital.usp.br/jupiterweb/' target='_blank'> termos e condições </Link></>}
+					label={<>Aceito os <Link color='secondary' href='/Termos' target='_blank'> termos e condições </Link></>}
 				/>
 			</FormGroup>
 		</Grid>
@@ -224,7 +224,7 @@ const RegisterPage = () => {
 					<BreadCrumb links={[{ text: 'Home', url: '/' }, { text: 'Cadastrar', url: '/Cadastro' }]}/>
 					<div style={{ height: `${isDesktop ? '50' : '30'}px` }}></div> {/* Separa 50 verticalmente, ou 30 verticalmente se for mobile */}
 
-					<Typography> Para registrar, use o código de autenticidade do seu resumo escolar mais atual. <InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => alert('open modal')}/> </Typography>
+					<Typography> Para registrar, copie o código de autenticidade do seu resumo escolar mais atual no campo abaixo. <InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => alert('open modal')}/> </Typography>
 					<br/>
 					<Box m={2} style={{ marginTop: '2rem', marginBottom: '2rem' }}>
 						<Grid container justify={isDesktop ? 'center' : 'space-around'} alignItems='center' wrap='wrap' >
