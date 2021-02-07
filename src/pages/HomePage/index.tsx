@@ -20,7 +20,7 @@ const HomePage = () => {
 					{withSearchData(<GeneralSearch/>)}
 
 					<div className='other-links'>
-						<Link to='/Professores'> <Typography variant='caption' color='secondary'>Ver lista de professores</Typography> </Link>
+						{/* <Link to='/Professores'> <Typography variant='caption' color='secondary'>Ver lista de professores</Typography> </Link> */}
 						<Link to='/Disciplinas'> <Typography variant='caption' color='secondary'>Ver lista de disciplinas</Typography> </Link>
 					</div>
 				</Container>
