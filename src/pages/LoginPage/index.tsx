@@ -15,6 +15,11 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import Typography from '@material-ui/core/Typography'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import { useHistory } from 'react-router-dom'
+import { login } from 'API'
 
 interface ForgotPasswordDialogProps {
 	open: boolean
@@ -43,11 +48,29 @@ const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({ open, setOp
 const LoginPage = () => {
 	const [nusp, setNusp] = useState('')
 	const [isDialogOpen, setDialogOpen] = useState(false)
+	const history = useHistory()
 
-	console.log(open)
 	const handleNUSPInputChange = evt => {
 		const val = evt.target.value
 		if (/^[0-9]*$/.test(val)) setNusp(val)
+	}
+	const handleLogin = () => {
+		const pwd = document.querySelector('#senha').value
+		const remember = document.querySelector('#remember').checked
+		login(nusp, pwd, remember).then(() => {
+			// Success!! Redirects for home page
+			// TODO: Save logged username in redux, and JWT as well
+
+			history.push('/')
+		}).catch((statusCode: number) => {
+			if (statusCode === 400) {
+				alert('Bad Request (400). Tente novamente mais tarde.')
+			} else if (statusCode === 401) {
+				alert('Número USP ou senha incorretos')
+			} else {
+				alert('Algo de errado aconteceu :(. Tente novamente mais tarde.')
+			}
+		})
 	}
 	return <>
 		<div className='main'>
@@ -78,11 +101,18 @@ const LoginPage = () => {
 											<TextField
 												fullWidth
 												label="Senha"
+												id="senha"
 												color='secondary'
 												name="senha"
 												size="small"
 												type="password"
 												variant="outlined"
+											/>
+										</Grid>
+										<Grid item style={{ marginTop: '-1rem', marginBottom: '-1rem' }}>
+											<FormControlLabel
+												control={<Checkbox id="remember" disableRipple size='small' color='secondary'/>}
+												label={<Typography variant='caption'>Lembrar de mim por um mês</Typography>}
 											/>
 										</Grid>
 										<Grid item>
@@ -91,6 +121,7 @@ const LoginPage = () => {
 												color='secondary'
 												size="medium"
 												variant="outlined"
+												onClick={handleLogin}
 											>
 												Entrar
 											</Button>

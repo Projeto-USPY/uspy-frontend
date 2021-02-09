@@ -67,3 +67,15 @@ export async function register (authCode: string, password: string, captcha: str
 		throw err.request.status
 	}
 }
+
+export async function login (username: string, password: string, remember: boolean) {
+	try {
+		await API.post('/account/login', {
+			login: username,
+			pwd: password,
+			remember
+		})
+	} catch (err) {
+		throw err.request.status
+	}
+}
