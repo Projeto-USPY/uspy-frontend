@@ -14,12 +14,24 @@ import Box from '@material-ui/core/Box'
 import InputPassword from 'components/PasswordInput'
 import Divider from '@material-ui/core/Divider'
 import BreadCrumb from 'components/Breadcrumb'
+import IconButton from '@material-ui/core/IconButton'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
 import TextField from '@material-ui/core/TextField'
 import Link from '@material-ui/core/Link'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { register, getRegistrationCaptcha } from 'API'
+import ImageBlock from 'components/ImageBlock'
+import CloseIcon from '@material-ui/icons/CloseOutlined'
+
+/* Modal Stuff */
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+
+// Images
+import CheckboxesImage from 'checkboxes.png'
+import AuthenticityCodeImage from 'authenticityCode.png'
 
 const useStyles = makeStyles((theme) => ({
 	input: {
@@ -99,6 +111,78 @@ const textFieldCommonProps = {
 	fullWidth: true
 }
 
+interface InfoModalProps {
+	open: boolean
+	handleClose: ()=>void
+}
+
+const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
+	// Style stuff
+	const theme = useTheme()
+	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
+
+	return <Modal
+		aria-labelledby="transition-modal-title"
+		aria-describedby="transition-modal-description"
+		open={open}
+		onClose={handleClose}
+		closeAfterTransition
+		BackdropComponent={Backdrop}
+		style={{
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+			margin: 0,
+			borderWidth: '0px'
+		}}
+		BackdropProps={{
+			timeout: 500
+		}}>
+		<Fade in={open}>
+			<div style={{
+				width: isDesktop ? '60%' : '90%',
+				maxHeight: '90vh',
+				background: 'white',
+				overflow: 'auto',
+				position: 'relative'
+			}}>
+				<Grid container justify='flex-end' style={{ position: 'fixed', top: '0px', left: '0px' }}>
+					<Grid item>
+						<IconButton onClick={handleClose} size='medium' aria-label="close" disableRipple>
+							<CloseIcon fontSize='large' style={{ color: isDesktop ? 'white' : 'black', padding: '2rem' }} />
+						</IconButton>
+					</Grid>
+				</Grid>
+				<Box m={3}>
+
+					<Typography variant='h4'> Como obter o código de autenticidade? </Typography>
+					<p><span style={{ fontSize: '1.2rem' }}>1.</span> Entre em <Link color='secondary' href='https://uspdigital.usp.br/jupiterweb/historicoEscolar' target='_blank'> JupiterWeb </Link>, escolha seu menu e curso, e marque as caixas conforme a imagem: </p>
+					<ImageBlock imageSource={CheckboxesImage} size='small' title='Marcação das caixas' caption='Marque a caixa "Com Autenticação"'/>
+					<p> <span style={{ fontSize: '1.2rem' }}>2.</span> Clique em {'"Buscar"'}, e o seu resumo escolar será gerado com um código de autenticidade no topo do documento, como na imagem: </p>
+					<ImageBlock imageSource={AuthenticityCodeImage} size='medium' title='código de autenticidade' caption='Código de 16 dígitos gerado'/>
+
+					<p><span style={{ fontSize: '1.2rem' }}>3.</span> É este código de 16 dígitos que será usado para verificar que você está atrelado à USP e pode se cadastrar.</p>
+
+					<Divider/>
+					<p> <strong> O que fazemos com o seu resumo escolar? </strong><br/>Seu resumo escolar é usado para extrair seus dados e informações sobre: disciplinas que cursou, médias que obteve e status de aprovação. Antes de irem para o banco de dados, eles são anonimizados e criptografados.
+						Nós garantimos total transparência, e você pode ler mais sobre isso no nosso documento de <Link color='secondary' href='/Termos' target='_blank'> termos e condições</Link>. </p>
+					<p> O <span className="uspy">USPY</span> funciona graças à colaboração dos usuários em oferecer seus dados para alimentar as estatísticas de aprovações, médias e reviews de disciplinas. </p>
+
+					<Button
+						fullWidth
+						color="primary"
+						size="medium"
+						variant='outlined'
+						onClick={handleClose}
+					>
+					Ok
+					</Button>
+				</Box>
+			</div>
+		</Fade>
+	</Modal>
+}
+
 // Returns true if pwd has 8+ characters with at least one number and one special character
 function goodPassword (pwd: string) {
 	return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(pwd)
@@ -127,6 +211,9 @@ const RegisterPage = () => {
 	// text field values
 	const [password, setPassword] = useState<string[]>(['', ''])
 	const [captcha, setCaptcha] = useState<string>('')
+
+	// is Modal Open
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 	// if you already can say that field is invalid. Activated on blur or when you send form
 	const [showPwd0Error, setShowPwd0Error] = useState<boolean>(false)
@@ -224,7 +311,7 @@ const RegisterPage = () => {
 					<BreadCrumb links={[{ text: 'Home', url: '/' }, { text: 'Cadastrar', url: '/Cadastro' }]}/>
 					<div style={{ height: `${isDesktop ? '50' : '30'}px` }}></div> {/* Separa 50 verticalmente, ou 30 verticalmente se for mobile */}
 
-					<Typography> Para registrar, copie o código de autenticidade do seu resumo escolar mais atual no campo abaixo. <InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => alert('open modal')}/> </Typography>
+					<Typography> Para registrar, copie o código de autenticidade do seu resumo escolar mais atual no campo abaixo. <InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)} /> </Typography>
 					<br/>
 					<Box m={2} style={{ marginTop: '2rem', marginBottom: '2rem' }}>
 						<Grid container justify={isDesktop ? 'center' : 'space-around'} alignItems='center' wrap='wrap' >
@@ -288,6 +375,7 @@ const RegisterPage = () => {
 
 					</Grid>
 				</Container>
+				<InfoModal open={isModalOpen} handleClose={() => setIsModalOpen(false)}/>
 			</main>
 			<Footer text='Made with love by Preischadt and Turci'/>
 		</div>
