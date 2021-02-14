@@ -31,7 +31,7 @@ module.exports = Object.assign({
 	entry: path.join(__dirname, 'src', 'index'),
 	output: {
 		filename: 'bundle.js',
-		path: path.join(__dirname, 'build'),
+		path: path.join(__dirname, 'build', 'static'),
 		publicPath: '/static/'
 	},
 	module: {
