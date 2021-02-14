@@ -3,9 +3,9 @@ runtime: nodejs12 # or another supported version
 instance_class: F1
 
 handlers:
-  - url: /static
+- url: /static
   static_dir: build/static
 
-  - url: /.*
+- url: /.*
   static_files: build/index.html
   upload: build/index.html
