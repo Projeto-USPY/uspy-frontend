@@ -10,7 +10,6 @@ webpack.config.js
 yarn.lock
 yarn-error.log
 .prettierrc
-index.html
 cloudbuild.yaml
 .eslintrc.json
 .env.dev

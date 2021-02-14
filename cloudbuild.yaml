@@ -7,9 +7,6 @@ steps:
   entrypoint: yarn
   args: ['webpack', '--mode=$_MODE']
 
-- name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp', 'index-build.html', 'build/index.html']
-
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
   args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
