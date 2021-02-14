@@ -58,7 +58,7 @@ export async function getRegistrationCaptcha (): Promise<string> {
 
 export async function register (authCode: string, password: string, captcha: string) {
 	try {
-		const response = await API.post('/account/create', {
+		await API.post('/account/create', {
 			access_key: authCode,
 			password: password,
 			captcha: captcha

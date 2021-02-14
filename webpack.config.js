@@ -2,10 +2,16 @@ const path = require('path')
 const dotenv = require('dotenv')
 const webpack = require('webpack')
 
-// Take care of environment variables configuration
-const env = dotenv.config({
-	path: process.env.MODE === 'dev' ? path.join(__dirname, '.env.dev') : path.join(__dirname, '.env.prod') // choose right path depending of mode of execution
-}).parsed
+let env = {
+	API_URL: process.env.NODE_ENV === 'development' ? 'https://dev.uspy.me' : 'https://prod.uspy.me'
+}
+
+if (process.env.LOCAL) {
+	// Take care of environment variables configuration
+	env = dotenv.config({
+		path: process.env.NODE_ENV === 'development' ? path.join(__dirname, '.env.dev') : path.join(__dirname, '.env.prod') // choose right path depending of mode of execution
+	}).parsed
+}
 const envKeys = Object.keys(env).reduce((prev, next) => {
 	prev[`process.env.${next}`] = JSON.stringify(env[next])
 	return prev
@@ -25,7 +31,7 @@ module.exports = Object.assign({
 	entry: path.join(__dirname, 'src', 'index'),
 	output: {
 		filename: 'bundle.js',
-		path: path.join(__dirname, 'dist'),
+		path: path.join(__dirname, 'build'),
 		publicPath: '/static/'
 	},
 	module: {
