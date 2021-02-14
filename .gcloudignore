@@ -1,0 +1,16 @@
+node_modules/
+lib/
+src/
+.gitignore
+.prettierc
+package.json
+tsconfig.json
+webpack.config.js
+yarn.lock
+yarn-error.log
+index.html
+cloudbuild.yaml
+.eslintrc.json
+.env.dev
+.env.prod
+.babelrc
