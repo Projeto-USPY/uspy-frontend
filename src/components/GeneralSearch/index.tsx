@@ -3,7 +3,18 @@ import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete
 import TextField from '@material-ui/core/TextField'
 import { SearchDataContext } from 'HOCs/withSearchData'
 
-const GeneralSearch = () => {
+interface GeneralSearchInputProps {
+	handleChange: (arg0: string, arg1: string)=>void
+}
+
+const courseAliases = new Map<string, string>()
+courseAliases.set('55041', 'BCC')
+courseAliases.set('55051', 'BSI')
+courseAliases.set('55071', 'Estat.')
+courseAliases.set('55030', 'Mat.')
+courseAliases.set('55060', 'Mat. Apl.')
+
+const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	const options = useContext(SearchDataContext)
 
 	const defaultFilterOptions = createFilterOptions<string>()
@@ -14,12 +25,18 @@ const GeneralSearch = () => {
 		return defaultFilterOptions(options, state).slice(0, 5) // only show top 5 suggestions
 	}
 
+	const onChange = (_: any, value: any) => {
+		handleChange(value.course, value.code)
+	}
+
 	return <Autocomplete
 		freeSolo
 		className="inputfield"
 
 		options={options}
 		openOnFocus={false}
+		onChange={onChange}
+		getOptionLabel={(opt: any) => opt.code + ' - ' + opt.name + ` (${courseAliases.get(opt.course as string)})`}
 		filterOptions={autocompleteFilterOptions}
 		renderInput={(params) => <TextField
 			{...params}
