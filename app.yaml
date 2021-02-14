@@ -9,3 +9,5 @@ handlers:
 - url: /.*
   static_files: build/index.html
   upload: build/index.html
+  redirect_http_response_code: 301
+  secure: always
