@@ -7,7 +7,7 @@ steps:
   entrypoint: yarn
   args: ['webpack', '--mode=$_MODE']
 
-- name: 'bash'
+- name: 'gcr.io/cloud-builders/gsutil'
   args: ['cp', 'index-build.html', 'build/index.html']
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
