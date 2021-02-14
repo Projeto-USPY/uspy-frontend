@@ -6,9 +6,9 @@
   "repository": "https://github.com/lucasturci/JupiterFront",
   "author": "Lucas Turci and Thiago Preischadt",
   "scripts": {
-    "webpack-dev-server": "MODE=dev LOCAL=TRUE webpack-dev-server",
-    "dev": "webpack --mode=development",
-    "build": "webpack --mode=production"
+    "webpack-dev-server": "webpack-dev-server --env.local --env.mode=development",
+    "dev": "webpack --mode=development --env.mode=development",
+    "build": "webpack --mode=production --env.mode=production"
   },
   "license": "MIT",
   "private": true,
