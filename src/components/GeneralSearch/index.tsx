@@ -13,6 +13,7 @@ courseAliases.set('55051', 'BSI')
 courseAliases.set('55071', 'Estat.')
 courseAliases.set('55030', 'Mat.')
 courseAliases.set('55060', 'Mat. Apl.')
+courseAliases.set('55090', 'BCD')
 
 const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	const options = useContext(SearchDataContext)
