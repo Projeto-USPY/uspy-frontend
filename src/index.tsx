@@ -10,6 +10,7 @@ import HomePage from 'pages/HomePage'
 import TeachersPage from 'pages/TeachersPage'
 import SubjectsPage from 'pages/SubjectsPage'
 import SubjectPage from 'pages/SubjectPage'
+import NotFoundPage from 'pages/NotFoundPage'
 import 'global.css'
 
 const App = () => {
@@ -22,7 +23,8 @@ const App = () => {
 					<Route exact path='/Professores' component={TeachersPage}/>
 					<Route exact path='/Disciplinas' component={SubjectsPage}/>
 					<Route exact path='/Disciplinas/:course/:code' component={SubjectPage}/>
-					<Route path='/' component={HomePage}/>
+					<Route exact path='/' component={HomePage}/>
+					<Route path='/' component={NotFoundPage}/>
 				</Switch>
 			</BrowserRouter>
 		</ThemeProvider>
