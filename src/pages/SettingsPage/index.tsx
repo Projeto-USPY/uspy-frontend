@@ -7,8 +7,10 @@ import Button from '@material-ui/core/Button'
 import Navbar from 'components/Navbar'
 import BreadCrumb from 'components/Breadcrumb'
 import InputPassword from 'components/PasswordInput'
+import red from '@material-ui/core/colors/red'
+import { createMuiTheme } from '@material-ui/core/styles'
 
-import { useTheme } from '@material-ui/styles'
+import { useTheme, ThemeProvider } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 const textFieldCommonProps = {
@@ -25,6 +27,12 @@ const textFieldCommonProps = {
 function goodPassword (pwd: string) {
 	return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(pwd)
 }
+
+const dangerTheme = createMuiTheme({
+	palette: {
+		primary: red
+	}
+})
 
 const SettingsPage = () => {
 	const [newPwd, setNewPwd] = useState<string>('')
@@ -76,6 +84,9 @@ const SettingsPage = () => {
 							{...textFieldCommonProps}
 						/>
 					</Grid>
+					<Grid item>
+						{/* Gap to be occupied by helperText of the button above */}
+					</Grid>
 
 					<Grid item>
 						<Button
@@ -85,10 +96,30 @@ const SettingsPage = () => {
 							style={{ height: '55px' }}
 							fullWidth={!isDesktop}
 						>
-							Confirmar
+							Alterar
 						</Button>
 					</Grid>
 				</Grid>
+				<div style={{ height: '70px' }}></div>
+
+				<Grid container direction='row-reverse'>
+					<Grid item xs={!isDesktop ? 12 : 2}>
+						<ThemeProvider theme={dangerTheme}>
+							<Button
+								color='primary'
+								size="medium"
+								variant='outlined'
+								style={{ height: '55px' }}
+								fullWidth={!isDesktop}
+
+							>
+								Deletar conta
+							</Button>
+						</ThemeProvider>
+					</Grid>
+				</Grid>
+				<br/>
+				<br/>
 			</Container>
 		</main>
 	</div>
