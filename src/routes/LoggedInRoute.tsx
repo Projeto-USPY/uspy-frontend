@@ -1,12 +1,17 @@
 import React from 'react'
 import { RouteProps, Route, Redirect } from 'react-router'
+import { connect } from 'react-redux'
+import { AppState } from 'types/redux'
 
 /*
 	This is a wrapper of a route with the middleware of login
 */
 
-const LoggedInRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
-	const authenticated = false
+interface LoggedInRouteProps extends RouteProps {
+	authenticated: boolean
+}
+
+const LoggedInRoute: React.FC<LoggedInRouteProps> = ({ children, authenticated, ...rest }) => {
 	return <Route
 		{...{
 			...rest,
@@ -27,4 +32,8 @@ const LoggedInRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
 	/>
 }
 
-export default LoggedInRoute
+const mapStateToProps = (state: AppState) => ({
+	authenticated: !!state.user.id
+})
+
+export default connect(mapStateToProps)(LoggedInRoute)
