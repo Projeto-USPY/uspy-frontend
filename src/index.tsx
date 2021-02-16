@@ -1,5 +1,5 @@
 // React
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
 // Routes
@@ -11,6 +11,10 @@ import LoggedInRoute from 'routes/LoggedInRoute'
 import { createStore } from 'redux'
 import { Provider as StoreProvider } from 'react-redux'
 import reducer from 'reducer'
+import { setUser, setUserNone } from 'actions'
+
+// API
+import { isAuthenticated } from 'API'
 
 // Theme
 import { ThemeProvider } from '@material-ui/core'
@@ -31,7 +35,25 @@ import 'global.css'
 
 const store = createStore(reducer)
 
+function checkUserExists () {
+	isAuthenticated().then(user => {
+		if (user) {
+			store.dispatch(setUser({
+				id: user,
+				name: '' // none for now. Change later
+			}))
+		} else {
+			store.dispatch(setUserNone())
+		}
+	}).catch((statusCode: number) => {
+		console.error(`Error: (${statusCode})`)
+	})
+}
+
 const App = () => {
+	// Checks if user exists and dispatches action to update it.
+	useEffect(checkUserExists, [])
+
 	return <>
 		<StoreProvider store={store}>
 			<ThemeProvider theme={theme}>
