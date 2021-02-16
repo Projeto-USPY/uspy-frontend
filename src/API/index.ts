@@ -7,6 +7,18 @@ export const API = axios.create({
 	withCredentials: true
 })
 
+// Returns users NUSP if is authenticated and '' if status code is 401. Throws the status if it's different than that.
+export async function isAuthenticated (): Promise<string> {
+	try {
+		const { data } = await API.get('/account/profile')
+
+		return data.user
+	} catch (err) {
+		if (err.request.status === 401) return ''
+		else throw err.request.status
+	}
+}
+
 export async function getSubjectWithCourseAndCode (course: string, code: string): Promise<Subject> {
 	try {
 		const { data, status } = await API.get('/api/subject', {
