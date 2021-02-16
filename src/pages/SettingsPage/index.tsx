@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import Navbar from 'components/Navbar'
 import BreadCrumb from 'components/Breadcrumb'
 import InputPassword from 'components/PasswordInput'
+import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
 import red from '@material-ui/core/colors/red'
 import { createMuiTheme } from '@material-ui/core/styles'
 
@@ -37,6 +38,12 @@ const dangerTheme = createMuiTheme({
 const SettingsPage = () => {
 	const [newPwd, setNewPwd] = useState<string>('')
 	const [showPwdError, setShowPwdError] = useState<boolean>(false)
+
+	// Remove account feature
+	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
+	const removeAccount = () => {
+		alert('TODO: remove account')
+	}
 
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
@@ -111,7 +118,7 @@ const SettingsPage = () => {
 								variant='outlined'
 								style={{ height: '55px' }}
 								fullWidth={!isDesktop}
-
+								onClick={() => setConfirmationDialogOpen(true)}
 							>
 								Deletar conta
 							</Button>
@@ -121,6 +128,15 @@ const SettingsPage = () => {
 				<br/>
 				<br/>
 			</Container>
+			<SimpleConfirmationDialog
+				title="Sua conta será apagada!"
+				body="Você tem certeza que deseja apagar sua conta?"
+				cancelText="Cancelar"
+				confirmText="Deletar"
+				open={confirmationDialogOpen}
+				cancelCallback={() => setConfirmationDialogOpen(false)}
+				confirmCallback={removeAccount}
+			/>
 		</main>
 	</div>
 }
