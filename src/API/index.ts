@@ -56,6 +56,17 @@ export async function getRegistrationCaptcha (): Promise<string> {
 	}
 }
 
+export async function changePassword (oldPassword: string, newPassword: string) {
+	try {
+		await API.put('/account/password_change', {
+			old_password: oldPassword,
+			new_password: newPassword
+		})
+	} catch (err) {
+		throw err.request.status
+	}
+}
+
 export async function register (authCode: string, password: string, captcha: string) {
 	try {
 		await API.post('/account/create', {
