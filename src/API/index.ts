@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Subject, SubjectRelations } from 'types/Subject'
+import { User } from 'types/User'
 
 export const API = axios.create({
 	baseURL: process.env.API_URL,
@@ -91,13 +92,14 @@ export async function register (authCode: string, password: string, captcha: str
 	}
 }
 
-export async function login (username: string, password: string, remember: boolean) {
+export async function login (username: string, password: string, remember: boolean): Promise<User> {
 	try {
-		await API.post('/account/login', {
+		const { data } = await API.post('/account/login', {
 			login: username,
 			pwd: password,
 			remember
 		})
+		return data
 	} catch (err) {
 		throw err.request.status
 	}

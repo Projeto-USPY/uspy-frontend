@@ -18,8 +18,14 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Typography from '@material-ui/core/Typography'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { login } from 'API'
+
+// redux
+import { connect } from 'react-redux'
+import { ReduxAction } from 'types/redux'
+import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
+import { setUser } from 'actions'
 
 interface ForgotPasswordDialogProps {
 	open: boolean
@@ -45,10 +51,16 @@ const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({ open, setOp
 		</DialogActions>
 	</Dialog>
 }
-const LoginPage = () => {
+
+interface LoginPageProps {
+	setUser: ActionCreator<ReduxAction>
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 	const [nusp, setNusp] = useState('')
 	const [isDialogOpen, setDialogOpen] = useState(false)
 	const history = useHistory()
+	const location = useLocation()
 
 	const handleNUSPInputChange = evt => {
 		const val = evt.target.value
@@ -57,11 +69,14 @@ const LoginPage = () => {
 	const handleLogin = () => {
 		const pwd = document.querySelector('#senha').value
 		const remember = document.querySelector('#remember').checked
-		login(nusp, pwd, remember).then(() => {
+		login(nusp, pwd, remember).then((user) => {
 			// Success!! Redirects for home page
-			// TODO: Save logged username in redux, and JWT as well
+			// TODO: Save logged username in redux,
 
-			history.push('/')
+			// Redirect cases
+			const { from } = location.state || { from: { pathname: '/' } }
+			setUser(user)
+			history.replace(from)
 		}).catch((statusCode: number) => {
 			if (statusCode === 400) {
 				alert('Bad Request (400). Tente novamente mais tarde.')
@@ -156,4 +171,6 @@ const LoginPage = () => {
 	</>
 }
 
-export default LoginPage
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setUser }, dispatch)
+
+export default connect(null, mapDispatchToProps)(LoginPage)
