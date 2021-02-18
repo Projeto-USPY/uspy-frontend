@@ -10,7 +10,7 @@ import PaperComponent from '@material-ui/core/Paper'
 
 interface SimpleConfirmationDialogProps {
 	title: string
-	body: string
+	body?: string
 	cancelText: string
 	confirmText: string
 	open: boolean
@@ -35,11 +35,11 @@ const SimpleConfirmationDialog: React.FC<SimpleConfirmationDialogProps> = ({
 		<DialogTitle>
 			{title}
 		</DialogTitle>
-		<DialogContent>
+		{body ? <DialogContent>
 			<DialogContentText>
 				{body}
 			</DialogContentText>
-		</DialogContent>
+		</DialogContent> : null}
 		<DialogActions>
 			<Button autoFocus onClick={cancelCallback} color="secondary">
 				{cancelText}

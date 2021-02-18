@@ -1,27 +1,39 @@
 import React, { useState, memo, useRef } from 'react'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/core/styles'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import IconButton from '@material-ui/core/IconButton'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
 
 import { useHistory } from 'react-router-dom'
 
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
+import { connect } from 'react-redux'
+import { setUserNone } from 'actions'
+import { ReduxAction } from 'types/redux'
+
+import { logout } from 'API'
 
 interface UserMenuProps {
 	open: boolean
 	anchor: HTMLElement | null
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>
+	setUserNone?: ActionCreator<ReduxAction>
 }
 
-const UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen }) => {
+let UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen, setUserNone }) => {
 	const history = useHistory()
+	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
 
 	const menuStyle = {
 		minWidth: '100px'
+	}
+	const handleLogout = () => {
+		logout()
+		setUserNone()
+		history.push('/')
 	}
 	return <Menu
 		open={open}
@@ -32,17 +44,24 @@ const UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen }) => {
 			horizontal: 'left'
 		}}
 	>
-		<MenuItem onClick={() => history.push('/Perfil')} style={menuStyle}> Perfil  </MenuItem>
-		<MenuItem onClick={() => alert('TODO Logout')} style={menuStyle}> Logout </MenuItem>
+		<MenuItem onClick={() => history.push('/Perfil')} style={menuStyle}> Perfil </MenuItem>
+		<MenuItem onClick={() => setConfirmationDialogOpen(true)} style={menuStyle}> Logout </MenuItem>
+		<SimpleConfirmationDialog
+			title="Tem certeza que deseja sair?"
+			cancelText="Cancelar"
+			confirmText="Sim"
+			open={confirmationDialogOpen}
+			cancelCallback={() => setConfirmationDialogOpen(false)}
+			confirmCallback={handleLogout}
+		/>
 	</Menu>
 }
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setUserNone }, dispatch)
+UserMenu = connect(null, mapDispatchToProps)(UserMenu)
 
 const Navbar: React.FC = () => {
-	const theme = useTheme()
-	const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
 	const [menuOpen, setMenuOpen] = useState<boolean>(false)
 	const anchorRef = useRef<HTMLButtonElement>(null)
-	console.log(isLarge)
 
 	const menuIcon = <>
 		<IconButton size='medium' ref={anchorRef} style={{ color: 'white' }} aria-label="Menu" onClick={() => setMenuOpen(true)}>
@@ -57,4 +76,4 @@ const Navbar: React.FC = () => {
 	</Toolbar>
 }
 
-export default memo(Navbar)
+export default memo(connect(null, mapDispatchToProps)(Navbar))

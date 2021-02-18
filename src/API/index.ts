@@ -104,3 +104,13 @@ export async function login (username: string, password: string, remember: boole
 		throw err.request.status
 	}
 }
+
+export async function logout () {
+	try {
+		await API.get('account/logout')
+	} catch (err) {
+		// Fail gracefully, do nothing
+		if (err.request.status === 401) console.error('Can\'t logout if you are not logged in (401)')
+		else console.error(`Something bad happened (${err.request.status})`)
+	}
+}
