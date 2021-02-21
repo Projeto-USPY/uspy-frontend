@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Subject, SubjectRelations } from 'types/Subject'
+import { Subject, SubjectRelations, SubjectReview } from 'types/Subject'
 import { User } from 'types/User'
 
 export const API = axios.create({
@@ -114,5 +114,22 @@ export async function logout () {
 		// Fail gracefully, do nothing
 		if (err.request.status === 401) console.error('Can\'t logout if you are not logged in (401)')
 		else console.error(`Something bad happened (${err.request.status})`)
+	}
+}
+
+export async function getSubjectReview (course: string, code: string): Promise<SubjectReview> {
+	try {
+		const { data } = await API.get(`/private/subject/review?course=${course}&code=${code}`)
+		return data as SubjectReview
+	} catch (err) {
+		throw err.request.status
+	}
+}
+
+export async function makeSubjectReview (course: string, code: string, review: SubjectReview) {
+	try {
+		await API.post(`/private/subject/review?course=${course}&code=${code}`, review)
+	} catch (err) {
+		throw err.request.status
 	}
 }

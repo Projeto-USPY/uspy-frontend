@@ -10,8 +10,8 @@ import Typography from '@material-ui/core/Typography'
 import { useParams } from 'react-router-dom'
 import Navbar from 'components/Navbar'
 import Footer from 'components/Footer'
-import { Subject } from 'types/Subject'
-import { getSubjectWithCourseAndCode } from 'API'
+import { Subject, SubjectReview } from 'types/Subject'
+import { getSubjectWithCourseAndCode, getSubjectReview, makeSubjectReview } from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
 import CreditsIndicator from './CreditsIndicator'
@@ -37,7 +37,7 @@ function getBreadcrumbLinks (course: string, code: string) {
 }
 
 interface SubjectEvaluationRadioProps {
-	chosen: string
+	chosen: 'S' | 'N' | null
 	clickCallback: Function
 }
 
@@ -60,18 +60,25 @@ const SubjectEvaluationRadio: React.FC<SubjectEvaluationRadioProps> = ({ chosen,
 	</Grid>
 }
 
+function getRecommendationRate (recommend: number, total: number) {
+	if (total === 0) return 0
+	return (100 * recommend / total).toFixed(0)
+}
+
 const SubjectPage = () => {
 	const { course, code } = useParams<URLParameter>()
 
 	const [subject, setSubject] = useState<Subject | null>(null)
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [errorMessage, setErrorMessage] = useState<string>('')
+	const [evaluateSubject, setEvaluateSubject] = useState<boolean>(false) // if the user can review (or re-review) the subject
+	const [subjectReview, setSubjectReview] = useState<SubjectReview | null>(null)
 	// query for the subject with code 'code'
 	useEffect(() => {
 		getSubjectWithCourseAndCode(course, code).then((data) => {
 			setSubject(data)
 			setIsLoading(false)
-		}).catch(err => {
+		}).catch((err: number) => {
 			setIsLoading(false)
 			if (err === 404) {
 				setErrorMessage('Não foi possível encontrar essa disciplina')
@@ -81,12 +88,39 @@ const SubjectPage = () => {
 				setErrorMessage('')
 			}
 		})
+
+		getSubjectReview(course, code).then((rev) => {
+			setSubjectReview(rev)
+			setEvaluateSubject(true)
+		}).catch((err: number) => {
+			if (err === 404) {
+				setEvaluateSubject(true)
+			} else { // either user is not logged in or user was not enrolled in subject
+				setEvaluateSubject(false)
+			}
+		})
 	}, [])
 
-	/* Data about subject reviews */
-	const evaluateSubject = false // if the user can review or (re-review) the subject
-	const recommendationRate = 58 // percentage of the reviews that recommend the subject
-	const totalOfReviews = 12345 // total number of reviews
+	const handleReviewSubject = (c: 'S' | 'N') => {
+		const review: SubjectReview = {
+			categories: {
+				worth_it: c === 'S'
+			}
+		}
+
+		// remove subjectReview, se ja existir
+		const newSubject = subject
+		if (subjectReview !== null) {
+			newSubject.stats.total--
+			newSubject.stats.worth_it -= subjectReview.categories.worth_it ? 1 : 0
+		}
+
+		newSubject.stats.total++
+		newSubject.stats.worth_it += c === 'S' ? 1 : 0
+		setSubject(newSubject)
+		setSubjectReview(review)
+		makeSubjectReview(course, code, review)
+	}
 
 	const approvalRatio = 54
 
@@ -132,10 +166,10 @@ const SubjectPage = () => {
 								<p className="roboto-condensed"> {evaluateSubject ? 'AVALIE A DISCIPLINA' : 'SOBRE A DISCIPLINA'} </p>
 
 								{evaluateSubject
-									? <SubjectEvaluationRadio chosen=''/>
+									? <SubjectEvaluationRadio chosen={subjectReview ? (subjectReview.categories.worth_it ? 'S' : 'N') : null} clickCallback={handleReviewSubject}/>
 									: <></>}
-								<p> {recommendationRate}% dos alunos dizem que essa disciplina vale a pena! </p>
-								<p> Total de reviews: {totalOfReviews}</p>
+								<p> {getRecommendationRate(subject.stats.worth_it, subject.stats.total)}% dos alunos dizem que essa disciplina vale a pena! </p>
+								<p> Total de reviews: {subject.stats.total}</p>
 
 							</CardContent>
 						</Card>

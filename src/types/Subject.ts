@@ -9,8 +9,8 @@ export interface Subject {
 	requirements: string[]
 	optional: boolean
 	stats: {
-		qtReviews: number
-		qtWorthit: number
+		total: number
+		worth_it: number
 	}
 }
 
@@ -23,4 +23,10 @@ export interface SubjectRelations {
 	code: string
 	predecessors: SubjectInfo[]
 	successors: SubjectInfo[]
+}
+
+export interface SubjectReview {
+	categories: {
+		worth_it: boolean
+	}
 }

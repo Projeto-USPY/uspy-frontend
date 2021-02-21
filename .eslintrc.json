@@ -25,6 +25,7 @@
     "rules": {
 		"indent": ["error", "tab"],
 		"no-tabs": 0,
-		"react/prop-types": 0
+		"react/prop-types": 0,
+		"camelcase": "warn"
 	}
 }
