@@ -168,13 +168,13 @@ const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
 					<Typography variant='h4'> Como obter o código de autenticidade? </Typography>
 					<p><span style={{ fontSize: '1.2rem' }}>1.</span> Entre em <Link color='secondary' href='https://uspdigital.usp.br/jupiterweb/historicoEscolar' target='_blank'> JupiterWeb </Link>, escolha seu menu e curso, e marque as caixas conforme a imagem: </p>
 					<ImageBlock imageSource={CheckboxesImage} size='small' title='Marcação das caixas' caption='Marque a caixa "Com Autenticação"'/>
-					<p> <span style={{ fontSize: '1.2rem' }}>2.</span> Clique em {'"Buscar"'}, e o seu resumo escolar será gerado com um código de autenticidade no topo do documento, como na imagem: </p>
+					<p> <span style={{ fontSize: '1.2rem' }}>2.</span> Clique em {'"Buscar"'}, e o seu histórico escolar será gerado com um código de autenticidade no topo do documento, como na imagem: </p>
 					<ImageBlock imageSource={AuthenticityCodeImage} size='medium' title='código de autenticidade' caption='Código de 16 dígitos gerado'/>
 
 					<p><span style={{ fontSize: '1.2rem' }}>3.</span> É este código de 16 dígitos que será usado para verificar que você está atrelado à USP e pode se cadastrar.</p>
 
 					<Divider/>
-					<p> <strong> O que fazemos com o seu resumo escolar? </strong><br/>Seu resumo escolar é usado para extrair seus dados e informações sobre: disciplinas que cursou, médias que obteve e status de aprovação. Antes de irem para o banco de dados, eles são anonimizados e criptografados.
+					<p> <strong> O que fazemos com o seu histórico escolar? </strong><br/>Seu histórico escolar é usado para extrair seus dados e informações sobre: disciplinas que cursou, médias que obteve e status de aprovação. Antes de irem para o banco de dados, eles são anonimizados e criptografados.
 						Nós garantimos total transparência, e você pode ler mais sobre isso no nosso documento de <Link color='secondary' href='/Termos' target='_blank'> termos e condições</Link>. </p>
 					<p> O <span className="uspy">USPY</span> funciona graças à colaboração dos usuários em oferecer seus dados para alimentar as estatísticas de aprovações, médias e reviews de disciplinas. </p>
 
@@ -342,7 +342,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
 					<BreadCrumb links={[{ text: 'Home', url: '/' }, { text: 'Cadastrar', url: '/Cadastro' }]}/>
 					<div style={{ height: `${isDesktop ? '50' : '30'}px` }}></div> {/* Separa 50 verticalmente, ou 30 verticalmente se for mobile */}
 
-					<Typography> Para registrar, copie o código de autenticidade do seu resumo escolar mais atual no campo abaixo. <InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)} /> </Typography>
+					<Typography> Para registrar, copie o código de autenticidade do seu histórico escolar mais atual no campo abaixo. <InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)} /> </Typography>
 					<br/>
 					<Box m={2} style={{ marginTop: '2rem', marginBottom: '2rem' }}>
 						<Grid container justify={isDesktop ? 'center' : 'space-around'} alignItems='center' wrap='wrap' >
