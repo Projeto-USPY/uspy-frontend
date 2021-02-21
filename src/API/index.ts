@@ -80,13 +80,15 @@ export async function changePassword (oldPassword: string, newPassword: string) 
 	}
 }
 
-export async function register (authCode: string, password: string, captcha: string) {
+export async function register (authCode: string, password: string, captcha: string): Promise<User> {
 	try {
-		await API.post('/account/create', {
+		const { data } = await API.post('/account/create', {
 			access_key: authCode,
 			password: password,
 			captcha: captcha
 		})
+
+		return data as User
 	} catch (err) {
 		throw err.request.status
 	}

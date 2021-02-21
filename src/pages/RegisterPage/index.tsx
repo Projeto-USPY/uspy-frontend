@@ -24,6 +24,15 @@ import { register, getRegistrationCaptcha } from 'API'
 import ImageBlock from 'components/ImageBlock'
 import CloseIcon from '@material-ui/icons/CloseOutlined'
 
+// Redux
+import { connect } from 'react-redux'
+import { ActionCreator, Dispatch, bindActionCreators } from 'redux'
+import { setUser } from 'actions'
+
+/* Types */
+import { User } from 'types/User'
+import { ReduxAction } from 'types/redux'
+
 /* Modal Stuff */
 import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -32,6 +41,7 @@ import Fade from '@material-ui/core/Fade'
 // Images
 import CheckboxesImage from 'checkboxes.png'
 import AuthenticityCodeImage from 'authenticityCode.png'
+import { useHistory } from 'react-router'
 
 const useStyles = makeStyles((theme) => ({
 	input: {
@@ -187,13 +197,20 @@ const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
 function goodPassword (pwd: string) {
 	return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(pwd)
 }
-const RegisterPage = () => {
+
+interface RegisterPageProps {
+	setUser: ActionCreator<ReduxAction>
+}
+
+const RegisterPage: React.FC<RegisterPageProps> = () => {
 	const [captchaImg, setCaptchaImg] = useState<string>('')
 	useEffect(() => {
 		getRegistrationCaptcha().then(captchaImg => {
 			setCaptchaImg(captchaImg)
 		})
 	}, [])
+
+	const history = useHistory()
 
 	// Elements of the first input
 	const inputs = [0, 1, 2, 3]
@@ -250,13 +267,27 @@ const RegisterPage = () => {
 		} else if (!acceptedTerms) {
 			alert('Você deve aceitar os termos e condições')
 		} else {
-			register(authCode, password[0], captcha).catch(err => {
-				alert(err)
+			register(authCode, password[0], captcha).then((user: User) => {
+				setUser(user)
+				alert('Cadastro realizado com sucesso')
+				history.push('/')
+			}).catch(err => {
+				if (err === 400) {
+					alert('Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
+				} else if (err === 403) {
+					alert('Usuário já registrado')
+				} else {
+					alert(`Esta página retornou com status (${err})`)
+				}
+				setCaptcha('')
+				setShowCaptchaError(false)
+				getRegistrationCaptcha().then(captchaImg => {
+					setCaptchaImg(captchaImg)
+				})
 			})
 		}
 		setShowPwd0Error(true)
 		setShowPwd1Error(true)
-		setShowCaptchaError(true)
 	}
 
 	// Style stuff
@@ -382,4 +413,6 @@ const RegisterPage = () => {
 	</>
 }
 
-export default RegisterPage
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setUser }, dispatch)
+
+export default connect(null, mapDispatchToProps)(RegisterPage)
