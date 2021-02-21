@@ -202,7 +202,7 @@ interface RegisterPageProps {
 	setUser: ActionCreator<ReduxAction>
 }
 
-const RegisterPage: React.FC<RegisterPageProps> = () => {
+const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	const [captchaImg, setCaptchaImg] = useState<string>('')
 	useEffect(() => {
 		getRegistrationCaptcha().then(captchaImg => {

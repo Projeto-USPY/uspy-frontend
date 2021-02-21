@@ -1,13 +1,13 @@
 export interface User {
-	id: string
+	user: string
 	name: string
 }
 export const guestUser: User = {
-	id: '0',
+	user: '0',
 	name: ''
 }
 
 export const unknownUser: User = {
-	id: '',
+	user: '',
 	name: ''
 }

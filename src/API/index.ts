@@ -64,7 +64,7 @@ export async function getRegistrationCaptcha (): Promise<string> {
 		})
 		return URL.createObjectURL(response.data)
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		throw err.request.status
 	}
 }
@@ -88,7 +88,7 @@ export async function register (authCode: string, password: string, captcha: str
 			captcha: captcha
 		})
 
-		return data as User
+		return data
 	} catch (err) {
 		throw err.request.status
 	}
@@ -129,6 +129,14 @@ export async function getSubjectReview (course: string, code: string): Promise<S
 export async function makeSubjectReview (course: string, code: string, review: SubjectReview) {
 	try {
 		await API.post(`/private/subject/review?course=${course}&code=${code}`, review)
+	} catch (err) {
+		throw err.request.status
+	}
+}
+
+export async function removeAccount () {
+	try {
+		await API.delete('/account')
 	} catch (err) {
 		throw err.request.status
 	}

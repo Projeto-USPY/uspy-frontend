@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import Divider from '@material-ui/core/Divider'
@@ -10,9 +11,15 @@ import InputPassword from 'components/PasswordInput'
 import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
 import red from '@material-ui/core/colors/red'
 import { createMuiTheme } from '@material-ui/core/styles'
-import { changePassword as changePasswordRequest } from 'API'
+import { changePassword as changePasswordRequest, removeAccount as removeAccountRequest } from 'API'
 import { useTheme, ThemeProvider } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+
+import { ReduxAction } from 'types/redux'
+import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
+import { connect } from 'react-redux'
+
+import { setUserNone } from 'actions'
 
 const textFieldCommonProps = {
 	variant: 'outlined',
@@ -35,15 +42,26 @@ const dangerTheme = createMuiTheme({
 	}
 })
 
-const SettingsPage = () => {
+interface SettingsPageProps {
+	setUserNone: ActionCreator<ReduxAction>
+}
+
+const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const [newPwd, setNewPwd] = useState<string>('')
 	const [showPwdError, setShowPwdError] = useState<boolean>(false)
 
+	const history = useHistory()
 	// Remove account feature
 	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
 	const removeAccount = () => {
-		alert('TODO: remove account')
+		removeAccountRequest().then(() => {
+			setUserNone()
+			history.push('/') // redirect to home page
+		}).catch((err: number) => {
+			alert(`Erro: algo aconteceu e o status (${err}) foi recebido.`)
+		})
 	}
+
 	const changePassword = () => {
 		const old = document.querySelector('#old_pwd').value
 		if (old === newPwd) alert('Senhas nova e antiga não podem ser as mesmas')
@@ -158,4 +176,6 @@ const SettingsPage = () => {
 	</div>
 }
 
-export default SettingsPage
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setUserNone }, dispatch)
+
+export default connect(null, mapDispatchToProps)(SettingsPage)
