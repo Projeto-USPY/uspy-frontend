@@ -8,12 +8,14 @@ interface GeneralSearchInputProps {
 }
 
 const courseAliases = new Map<string, string>()
-courseAliases.set('55041', 'BCC')
-courseAliases.set('55051', 'BSI')
-courseAliases.set('55071', 'Estat.')
-courseAliases.set('55030', 'Mat.')
-courseAliases.set('55060', 'Mat. Apl.')
-courseAliases.set('55090', 'BCD')
+courseAliases.set('550410', 'BCC')
+courseAliases.set('550514', 'BSI')
+courseAliases.set('550714', 'Estat.')
+courseAliases.set('55030300', 'Lic. em Mat.')
+courseAliases.set('55030100', 'Mat. - Núcleo Geral')
+courseAliases.set('550601', 'Mat. Apl.')
+courseAliases.set('550900', 'BCD')
+courseAliases.set('55030200', 'Mat. Pura')
 
 const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	const options = useContext(SearchDataContext)
