@@ -64,7 +64,7 @@ const App = () => {
 						<Route exact path='/Professores' component={TeachersPage}/>
 						<Route exact path='/Disciplinas' component={SubjectsPage}/>
 						<LoggedInRoute exact path='/Perfil' component={SettingsPage}/>
-						<Route exact path='/Disciplinas/:course/:code' component={SubjectPage}/>
+						<Route exact path='/Disciplinas/:course/:specialization/:code' component={SubjectPage}/>
 						<Route exact path='/' component={HomePage}/>
 						<Route path='/' component={NotFoundPage}/>
 					</Switch>

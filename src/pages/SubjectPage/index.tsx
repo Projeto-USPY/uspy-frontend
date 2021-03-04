@@ -19,17 +19,18 @@ import GradeDistributionChart from './GradeDistributionChart'
 
 interface URLParameter {
 	course: string
+	specialization: string
 	code: string
 }
 
-function getBreadcrumbLinks (course: string, code: string) {
+function getBreadcrumbLinks (course: string, specialization: string, code: string) {
 	return [
 		{
 			url: '/Disciplinas',
 			text: 'Disciplinas'
 		},
 		{
-			url: `/Disciplinas/${course}/${code}`,
+			url: `/Disciplinas/${course}/${specialization}/${code}`,
 			text: code
 		}
 
@@ -66,7 +67,7 @@ function getRecommendationRate (recommend: number, total: number) {
 }
 
 const SubjectPage = () => {
-	const { course, code } = useParams<URLParameter>()
+	const { course, specialization, code } = useParams<URLParameter>()
 
 	const [subject, setSubject] = useState<Subject | null>(null)
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -75,7 +76,7 @@ const SubjectPage = () => {
 	const [subjectReview, setSubjectReview] = useState<SubjectReview | null>(null)
 	// query for the subject with code 'code'
 	useEffect(() => {
-		getSubjectWithCourseAndCode(course, code).then((data) => {
+		getSubjectWithCourseAndCode(course, specialization, code).then((data) => {
 			setSubject(data)
 			setIsLoading(false)
 		}).catch((err: number) => {
@@ -89,7 +90,7 @@ const SubjectPage = () => {
 			}
 		})
 
-		getSubjectReview(course, code).then((rev) => {
+		getSubjectReview(course, specialization, code).then((rev) => {
 			setSubjectReview(rev)
 			setEvaluateSubject(true)
 		}).catch((err: number) => {
@@ -119,7 +120,7 @@ const SubjectPage = () => {
 		newSubject.stats.worth_it += c === 'S' ? 1 : 0
 		setSubject(newSubject)
 		setSubjectReview(review)
-		makeSubjectReview(course, code, review)
+		makeSubjectReview(course, specialization, code, review)
 	}
 
 	const approvalRatio = 54
@@ -194,7 +195,7 @@ const SubjectPage = () => {
 					<Card elevation={3}>
 						<CardContent>
 							<Typography variant="h6"> Requisitos e Trancamentos </Typography>
-							<RequirementsGraph course={course} code={code} />
+							<RequirementsGraph course={course} specialization={specialization} code={code} />
 						</CardContent>
 					</Card>
 				</Grid>
@@ -214,7 +215,7 @@ const SubjectPage = () => {
 			<div style={{ height: '64px' }}></div>
 			<Container>
 				<Grid container alignItems='center' style={{ height: '50px' }}>
-					<BreadCrumb links={getBreadcrumbLinks(course, code)}/>
+					<BreadCrumb links={getBreadcrumbLinks(course, specialization, code)}/>
 				</Grid>
 
 				{object}

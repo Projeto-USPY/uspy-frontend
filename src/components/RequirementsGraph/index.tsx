@@ -35,9 +35,10 @@ const Box: React.FC<BoxProps> = ({ name, relations }) => {
 
 interface RequirementsGraphProps {
 	course: string
+	specialization: string
 	code: string
 }
-const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, code }) => {
+const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specialization, code }) => {
 	const [predecessors, setPredecessors] = useState<SubjectInfo[]>([])
 	const [successors, setSuccessors] = useState<SubjectInfo[]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -46,7 +47,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, code }) =
 	const cardHeight = Math.max(predecessors?.length, successors?.length, 1) * 50 + 30 // calculate cardHeight from size of arrays
 
 	useEffect(() => {
-		getSubjectRelations(course, code).then((data) => {
+		getSubjectRelations(course, specialization, code).then((data) => {
 			setPredecessors(data.predecessors || [])
 			setSuccessors(data.successors || [])
 			setIsLoading(false)

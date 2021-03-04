@@ -13,6 +13,7 @@ function getData (setter: Function) {
 			data = res.data.reduce((cur: string[], course: any) => {
 				return [...cur, ...Object.keys(course.subjects).map((val, idx) => ({
 					course: course.code,
+					specialization: course.specialization,
 					code: val,
 					name: course.subjects[val]
 				}))]

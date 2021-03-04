@@ -2,6 +2,7 @@ export interface Subject {
 	name: string
 	code: string
 	course: string
+	specialization: string
 	description: string
 	class: number
 	assign: number

@@ -20,11 +20,12 @@ export async function isAuthenticated (): Promise<string> {
 	}
 }
 
-export async function getSubjectWithCourseAndCode (course: string, code: string): Promise<Subject> {
+export async function getSubjectWithCourseAndCode (course: string, specialization: string, code: string): Promise<Subject> {
 	try {
 		const { data, status } = await API.get('/api/subject', {
 			params: {
 				course,
+				specialization,
 				code
 			}
 		})
@@ -37,11 +38,12 @@ export async function getSubjectWithCourseAndCode (course: string, code: string)
 	}
 }
 
-export async function getSubjectRelations (course: string, code: string): Promise<SubjectRelations> {
+export async function getSubjectRelations (course: string, specialization: string, code: string): Promise<SubjectRelations> {
 	try {
 		const { data, status } = await API.get('/api/subject/relations', {
 			params: {
 				course,
+				specialization,
 				code
 			}
 		})
@@ -117,18 +119,18 @@ export async function logout () {
 	}
 }
 
-export async function getSubjectReview (course: string, code: string): Promise<SubjectReview> {
+export async function getSubjectReview (course: string, specialization: string, code: string): Promise<SubjectReview> {
 	try {
-		const { data } = await API.get(`/private/subject/review?course=${course}&code=${code}`)
+		const { data } = await API.get(`/private/subject/review?course=${course}&specialization=${specialization}&code=${code}`)
 		return data as SubjectReview
 	} catch (err) {
 		throw err.request.status
 	}
 }
 
-export async function makeSubjectReview (course: string, code: string, review: SubjectReview) {
+export async function makeSubjectReview (course: string, specialization: string, code: string, review: SubjectReview) {
 	try {
-		await API.post(`/private/subject/review?course=${course}&code=${code}`, review)
+		await API.post(`/private/subject/review?course=${course}&specialization=${specialization}&code=${code}`, review)
 	} catch (err) {
 		throw err.request.status
 	}

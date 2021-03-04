@@ -68,9 +68,9 @@ const MyListItem = withStyles(theme => ({
 	}
 }))(ListItem)
 
-function renderRow (c: string, s: SubjectInfo, clickCallback: Function) {
-	return <MyListItem button key={s.code} onClick={() => clickCallback(c, s.code)}>
-		<ListItemText primary={s.code + ' - ' + s.name} disableTypography/>
+function renderRow (course: string, specialization: string, subject: SubjectInfo, clickCallback: Function) {
+	return <MyListItem button key={subject.code} onClick={() => clickCallback(course, specialization, subject.code)}>
+		<ListItemText primary={subject.code + ' - ' + subject.name} disableTypography/>
 	</MyListItem>
 }
 
@@ -82,12 +82,13 @@ const SubjectList: React.FC<SubjectListProps> = ({ arr, sortByCode }) => {
 	const [open, setOpen] = useState<boolean>(false)
 
 	const history = useHistory()
-	const clickItem = (courseCode: string, code: string) => {
-		history.push(`${history.location.pathname}/${courseCode}/${code}`)
+	const clickItem = (courseCode: string, courseSpecialization: string, code: string) => {
+		history.push(`${history.location.pathname}/${courseCode}/${courseSpecialization}/${code}`)
 	}
 
 	const getList = (course: CourseInfo, sortByCode: boolean) => {
 		const code = course.code
+		const specialization = course.specialization
 		course.subjects.sort((s1: SubjectInfo, s2: SubjectInfo) => {
 			if (sortByCode) {
 				return s1.code < s2.code ? -1 : s1.code === s2.code ? 0 : 1
@@ -95,7 +96,7 @@ const SubjectList: React.FC<SubjectListProps> = ({ arr, sortByCode }) => {
 				return s1.name < s2.name ? -1 : s1.name === s2.name ? 0 : 1
 			}
 		})
-		return course.subjects.map(s => renderRow(code, s, clickItem))
+		return course.subjects.map(s => renderRow(code, specialization, s, clickItem))
 	}
 
 	const listByCode = useMemo(() => getList(arr, true), [])

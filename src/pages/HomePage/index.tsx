@@ -10,8 +10,8 @@ import withSearchData from 'HOCs/withSearchData'
 
 const HomePage = () => {
 	const history = useHistory()
-	const clickItem = (courseCode: string, code: string) => {
-		history.push(`/Disciplinas/${courseCode}/${code}`)
+	const clickItem = (courseCode: string, courseSpecialization: string, code: string) => {
+		history.push(`/Disciplinas/${courseCode}/${courseSpecialization}/${code}`)
 	}
 	return <>
 		<div className='main'>

@@ -29,7 +29,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	}
 
 	const onChange = (_: any, value: any) => {
-		handleChange(value.course, value.code)
+		handleChange(value.course, value.specialization, value.code)
 	}
 
 	return <Autocomplete
@@ -39,7 +39,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 		options={options}
 		openOnFocus={false}
 		onChange={onChange}
-		getOptionLabel={(opt: any) => opt.code + ' - ' + opt.name + ` (${courseAliases.get(opt.course as string)})`}
+		getOptionLabel={(opt: any) => opt.code + ' - ' + opt.name + ` (${courseAliases.get((opt.course as string) + (opt.specialization as string))})`}
 		filterOptions={autocompleteFilterOptions}
 		renderInput={(params) => <TextField
 			{...params}
