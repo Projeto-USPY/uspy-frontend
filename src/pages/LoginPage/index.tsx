@@ -62,20 +62,19 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 	const history = useHistory()
 	const location = useLocation()
 
-	const handleNUSPInputChange = evt => {
+	const handleNUSPInputChange = (evt: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
 		const val = evt.target.value
 		if (/^[0-9]*$/.test(val)) setNusp(val)
 	}
 	const handleLogin = () => {
-		const pwd = document.querySelector('#senha').value
-		const remember = document.querySelector('#remember').checked
+		const pwd = document.querySelector<HTMLInputElement>('#senha').value
+		const remember = document.querySelector<HTMLInputElement>('#remember').checked
 		login(nusp, pwd, remember).then((user) => {
 			// Success!! Redirects for home page
-			// TODO: Save logged username in redux,
+			setUser(user)
 
 			// Redirect cases
-			const { from } = location.state || { from: { pathname: '/' } }
-			setUser(user)
+			const { from } = location.state || { from: { pathname: '/' } } as any
 			history.replace(from)
 		}).catch((statusCode: number) => {
 			if (statusCode === 400) {
@@ -122,6 +121,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 												size="small"
 												type="password"
 												variant="outlined"
+												onKeyPress={(evt) => (evt.key === 'Enter' ? handleLogin() : null)}
 											/>
 										</Grid>
 										<Grid item style={{ marginTop: '-1rem', marginBottom: '-1rem' }}>
