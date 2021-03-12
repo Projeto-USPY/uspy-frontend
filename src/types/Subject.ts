@@ -1,8 +1,12 @@
-
-export interface SubjectRequirement {
+export interface SubjectInfo {
 	code: string
+	name: string
+}
+
+export interface SubjectRequirement extends SubjectInfo {
 	strong: boolean
 }
+
 export interface Subject {
 	name: string
 	code: string
@@ -20,15 +24,10 @@ export interface Subject {
 	}
 }
 
-export interface SubjectInfo {
-	code: string
-	name: string
-}
-
 export interface SubjectRelations {
 	code: string
-	predecessors: SubjectInfo[][]
-	successors: SubjectInfo[]
+	predecessors: SubjectRequirement[][]
+	successors: SubjectRequirement[]
 }
 
 export interface SubjectReview {

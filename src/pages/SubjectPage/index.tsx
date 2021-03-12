@@ -81,6 +81,12 @@ const SubjectPage = () => {
 	const [subjectReview, setSubjectReview] = useState<SubjectReview | null>(null)
 	// query for the subject with code 'code'
 	useEffect(() => {
+		setSubject(null)
+		setIsLoading(true)
+		setErrorMessage('')
+		setEvaluateSubject(false)
+		setSubjectReview(null)
+
 		getSubjectWithCourseAndCode(course, specialization, code).then((data) => {
 			setSubject(data)
 			setIsLoading(false)
@@ -105,7 +111,7 @@ const SubjectPage = () => {
 				setEvaluateSubject(false)
 			}
 		})
-	}, [])
+	}, [course, specialization, code])
 
 	const handleReviewSubject = (c: 'S' | 'N') => {
 		const review: SubjectReview = {

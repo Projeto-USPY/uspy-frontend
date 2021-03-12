@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
 // Routes
-import { Switch, Route } from 'react-router'
+import { Switch, Route, useLocation } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
 import LoggedInRoute from 'routes/LoggedInRoute'
 
@@ -50,6 +50,16 @@ function checkUserExists () {
 	})
 }
 
+const ScrollToTop: React.FC = () => {
+	const { pathname } = useLocation()
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [pathname])
+
+	return null
+}
+
 const App = () => {
 	// Checks if user exists and dispatches action to update it.
 	useEffect(checkUserExists, [])
@@ -58,6 +68,7 @@ const App = () => {
 		<StoreProvider store={store}>
 			<ThemeProvider theme={theme}>
 				<BrowserRouter>
+					<ScrollToTop/>
 					<Switch>
 						<Route exact path='/Login' component={LoginPage}/>
 						<Route exact path='/Cadastro' component={RegisterPage}/>
