@@ -61,6 +61,11 @@ const SubjectEvaluationRadio: React.FC<SubjectEvaluationRadioProps> = ({ chosen,
 	</Grid>
 }
 
+function getSubjectRequirementsList (sub: Subject) {
+	if (!sub.requirements.length || !sub.requirements[0].length) throw new Error("Subject requirement list is empty when it shouldn't be")
+	return sub.requirements[0].map(req => req.code).join(', ')
+}
+
 function getRecommendationRate (recommend: number, total: number) {
 	if (total === 0) return 0
 	return (100 * recommend / total).toFixed(0)
@@ -136,8 +141,8 @@ const SubjectPage = () => {
 		<br></br>
 
 		<Grid container spacing={5}>
-			<Grid container item xs={12} sm={3}>
-				<Grid container spacing={5}>
+			<Grid container item xs={12} sm={3} direction="column">
+				<Grid container spacing={4}>
 					<Grid item xs={12}>
 						<Card elevation={3} className='prompt'>
 							<div className='graybg'>
@@ -156,7 +161,7 @@ const SubjectPage = () => {
 							<CardContent>
 								Tipo: {subject.optional ? 'Optativa' : 'Obrigatória'}<br/>
 								Curso: {course}<br/>
-								Requisitos: {subject.requirements ? subject.requirements.join(', ') : 'Nenhum'}<br/>
+								Requisitos: {subject.requirements.length ? getSubjectRequirementsList(subject) : 'Nenhum'}<br/>
 								Carga horária: {subject.hours}<br/>
 							</CardContent>
 						</Card>
@@ -178,26 +183,28 @@ const SubjectPage = () => {
 				</Grid>
 			</Grid>
 
-			<Grid container item xs={12} sm={9} direction='column' spacing={5}>
+			<Grid container item xs={12} sm={9} direction='column'>
 
-				<Grid item>
-					<Card elevation={3}>
-						<CardContent>
-							<Typography variant="h6"> Distribuição de Notas </Typography>
-							<GradeDistributionChart/>
+				<Grid container item spacing={4}>
+					<Grid item xs={12}>
+						<Card elevation={3}>
+							<CardContent>
+								<Typography variant="h6"> Distribuição de Notas </Typography>
+								<GradeDistributionChart/>
 
-							<Typography variant='body1'> Taxa de Aprovação: {approvalRatio}%</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
+								<Typography variant='body1'> Taxa de Aprovação: {approvalRatio}%</Typography>
+							</CardContent>
+						</Card>
+					</Grid>
 
-				<Grid item>
-					<Card elevation={3}>
-						<CardContent>
-							<Typography variant="h6"> Requisitos e Trancamentos </Typography>
-							<RequirementsGraph course={course} specialization={specialization} code={code} />
-						</CardContent>
-					</Card>
+					<Grid item xs={12}>
+						<Card elevation={3}>
+							<CardContent>
+								<Typography variant="h6"> Requisitos e Trancamentos </Typography>
+								<RequirementsGraph course={course} specialization={specialization} code={code} />
+							</CardContent>
+						</Card>
+					</Grid>
 				</Grid>
 			</Grid>
 		</Grid>

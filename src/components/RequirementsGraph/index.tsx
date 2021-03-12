@@ -48,7 +48,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 
 	useEffect(() => {
 		getSubjectRelations(course, specialization, code).then((data) => {
-			setPredecessors(data.predecessors || [])
+			setPredecessors((data.predecessors && data.predecessors[0]) || []) // for now get only the first set of requirements
 			setSuccessors(data.successors || [])
 			setIsLoading(false)
 		}).catch(err => {

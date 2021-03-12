@@ -1,3 +1,8 @@
+
+export interface SubjectRequirement {
+	code: string
+	strong: boolean
+}
 export interface Subject {
 	name: string
 	code: string
@@ -7,7 +12,7 @@ export interface Subject {
 	class: number
 	assign: number
 	hours: string
-	requirements: string[]
+	requirements: SubjectRequirement[][]
 	optional: boolean
 	stats: {
 		total: number
@@ -22,7 +27,7 @@ export interface SubjectInfo {
 
 export interface SubjectRelations {
 	code: string
-	predecessors: SubjectInfo[]
+	predecessors: SubjectInfo[][]
 	successors: SubjectInfo[]
 }
 
