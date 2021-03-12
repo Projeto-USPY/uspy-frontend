@@ -23,6 +23,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { register, getRegistrationCaptcha } from 'API'
 import ImageBlock from 'components/ImageBlock'
 import CloseIcon from '@material-ui/icons/CloseOutlined'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 // Redux
 import { connect } from 'react-redux'
@@ -237,6 +238,9 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	const [showPwd1Error, setShowPwd1Error] = useState<boolean>(false)
 	const [showCaptchaError, setShowCaptchaError] = useState<boolean>(false)
 
+	// is registration pending
+	const [pending, setPending] = useState<boolean>(false)
+
 	// callback function to when some form field is changed
 	const handleChange = (value: string, id: string) => {
 		if (id === 'pwd1') {
@@ -267,9 +271,11 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 		} else if (!acceptedTerms) {
 			alert('Você deve aceitar os termos e condições')
 		} else {
+			setPending(true) // registrating is pending
 			register(authCode, password[0], captcha).then((user: User) => {
 				setUser(user)
 				alert('Cadastro realizado com sucesso')
+				setPending(false)
 				history.push('/')
 			}).catch(err => {
 				if (err === 400) {
@@ -284,6 +290,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				getRegistrationCaptcha().then(captchaImg => {
 					setCaptchaImg(captchaImg)
 				})
+				setPending(false)
 			})
 		}
 		setShowPwd0Error(true)
@@ -306,9 +313,10 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 			color="secondary"
 			size="medium"
 			variant="outlined"
+			disabled={pending}
 			onClick={registerClick}
 		>
-			Cadastrar
+			{pending ? <CircularProgress color='secondary' size='1rem'/> : 'Cadastrar'}
 		</Button>
 	</Grid>
 	const bottomMobile = <Grid item container direction='column' spacing={5}>
@@ -328,7 +336,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				variant="outlined"
 				onClick={registerClick}
 			>
-				Cadastrar
+				{pending ? <CircularProgress color='secondary' size='1rem'/> : 'Cadastrar'}
 			</Button>
 		</Grid>
 	</Grid>
