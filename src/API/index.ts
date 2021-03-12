@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats } from 'types/Subject'
+import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { User } from 'types/User'
 
 export const API = axios.create({
@@ -154,6 +154,21 @@ export async function getSubjectGrades (course: string, specialization: string, 
 			}
 		})
 		return data as SubjectGradeStats
+	} catch (err) {
+		throw err.request.status
+	}
+}
+
+export async function getGrade (course: string, specialization: string, code: string): Promise<SubjectGrade> {
+	try {
+		const { data } = await API.get('/private/subject/grade', {
+			params: {
+				course,
+				specialization,
+				code
+			}
+		})
+		return data as SubjectGrade
 	} catch (err) {
 		throw err.request.status
 	}

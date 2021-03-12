@@ -41,3 +41,9 @@ export interface SubjectGradeStats {
 	average: number
 	approval: number
 }
+
+export interface SubjectGrade {
+	grade: number
+	status: string
+	frequency: number
+}

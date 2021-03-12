@@ -33,16 +33,15 @@ const CustomTooltip = ({ active, payload, label, total }: any) => {
 interface GradeDistributionChartProps {
 	grades: any
 	averageGrade: number
+	yourGrade: number | null
 }
 
-const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades, averageGrade }) => {
-	for (let i = 0.0; i <= 10; i += 0.1) if (grades[keepDecimalCases(i, 1)] === undefined) grades[keepDecimalCases(i, 1)] = 0
+const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades, averageGrade, yourGrade }) => {
+	for (let i = 0.0; i <= 10; i += 0.1) if (grades[keepDecimalCases(i, 1).toFixed(1)] === undefined) grades[keepDecimalCases(i, 1).toFixed(1)] = 0
 	const data = Object.keys(grades).reduce((cur, key) => [...cur, { x: keepDecimalCases(parseFloat(key), 1), grade: grades[key] }], [])
 
 	data.sort((x, y) => x.x - y.x)
 	const total = Object.keys(grades).reduce((cur, key) => (cur + grades[key]), 0)
-	const yourGrade = 5.5
-
 	return <div style={{ height: '320px', width: '100%', marginLeft: '-20px', paddingTop: '20px' }}>
 		<ResponsiveContainer>
 			<AreaChart data={data}>
@@ -54,7 +53,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades,
 					<Label value="Quantidade" angle={-90} position='insideLeft' offset={20}/>
 				</YAxis>
 				<Tooltip content={<CustomTooltip total={total}/>}/>
-				<ReferenceLine x={yourGrade} isFront stroke="red">
+				{yourGrade ? <ReferenceLine x={yourGrade} isFront stroke="red">
 					<Label position="top" offset={50} content={({ viewBox }) => {
 						return (
 							<foreignObject {...viewBox} width={100}>
@@ -63,7 +62,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades,
 						)
 					}}></Label>
 					<Label position="bottom" value={yourGrade}/>
-				</ReferenceLine>
+				</ReferenceLine> : null}
 
 				<ReferenceLine x={averageGrade} isFront stroke="red">
 					<Label position="top" offset={50} content={({ viewBox }) => {

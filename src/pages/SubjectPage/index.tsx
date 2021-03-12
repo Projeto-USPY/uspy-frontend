@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom'
 import Navbar from 'components/Navbar'
 import Footer from 'components/Footer'
 import { Subject, SubjectGradeStats, SubjectReview } from 'types/Subject'
-import { getSubjectWithCourseAndCode, getSubjectReview, makeSubjectReview, getSubjectGrades } from 'API'
+import { getSubjectWithCourseAndCode, getSubjectReview, makeSubjectReview, getSubjectGrades, getGrade } from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
 import CreditsIndicator from './CreditsIndicator'
@@ -82,6 +82,7 @@ const SubjectPage = () => {
 	const [subjectReview, setSubjectReview] = useState<SubjectReview | null>(null)
 	const [canSeeChart, setCanSeeChart] = useState<boolean>(false)
 	const [gradeStats, setGradeStats] = useState<SubjectGradeStats | null>(null)
+	const [yourGrade, setYourGrade] = useState<number | null>(null)
 	// query for the subject with code 'code'
 	useEffect(() => {
 		setSubject(null)
@@ -124,6 +125,10 @@ const SubjectPage = () => {
 			setCanSeeChart(false)
 			setGradeStats(null)
 		})
+
+		getGrade(course, specialization, code).then((grade) => {
+			setYourGrade(grade.grade)
+		}).catch(() => {})
 	}, [course, specialization, code])
 
 	const handleReviewSubject = (c: 'S' | 'N') => {
@@ -207,7 +212,7 @@ const SubjectPage = () => {
 						<Card elevation={3}>
 							<CardContent>
 								<Typography variant="h6"> Distribuição de Notas </Typography>
-								{canSeeChart && gradeStats ? <GradeDistributionChart grades={gradeStats.grades} averageGrade={gradeStats.average}/> : <MessagePanel height={200} message="Você precisa estar logado para ter acesso a este recurso"/>}
+								{canSeeChart && gradeStats ? <GradeDistributionChart grades={gradeStats.grades} averageGrade={gradeStats.average} yourGrade={yourGrade}/> : <MessagePanel height={200} message="Você precisa estar logado para ter acesso a este recurso"/>}
 
 								{canSeeChart && gradeStats ? <Typography variant='body1'> Taxa de Aprovação: {gradeStats.approval * 100}% </Typography> : null}
 							</CardContent>

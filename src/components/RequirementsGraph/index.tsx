@@ -174,7 +174,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 	return <ArcherContainer strokeColor="black">
 		{isLoading ? <Grid container justify='center'><Grid item><CircularProgress/></Grid></Grid>
 			: noRequirement
-				? <MessagePanel height={200} message="Sem requerimentos ou trancamentos"/>
+				? <MessagePanel height={200} message="Sem requisitos ou trancamentos"/>
 				: content}
 
 	</ArcherContainer>
