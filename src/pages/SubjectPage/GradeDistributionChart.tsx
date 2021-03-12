@@ -9,17 +9,6 @@ import {
 	Tooltip
 } from 'recharts'
 
-function buildRandomData () {
-	const data = []
-	for (let i = 0.0; i <= 10; i += 0.5) {
-		data.push({
-			x: i,
-			grade: (Math.random() * 50)
-		})
-	}
-	return data
-}
-
 interface ReferenceLineLabelProps {
 	message: string
 	margin?: number
@@ -35,31 +24,38 @@ function keepDecimalCases (n: number, d: number) {
 	return Math.round(n * Math.pow(10, d)) / Math.pow(10, d)
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label, total }: any) => {
 	return active ? <Paper elevation={2} style={{ padding: '1rem' }}>
-		Nota {label}: {payload ? keepDecimalCases(payload[0].value, 1) : null}%
+		Nota {label}: {payload ? keepDecimalCases(100 * payload[0].value / total, 1) : null}%
 	</Paper> : null
 }
 
-const GradeDistributionChart = () => {
-	const data = buildRandomData()
+interface GradeDistributionChartProps {
+	grades: any
+	averageGrade: number
+}
 
+const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades, averageGrade }) => {
+	for (let i = 0.0; i <= 10; i += 0.1) if (grades[keepDecimalCases(i, 1)] === undefined) grades[keepDecimalCases(i, 1)] = 0
+	const data = Object.keys(grades).reduce((cur, key) => [...cur, { x: keepDecimalCases(parseFloat(key), 1), grade: grades[key] }], [])
+
+	data.sort((x, y) => x.x - y.x)
+	const total = Object.keys(grades).reduce((cur, key) => (cur + grades[key]), 0)
 	const yourGrade = 5.5
-	const average = 4.6
 
 	return <div style={{ height: '320px', width: '100%', marginLeft: '-20px', paddingTop: '20px' }}>
 		<ResponsiveContainer>
 			<AreaChart data={data}>
-				<Area type="monotone" dataKey="grade" fill="#82ca9d" activeDot={{ r: 2 }}/>
+				<Area type="monotone" dataKey="grade" fill="#68417F77" stroke="#00000000"activeDot={{ r: 2 }}/>
 				<XAxis dataKey="x" tickLine={false} tickCount={5} type="number" domain={[0, 10]}>
 					<Label value="Notas" position="insideBottom" offset={-5}/>
 				</XAxis>
 				<YAxis dataKey="grade" tickLine={false}>
-					<Label value="Frequência" angle={-90} position='insideLeft' offset={20}/>
+					<Label value="Quantidade" angle={-90} position='insideLeft' offset={20}/>
 				</YAxis>
-				<Tooltip content={<CustomTooltip/>}/>
+				<Tooltip content={<CustomTooltip total={total}/>}/>
 				<ReferenceLine x={yourGrade} isFront stroke="red">
-					<Label position="top" offset={50} content={({ value, viewBox }) => {
+					<Label position="top" offset={50} content={({ viewBox }) => {
 						return (
 							<foreignObject {...viewBox} width={100}>
 								<ReferenceLineLabel message="Você está aqui" margin={-15}/>
@@ -69,15 +65,15 @@ const GradeDistributionChart = () => {
 					<Label position="bottom" value={yourGrade}/>
 				</ReferenceLine>
 
-				<ReferenceLine x={average} isFront stroke="red">
-					<Label position="top" offset={50} content={({ value, viewBox }) => {
+				<ReferenceLine x={averageGrade} isFront stroke="red">
+					<Label position="top" offset={50} content={({ viewBox }) => {
 						return (
 							<foreignObject {...viewBox} width={50}>
 								<ReferenceLineLabel message="Média" margin={5}/>
 							</foreignObject>
 						)
 					}}></Label>
-					<Label position="bottom" value={average}/>
+					<Label position="bottom" value={keepDecimalCases(averageGrade, 1)}/>
 				</ReferenceLine>
 
 			</AreaChart>

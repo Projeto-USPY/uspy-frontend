@@ -35,3 +35,9 @@ export interface SubjectReview {
 		worth_it: boolean
 	}
 }
+
+export interface SubjectGradeStats {
+	grades: any
+	average: number
+	approval: number
+}

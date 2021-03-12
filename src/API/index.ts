@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Subject, SubjectRelations, SubjectReview } from 'types/Subject'
+import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats } from 'types/Subject'
 import { User } from 'types/User'
 
 export const API = axios.create({
@@ -139,6 +139,21 @@ export async function makeSubjectReview (course: string, specialization: string,
 export async function removeAccount () {
 	try {
 		await API.delete('/account')
+	} catch (err) {
+		throw err.request.status
+	}
+}
+
+export async function getSubjectGrades (course: string, specialization: string, code: string): Promise<SubjectGradeStats> {
+	try {
+		const { data } = await API.get('/api/restricted/subject/grades', {
+			params: {
+				course,
+				specialization,
+				code
+			}
+		})
+		return data as SubjectGradeStats
 	} catch (err) {
 		throw err.request.status
 	}

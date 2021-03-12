@@ -10,12 +10,13 @@ import Typography from '@material-ui/core/Typography'
 import { useParams } from 'react-router-dom'
 import Navbar from 'components/Navbar'
 import Footer from 'components/Footer'
-import { Subject, SubjectReview } from 'types/Subject'
-import { getSubjectWithCourseAndCode, getSubjectReview, makeSubjectReview } from 'API'
+import { Subject, SubjectGradeStats, SubjectReview } from 'types/Subject'
+import { getSubjectWithCourseAndCode, getSubjectReview, makeSubjectReview, getSubjectGrades } from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
 import CreditsIndicator from './CreditsIndicator'
 import GradeDistributionChart from './GradeDistributionChart'
+import MessagePanel from 'components/MessagePanel'
 
 interface URLParameter {
 	course: string
@@ -79,12 +80,15 @@ const SubjectPage = () => {
 	const [errorMessage, setErrorMessage] = useState<string>('')
 	const [evaluateSubject, setEvaluateSubject] = useState<boolean>(false) // if the user can review (or re-review) the subject
 	const [subjectReview, setSubjectReview] = useState<SubjectReview | null>(null)
+	const [canSeeChart, setCanSeeChart] = useState<boolean>(false)
+	const [gradeStats, setGradeStats] = useState<SubjectGradeStats | null>(null)
 	// query for the subject with code 'code'
 	useEffect(() => {
 		setSubject(null)
 		setIsLoading(true)
 		setErrorMessage('')
 		setEvaluateSubject(false)
+		setCanSeeChart(false)
 		setSubjectReview(null)
 
 		getSubjectWithCourseAndCode(course, specialization, code).then((data) => {
@@ -109,7 +113,16 @@ const SubjectPage = () => {
 				setEvaluateSubject(true)
 			} else { // either user is not logged in or user was not enrolled in subject
 				setEvaluateSubject(false)
+				setCanSeeChart(false)
 			}
+		})
+
+		getSubjectGrades(course, specialization, code).then((gradeStats) => {
+			setCanSeeChart(true)
+			setGradeStats(gradeStats)
+		}).catch(() => {
+			setCanSeeChart(false)
+			setGradeStats(null)
 		})
 	}, [course, specialization, code])
 
@@ -133,8 +146,6 @@ const SubjectPage = () => {
 		setSubjectReview(review)
 		makeSubjectReview(course, specialization, code, review)
 	}
-
-	const approvalRatio = 54
 
 	const content = subject ? <>
 		<Typography variant='h4'>{`${subject.code} - ${subject.name}`}</Typography>
@@ -196,9 +207,9 @@ const SubjectPage = () => {
 						<Card elevation={3}>
 							<CardContent>
 								<Typography variant="h6"> Distribuição de Notas </Typography>
-								<GradeDistributionChart/>
+								{canSeeChart && gradeStats ? <GradeDistributionChart grades={gradeStats.grades} averageGrade={gradeStats.average}/> : <MessagePanel height={200} message="Você precisa estar logado para ter acesso a este recurso"/>}
 
-								<Typography variant='body1'> Taxa de Aprovação: {approvalRatio}%</Typography>
+								{canSeeChart && gradeStats ? <Typography variant='body1'> Taxa de Aprovação: {gradeStats.approval * 100}% </Typography> : null}
 							</CardContent>
 						</Card>
 					</Grid>
