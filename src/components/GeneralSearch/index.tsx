@@ -2,20 +2,11 @@ import React, { useContext } from 'react'
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete'
 import TextField from '@material-ui/core/TextField'
 import { SearchDataContext } from 'HOCs/withSearchData'
+import { getCourseAlias } from 'utils'
 
 interface GeneralSearchInputProps {
-	handleChange: (arg0: string, arg1: string)=>void
+	handleChange: Function
 }
-
-const courseAliases = new Map<string, string>()
-courseAliases.set('550410', 'BCC')
-courseAliases.set('550514', 'BSI')
-courseAliases.set('550714', 'Estat.')
-courseAliases.set('55030300', 'Lic. em Mat.')
-courseAliases.set('55030100', 'Mat. - Núcleo Geral')
-courseAliases.set('550601', 'Mat. Apl.')
-courseAliases.set('550900', 'BCD')
-courseAliases.set('55030200', 'Mat. Pura')
 
 const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	const options = useContext(SearchDataContext)
@@ -39,7 +30,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 		options={options}
 		openOnFocus={false}
 		onChange={onChange}
-		getOptionLabel={(opt: any) => opt.code + ' - ' + opt.name + ` (${courseAliases.get((opt.course as string) + (opt.specialization as string))})`}
+		getOptionLabel={(opt: any) => opt.code + ' - ' + opt.name + ` (${getCourseAlias(opt.course, opt.specialization)})`}
 		filterOptions={autocompleteFilterOptions}
 		renderInput={(params) => <TextField
 			{...params}

@@ -17,6 +17,7 @@ import CollapsibleText from 'components/CollapsibleText'
 import CreditsIndicator from './CreditsIndicator'
 import GradeDistributionChart from './GradeDistributionChart'
 import MessagePanel from 'components/MessagePanel'
+import { copyObj, getCourseAlias } from 'utils'
 
 interface URLParameter {
 	course: string
@@ -114,7 +115,6 @@ const SubjectPage = () => {
 				setEvaluateSubject(true)
 			} else { // either user is not logged in or user was not enrolled in subject
 				setEvaluateSubject(false)
-				setCanSeeChart(false)
 			}
 		})
 
@@ -182,7 +182,7 @@ const SubjectPage = () => {
 							</div>
 							<CardContent>
 								Tipo: {subject.optional ? 'Optativa' : 'Obrigatória'}<br/>
-								Curso: {course}<br/>
+								Curso: {getCourseAlias(course, specialization)}<br/>
 								Requisitos: {subject.requirements.length ? getSubjectRequirementsList(subject) : 'Nenhum'}<br/>
 								Carga horária: {subject.hours}<br/>
 							</CardContent>
@@ -212,7 +212,7 @@ const SubjectPage = () => {
 						<Card elevation={3}>
 							<CardContent>
 								<Typography variant="h6"> Distribuição de Notas </Typography>
-								{canSeeChart && gradeStats ? <GradeDistributionChart grades={gradeStats.grades} averageGrade={gradeStats.average} yourGrade={yourGrade}/> : <MessagePanel height={200} message="Você precisa estar logado para ter acesso a este recurso"/>}
+								{canSeeChart && gradeStats ? <GradeDistributionChart grades={copyObj(gradeStats.grades)} averageGrade={gradeStats.average} yourGrade={yourGrade}/> : <MessagePanel height={200} message="Você precisa estar logado para ter acesso a este recurso"/>}
 
 								{canSeeChart && gradeStats ? <Typography variant='body1'> Taxa de Aprovação: {gradeStats.approval * 100}% </Typography> : null}
 							</CardContent>
