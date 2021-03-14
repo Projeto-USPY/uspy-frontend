@@ -1,12 +1,15 @@
 import React from 'react'
-import Navbar from 'components/Navbar'
-import Container from '@material-ui/core/Container'
-import Footer from 'components/Footer'
-import './style.css'
-import Typography from '@material-ui/core/Typography'
 import { Link, useHistory } from 'react-router-dom'
+
+import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
+
+import Footer from 'components/Footer'
 import GeneralSearch from 'components/GeneralSearch'
+import Navbar from 'components/Navbar'
 import withSearchData from 'HOCs/withSearchData'
+
+import './style.css'
 
 const HomePage = () => {
 	const history = useHistory()

@@ -17,7 +17,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+		"@typescript-eslint",
+		"import-helpers"
 	],
 	"overrides": [{
 		"files": "*.ts"
@@ -26,6 +27,20 @@
 		"indent": ["error", "tab"],
 		"no-tabs": 0,
 		"react/prop-types": 0,
-		"camelcase": "warn"
+		"camelcase": "warn",
+		"import-helpers/order-imports": [
+            "warn",
+            { // example configuration
+                "newlinesBetween": "always",
+                "groups": [
+					"/^react/",
+					"/^redux/",
+					"/^@material-ui/",
+					"/^types/",
+					"module"
+                ],
+                "alphabetize": { "order": "asc", "ignoreCase": true }
+            }
+        ]
 	}
 }

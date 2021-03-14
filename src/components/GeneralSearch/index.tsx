@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete'
+
 import TextField from '@material-ui/core/TextField'
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete'
+
 import { SearchDataContext } from 'HOCs/withSearchData'
 import { getCourseAlias } from 'utils'
 

@@ -1,4 +1,5 @@
 import { Action } from 'redux'
+
 import { User } from 'types/User'
 
 export interface AppState {

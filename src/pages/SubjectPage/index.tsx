@@ -1,23 +1,27 @@
 import React, { useState, useEffect, ReactElement } from 'react'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Grid from '@material-ui/core/Grid'
-import Container from '@material-ui/core/Container'
-import RequirementsGraph from 'components/RequirementsGraph'
+import { useParams } from 'react-router-dom'
+
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Container from '@material-ui/core/Container'
+import Grid from '@material-ui/core/Grid'
 import Radio from '@material-ui/core/Radio'
 import Typography from '@material-ui/core/Typography'
-import { useParams } from 'react-router-dom'
-import Navbar from 'components/Navbar'
-import Footer from 'components/Footer'
+
 import { Subject, SubjectGradeStats, SubjectReview } from 'types/Subject'
+
 import { getSubjectWithCourseAndCode, getSubjectReview, makeSubjectReview, getSubjectGrades, getGrade } from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
+import Footer from 'components/Footer'
+import MessagePanel from 'components/MessagePanel'
+import Navbar from 'components/Navbar'
+import RequirementsGraph from 'components/RequirementsGraph'
+import { copyObj, getCourseAlias } from 'utils'
+
 import CreditsIndicator from './CreditsIndicator'
 import GradeDistributionChart from './GradeDistributionChart'
-import MessagePanel from 'components/MessagePanel'
-import { copyObj, getCourseAlias } from 'utils'
 
 interface URLParameter {
 	course: string

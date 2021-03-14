@@ -1,7 +1,9 @@
 import React, { createContext, ReactElement, useEffect, useState } from 'react'
-import { API } from 'API'
+
 import { CourseInfo } from 'types/Course'
 import { SubjectInfo } from 'types/Subject'
+
+import { API } from 'API'
 export const SubjectsDataContext: React.Context<any> = createContext([])
 
 function transformSubjects (subjects: any): SubjectInfo[] {

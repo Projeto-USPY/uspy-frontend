@@ -1,25 +1,27 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router'
-import Grid from '@material-ui/core/Grid'
+
+import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
+
+import Button from '@material-ui/core/Button'
+import red from '@material-ui/core/colors/red'
 import Container from '@material-ui/core/Container'
 import Divider from '@material-ui/core/Divider'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Navbar from 'components/Navbar'
-import BreadCrumb from 'components/Breadcrumb'
-import InputPassword from 'components/PasswordInput'
-import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
-import red from '@material-ui/core/colors/red'
+import Grid from '@material-ui/core/Grid'
 import { createMuiTheme } from '@material-ui/core/styles'
-import { changePassword as changePasswordRequest, removeAccount as removeAccountRequest } from 'API'
-import { useTheme, ThemeProvider } from '@material-ui/styles'
+import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { useTheme, ThemeProvider } from '@material-ui/styles'
 
 import { ReduxAction } from 'types/redux'
-import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
-import { connect } from 'react-redux'
 
 import { setUserNone } from 'actions'
+import { changePassword as changePasswordRequest, removeAccount as removeAccountRequest } from 'API'
+import BreadCrumb from 'components/Breadcrumb'
+import Navbar from 'components/Navbar'
+import InputPassword from 'components/PasswordInput'
+import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
 
 const textFieldCommonProps = {
 	variant: 'outlined',

@@ -1,6 +1,7 @@
 import React from 'react'
-import { RouteProps, Route, Redirect } from 'react-router'
 import { connect } from 'react-redux'
+import { RouteProps, Route, Redirect } from 'react-router'
+
 import { AppState } from 'types/redux'
 import { User, unknownUser, guestUser } from 'types/User'
 /*

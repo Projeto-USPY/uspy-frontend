@@ -1,17 +1,17 @@
 import React, { useState, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import { ButtonGroup } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
+import Collapse from '@material-ui/core/Collapse'
+import IconButton from '@material-ui/core/IconButton'
 import Paper from '@material-ui/core/Paper'
+import { useTheme } from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import Collapse from '@material-ui/core/Collapse'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
-import IconButton from '@material-ui/core/IconButton'
 import './style.css'
-import { ButtonGroup } from '@material-ui/core'
 
 const buttonsGuest = [{ title: 'Login', route: '/Login' }, { title: 'Cadastrar', route: '/Cadastro' }]
 

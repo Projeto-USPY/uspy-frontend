@@ -1,48 +1,45 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from 'components/Navbar'
-import Container from '@material-ui/core/Container'
-import Footer from 'components/Footer'
-import './style.css'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Grid from '@material-ui/core/Grid'
-import InputBase from '@material-ui/core/InputBase'
-import Box from '@material-ui/core/Box'
-import InputPassword from 'components/PasswordInput'
-import Divider from '@material-ui/core/Divider'
-import BreadCrumb from 'components/Breadcrumb'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/InfoOutlined'
-import TextField from '@material-ui/core/TextField'
-import Link from '@material-ui/core/Link'
-import { makeStyles, useTheme } from '@material-ui/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { register, getRegistrationCaptcha } from 'API'
-import ImageBlock from 'components/ImageBlock'
-import CloseIcon from '@material-ui/icons/CloseOutlined'
-import CircularProgress from '@material-ui/core/CircularProgress'
-
-// Redux
 import { connect } from 'react-redux'
-import { ActionCreator, Dispatch, bindActionCreators } from 'redux'
-import { setUser } from 'actions'
-
-/* Types */
-import { User } from 'types/User'
-import { ReduxAction } from 'types/redux'
-
-/* Modal Stuff */
-import Modal from '@material-ui/core/Modal'
-import Backdrop from '@material-ui/core/Backdrop'
-import Fade from '@material-ui/core/Fade'
-
-// Images
-import CheckboxesImage from 'checkboxes.png'
-import AuthenticityCodeImage from 'authenticityCode.png'
 import { useHistory } from 'react-router'
+
+import { ActionCreator, Dispatch, bindActionCreators } from 'redux'
+
+import Backdrop from '@material-ui/core/Backdrop'
+import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+import Checkbox from '@material-ui/core/Checkbox'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Container from '@material-ui/core/Container'
+import Divider from '@material-ui/core/Divider'
+import Fade from '@material-ui/core/Fade'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormGroup from '@material-ui/core/FormGroup'
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import InputBase from '@material-ui/core/InputBase'
+import Link from '@material-ui/core/Link'
+import Modal from '@material-ui/core/Modal'
+import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import CloseIcon from '@material-ui/icons/CloseOutlined'
+import InfoIcon from '@material-ui/icons/InfoOutlined'
+import { makeStyles, useTheme } from '@material-ui/styles'
+
+import { ReduxAction } from 'types/redux'
+import { User } from 'types/User'
+
+import { setUser } from 'actions'
+import { register, getRegistrationCaptcha } from 'API'
+import AuthenticityCodeImage from 'authenticityCode.png'
+import CheckboxesImage from 'checkboxes.png'
+import BreadCrumb from 'components/Breadcrumb'
+import Footer from 'components/Footer'
+import ImageBlock from 'components/ImageBlock'
+import Navbar from 'components/Navbar'
+import InputPassword from 'components/PasswordInput'
+
+import './style.css'
 
 const useStyles = makeStyles((theme) => ({
 	input: {

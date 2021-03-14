@@ -2,14 +2,14 @@ import React, { memo } from 'react'
 import { connect } from 'react-redux'
 
 import AppBar from '@material-ui/core/AppBar'
-import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import Slide from '@material-ui/core/Slide'
-
-import NavbarGuest from 'components/Navbar/NavbarGuest'
-import NavbarUser from 'components/Navbar/NavbarUser'
+import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 
 import { AppState } from 'types/redux'
 import { User, unknownUser, guestUser } from 'types/User'
+
+import NavbarGuest from 'components/Navbar/NavbarGuest'
+import NavbarUser from 'components/Navbar/NavbarUser'
 
 const HideOnScroll: React.FC<any> = ({
 	children

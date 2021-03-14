@@ -1,20 +1,21 @@
 import React, { useState, memo, useRef } from 'react'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import IconButton from '@material-ui/core/IconButton'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
-
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
-import { connect } from 'react-redux'
-import { setUserNone } from 'actions'
+
+import IconButton from '@material-ui/core/IconButton'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+
 import { ReduxAction } from 'types/redux'
 
+import { setUserNone } from 'actions'
 import { logout } from 'API'
+import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
 
 interface UserMenuProps {
 	open: boolean

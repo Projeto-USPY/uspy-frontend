@@ -1,17 +1,19 @@
 import React, { memo, useEffect, useState } from 'react'
-import { SubjectRequirement } from 'types/Subject'
+import { ArcherContainer, ArcherElement } from 'react-archer'
+import { useHistory } from 'react-router'
+
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Popover from '@material-ui/core/Popover'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
+import Popover from '@material-ui/core/Popover'
 import Typography from '@material-ui/core/Typography'
-import { ArcherContainer, ArcherElement } from 'react-archer'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { useTheme } from '@material-ui/styles'
+
+import { SubjectRequirement } from 'types/Subject'
+
 import { getSubjectRelations } from 'API'
 import MessagePanel from 'components/MessagePanel'
-
-import { useTheme } from '@material-ui/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useHistory } from 'react-router'
 
 interface BoxProps {
 	code: string

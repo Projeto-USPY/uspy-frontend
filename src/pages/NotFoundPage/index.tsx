@@ -1,9 +1,12 @@
 import React from 'react'
-import Navbar from 'components/Navbar'
+
 import Container from '@material-ui/core/Container'
-import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+
 import Footer from 'components/Footer'
+import Navbar from 'components/Navbar'
+
 import DetectiveImage from './detective.svg'
 
 const NotFoundPage = () => {

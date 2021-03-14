@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from 'components/Navbar'
-import Footer from 'components/Footer'
+
+import MuiAccordion from '@material-ui/core/Accordion'
+import MuiAccordionDetails from '@material-ui/core/AccordionDetails'
+import MuiAccordionSummary from '@material-ui/core/AccordionSummary'
 import Container from '@material-ui/core/Container'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Paper from '@material-ui/core/Paper'
-import MuiAccordion from '@material-ui/core/Accordion'
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails'
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+
 import TeachersData from '__mocks__/AllProfessors'
+import Footer from 'components/Footer'
+import Navbar from 'components/Navbar'
 
 interface TeacherInfo {
 	Name: string
