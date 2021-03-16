@@ -11,7 +11,3 @@ handlers:
   upload: build/index.html
   redirect_http_response_code: 301
   secure: always
-
-- url: /favicon\.gif
-  static_files: build/favicon.gif
-  upload: build/favicon.gif
