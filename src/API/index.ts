@@ -1,6 +1,8 @@
-import axios from 'axios'
+
 import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { User } from 'types/User'
+
+import axios from 'axios'
 
 export const API = axios.create({
 	baseURL: process.env.API_URL,

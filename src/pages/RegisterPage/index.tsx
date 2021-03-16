@@ -31,13 +31,13 @@ import { User } from 'types/User'
 
 import { setUser } from 'actions'
 import { register, getRegistrationCaptcha } from 'API'
-import AuthenticityCodeImage from 'authenticityCode.png'
-import CheckboxesImage from 'checkboxes.png'
 import BreadCrumb from 'components/Breadcrumb'
 import Footer from 'components/Footer'
 import ImageBlock from 'components/ImageBlock'
 import Navbar from 'components/Navbar'
 import InputPassword from 'components/PasswordInput'
+import AuthenticityCodeImage from 'images/authenticityCode.png'
+import CheckboxesImage from 'images/checkboxes.png'
 
 import './style.css'
 

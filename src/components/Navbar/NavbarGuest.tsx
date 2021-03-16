@@ -8,9 +8,11 @@ import IconButton from '@material-ui/core/IconButton'
 import Paper from '@material-ui/core/Paper'
 import { useTheme } from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import MenuIcon from '@material-ui/icons/Menu'
+
+import Logo from 'images/navbar_logo.svg'
+
 import './style.css'
 
 const buttonsGuest = [{ title: 'Login', route: '/Login' }, { title: 'Cadastrar', route: '/Cadastro' }]
@@ -22,6 +24,11 @@ const Navbar: React.FC = () => {
 	const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false)
 
 	if (isLarge && isMobileMenuVisible) setIsMobileMenuVisible(false)
+
+	const goHome = () => {
+		if (history.location.pathname !== '/') history.push('/')
+	}
+
 	const buttonsDiv = <>
 		<div>
 			{buttonsGuest.map((props, idx) => <Button className="h100" color="inherit" key={idx} onClick={() => history.push(props.route)}>{props.title}</Button>)}
@@ -44,7 +51,7 @@ const Navbar: React.FC = () => {
 	</>
 	return <>
 		<Toolbar className="toolbar">
-			<Typography variant="h6">Jupiter++</Typography>
+			<img src={Logo} style={{ marginTop: '-.5rem', cursor: 'pointer' } } height={30} onClick={goHome} />
 			{isLarge ? buttonsDiv : menuIcon}
 		</Toolbar>
 		{ mobileMenu }

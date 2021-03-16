@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 
 import { ReduxAction } from 'types/redux'
@@ -16,6 +15,7 @@ import { ReduxAction } from 'types/redux'
 import { setUserNone } from 'actions'
 import { logout } from 'API'
 import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
+import Logo from 'images/navbar_logo.svg'
 
 interface UserMenuProps {
 	open: boolean
@@ -64,6 +64,12 @@ const Navbar: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false)
 	const anchorRef = useRef<HTMLButtonElement>(null)
 
+	const history = useHistory()
+
+	const goHome = () => {
+		if (history.location.pathname !== '/') history.push('/')
+	}
+
 	const menuIcon = <>
 		<IconButton size='medium' ref={anchorRef} style={{ color: 'white' }} aria-label="Menu" onClick={() => setMenuOpen(true)}>
 			<AccountCircleIcon />
@@ -71,7 +77,7 @@ const Navbar: React.FC = () => {
 	</>
 
 	return <Toolbar className="toolbar">
-		<Typography variant="h6">Jupiter++</Typography>
+		<img src={Logo} style={{ marginTop: '-.5rem', cursor: 'pointer' } } height={30} onClick={goHome} />
 		{menuIcon}
 		<UserMenu anchor={anchorRef.current} open={menuOpen} setOpen={setMenuOpen}/>
 	</Toolbar>

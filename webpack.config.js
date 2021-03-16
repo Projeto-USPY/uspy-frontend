@@ -1,6 +1,8 @@
-const path = require('path')
 const dotenv = require('dotenv')
+const path = require('path')
 const webpack = require('webpack')
+
+const HtmlWebpackPlugin = require('./html-webpack-plugin.js')
 
 // Options for development mode
 const devOptions = {
@@ -56,7 +58,10 @@ function buildConfig (env) {
 			modules: [path.join(__dirname, 'node_modules'), path.join(__dirname, 'src')]
 		},
 		plugins: [
-			new webpack.DefinePlugin(envKeys)
+			new webpack.DefinePlugin(envKeys),
+			new HtmlWebpackPlugin({
+				favicon: './favicon.ico'
+			})
 		]
 	},
 	(env.local ? devOptions : {})

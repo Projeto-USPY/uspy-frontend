@@ -1,34 +1,26 @@
-// React
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
-
-// Routes
+import { Provider as StoreProvider } from 'react-redux'
 import { Switch, Route, useLocation } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
-import LoggedInRoute from 'routes/LoggedInRoute'
 
-// Redux
 import { createStore } from 'redux'
-import { Provider as StoreProvider } from 'react-redux'
-import reducer from 'reducer'
-import { setUser, setUserNone } from 'actions'
 
-// API
-import { isAuthenticated } from 'API'
-
-// Theme
 import { ThemeProvider } from '@material-ui/core'
-import theme from 'theme'
 
-// Pages
-import LoginPage from 'pages/LoginPage'
-import RegisterPage from 'pages/RegisterPage'
+import { setUser, setUserNone } from 'actions'
+import { isAuthenticated } from 'API'
 import HomePage from 'pages/HomePage'
-import TeachersPage from 'pages/TeachersPage'
-import SubjectsPage from 'pages/SubjectsPage'
-import SubjectPage from 'pages/SubjectPage'
-import SettingsPage from 'pages/SettingsPage'
+import LoginPage from 'pages/LoginPage'
 import NotFoundPage from 'pages/NotFoundPage'
+import RegisterPage from 'pages/RegisterPage'
+import SettingsPage from 'pages/SettingsPage'
+import SubjectPage from 'pages/SubjectPage'
+import SubjectsPage from 'pages/SubjectsPage'
+import TeachersPage from 'pages/TeachersPage'
+import reducer from 'reducer'
+import LoggedInRoute from 'routes/LoggedInRoute'
+import theme from 'theme'
 
 // CSS
 import 'global.css'
