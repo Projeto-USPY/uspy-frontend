@@ -6,6 +6,9 @@ handlers:
 - url: /static
   static_dir: build/static
 
+- url: /favicon
+  static_dir: build/favicon
+
 - url: /.*
   static_files: build/index.html
   upload: build/index.html
