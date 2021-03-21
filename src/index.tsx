@@ -13,6 +13,7 @@ import { isAuthenticated } from 'API'
 import HomePage from 'pages/HomePage'
 import LoginPage from 'pages/LoginPage'
 import NotFoundPage from 'pages/NotFoundPage'
+import PasswordResetPage from 'pages/PasswordResetPage'
 import RegisterPage from 'pages/RegisterPage'
 import SettingsPage from 'pages/SettingsPage'
 import SubjectPage from 'pages/SubjectPage'
@@ -66,6 +67,7 @@ const App = () => {
 						<Route exact path='/Cadastro' component={RegisterPage}/>
 						<Route exact path='/Professores' component={TeachersPage}/>
 						<Route exact path='/Disciplinas' component={SubjectsPage}/>
+						<Route exact path='/RedefinicaoSenha' component={PasswordResetPage}/>
 						<LoggedInRoute exact path='/Perfil' component={SettingsPage}/>
 						<Route exact path='/Disciplinas/:course/:specialization/:code' component={SubjectPage}/>
 						<Route exact path='/' component={HomePage}/>

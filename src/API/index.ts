@@ -175,3 +175,15 @@ export async function getGrade (course: string, specialization: string, code: st
 		throw err.request.status
 	}
 }
+
+export async function resetPassword (authCode: string, password: string, captcha: string) {
+	try {
+		await API.put('/account/password_reset', {
+			access_key: authCode,
+			captcha,
+			password
+		})
+	} catch (err) {
+		throw err.request.status
+	}
+}
