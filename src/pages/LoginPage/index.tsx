@@ -9,11 +9,6 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import Container from '@material-ui/core/Container'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
@@ -29,38 +24,12 @@ import Footer from 'components/Footer'
 import Navbar from 'components/Navbar'
 import './style.css'
 
-interface ForgotPasswordDialogProps {
-	open: boolean
-	setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
-const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({ open, setOpen }) => {
-	return <Dialog
-		open={open}
-		onClose={() => setOpen(false)}
-		aria-labelledby="alert-dialog-title"
-		aria-describedby="alert-dialog-description"
-	>
-		<DialogTitle id="alert-dialog-title">{'Esqueceu a senha?'}</DialogTitle>
-		<DialogContent>
-			<DialogContentText id="alert-dialog-description">
-            Caso tenha esquecido a senha, é preciso fornecer novamente o código de autenticação do seu resumo escolar, seguindo os mesmos passos do <Link color='secondary' href='/Cadastro'>cadastro</Link>. Ao fazer isso, a sua conta será reconhecida e você poderá escolher uma nova senha.
-			</DialogContentText>
-		</DialogContent>
-		<DialogActions>
-			<Button onClick={() => setOpen(false)} color="secondary" autoFocus>
-            Ok
-			</Button>
-		</DialogActions>
-	</Dialog>
-}
-
 interface LoginPageProps {
 	setUser: ActionCreator<ReduxAction>
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 	const [nusp, setNusp] = useState('')
-	const [isDialogOpen, setDialogOpen] = useState(false)
 	const history = useHistory()
 	const location = useLocation()
 
@@ -151,7 +120,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 								<Grid container justify='center'>
 									<Grid item>
 										<Breadcrumbs separator=' '>
-											<Link variant='caption' color='secondary' onClick={() => setDialogOpen(true)} style={{ cursor: 'pointer' }}>
+											<Link variant='caption' color='secondary' href='/RedefinicaoSenha'>
 											Esqueci a senha
 											</Link>
 											<Link variant='caption' color='secondary' href='/Cadastro'>
@@ -169,7 +138,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 			<Footer text='Made with love by Preischadt and Turci'/>
 		</div>
 
-		<ForgotPasswordDialog open={isDialogOpen} setOpen={setDialogOpen}/>
 	</>
 }
 
