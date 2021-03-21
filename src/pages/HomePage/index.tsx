@@ -27,7 +27,7 @@ const HomePage = () => {
 				<Navbar/>
 				<Container style={{ backgroundColor: 'secondary' }}>
 					<div style={{ height: '150px' }}></div>
-					<center><img style={{ padding: '0 auto' }} width={isLarge ? 350 : '75%'} src={logo}/></center>
+					<center><img width={isLarge ? 350 : '75%'} src={logo}/></center>
 					{/* <Typography align='justify' variant='body1'>O {'<placeholder nome>'} é um sistema colaborativo em que você pode consultar estatísticas e reviews sobre disciplinas e professores do ICMC. Para colaborar, você deve submeter um PDF do seu resumo escolar, mas fique tranquilo, todos os dados são anônimos, criptografados e armazenados sigilosamente. Para começar, inscreva-se com seu email USP, ou faça login.</Typography> */}
 					{withSearchData(<GeneralSearch handleChange={clickItem} />)}
 
