@@ -21,6 +21,7 @@ import SubjectsPage from 'pages/SubjectsPage'
 import TeachersPage from 'pages/TeachersPage'
 import reducer from 'reducer'
 import LoggedInRoute from 'routes/LoggedInRoute'
+import LoggedOutRoute from 'routes/LoggedOutRoute'
 import theme from 'theme'
 
 // CSS
@@ -63,11 +64,11 @@ const App = () => {
 				<BrowserRouter>
 					<ScrollToTop/>
 					<Switch>
-						<Route exact path='/Login' component={LoginPage}/>
-						<Route exact path='/Cadastro' component={RegisterPage}/>
+						<LoggedOutRoute exact path='/Login' component={LoginPage}/>
+						<LoggedOutRoute exact path='/Cadastro' component={RegisterPage}/>
 						<Route exact path='/Professores' component={TeachersPage}/>
 						<Route exact path='/Disciplinas' component={SubjectsPage}/>
-						<Route exact path='/RedefinicaoSenha' component={PasswordResetPage}/>
+						<LoggedOutRoute exact path='/RedefinicaoSenha' component={PasswordResetPage}/>
 						<LoggedInRoute exact path='/Perfil' component={SettingsPage}/>
 						<Route exact path='/Disciplinas/:course/:specialization/:code' component={SubjectPage}/>
 						<Route exact path='/' component={HomePage}/>
