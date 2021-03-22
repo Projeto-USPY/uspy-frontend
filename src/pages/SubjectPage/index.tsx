@@ -156,6 +156,18 @@ const SubjectPage = () => {
 		makeSubjectReview(course, specialization, code, review)
 	}
 
+	// Chart Content
+	let chartContent = <></>
+	if (canSeeChart && gradeStats) {
+		if (gradeStats.grades && Object.keys(gradeStats.grades).length > 0) {
+			chartContent = <GradeDistributionChart grades={copyObj(gradeStats.grades)} averageGrade={gradeStats.average} yourGrade={yourGrade}/>
+		} else {
+			chartContent = <MessagePanel height={200} message="Não há dados suficientes para mostrar esse recurso"/>
+		}
+	} else {
+		chartContent = <MessagePanel height={200} message="Você precisa estar logado para ter acesso a esse recurso"/>
+	}
+
 	const content = subject ? <>
 		<Typography variant='h4'>{`${subject.code} - ${subject.name}`}</Typography>
 
@@ -216,9 +228,9 @@ const SubjectPage = () => {
 						<Card elevation={3}>
 							<CardContent>
 								<Typography variant="h6"> Distribuição de Notas </Typography>
-								{canSeeChart && gradeStats ? <GradeDistributionChart grades={copyObj(gradeStats.grades)} averageGrade={gradeStats.average} yourGrade={yourGrade}/> : <MessagePanel height={200} message="Você precisa estar logado para ter acesso a este recurso"/>}
+								{chartContent}
 
-								{canSeeChart && gradeStats ? <Typography variant='body1'> Taxa de Aprovação: {gradeStats.approval * 100}% </Typography> : null}
+								{canSeeChart && gradeStats && gradeStats.grades && Object.keys(gradeStats.grades).length > 0 ? <Typography variant='body1'> Taxa de Aprovação: {gradeStats.approval * 100}% </Typography> : null}
 							</CardContent>
 						</Card>
 					</Grid>
