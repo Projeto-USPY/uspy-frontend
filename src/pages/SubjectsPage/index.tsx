@@ -20,7 +20,6 @@ import { useTheme } from '@material-ui/styles'
 import { CourseInfo } from 'types/Course'
 import { SubjectInfo } from 'types/Subject'
 
-import Footer from 'components/Footer'
 import Navbar from 'components/Navbar'
 import withSubjectsData, { SubjectsDataContext } from 'HOCs/withSubjectsData'
 
@@ -157,7 +156,6 @@ const SubjectsPage = () => {
 				</Box>
 			</Container>
 		</main>
-		<Footer text='Made with love by Preischadt and Turci'/>
 	</div>
 }
 

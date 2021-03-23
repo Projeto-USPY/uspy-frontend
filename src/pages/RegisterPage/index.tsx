@@ -26,7 +26,6 @@ import { User } from 'types/User'
 import { setUser } from 'actions'
 import { register, getRegistrationCaptcha } from 'API'
 import BreadCrumb from 'components/Breadcrumb'
-import Footer from 'components/Footer'
 import InfoModal from 'components/InfoModal'
 import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
@@ -263,7 +262,6 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				</Container>
 				<InfoModal open={isModalOpen} handleClose={() => setIsModalOpen(false)}/>
 			</main>
-			<Footer text='Made with love by Preischadt and Turci'/>
 		</div>
 	</>
 }

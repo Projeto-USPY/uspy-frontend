@@ -14,7 +14,6 @@ import { Subject, SubjectGradeStats, SubjectReview } from 'types/Subject'
 import { getSubjectWithCourseAndCode, getSubjectReview, makeSubjectReview, getSubjectGrades, getGrade } from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
-import Footer from 'components/Footer'
 import MessagePanel from 'components/MessagePanel'
 import Navbar from 'components/Navbar'
 import RequirementsGraph from 'components/RequirementsGraph'
@@ -266,7 +265,6 @@ const SubjectPage = () => {
 				{object}
 			</Container>
 		</main>
-		<Footer text='Made with love by Preischadt and Turci'/>
 	</div>
 }
 

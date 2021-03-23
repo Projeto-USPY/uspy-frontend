@@ -40,6 +40,10 @@
 	cursor: pointer;
 }
 
+main {
+	margin-bottom: 50px;
+}
+
 body {
 	font-family: 'Roboto', sans-serif;
 }

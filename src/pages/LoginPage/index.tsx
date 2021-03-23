@@ -20,7 +20,6 @@ import { ReduxAction } from 'types/redux'
 
 import { setUser } from 'actions'
 import { login } from 'API'
-import Footer from 'components/Footer'
 import Navbar from 'components/Navbar'
 import './style.css'
 
@@ -135,7 +134,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 					</Grid>
 				</Container>
 			</main>
-			<Footer text='Made with love by Preischadt and Turci'/>
 		</div>
 
 	</>

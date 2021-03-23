@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import TeachersData from '__mocks__/AllProfessors'
-import Footer from 'components/Footer'
 import Navbar from 'components/Navbar'
 
 interface TeacherInfo {
@@ -123,7 +122,6 @@ const TeachersPage = () => {
 				</Paper>
 			</Container>
 		</main>
-		<Footer text='Made with love by Preischadt and Turci'/>
 	</div>
 }
 

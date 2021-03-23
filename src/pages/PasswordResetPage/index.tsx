@@ -14,7 +14,6 @@ import InfoIcon from '@material-ui/icons/InfoOutlined'
 import { useTheme } from '@material-ui/styles'
 
 import { getRegistrationCaptcha, resetPassword } from 'API'
-import Footer from 'components/Footer'
 import InfoModal from 'components/InfoModal'
 import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
@@ -205,7 +204,6 @@ const PasswordResetPage: React.FC = () => {
 				</Container>
 				<InfoModal open={isModalOpen} handleClose={() => setIsModalOpen(false)}/>
 			</main>
-			<Footer text='Made with love by Preischadt and Turci'/>
 		</div>
 	</>
 }
