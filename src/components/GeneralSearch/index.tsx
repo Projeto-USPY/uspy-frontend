@@ -37,7 +37,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 		renderInput={(params) => <TextField
 			{...params}
 			color='secondary'
-			label="Procure por uma disciplina ou professor"
+			label="Procure por uma disciplina"
 			variant="outlined"
 			margin="normal"
 		/>}/>

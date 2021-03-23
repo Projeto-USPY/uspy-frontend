@@ -1,21 +1,48 @@
 import React from 'react'
 
-import { useTheme } from '@material-ui/core/styles'
+import { useMediaQuery } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
+import Link from '@material-ui/core/Link'
+import { makeStyles, createStyles, useTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+
+import GithubLogo from 'images/GithubLogo.svg'
+
 import './style.css'
+
+const useStyles = makeStyles(theme => createStyles({
+	footer: {
+		backgroundColor: theme.palette.primary.main,
+		color: 'white',
+		height: '100px'
+	}
+}))
 interface FooterProps {
 	text: string
 }
 
-const Navbar: React.FC<FooterProps> = ({
+const githubLink = 'https://github.com/projeto-uspy'
+
+const Footer: React.FC<FooterProps> = ({
 	text
 }) => {
 	const theme = useTheme()
-	return <div className='footer' style={{
-		backgroundColor: theme.palette.primary.main
-	}}>
-		<Typography variant='body2'> {text} </Typography>
-	</div>
+	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
+	const classes = useStyles()
+	return <Grid container justify='space-evenly' alignItems='center' className={classes.footer}>
+		<Grid item container alignItems='center' direction='column' xs={4}>
+			<Grid item><Link href='/TermosDeUso' style={{ color: 'white' }}>Termos de Uso</Link></Grid>
+			<Grid item><Link href='/Sobre' style={{ color: 'white' }}>Sobre</Link></Grid>
+		</Grid>
+		<Grid item container xs={4} justify='center' alignItems='center'>
+			<img src={GithubLogo} width={36} height={36} className='cursor-pointer' onClick={() => window.open(githubLink, '_blank')}/>
+		</Grid>
+		{ isDesktop
+			? <Grid item container xs={4} justify='center' alignItems='center'>
+				<Typography variant='body2'> {text} </Typography>
+			</Grid>
+			: null}
+	</Grid>
 }
 
-export default Navbar
+export default Footer
