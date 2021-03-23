@@ -17,7 +17,7 @@ interface ReferenceLineLabelProps {
 }
 
 const ReferenceLineLabel: React.FC<ReferenceLineLabelProps> = ({ message, margin = 0 }) => {
-	return <div style={{ height: '20px', backgroundColor: 'orange', color: 'white', marginTop: `${margin}px` }}>
+	return <div style={{ height: '18px', backgroundColor: 'orange', color: 'white', marginTop: `${margin}px`, whiteSpace: 'nowrap', fontSize: '11pt' }}>
 		<p>{message}</p>
 	</div>
 }
@@ -44,7 +44,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades,
 
 	data.sort((x, y) => x.x - y.x)
 	const total = Object.keys(grades).reduce((cur, key) => (cur + grades[key]), 0)
-	return <div style={{ height: '320px', width: '100%', marginLeft: '-20px', paddingTop: '20px' }}>
+	return <div style={{ height: '320px', width: '100%', marginLeft: '-20px', paddingTop: '20px', overflow: 'visible' }}>
 		<ResponsiveContainer>
 			<AreaChart data={data}>
 				<Area type="monotone" dataKey="grade" fill="#68417F77" stroke="#00000000"activeDot={{ r: 2 }}/>

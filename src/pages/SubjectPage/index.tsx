@@ -225,7 +225,7 @@ const SubjectPage = () => {
 
 				<Grid container item spacing={4}>
 					<Grid item xs={12}>
-						<Card elevation={3}>
+						<Card elevation={3} className="overflow">
 							<CardContent>
 								<Typography variant="h6"> Distribuição de Notas </Typography>
 								{chartContent}

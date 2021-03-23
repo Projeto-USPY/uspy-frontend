@@ -22,7 +22,15 @@
 	-khtml-user-select: none;
 	-webkit-user-select: none;
 	-o-user-select: none;
-} 
+}
+
+.overflow {
+	overflow: visible !important;
+}
+
+.recharts-wrapper svg{
+	overflow: inherit !important;
+}
 
 .uspy {
 	font-family: 'Crimson Pro', serif;
