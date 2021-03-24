@@ -47,9 +47,18 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 	const handlePopoverOpen = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
 		setAnchorEl(event.currentTarget)
 	}
-	const handlePopoverClose = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+	const handlePopoverClose = () => {
 		setAnchorEl(null)
 	}
+
+	useEffect(() => {
+		const handleScroll = () => handlePopoverClose()
+		window.addEventListener('scroll', handleScroll)
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll)
+		}
+	})
 
 	const handleClick = () => {
 		const path = history.location.pathname
