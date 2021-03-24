@@ -38,7 +38,6 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginTop: '20px',
-		width: '60%',
 		cursor: 'pointer'
 	}
 
