@@ -16,7 +16,8 @@ const MessagePanel: React.FC<props> = ({ message, height }) => {
 		justifyContent: 'center',
 		alignItems: 'center',
 		border: '1px solid #BBBBBB',
-		boxShadow: 'inset 0 0 3px 1px #BBBBBB'
+		boxShadow: 'inset 0 0 3px 1px #BBBBBB',
+		padding: '5px'
 	}
 	return <Grid container justify='center' alignItems='stretch'>
 		<div style={style}>
