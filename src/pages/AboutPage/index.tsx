@@ -1,0 +1,96 @@
+import React, { ReactElement } from 'react'
+
+import Container from '@material-ui/core/Container'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+
+import Navbar from 'components/Navbar'
+
+interface RowContent {
+	title: string
+	text: ReactElement
+	image: string
+}
+
+const content: RowContent[] = [
+	{
+		title: 'O que é?',
+		text: <>
+			<p>O <b>USPY</b> é uma plataforma colaborativa onde alunos de graduação podem se informar sobre disciplinas, professores, oferecimentos e seu progresso acadêmico como um todo. O seu propósito principal é fornecer ferramentas que tornem tudo isso mais fácil.</p>
+		</>,
+		image: ''
+	}, {
+		title: 'Por que?',
+		text: <>
+			<p>Identificamos que as informações acadêmicas são distribuídas de maneira pouco intuitiva e muito desorganizada. O USPY vem para mudar tudo isso!</p>
+
+			<p>Queremos simplificar a busca por esses dados e criar indicadores a partir das experiências dos nossos usuários  como estudantes. </p>
+		</>,
+		image: ''
+	}, {
+		title: 'Posso me tornar um usuário?',
+		text: <>
+			<p>No momento qualquer aluno de graduação da USP consegue se cadastrar, mas algumas funcionalidades da plataforma só serão úteis para alunos do ICMC, pois ainda não possuímos suporte para os dados de outros institutos.</p>
+
+			<p>Nosso objetivo primordial é construir um ambiente amigável e útil para todos, portanto muitas mudanças estão por vir e qualquer sugestão é muito bem vinda.</p>
+		</>,
+		image: ''
+	}, {
+		title: 'Quais dados são coletados?',
+		text: <>
+			<p>O USPY é uma ferramenta colaborativa e portanto muitas das suas funcionalidades só estão disponíveis para aqueles que se cadastrarem.</p>
+
+			<p>Quando é feito o cadastro, o sistema coleta o número USP e as notas do estudante através de seu resumo escolar. Isso é necessário para que possamos criar o perfil do estudante e calcular os indicadores de cada disciplina. Nenhum outro dado é coletado e tudo é armazenado de maneira segura e com muito carinho.</p>
+
+			<p>Além disso, buscaremos sempre o máximo de transparência: o projeto é totalmente open source e se encontra no GitHub. Qualquer dúvida ou colaboração será recebida com muito prazer.</p>
+		</>,
+		image: ''
+	}
+]
+
+interface RowProps extends RowContent {
+	imageLeft: boolean
+}
+
+const Row: React.FC<RowProps> = ({ title, text, image, imageLeft }) => {
+	const style = {
+		minHeight: '150px',
+		backgroundColor: 'rgba(65, 92, 119, .05)',
+		padding: '20px',
+		borderRadius: '10px'
+	}
+	return <Paper style={style} elevation={0}>
+		<Grid container direction={imageLeft ? 'row' : 'row-reverse'} alignItems='center'>
+			<Grid item>
+				<img src={image}/>
+			</Grid>
+			<Grid item xs>
+				<h3>{title}</h3>
+				{text}
+			</Grid>
+		</Grid>
+	</Paper>
+}
+
+const AboutPage = () => {
+	return <main>
+		<Navbar/>
+		<Container>
+			<h3> Sobre </h3>
+			<br/>
+
+			<Grid container direction='column' spacing={3}>
+
+				{content.map((item: RowContent, idx: number) =>
+					(
+						<Grid item key={idx}>
+							<Row title={item.title} text={item.text} image={item.image} imageLeft={idx % 2 === 1}/>
+						</Grid>
+					)
+				)}
+			</Grid>
+		</Container>
+	</main>
+}
+
+export default AboutPage

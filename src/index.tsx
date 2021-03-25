@@ -10,6 +10,7 @@ import { ThemeProvider } from '@material-ui/core'
 
 import { setUser, setUserNone } from 'actions'
 import { isAuthenticated } from 'API'
+import AboutPage from 'pages/AboutPage'
 import HomePage from 'pages/HomePage'
 import LoginPage from 'pages/LoginPage'
 import NotFoundPage from 'pages/NotFoundPage'
@@ -70,6 +71,7 @@ const App = () => {
 						<Route exact path='/Disciplinas' component={SubjectsPage}/>
 						<LoggedOutRoute exact path='/RedefinicaoSenha' component={PasswordResetPage}/>
 						<LoggedInRoute exact path='/Perfil' component={SettingsPage}/>
+						<Route exact path='/Sobre' component={AboutPage}/>
 						<Route exact path='/Disciplinas/:course/:specialization/:code' component={SubjectPage}/>
 						<Route exact path='/' component={HomePage}/>
 						<Route path='/' component={NotFoundPage}/>
