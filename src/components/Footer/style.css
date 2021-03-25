@@ -1,9 +1,9 @@
-.footer {
-	min-height: 100px;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	color: white;
-	margin-top: 5rem;
+.move-up-hover-child {
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+}
+
+.move-up-hover-parent:hover .move-up-hover-child {
+	-webkit-transform: translateY(-5%) scale(1.2, 1.2);
+	transform: translateY(-5%) scale(1.2, 1.2);
 }

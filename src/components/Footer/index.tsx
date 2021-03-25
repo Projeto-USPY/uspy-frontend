@@ -35,7 +35,9 @@ const Footer: React.FC<FooterProps> = ({
 			<Grid item><Link href='/Sobre' style={{ color: 'white' }}>Sobre</Link></Grid>
 		</Grid>
 		<Grid item container xs={4} justify='center' alignItems='center'>
-			<img src={GithubLogo} width={36} height={36} className='cursor-pointer' onClick={() => window.open(githubLink, '_blank')}/>
+			<div className='move-up-hover-parent'>
+				<img src={GithubLogo} width={36} height={36} className='cursor-pointer move-up-hover-child' onClick={() => window.open(githubLink, '_blank')}/>
+			</div>
 		</Grid>
 		{ isDesktop
 			? <Grid item container xs={4} justify='center' alignItems='center'>
