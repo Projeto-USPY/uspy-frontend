@@ -5,6 +5,10 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 
 import Navbar from 'components/Navbar'
+import Image1 from 'images/aboutpage1.svg'
+import Image2 from 'images/aboutpage2.svg'
+import Image3 from 'images/aboutpage3.svg'
+import Image4 from 'images/aboutpage4.svg'
 
 interface RowContent {
 	title: string
@@ -18,7 +22,7 @@ const content: RowContent[] = [
 		text: <>
 			<p>O <b>USPY</b> é uma plataforma colaborativa onde alunos de graduação podem se informar sobre disciplinas, professores, oferecimentos e seu progresso acadêmico como um todo. O seu propósito principal é fornecer ferramentas que tornem tudo isso mais fácil.</p>
 		</>,
-		image: ''
+		image: Image1
 	}, {
 		title: 'Por que?',
 		text: <>
@@ -26,7 +30,7 @@ const content: RowContent[] = [
 
 			<p>Queremos simplificar a busca por esses dados e criar indicadores a partir das experiências dos nossos usuários  como estudantes. </p>
 		</>,
-		image: ''
+		image: Image2
 	}, {
 		title: 'Posso me tornar um usuário?',
 		text: <>
@@ -34,7 +38,7 @@ const content: RowContent[] = [
 
 			<p>Nosso objetivo primordial é construir um ambiente amigável e útil para todos, portanto muitas mudanças estão por vir e qualquer sugestão é muito bem vinda.</p>
 		</>,
-		image: ''
+		image: Image3
 	}, {
 		title: 'Quais dados são coletados?',
 		text: <>
@@ -44,7 +48,7 @@ const content: RowContent[] = [
 
 			<p>Além disso, buscaremos sempre o máximo de transparência: o projeto é totalmente open source e se encontra no GitHub. Qualquer dúvida ou colaboração será recebida com muito prazer.</p>
 		</>,
-		image: ''
+		image: Image4
 	}
 ]
 
@@ -60,7 +64,7 @@ const Row: React.FC<RowProps> = ({ title, text, image, imageLeft }) => {
 		borderRadius: '10px'
 	}
 	return <Paper style={style} elevation={0}>
-		<Grid container direction={imageLeft ? 'row' : 'row-reverse'} alignItems='center'>
+		<Grid container direction={imageLeft ? 'row' : 'row-reverse'} alignItems='center' spacing={5}>
 			<Grid item>
 				<img src={image}/>
 			</Grid>
@@ -84,7 +88,7 @@ const AboutPage = () => {
 				{content.map((item: RowContent, idx: number) =>
 					(
 						<Grid item key={idx}>
-							<Row title={item.title} text={item.text} image={item.image} imageLeft={idx % 2 === 1}/>
+							<Row title={item.title} text={item.text} image={item.image} imageLeft={idx % 2 === 0}/>
 						</Grid>
 					)
 				)}
