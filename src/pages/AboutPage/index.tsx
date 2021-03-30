@@ -11,6 +11,8 @@ import Image2 from 'images/aboutpage2.svg'
 import Image3 from 'images/aboutpage3.svg'
 import Image4 from 'images/aboutpage4.svg'
 
+import './style.css'
+
 interface RowContent {
 	title: string
 	text: ReactElement
@@ -27,7 +29,7 @@ const content: RowContent[] = [
 	}, {
 		title: 'Por que?',
 		text: <>
-			<p>Identificamos que as informações acadêmicas são distribuídas de maneira pouco intuitiva e muito desorganizada. O USPY vem para mudar tudo isso!</p>
+			<p>Identificamos que as informações acadêmicas são distribuídas de maneira pouco intuitiva e muito desorganizada. O <b>USPY</b> vem para mudar tudo isso!</p>
 
 			<p>Queremos simplificar a busca por esses dados e criar indicadores a partir das experiências dos nossos usuários  como estudantes. </p>
 		</>,
@@ -43,7 +45,7 @@ const content: RowContent[] = [
 	}, {
 		title: 'Quais dados são coletados?',
 		text: <>
-			<p>O USPY é uma ferramenta colaborativa e portanto muitas das suas funcionalidades só estão disponíveis para aqueles que se cadastrarem.</p>
+			<p>O <b>USPY</b> é uma ferramenta colaborativa e portanto muitas das suas funcionalidades só estão disponíveis para aqueles que se cadastrarem.</p>
 
 			<p>Quando é feito o cadastro, o sistema coleta o número USP e as notas do estudante através de seu resumo escolar. Isso é necessário para que possamos criar o perfil do estudante e calcular os indicadores de cada disciplina. Nenhum outro dado é coletado e tudo é armazenado de maneira segura e com muito carinho.</p>
 
@@ -58,13 +60,7 @@ interface RowProps extends RowContent {
 }
 
 const Row: React.FC<RowProps> = ({ title, text, image, imageLeft }) => {
-	const style = {
-		minHeight: '150px',
-		backgroundColor: 'rgba(65, 92, 119, .05)',
-		padding: '20px',
-		borderRadius: '10px'
-	}
-	return <Paper style={style} elevation={0}>
+	return <Paper className="about-block" elevation={0}>
 		<Grid container direction={imageLeft ? 'row' : 'row-reverse'} alignItems='center' spacing={5}>
 			<Grid item>
 				<img src={image}/>

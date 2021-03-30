@@ -1,0 +1,11 @@
+.about-block {
+	min-height: 150px !important;
+	padding: 20px !important;
+	border-radius: 10px !important;
+	text-align: justify !important;
+	transition: background 2s ease-in-out 1s;
+}
+
+.about-block:hover {
+	background: rgb(216, 216, 216, 0.2);
+}
