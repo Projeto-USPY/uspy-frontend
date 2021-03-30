@@ -6,4 +6,5 @@
 .move-up-hover-parent:hover .move-up-hover-child {
 	-webkit-transform: translateY(-5%) scale(1.2, 1.2);
 	transform: translateY(-5%) scale(1.2, 1.2);
+	background: radial-gradient(circle, rgba(120,120,120,0.4) 0%, rgba(200,200,200,0.1) 5%, rgba(0,0,0,0) 100%);
 }
