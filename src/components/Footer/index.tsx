@@ -31,7 +31,7 @@ const Footer: React.FC<FooterProps> = ({
 	const classes = useStyles()
 	return <Grid container justify='space-evenly' alignItems='center' className={classes.footer}>
 		<Grid item container alignItems='center' direction='column' xs={4}>
-			<Grid item><Link href='/TermosDeUso' style={{ color: 'white' }}>Termos de Uso</Link></Grid>
+			<Grid item><Link href='/Termos' style={{ color: 'white' }}>Termos de Uso</Link></Grid>
 			<Grid item><Link href='/Sobre' style={{ color: 'white' }}>Sobre</Link></Grid>
 		</Grid>
 		<Grid item container xs={4} justify='center' alignItems='center'>

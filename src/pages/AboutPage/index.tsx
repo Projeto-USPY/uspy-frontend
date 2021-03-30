@@ -62,8 +62,8 @@ interface RowProps extends RowContent {
 const Row: React.FC<RowProps> = ({ title, text, image, imageLeft }) => {
 	return <Paper className="about-block" elevation={0}>
 		<Grid container direction={imageLeft ? 'row' : 'row-reverse'} alignItems='center' spacing={5}>
-			<Grid item>
-				<img src={image}/>
+			<Grid item xs={12} sm={'auto'}>
+				<center><img src={image}/></center>
 			</Grid>
 			<Grid item xs>
 				<h3>{title}</h3>
@@ -76,9 +76,9 @@ const Row: React.FC<RowProps> = ({ title, text, image, imageLeft }) => {
 const AboutPage = () => {
 	return <main>
 		<Navbar/>
+		<div style={{ height: '100px' }}></div>
 		<Container>
-			<h3> Sobre </h3>
-			<br/>
+			<h2> Sobre o USPY </h2>
 
 			<Grid container direction='column' spacing={3}>
 

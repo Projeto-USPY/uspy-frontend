@@ -20,6 +20,7 @@ import SettingsPage from 'pages/SettingsPage'
 import SubjectPage from 'pages/SubjectPage'
 import SubjectsPage from 'pages/SubjectsPage'
 import TeachersPage from 'pages/TeachersPage'
+import UseTermsPage from 'pages/UseTermsPage'
 import reducer from 'reducer'
 import LoggedInRoute from 'routes/LoggedInRoute'
 import LoggedOutRoute from 'routes/LoggedOutRoute'
@@ -72,6 +73,7 @@ const App = () => {
 						<LoggedOutRoute exact path='/RedefinicaoSenha' component={PasswordResetPage}/>
 						<LoggedInRoute exact path='/Perfil' component={SettingsPage}/>
 						<Route exact path='/Sobre' component={AboutPage}/>
+						<Route exact path='/Termos' component={UseTermsPage}/>
 						<Route exact path='/Disciplinas/:course/:specialization/:code' component={SubjectPage}/>
 						<Route exact path='/' component={HomePage}/>
 						<Route path='/' component={NotFoundPage}/>
