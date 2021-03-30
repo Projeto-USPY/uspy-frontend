@@ -4,12 +4,12 @@
 	border-radius: 10px !important;
 	text-align: justify !important;
 
-	transition: all 0.3s ease !important;
-	-webkit-transition: all 0.3s ease !important;
+	transition: all 0.2s ease !important;
+	-webkit-transition: all 0.2s ease !important;
 }
 
 .about-block:hover {
-	-webkit-transform: translateY(-2%) scale(1.03, 1.03);
-	transform: translateY(-2%) scale(1.03, 1.03);
-	background: rgb(228, 228, 228, 0.15);
+	-webkit-transform: translateY(-1%) scale(1.01, 1.01);
+	transform: translateY(-1%) scale(1.01, 1.01);
+	background: rgb(228, 228, 228, 0.1);
 }
