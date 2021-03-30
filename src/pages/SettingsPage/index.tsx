@@ -146,7 +146,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 				</Grid>
 				<div style={{ height: '70px' }}></div>
 
-				<Grid container direction='row-reverse'>
+				<Grid container direction='row-reverse' style={{ display: 'none' }}>
 					<Grid item xs={!isDesktop ? 12 : 2}>
 						<ThemeProvider theme={dangerTheme}>
 							<Button
@@ -162,8 +162,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 						</ThemeProvider>
 					</Grid>
 				</Grid>
-				<br/>
-				<br/>
 			</Container>
 			<SimpleConfirmationDialog
 				title="Sua conta será apagada!"
