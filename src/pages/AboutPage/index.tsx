@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react'
 
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
+import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 
 import Navbar from 'components/Navbar'
@@ -46,7 +47,7 @@ const content: RowContent[] = [
 
 			<p>Quando é feito o cadastro, o sistema coleta o número USP e as notas do estudante através de seu resumo escolar. Isso é necessário para que possamos criar o perfil do estudante e calcular os indicadores de cada disciplina. Nenhum outro dado é coletado e tudo é armazenado de maneira segura e com muito carinho.</p>
 
-			<p>Além disso, buscaremos sempre o máximo de transparência: o projeto é totalmente open source e se encontra no GitHub. Qualquer dúvida ou colaboração será recebida com muito prazer.</p>
+			<p>Além disso, buscaremos sempre o máximo de transparência: o projeto é totalmente open source e se encontra no <Link color='secondary' target='_blank' href='https://github.com/projeto-uspy'>GitHub</Link>. Qualquer dúvida ou colaboração será recebida com muito prazer.</p>
 		</>,
 		image: Image4
 	}
