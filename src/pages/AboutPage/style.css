@@ -3,9 +3,13 @@
 	padding: 20px !important;
 	border-radius: 10px !important;
 	text-align: justify !important;
-	transition: background 2s ease-in-out 1s;
+
+	transition: all 0.3s ease !important;
+	-webkit-transition: all 0.3s ease !important;
 }
 
 .about-block:hover {
-	background: rgb(216, 216, 216, 0.2);
+	-webkit-transform: translateY(-2%) scale(1.03, 1.03);
+	transform: translateY(-2%) scale(1.03, 1.03);
+	background: rgb(228, 228, 228, 0.15);
 }
