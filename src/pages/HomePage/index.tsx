@@ -42,7 +42,7 @@ const HomePage = () => {
 			</Grid>
 		</Grid>
 		<Grid item>
-			<Footer text='Made with love by Preischadt and Turci'/>
+			<Footer/>
 		</Grid>
 	</Grid>
 }

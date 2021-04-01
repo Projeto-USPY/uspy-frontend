@@ -17,15 +17,11 @@ const useStyles = makeStyles(theme => createStyles({
 		height: '100px'
 	}
 }))
-interface FooterProps {
-	text: string
-}
 
 const githubLink = 'https://github.com/projeto-uspy'
+const text = 'Made with ❤ by Preischadt and Turci'
 
-const Footer: React.FC<FooterProps> = ({
-	text
-}) => {
+const Footer: React.FC = () => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const classes = useStyles()
