@@ -22,13 +22,9 @@ const ReferenceLineLabel: React.FC<ReferenceLineLabelProps> = ({ message, margin
 	</div>
 }
 
-function keepDecimalCases (n: number, d: number) {
-	return Math.round(n * Math.pow(10, d)) / Math.pow(10, d)
-}
-
 const CustomTooltip = ({ active, payload, label, total }: any) => {
 	return active ? <Paper elevation={2} style={{ padding: '1rem' }}>
-		Nota {label}: {payload ? keepDecimalCases(100 * payload[0].value / total, 1) : null}%
+		Nota {label}: {payload ? (100 * payload[0].value / total).toFixed(1) : null}%
 	</Paper> : null
 }
 
@@ -39,8 +35,8 @@ interface GradeDistributionChartProps {
 }
 
 const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades, averageGrade, yourGrade }) => {
-	for (let i = 0.0; i <= 10; i += 0.1) if (grades[keepDecimalCases(i, 1).toFixed(1)] === undefined) grades[keepDecimalCases(i, 1).toFixed(1)] = 0
-	const data = Object.keys(grades).reduce((cur, key) => [...cur, { x: keepDecimalCases(parseFloat(key), 1), grade: grades[key] }], [])
+	for (let i = 0.0; i <= 10; i += 0.1) if (grades[i.toFixed(1)] === undefined) grades[i.toFixed(1)] = 0
+	const data = Object.keys(grades).reduce((cur, key) => [...cur, { x: parseFloat(key).toFixed(1), grade: grades[key] }], [])
 
 	data.sort((x, y) => x.x - y.x)
 	const total = Object.keys(grades).reduce((cur, key) => (cur + grades[key]), 0)
@@ -74,7 +70,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades,
 							</foreignObject>
 						)
 					}}></Label>
-					<Label position="bottom" value={keepDecimalCases(averageGrade, 1)}/>
+					<Label position="bottom" value={averageGrade.toFixed(1)}/>
 				</ReferenceLine>
 
 			</AreaChart>

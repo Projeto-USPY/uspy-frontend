@@ -229,7 +229,7 @@ const SubjectPage = () => {
 								<Typography variant="h6"> Distribuição de Notas </Typography>
 								{chartContent}
 
-								{canSeeChart && gradeStats && gradeStats.grades && Object.keys(gradeStats.grades).length > 0 ? <Typography variant='body1'> Taxa de Aprovação: {gradeStats.approval * 100}% </Typography> : null}
+								{canSeeChart && gradeStats && gradeStats.grades && Object.keys(gradeStats.grades).length > 0 ? <Typography variant='body1'> Taxa de Aprovação: {(gradeStats.approval * 100).toFixed(1)}% </Typography> : null}
 							</CardContent>
 						</Card>
 					</Grid>
