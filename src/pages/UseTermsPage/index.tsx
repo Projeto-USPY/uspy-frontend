@@ -4,12 +4,14 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
+import { useTheme } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import Navbar from 'components/Navbar'
 
@@ -38,6 +40,9 @@ const cookieList: CookieDescription[] = [{
 }]
 
 const UseTermsPage = () => {
+	const theme = useTheme()
+	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
+
 	return <main>
 		<Navbar/>
 		<div style={{ height: '100px' }}></div>
@@ -45,7 +50,7 @@ const UseTermsPage = () => {
 			<h2> Termos de Uso </h2>
 			<br/>
 
-			<Card elevation={3} style={{ padding: '1rem', lineHeight: '150%' }}>
+			<Card elevation={3} style={{ padding: (isDesktop ? '1rem' : '0'), lineHeight: '150%' }}>
 				<CardContent>
 
 					<p> Ao clicar em “Concordo com os termos de uso”, você concorda com os termos de uso da plataforma, refletidos pelos valores propostos abaixo. </p>
@@ -135,7 +140,7 @@ const UseTermsPage = () => {
 						<p> Os seguintes <i> cookies </i> são utilizados: </p>
 
 						<TableContainer component={Paper}>
-							<Table aria-label="Tabela de cookies">
+							<Table padding={!isDesktop ? 'checkbox' : 'default'} size={isDesktop ? 'medium' : 'small'} aria-label="Tabela de cookies">
 								<TableHead>
 									<TableRow>
 										<TableCell align='center'> <b>Nome</b> </TableCell>
