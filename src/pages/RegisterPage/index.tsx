@@ -30,6 +30,7 @@ import InfoModal from 'components/InfoModal'
 import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
 import InputPassword from 'components/PasswordInput'
+import { validatePassword } from 'utils'
 
 import './style.css'
 
@@ -38,11 +39,6 @@ const textFieldCommonProps = {
 	color: 'secondary',
 	size: 'small',
 	fullWidth: true
-}
-
-// Returns true if pwd has 8+ characters with at least one number and one special character
-function goodPassword (pwd: string) {
-	return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(pwd)
 }
 
 interface RegisterPageProps {
@@ -99,7 +95,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	}
 
 	// if fields are valid
-	const pwdOk = goodPassword(password[0]) || !showPwd0Error
+	const pwdOk = validatePassword(password[0]) || !showPwd0Error
 	const captchaOk = !showCaptchaError || /^[\w\d]{4}$/.test(captcha)
 
 	const registerClick = () => {
@@ -108,7 +104,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 
 		if (!/^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCode)) {
 			alert('O código de autenticidade está incompleto')
-		} else if (!goodPassword(password[0])) {
+		} else if (!validatePassword(password[0])) {
 			alert('A senha está inválida')
 		} else if (!/^[\w\d]{4}$/.test(captcha)) {
 			alert('O captcha deve ter exatamente 4 caracteres com letras ou números')

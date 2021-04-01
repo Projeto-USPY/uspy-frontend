@@ -22,6 +22,7 @@ import BreadCrumb from 'components/Breadcrumb'
 import Navbar from 'components/Navbar'
 import InputPassword from 'components/PasswordInput'
 import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
+import { validatePassword } from 'utils'
 
 const textFieldCommonProps = {
 	variant: 'outlined',
@@ -31,11 +32,6 @@ const textFieldCommonProps = {
 	style: {
 		height: '50px'
 	}
-}
-
-// Returns true if pwd has 8+ characters with at least one number and one special character
-function goodPassword (pwd: string) {
-	return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(pwd)
 }
 
 const dangerTheme = createMuiTheme({
@@ -67,7 +63,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const changePassword = () => {
 		const old = document.querySelector('#old_pwd').value
 		if (old === newPwd) alert('Senhas nova e antiga não podem ser as mesmas')
-		else if (!goodPassword(newPwd)) alert('Senha inválida')
+		else if (!validatePassword(newPwd)) alert('Senha inválida')
 		else {
 			changePasswordRequest(old, newPwd).then(() => alert('Senha alterada com sucesso!')).catch(statusCode => {
 				if (statusCode === 400) {
@@ -84,7 +80,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
-	const pwdOk = goodPassword(newPwd) || !showPwdError
+	const pwdOk = validatePassword(newPwd) || !showPwdError
 	return <div className='main'>
 		<main>
 			<Navbar/>

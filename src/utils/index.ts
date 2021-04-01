@@ -14,3 +14,22 @@ courseAliases.set('55030200', 'Mat. Pura')
 export function getCourseAlias (code: string, specialization: string) {
 	return courseAliases.get(code + specialization)
 }
+
+function isDigit (c: string) {
+	return c >= '0' && c <= '9'
+}
+
+function isSpecialCharacter (c: string) {
+	return " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".includes(c)
+}
+// Returns true if password has at least 8 digits with at least one number and one special character
+export function validatePassword (pwd: string) {
+	let hasDigit = false
+	let hasSpecialCharacter = false
+	for (let i = 0; i < pwd.length; ++i) {
+		hasDigit = hasDigit || isDigit(pwd[i])
+		hasSpecialCharacter = hasSpecialCharacter || isSpecialCharacter(pwd[i])
+	}
+
+	return hasDigit && hasSpecialCharacter && pwd.length >= 8
+}
