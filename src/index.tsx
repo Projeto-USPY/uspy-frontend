@@ -7,9 +7,11 @@ import { BrowserRouter } from 'react-router-dom'
 import { createStore } from 'redux'
 
 import { ThemeProvider } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { setUser, setUserNone } from 'actions'
 import { isAuthenticated } from 'API'
+import { SnackbarProvider } from 'notistack'
 import AboutPage from 'pages/AboutPage'
 import HomePage from 'pages/HomePage'
 import LoginPage from 'pages/LoginPage'
@@ -56,29 +58,41 @@ const ScrollToTop: React.FC = () => {
 	return null
 }
 
+const useStyles = makeStyles({
+	success: { backgroundColor: '#3c733cf7 !important' },
+	info: { backgroundColor: '#37537df8 !important' }
+})
+
 const App = () => {
 	// Checks if user exists and dispatches action to update it.
 	useEffect(checkUserExists, [])
 
+	const classes = useStyles()
+
 	return <>
 		<StoreProvider store={store}>
 			<ThemeProvider theme={theme}>
-				<BrowserRouter>
-					<ScrollToTop/>
-					<Switch>
-						<LoggedOutRoute exact path='/Login' component={LoginPage}/>
-						<LoggedOutRoute exact path='/Cadastro' component={RegisterPage}/>
-						<Route exact path='/Professores' component={TeachersPage}/>
-						<Route exact path='/Disciplinas' component={SubjectsPage}/>
-						<LoggedOutRoute exact path='/RedefinicaoSenha' component={PasswordResetPage}/>
-						<LoggedInRoute exact path='/Perfil' component={SettingsPage}/>
-						<Route exact path='/Sobre' component={AboutPage}/>
-						<Route exact path='/Termos' component={UseTermsPage}/>
-						<Route exact path='/Disciplinas/:course/:specialization/:code' component={SubjectPage}/>
-						<Route exact path='/' component={HomePage}/>
-						<Route path='/' component={NotFoundPage}/>
-					</Switch>
-				</BrowserRouter>
+				<SnackbarProvider maxSnack={1} hideIconVariant classes={{
+					variantSuccess: classes.success,
+					variantInfo: classes.info
+				}}>
+					<BrowserRouter>
+						<ScrollToTop/>
+						<Switch>
+							<LoggedOutRoute exact path='/Login' component={LoginPage}/>
+							<LoggedOutRoute exact path='/Cadastro' component={RegisterPage}/>
+							<Route exact path='/Professores' component={TeachersPage}/>
+							<Route exact path='/Disciplinas' component={SubjectsPage}/>
+							<LoggedOutRoute exact path='/RedefinicaoSenha' component={PasswordResetPage}/>
+							<LoggedInRoute exact path='/Perfil' component={SettingsPage}/>
+							<Route exact path='/Sobre' component={AboutPage}/>
+							<Route exact path='/Termos' component={UseTermsPage}/>
+							<Route exact path='/Disciplinas/:course/:specialization/:code' component={SubjectPage}/>
+							<Route exact path='/' component={HomePage}/>
+							<Route path='/' component={NotFoundPage}/>
+						</Switch>
+					</BrowserRouter>
+				</SnackbarProvider>
 			</ThemeProvider>
 		</StoreProvider>
 	</>

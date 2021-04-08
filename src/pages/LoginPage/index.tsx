@@ -21,6 +21,7 @@ import { ReduxAction } from 'types/redux'
 import { setUser } from 'actions'
 import { login } from 'API'
 import Navbar from 'components/Navbar'
+import { useMySnackbar } from 'hooks'
 import './style.css'
 
 interface LoginPageProps {
@@ -30,6 +31,7 @@ interface LoginPageProps {
 const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 	const [nusp, setNusp] = useState('')
 	const history = useHistory()
+	const notify = useMySnackbar()
 	const location = useLocation()
 
 	const handleNUSPInputChange = (evt: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -42,6 +44,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 		login(nusp, pwd, remember).then((user) => {
 			// Success!! Redirects for home page
 			setUser(user)
+			notify(`Bem vindo, ${user.name}!`, 'success')
 
 			// Redirect cases
 			const { from } = location.state || { from: { pathname: '/' } } as any

@@ -15,6 +15,7 @@ import { ReduxAction } from 'types/redux'
 import { setUserNone } from 'actions'
 import { logout } from 'API'
 import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
+import { useMySnackbar } from 'hooks'
 import Logo from 'images/navbar_logo.svg'
 
 interface UserMenuProps {
@@ -26,12 +27,14 @@ interface UserMenuProps {
 
 let UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen, setUserNone }) => {
 	const history = useHistory()
+	const notify = useMySnackbar()
 	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
 
 	const menuStyle = {
 		minWidth: '100px'
 	}
 	const handleLogout = () => {
+		notify('Sessão encerrada', 'info')
 		logout()
 		setUserNone()
 		history.push('/')

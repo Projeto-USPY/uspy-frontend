@@ -18,6 +18,7 @@ import InfoModal from 'components/InfoModal'
 import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
 import InputPassword from 'components/PasswordInput'
+import { useMySnackbar } from 'hooks'
 
 import './style.css'
 
@@ -34,6 +35,8 @@ function goodPassword (pwd: string) {
 }
 
 const PasswordResetPage: React.FC = () => {
+	const notify = useMySnackbar()
+
 	const [captchaImg, setCaptchaImg] = useState<string>('')
 	useEffect(() => {
 		getRegistrationCaptcha().then(captchaImg => {
@@ -97,7 +100,7 @@ const PasswordResetPage: React.FC = () => {
 
 			// TO CHANGE
 			resetPassword(authCode, password, captcha).then(() => {
-				alert('Senha redefinida com sucesso')
+				notify('Senha redefinida com sucesso!', 'success')
 				setPending(false)
 				history.push('/Cadastro')
 			}).catch(err => {

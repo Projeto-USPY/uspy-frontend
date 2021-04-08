@@ -30,6 +30,7 @@ import InfoModal from 'components/InfoModal'
 import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
 import InputPassword from 'components/PasswordInput'
+import { useMySnackbar } from 'hooks'
 import { validatePassword } from 'utils'
 
 import './style.css'
@@ -46,6 +47,8 @@ interface RegisterPageProps {
 }
 
 const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
+	const notify = useMySnackbar()
+
 	const [captchaImg, setCaptchaImg] = useState<string>('')
 	useEffect(() => {
 		getRegistrationCaptcha().then(captchaImg => {
@@ -116,7 +119,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 			setPending(true) // registrating is pending
 			register(authCode, password[0], captcha).then((user: User) => {
 				setUser(user)
-				alert('Cadastro realizado com sucesso')
+				notify('Cadastro realizado com sucesso', 'success')
 				setPending(false)
 				history.push('/')
 			}).catch(err => {
