@@ -243,7 +243,7 @@ const SubjectPage = () => {
 						<Card elevation={3}>
 							<CardContent>
 								<Typography variant="h6"> Requisitos e Trancamentos </Typography>
-								<RequirementsGraph course={course} specialization={specialization} code={code} />
+								<RequirementsGraph name={subject?.name} course={course} specialization={specialization} code={code} />
 							</CardContent>
 						</Card>
 					</Grid>

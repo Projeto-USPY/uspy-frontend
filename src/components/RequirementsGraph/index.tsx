@@ -28,11 +28,15 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const history = useHistory()
 
+	const optional = Math.random() > 0.5
+
 	const style = {
-		height: '30px',
+		height: isLink ? '30px' : '40px',
 		boxSizing: 'border-box',
-		padding: '5px',
+		padding: isLink ? '5px' : '10px',
 		border: '1px solid grey',
+		background: `${optional ? '#346d34' : theme.palette.secondary.main}`,
+		color: 'white',
 		borderRadius: '25px',
 		display: 'flex',
 		justifyContent: 'center',
@@ -65,10 +69,10 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 		history.push(path.substr(0, lastSlash) + '/' + code)
 	}
 
-	const popoverActive = isLink && isDesktop
+	const popoverActive = isDesktop
 	const isPopoverOpen = Boolean(anchorEl)
 
-	const popover = isPopoverOpen ? <Popover
+	const popover = <Popover
 		anchorEl={anchorEl}
 		open={isPopoverOpen}
 		style={{
@@ -89,9 +93,9 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 		<Paper elevation={2} className="prompt tooltip-card">
 			<Typography color='secondary'><strong> {code}</strong></Typography>
 			<Typography variant='body2'>{name}</Typography>
-			<Typography variant='caption'> Requisito {strong ? 'forte' : 'fraco'} </Typography>
+			{isLink ? <Typography variant='caption'> Requisito {strong ? 'forte' : 'fraco'} </Typography> : null}
 		</Paper>
-	</Popover> : null
+	</Popover>
 
 	return <>
 		<ArcherElement
@@ -115,8 +119,9 @@ interface RequirementsGraphProps {
 	course: string
 	specialization: string
 	code: string
+	name: string
 }
-const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specialization, code }) => {
+const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specialization, code, name }) => {
 	const [predecessors, setPredecessors] = useState<SubjectRequirement[]>([])
 	const [successors, setSuccessors] = useState<SubjectRequirement[]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -142,7 +147,8 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 	const mainRelations = successors.map(x => ({
 		targetId: x.code,
 		targetAnchor: 'left',
-		sourceAnchor: 'right'
+		sourceAnchor: 'right',
+		style: x.strong ? { strokeWidth: 2 } : {}
 	}))
 
 	const content = <Grid container spacing={3} alignItems="stretch" style={{ height: `${cardHeight}px` }} >
@@ -156,7 +162,8 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 				relations={[{
 					targetId: code,
 					targetAnchor: 'left',
-					sourceAnchor: 'right'
+					sourceAnchor: 'right',
+					style: req.strong ? { strokeWidth: 2 } : {}
 				}]}
 			/>
 			)}
@@ -164,6 +171,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 		<Grid container item direction="column" style={{ height: '100%' }} justify="center" alignItems="center" xs={4}>
 			<Box
 				code={code}
+				name={name}
 				isLink={false}
 				relations={mainRelations}
 			/>
@@ -181,7 +189,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 		</Grid>
 	</Grid>
 
-	return <ArcherContainer strokeColor="black">
+	return <ArcherContainer strokeColor="black" strokeWidth={1}>
 		{isLoading ? <Grid container justify='center'><Grid item><CircularProgress/></Grid></Grid>
 			: noRequirement
 				? <MessagePanel height={200} message="Sem requisitos ou trancamentos"/>
