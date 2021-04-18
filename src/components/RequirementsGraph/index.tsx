@@ -28,14 +28,12 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const history = useHistory()
 
-	const optional = Math.random() > 0.5
-
 	const style = {
 		height: isLink ? '30px' : '40px',
 		boxSizing: 'border-box',
 		padding: isLink ? '5px' : '10px',
 		border: '1px solid grey',
-		background: `${optional ? '#346d34' : theme.palette.secondary.main}`,
+		background: '#346d34',
 		color: 'white',
 		borderRadius: '25px',
 		display: 'flex',
