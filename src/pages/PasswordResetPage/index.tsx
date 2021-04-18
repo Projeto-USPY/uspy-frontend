@@ -102,7 +102,7 @@ const PasswordResetPage: React.FC = () => {
 			resetPassword(authCode, password, captcha).then(() => {
 				notify('Senha redefinida com sucesso!', 'success')
 				setPending(false)
-				history.push('/Cadastro')
+				history.push('/')
 			}).catch(err => {
 				if (err === 400) {
 					alert('Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactElement } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -78,6 +78,8 @@ function getRecommendationRate (recommend: number, total: number) {
 
 const SubjectPage = () => {
 	const { course, specialization, code } = useParams<URLParameter>()
+
+	const history = useHistory()
 
 	const [subject, setSubject] = useState<Subject | null>(null)
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -164,7 +166,10 @@ const SubjectPage = () => {
 			chartContent = <MessagePanel height={200} message="Não há dados suficientes para mostrar esse recurso"/>
 		}
 	} else {
-		chartContent = <MessagePanel height={200} message="Você precisa estar logado para ter acesso a esse recurso"/>
+		const redirectLogin = () => {
+			history.push('/Login', { from: history.location })
+		}
+		chartContent = <MessagePanel height={200} action={redirectLogin} actionTitle="Entrar" message="Você precisa estar logado para ter acesso a esse recurso"/>
 	}
 
 	const content = subject ? <>
