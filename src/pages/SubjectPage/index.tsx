@@ -203,6 +203,7 @@ const SubjectPage = () => {
 							<CardContent>
 								Tipo: {subject.optional ? 'Optativa' : 'Obrigatória'}<br/>
 								Curso: {getCourseAlias(course, specialization)}<br/>
+								Semestre: {subject.semester + '°'} <br/>
 								Requisitos: {subject.requirements.length ? getSubjectRequirementsList(subject) : 'Nenhum'}<br/>
 								Carga horária: {subject.hours}<br/>
 							</CardContent>

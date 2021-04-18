@@ -18,6 +18,7 @@ export interface Subject {
 	hours: string
 	requirements: SubjectRequirement[][]
 	optional: boolean
+	semester: number
 	stats: {
 		total: number
 		worth_it: number
