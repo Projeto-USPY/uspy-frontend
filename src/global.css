@@ -44,6 +44,12 @@ main {
 	margin-bottom: 50px;
 }
 
+/* If you need to use Collapse Component, remove this. Used for notistack-snackbar centering on mobile. Hope this is not inconvenient for you, future developer. */
+.MuiCollapse-wrapper { 
+	justify-content: center;
+	align-items: center;
+}
+
 body {
 	font-family: 'Roboto', sans-serif;
 }
