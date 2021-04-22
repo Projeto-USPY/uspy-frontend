@@ -142,7 +142,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 				</Grid>
 				<div style={{ height: '70px' }}></div>
 
-				<Grid container direction='row-reverse' style={{ display: 'none' }}>
+				<Grid container direction='row-reverse'>
 					<Grid item xs={!isDesktop ? 12 : 2}>
 						<ThemeProvider theme={dangerTheme}>
 							<Button
