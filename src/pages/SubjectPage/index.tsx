@@ -97,6 +97,7 @@ const SubjectPage = () => {
 		setEvaluateSubject(false)
 		setCanSeeChart(false)
 		setSubjectReview(null)
+		setYourGrade(null)
 
 		getSubjectWithCourseAndCode(course, specialization, code).then((data) => {
 			setSubject(data)
