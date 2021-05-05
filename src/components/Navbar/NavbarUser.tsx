@@ -37,7 +37,6 @@ let UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen, setUserNone })
 		notify('Sessão encerrada', 'info')
 		logout()
 		setUserNone()
-		history.push('/')
 	}
 	return <Menu
 		open={open}
