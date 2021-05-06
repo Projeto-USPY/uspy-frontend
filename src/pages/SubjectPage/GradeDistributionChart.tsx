@@ -6,8 +6,8 @@ import {
 	ResponsiveContainer,
 	XAxis,
 	YAxis,
-	AreaChart,
-	Area, Label, ReferenceLine,
+	BarChart,
+	Bar, Label, ReferenceLine,
 	Tooltip
 } from 'recharts'
 
@@ -24,7 +24,7 @@ const ReferenceLineLabel: React.FC<ReferenceLineLabelProps> = ({ message, margin
 
 const CustomTooltip = ({ active, payload, label, total }: any) => {
 	return active ? <Paper elevation={2} style={{ padding: '1rem' }}>
-		Nota {label}: {payload ? (100 * payload[0].value / total).toFixed(1) : null}%
+		Nota {(label - 1).toFixed(0) + '..' + (label + 1).toFixed(0)}: {payload ? (100 * payload[0].value / total).toFixed(1) : null}%
 	</Paper> : null
 }
 
@@ -35,16 +35,22 @@ interface GradeDistributionChartProps {
 }
 
 const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades, averageGrade, yourGrade }) => {
-	for (let i = 0.0; i <= 10; i += 0.1) if (grades[i.toFixed(1)] === undefined) grades[i.toFixed(1)] = 0
-	const data = Object.keys(grades).reduce((cur, key) => [...cur, { x: parseFloat(key).toFixed(1), grade: grades[key] }], [])
-
+	const cnt = [0, 0, 0, 0, 0] // [0, 2), [2, 4), [4, 6), [6, 8), [8, 10]
+	for (let i = 0.0; i <= 10; i += 0.1) {
+		if (grades[i.toFixed(1)] === undefined) {
+			grades[i.toFixed(1)] = 0
+		}
+		cnt[Math.floor(i / 2) - (i === 10 ? 1 : 0)] += grades[i.toFixed(1)]
+	}
+	const data = cnt.reduce((cur, val, idx) => [...cur, { x: (idx * 2 + 1), grade: val }], [])
 	data.sort((x, y) => x.x - y.x)
-	const total = Object.keys(grades).reduce((cur, key) => (cur + grades[key]), 0)
+	const total = cnt.reduce((cur, val) => (cur + val), 0)
+
 	return <div style={{ height: '320px', width: '100%', marginLeft: '-20px', paddingTop: '20px', overflow: 'visible' }}>
 		<ResponsiveContainer>
-			<AreaChart data={data}>
-				<Area type="monotone" dataKey="grade" fill="#68417F77" stroke="#00000000"activeDot={{ r: 2 }}/>
-				<XAxis dataKey="x" tickLine={false} tickCount={5} type="number" domain={[0, 10]}>
+			<BarChart data={data}>
+				<Bar barSize={200} dataKey="grade" fill="#68417FCC" />
+				<XAxis dataKey="x" tickLine={false} ticks={[0, 2, 4, 6, 8, 10]} type="number" domain={[0, 10]}>
 					<Label value="Notas" position="insideBottom" offset={-5}/>
 				</XAxis>
 				<YAxis dataKey="grade" tickLine={false}>
@@ -73,7 +79,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades,
 					<Label position="bottom" value={averageGrade.toFixed(1)}/>
 				</ReferenceLine>
 
-			</AreaChart>
+			</BarChart>
 		</ResponsiveContainer>
 	</div>
 }
