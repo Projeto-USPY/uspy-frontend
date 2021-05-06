@@ -45,6 +45,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades,
 	const data = cnt.reduce((cur, val, idx) => [...cur, { x: (idx * 2 + 1), grade: val }], [])
 	data.sort((x, y) => x.x - y.x)
 	const total = cnt.reduce((cur, val) => (cur + val), 0)
+	const maxVal = cnt.reduce((cur, val) => Math.max(cur, val), 0)
 
 	return <div style={{ height: '320px', width: '100%', marginLeft: '-20px', paddingTop: '20px', overflow: 'visible' }}>
 		<ResponsiveContainer>
@@ -53,7 +54,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({ grades,
 				<XAxis dataKey="x" tickLine={false} ticks={[0, 2, 4, 6, 8, 10]} type="number" domain={[0, 10]}>
 					<Label value="Notas" position="insideBottom" offset={-5}/>
 				</XAxis>
-				<YAxis dataKey="grade" tickLine={false}>
+				<YAxis dataKey="grade" tickLine={false} domain={[0, Math.ceil(1.3 * maxVal)]}>
 					<Label value="Quantidade" angle={-90} position='insideLeft' offset={20}/>
 				</YAxis>
 				<Tooltip content={<CustomTooltip total={total}/>}/>
