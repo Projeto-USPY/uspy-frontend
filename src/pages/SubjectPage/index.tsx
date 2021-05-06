@@ -17,7 +17,6 @@ import CollapsibleText from 'components/CollapsibleText'
 import MessagePanel from 'components/MessagePanel'
 import Navbar from 'components/Navbar'
 import RequirementsGraph from 'components/RequirementsGraph'
-import RequirementGraphCaption from 'images/requirements_graph_captions.svg'
 import { copyObj, getCourseAlias } from 'utils'
 
 import CreditsIndicator from './CreditsIndicator'
@@ -246,10 +245,6 @@ const SubjectPage = () => {
 						<Card elevation={3}>
 							<CardContent>
 								<Typography variant="h6"> Requisitos e Trancamentos </Typography>
-								<div style={{ width: '100%' }}>
-									<br/>
-									<img src={RequirementGraphCaption} style={{ float: 'right' }} height={50} />
-								</div>
 								<RequirementsGraph name={subject?.name} course={course} specialization={specialization} code={code} />
 							</CardContent>
 						</Card>

@@ -14,6 +14,7 @@ import { SubjectRequirement } from 'types/Subject'
 
 import { getSubjectRelations } from 'API'
 import MessagePanel from 'components/MessagePanel'
+import RequirementGraphCaption from 'images/requirements_graph_captions.svg'
 
 interface BoxProps {
 	code: string
@@ -187,13 +188,21 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 		</Grid>
 	</Grid>
 
-	return <ArcherContainer strokeColor="black" strokeWidth={1}>
-		{isLoading ? <Grid container justify='center'><Grid item><CircularProgress/></Grid></Grid>
-			: noRequirement
-				? <MessagePanel height={200} message="Sem requisitos ou trancamentos"/>
-				: content}
+	return <>
 
-	</ArcherContainer>
+		<div style={{ width: '100%', display: noRequirement ? 'none' : 'block' }}>
+			<br/>
+			<img src={RequirementGraphCaption} style={{ float: 'right' }} height={50} />
+		</div>
+		<ArcherContainer strokeColor="black" strokeWidth={1}>
+
+			{isLoading ? <Grid container justify='center'><Grid item><CircularProgress/></Grid></Grid>
+				: noRequirement
+					? <MessagePanel height={200} message="Sem requisitos ou trancamentos"/>
+					: content}
+
+		</ArcherContainer>
+	</>
 }
 
 export default memo(RequirementsGraph)
