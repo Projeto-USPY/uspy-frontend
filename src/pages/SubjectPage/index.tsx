@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography'
 
 import { Subject, SubjectGradeStats, SubjectReview } from 'types/Subject'
 
-import { getSubjectWithCourseAndCode, getSubjectReview, makeSubjectReview, getSubjectGrades, getGrade } from 'API'
+import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
 import MessagePanel from 'components/MessagePanel'
@@ -99,7 +99,7 @@ const SubjectPage = () => {
 		setSubjectReview(null)
 		setYourGrade(null)
 
-		getSubjectWithCourseAndCode(course, specialization, code).then((data) => {
+		api.getSubjectWithCourseAndCode(course, specialization, code).then((data) => {
 			setSubject(data)
 			setIsLoading(false)
 		}).catch((err: number) => {
@@ -113,7 +113,7 @@ const SubjectPage = () => {
 			}
 		})
 
-		getSubjectReview(course, specialization, code).then((rev) => {
+		api.getSubjectReview(course, specialization, code).then((rev) => {
 			setSubjectReview(rev)
 			setEvaluateSubject(true)
 		}).catch((err: number) => {
@@ -124,7 +124,7 @@ const SubjectPage = () => {
 			}
 		})
 
-		getSubjectGrades(course, specialization, code).then((gradeStats) => {
+		api.getSubjectGrades(course, specialization, code).then((gradeStats) => {
 			setCanSeeChart(true)
 			setGradeStats(gradeStats)
 		}).catch(() => {
@@ -132,7 +132,7 @@ const SubjectPage = () => {
 			setGradeStats(null)
 		})
 
-		getGrade(course, specialization, code).then((grade) => {
+		api.getGrade(course, specialization, code).then((grade) => {
 			setYourGrade(grade.grade)
 		}).catch(() => {})
 	}, [course, specialization, code])
@@ -155,7 +155,7 @@ const SubjectPage = () => {
 		newSubject.stats.worth_it += c === 'S' ? 1 : 0
 		setSubject(newSubject)
 		setSubjectReview(review)
-		makeSubjectReview(course, specialization, code, review)
+		api.makeSubjectReview(course, specialization, code, review)
 	}
 
 	// Chart Content

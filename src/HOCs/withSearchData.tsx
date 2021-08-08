@@ -1,6 +1,6 @@
 import React, { createContext, ReactElement, useEffect, useState } from 'react'
 
-import { API } from 'API'
+import { client } from 'API'
 export const SearchDataContext: React.Context<any> = createContext(['SCC210', 'Kalinka'])
 
 function unique (arr: string[]): string[] {
@@ -10,7 +10,7 @@ function unique (arr: string[]): string[] {
 let data: string[] = null
 function getData (setter: Function) {
 	if (data == null) {
-		API.get('/api/subject/all').then((res: any) => {
+		client().get('/api/subject/all').then((res: any) => {
 			data = res.data.reduce((cur: string[], course: any) => {
 				return [...cur, ...Object.keys(course.subjects).map((val, idx) => ({
 					course: course.code,

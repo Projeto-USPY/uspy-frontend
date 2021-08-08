@@ -13,7 +13,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
 import { useTheme } from '@material-ui/styles'
 
-import { getRegistrationCaptcha, resetPassword } from 'API'
+import api from 'API'
 import InfoModal from 'components/InfoModal'
 import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
@@ -39,7 +39,7 @@ const PasswordResetPage: React.FC = () => {
 
 	const [captchaImg, setCaptchaImg] = useState<string>('')
 	useEffect(() => {
-		getRegistrationCaptcha().then(captchaImg => {
+		api.getRegistrationCaptcha().then(captchaImg => {
 			setCaptchaImg(captchaImg)
 		})
 	}, [])
@@ -99,7 +99,7 @@ const PasswordResetPage: React.FC = () => {
 			setPending(true) // password reset is pending
 
 			// TO CHANGE
-			resetPassword(authCode, password, captcha).then(() => {
+			api.resetPassword(authCode, password, captcha).then(() => {
 				notify('Senha redefinida com sucesso!', 'success')
 				setPending(false)
 				history.push('/')
@@ -111,7 +111,7 @@ const PasswordResetPage: React.FC = () => {
 				}
 				setCaptcha('')
 				setShowCaptchaError(false)
-				getRegistrationCaptcha().then(captchaImg => {
+				api.getRegistrationCaptcha().then(captchaImg => {
 					setCaptchaImg(captchaImg)
 				})
 				setPending(false)

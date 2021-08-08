@@ -10,7 +10,7 @@ import { ThemeProvider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { setUser, setUserNone } from 'actions'
-import { isAuthenticated } from 'API'
+import api from 'API'
 import { SnackbarProvider } from 'notistack'
 import AboutPage from 'pages/AboutPage'
 import HomePage from 'pages/HomePage'
@@ -34,7 +34,7 @@ import 'global.css'
 const store = createStore(reducer)
 
 function checkUserExists () {
-	isAuthenticated().then(user => {
+	api.isAuthenticated().then(user => {
 		if (user) {
 			store.dispatch(setUser({
 				id: user,

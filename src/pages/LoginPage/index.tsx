@@ -19,7 +19,7 @@ import Typography from '@material-ui/core/Typography'
 import { ReduxAction } from 'types/redux'
 
 import { setUser } from 'actions'
-import { login } from 'API'
+import api from 'API'
 import Navbar from 'components/Navbar'
 import { useMySnackbar } from 'hooks'
 import './style.css'
@@ -41,7 +41,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 	const handleLogin = () => {
 		const pwd = document.querySelector<HTMLInputElement>('#senha').value
 		const remember = document.querySelector<HTMLInputElement>('#remember').checked
-		login(nusp, pwd, remember).then((user) => {
+		api.login(nusp, pwd, remember).then((user) => {
 			// Success!! Redirects for home page
 			setUser(user)
 			notify(`Bem vindo, ${user.name}!`, 'success')

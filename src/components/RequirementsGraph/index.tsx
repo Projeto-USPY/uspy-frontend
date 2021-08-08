@@ -12,7 +12,7 @@ import { useTheme } from '@material-ui/styles'
 
 import { SubjectRequirement } from 'types/Subject'
 
-import { getSubjectRelations } from 'API'
+import api from 'API'
 import MessagePanel from 'components/MessagePanel'
 import RequirementGraphCaption from 'images/requirements_graph_captions.svg'
 
@@ -133,7 +133,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 		setSuccessors([])
 		setIsLoading(true)
 
-		getSubjectRelations(course, specialization, code).then((data) => {
+		api.getSubjectRelations(course, specialization, code).then((data) => {
 			setPredecessors((data.predecessors && data.predecessors[0]) || []) // for now get only the first set of requirements
 			setSuccessors(data.successors || [])
 			setIsLoading(false)

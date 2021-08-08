@@ -13,7 +13,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import { ReduxAction } from 'types/redux'
 
 import { setUserNone } from 'actions'
-import { logout } from 'API'
+import api from 'API'
 import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
 import { useMySnackbar } from 'hooks'
 import Logo from 'images/navbar_logo.svg'
@@ -35,7 +35,7 @@ let UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen, setUserNone })
 	}
 	const handleLogout = () => {
 		notify('Sessão encerrada', 'info')
-		logout()
+		api.logout()
 		setUserNone()
 	}
 	return <Menu

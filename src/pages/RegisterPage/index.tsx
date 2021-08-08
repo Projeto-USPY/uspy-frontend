@@ -24,7 +24,7 @@ import { ReduxAction } from 'types/redux'
 import { User } from 'types/User'
 
 import { setUser } from 'actions'
-import { register, getRegistrationCaptcha } from 'API'
+import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import InfoModal from 'components/InfoModal'
 import Navbar from 'components/Navbar'
@@ -51,7 +51,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 
 	const [captchaImg, setCaptchaImg] = useState<string>('')
 	useEffect(() => {
-		getRegistrationCaptcha().then(captchaImg => {
+		api.getRegistrationCaptcha().then(captchaImg => {
 			setCaptchaImg(captchaImg)
 		})
 	}, [])
@@ -117,7 +117,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 			alert('Você deve aceitar os termos e condições')
 		} else {
 			setPending(true) // registrating is pending
-			register(authCode, password[0], captcha).then((user: User) => {
+			api.register(authCode, password[0], captcha).then((user: User) => {
 				setUser(user)
 				notify('Cadastro realizado com sucesso', 'success')
 				setPending(false)
@@ -132,7 +132,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				}
 				setCaptcha('')
 				setShowCaptchaError(false)
-				getRegistrationCaptcha().then(captchaImg => {
+				api.getRegistrationCaptcha().then(captchaImg => {
 					setCaptchaImg(captchaImg)
 				})
 				setPending(false)

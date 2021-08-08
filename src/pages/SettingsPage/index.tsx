@@ -17,7 +17,7 @@ import { useTheme, ThemeProvider } from '@material-ui/styles'
 import { ReduxAction } from 'types/redux'
 
 import { setUserNone } from 'actions'
-import { changePassword as changePasswordRequest, removeAccount as removeAccountRequest } from 'API'
+import api from API
 import BreadCrumb from 'components/Breadcrumb'
 import Navbar from 'components/Navbar'
 import InputPassword from 'components/PasswordInput'
@@ -52,7 +52,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	// Remove account feature
 	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
 	const removeAccount = () => {
-		removeAccountRequest().then(() => {
+		api.removeAccount().then(() => {
 			setUserNone()
 			history.push('/') // redirect to home page
 		}).catch((err: number) => {
@@ -65,7 +65,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 		if (old === newPwd) alert('Senhas nova e antiga não podem ser as mesmas')
 		else if (!validatePassword(newPwd)) alert('Senha inválida')
 		else {
-			changePasswordRequest(old, newPwd).then(() => alert('Senha alterada com sucesso!')).catch(statusCode => {
+			api.changePassword(old, newPwd).then(() => alert('Senha alterada com sucesso!')).catch(statusCode => {
 				if (statusCode === 400) {
 					alert(`Erro: algo aconteceu e o status (${statusCode}) foi recebido.`)
 				} else if (statusCode === 401) {
