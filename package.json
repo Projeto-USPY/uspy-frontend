@@ -1,14 +1,12 @@
 {
-  "name": "JupiterFront",
+  "name": "uspy-frontend",
   "version": "0.0.1",
-  "description": "Front-end of Jupiter++ website project",
-  "main": "index.js",
-  "repository": "https://github.com/lucasturci/JupiterFront",
+  "description": "Front-end of uspy project",
+  "main": "index.tsx",
+  "repository": "https://github.com/Projeto-USPY/uspy-frontend",
   "author": "Lucas Turci and Thiago Preischadt",
   "scripts": {
-    "webpack-dev-server": "webpack-dev-server --env.local --env.mode=development",
-    "dev": "webpack --mode=development --env.mode=development",
-    "build": "webpack --mode=production --env.mode=production"
+    "start": "webpack serve --mode=development --env local"
   },
   "license": "MIT",
   "private": true,
@@ -68,8 +66,8 @@
     "style-loader": "^1.2.1",
     "ts-loader": "^8.0.4",
     "typescript": "^4.0.3",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack": "^5.49.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
   }
 }

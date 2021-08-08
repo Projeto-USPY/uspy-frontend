@@ -5,7 +5,7 @@ steps:
 
 - name: node:latest
   entrypoint: yarn
-  args: ['webpack', '--mode=$_MODE', '--env.mode=$_MODE']
+  args: ['webpack', '--mode=$_MODE']
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
