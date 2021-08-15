@@ -15,4 +15,4 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: npx run webpack serve --mode=development
+          start: npx webpack serve --mode=development
