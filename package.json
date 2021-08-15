@@ -6,7 +6,9 @@
   "repository": "https://github.com/Projeto-USPY/uspy-frontend",
   "author": "Lucas Turci and Thiago Preischadt",
   "scripts": {
-    "start": "webpack serve --mode=development --env local"
+    "start": "webpack serve --mode=development --env local",
+    "e2e": "cypress run -C cypress.local.json",
+    "e2e-gui": "cypress open -C cypress.local.json"
   },
   "license": "MIT",
   "private": true,
@@ -49,11 +51,13 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.3.0",
+    "cypress": "^8.2.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-loader": "^4.0.2",
+    "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-import-helpers": "^1.1.0",
     "eslint-plugin-node": "^11.1.0",
