@@ -1,0 +1,18 @@
+name: Cypress Tests
+
+on: 
+  push:
+    branches: [master,dev]
+  pull_request:
+    branches: [master,dev]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout
+      - name: Cypress run
+        uses: cypress-io/github-action
+        with:
+          start: npx run webpack serve --mode=development
