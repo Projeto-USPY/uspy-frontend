@@ -31,7 +31,7 @@ import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
 import InputPassword from 'components/PasswordInput'
 import { useMySnackbar } from 'hooks'
-import { validatePassword } from 'utils'
+import { validateEmail, validatePassword } from 'utils'
 
 import './style.css'
 
@@ -72,6 +72,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	}
 
 	// text field values
+	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string[]>(['', ''])
 	const [captcha, setCaptcha] = useState<string>('')
 
@@ -82,6 +83,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	const [showPwd0Error, setShowPwd0Error] = useState<boolean>(false)
 	const [showPwd1Error, setShowPwd1Error] = useState<boolean>(false)
 	const [showCaptchaError, setShowCaptchaError] = useState<boolean>(false)
+	const [showEmailError, setShowEmailError] = useState<boolean>(false)
 
 	// is registration pending
 	const [pending, setPending] = useState<boolean>(false)
@@ -94,12 +96,15 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 			setPassword([password[0], value])
 		} else if (id === 'captcha') {
 			setCaptcha(value.toLowerCase())
+		} else if (id === 'email') {
+			setEmail(value)
 		}
 	}
 
 	// if fields are valid
 	const pwdOk = validatePassword(password[0]) || !showPwd0Error
 	const captchaOk = !showCaptchaError || /^[\w\d]{4}$/.test(captcha)
+	const emailOk = !showEmailError || validateEmail(email)
 
 	const registerClick = () => {
 		const acceptedTerms = document.querySelector('#accept').checked
@@ -124,7 +129,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				history.push('/')
 			}).catch(err => {
 				if (err === 400) {
-					alert('Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
+					alert('Email, código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
 				} else if (err === 403) {
 					alert('Usuário já registrado')
 				} else {
@@ -140,6 +145,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 		}
 		setShowPwd0Error(true)
 		setShowPwd1Error(true)
+		setShowEmailError(true)
 	}
 
 	// Style stuff
@@ -205,17 +211,34 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 
 					{isDesktop ? <> <Divider/> <br/><br/> </> : <br/> }
 					<Grid container spacing={6} direction={isDesktop ? 'row' : 'column'}>
-						<Grid item container xs={12} sm={6} direction='column' justify='center'>
+						<Grid item container xs={12} sm={6} direction='column' justify='center'> {/* Email and password fields */}
+							<Grid item>
+								<Typography> Seu email USP (@usp.br). Vamos te enviar um email de ativação da conta. </Typography>
+								<br/>
+							</Grid>
+							<Grid item>
+								<TextField
+									label="Email USP"
+									name="email"
+									type="text"
+									value={email}
+									error={!emailOk}
+									helperText={emailOk ? '' : 'Email inválido'}
+									onBlur={() => setShowEmailError(true)}
+									onChange={evt => handleChange(evt.target.value, 'email')}
+									{...textFieldCommonProps}
+								/>
+								<br/>
+								<br/>
+							</Grid>
 							<Grid item>
 								<Typography> A senha deve conter no mínimo 8 caracteres, com pelo menos um símbolo e um número. </Typography>
-								<br/>
 								<br/>
 							</Grid>
 							<Grid item>
 								<InputPassword
 									label="Senha"
 									id="pwd1"
-									type="password"
 									value={password[0]}
 									error={!pwdOk}
 									helperText={!pwdOk ? 'Senha não satisfaz os requisitos' : ''}
@@ -229,7 +252,6 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 								<InputPassword
 									label="Confirme a senha"
 									id="pwd2"
-									type="password"
 									value={password[1]}
 									error={password[0] !== password[1] && showPwd1Error}
 									helperText={password[0] !== password[1] && showPwd1Error ? 'Senhas diferem' : ''}
@@ -239,7 +261,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 								/>
 							</Grid>
 						</Grid>
-						<Grid item container xs={12} sm={6} justify='center' alignItems='center'>
+						<Grid item container xs={12} sm={6} justify='center' alignItems='center'> {/* Captcha field */}
 							<div style={{ maxWidth: '400px', width: '100%' }}> <img src={captchaImg} style={{ width: '100%' }}/> </div>
 							<div style={{ width: '100%', height: '1rem' }}/>
 							<TextField

@@ -22,6 +22,7 @@ function isDigit (c: string) {
 function isSpecialCharacter (c: string) {
 	return " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".includes(c)
 }
+
 // Returns true if password has at least 8 digits with at least one number and one special character
 export function validatePassword (pwd: string) {
 	let hasDigit = false
@@ -32,4 +33,11 @@ export function validatePassword (pwd: string) {
 	}
 
 	return hasDigit && hasSpecialCharacter && pwd.length >= 8
+}
+
+// Returns true if email is valid and has domain "usp.br"
+export function validateEmail (email: string) {
+	const reg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)$/
+	const res = reg.exec(email)
+	return res && res[1] === 'usp.br'
 }
