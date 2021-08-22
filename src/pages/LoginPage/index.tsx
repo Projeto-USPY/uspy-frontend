@@ -51,7 +51,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 			history.replace(from)
 		}).catch((statusCode: number) => {
 			if (statusCode === 400) {
-				alert('Bad Request (400). Tente novamente mais tarde.')
+				alert('Bad Request (400). Certifique-se de que os campos estão corretos')
 			} else if (statusCode === 401) {
 				alert('Número USP ou senha incorretos')
 			} else {

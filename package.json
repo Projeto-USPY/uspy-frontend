@@ -7,8 +7,8 @@
   "author": "Lucas Turci and Thiago Preischadt",
   "scripts": {
     "start": "webpack serve --mode=development --env local",
-    "e2e": "cypress run -C cypress.local.json",
-    "e2e-gui": "cypress open -C cypress.local.json"
+    "cypress": "cypress run -C cypress.local.json",
+    "cypress-ui": "cypress open -C cypress.local.json"
   },
   "license": "MIT",
   "private": true,
