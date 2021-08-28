@@ -122,11 +122,10 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 			alert('Você deve aceitar os termos e condições')
 		} else {
 			setPending(true) // registrating is pending
-			api.register(authCode, password[0], captcha).then((user: User) => {
-				setUser(user)
-				notify('Cadastro realizado com sucesso', 'success')
+			api.register(authCode, password[0], captcha, email).then((user: User) => {
+				notify('Sucesso! Agora, procure por um email para verificar sua conta!', 'success')
 				setPending(false)
-				history.push('/')
+				history.push('/Login')
 			}).catch(err => {
 				if (err === 400) {
 					alert('Email, código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')

@@ -20,7 +20,7 @@ class APIClient {
 		})
 	}
 
-	// Returns users NUSP if is authenticated and '' if status code is 401. Throws the status if it's different than that.
+	// Returns users NUSP if is authenticated and '' if status code is 401. Throw status code if it's different than that.
 	async isAuthenticated (): Promise<string> {
 		try {
 			const { data } = await this.axiosClient.get('/account/profile')
@@ -94,12 +94,13 @@ class APIClient {
 		}
 	}
 
-	async register (authCode: string, password: string, captcha: string): Promise<User> {
+	async register (authCode: string, password: string, captcha: string, email: string) {
 		try {
 			const { data } = await this.axiosClient.post('/account/create', {
 				access_key: authCode,
-				password: password,
-				captcha: captcha
+				password,
+				captcha,
+				email
 			})
 
 			return data
@@ -134,7 +135,7 @@ class APIClient {
 	async getSubjectReview (course: string, specialization: string, code: string): Promise<SubjectReview> {
 		try {
 			const { data } = await this.axiosClient.get(`/private/subject/review?course=${course}&specialization=${specialization}&code=${code}`)
-			return data as SubjectReview
+			return data
 		} catch (err) {
 			throw err.request.status
 		}
@@ -165,7 +166,7 @@ class APIClient {
 					code
 				}
 			})
-			return data as SubjectGradeStats
+			return data
 		} catch (err) {
 			throw err.request.status
 		}
@@ -180,7 +181,7 @@ class APIClient {
 					code
 				}
 			})
-			return data as SubjectGrade
+			return data
 		} catch (err) {
 			throw err.request.status
 		}
