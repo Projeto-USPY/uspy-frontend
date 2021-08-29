@@ -162,6 +162,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 		<Button
 			color="secondary"
 			size="medium"
+			id="submit"
 			variant="outlined"
 			disabled={pending}
 			onClick={registerClick}
@@ -183,6 +184,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				fullWidth
 				color="secondary"
 				size="medium"
+				id="submit"
 				variant="outlined"
 				onClick={registerClick}
 			>
@@ -219,6 +221,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 								<TextField
 									label="Email USP"
 									name="email"
+									id="email"
 									type="text"
 									value={email}
 									error={!emailOk}
@@ -268,7 +271,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 								id="captcha"
 								type="text"
 								error={!captchaOk}
-								helperText={!captchaOk ? 'Somente 4 caracteres com letras ou números' : ''}
+								helperText={!captchaOk ? 'Exatamente 4 caracteres com letras ou números' : ''}
 								value={captcha}
 								onBlur={() => setShowCaptchaError(true)}
 								onChange={(evt: any) => handleChange(evt.target.value, 'captcha')}
