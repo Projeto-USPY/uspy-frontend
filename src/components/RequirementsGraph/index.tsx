@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import { ArcherContainer, ArcherElement } from 'react-archer'
-import { useHistory } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
@@ -15,6 +15,7 @@ import { SubjectRequirement } from 'types/Subject'
 import api from 'API'
 import MessagePanel from 'components/MessagePanel'
 import RequirementGraphCaption from 'images/requirements_graph_captions.svg'
+import { URLParameter, buildURI as buildSubjectURI } from 'pages/SubjectPage'
 
 interface BoxProps {
 	code: string
@@ -62,10 +63,9 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 		}
 	})
 
+	const params = useParams<URLParameter>() // get subject parameters
 	const handleClick = () => {
-		const path = history.location.pathname
-		const lastSlash = path.lastIndexOf('/')
-		history.push(path.substr(0, lastSlash) + '/' + code)
+		history.push(buildSubjectURI(params.course, params.specialization, code))
 	}
 
 	const popoverActive = isDesktop

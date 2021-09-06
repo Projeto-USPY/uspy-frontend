@@ -12,6 +12,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import MenuIcon from '@material-ui/icons/Menu'
 
 import Logo from 'images/navbar_logo.svg'
+import { buildURI as buildHomePageURI } from 'pages/HomePage'
 
 import './style.css'
 
@@ -26,7 +27,7 @@ const Navbar: React.FC = () => {
 	if (isLarge && isMobileMenuVisible) setIsMobileMenuVisible(false)
 
 	const goHome = () => {
-		if (history.location.pathname !== '/') history.push('/')
+		if (history.location.pathname !== buildHomePageURI()) history.push(buildHomePageURI())
 	}
 
 	const buttonsDiv = <>

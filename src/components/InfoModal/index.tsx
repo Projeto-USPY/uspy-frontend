@@ -17,6 +17,7 @@ import { useTheme } from '@material-ui/styles'
 import ImageBlock from 'components/ImageBlock'
 import AuthenticityCodeImage from 'images/authenticityCode.png'
 import CheckboxesImage from 'images/checkboxes.png'
+import { buildURI as buildUseTermsPageURI } from 'pages/UseTermsPage'
 
 interface InfoModalProps {
 	open: boolean
@@ -72,7 +73,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
 
 					<Divider/>
 					<p> <strong> O que fazemos com o seu histórico escolar? </strong><br/>Seu histórico escolar é usado para extrair seus dados e informações sobre: disciplinas que cursou, médias que obteve e status de aprovação. Antes de irem para o banco de dados, eles são anonimizados e criptografados.
-						Nós garantimos total transparência, e você pode ler mais sobre isso no nosso documento de <Link color='secondary' href='/Termos' target='_blank'> termos e condições</Link>. </p>
+						Nós garantimos total transparência, e você pode ler mais sobre isso no nosso documento de <Link color='secondary' href={buildUseTermsPageURI()} target='_blank'> termos e condições</Link>. </p>
 					<p> O <span className="uspy">USPY</span> funciona graças à colaboração dos usuários em oferecer seus dados para alimentar as estatísticas de aprovações, médias e reviews de disciplinas. </p>
 
 					<Button

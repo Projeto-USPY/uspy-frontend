@@ -31,6 +31,9 @@ import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
 import InputPassword from 'components/PasswordInput'
 import { useMySnackbar } from 'hooks'
+import { buildURI as buildHomePageURI } from 'pages/HomePage'
+import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
+import { buildURI as buildUseTermsPageURI } from 'pages/UseTermsPage'
 import { validateEmail, validatePassword } from 'utils'
 
 import './style.css'
@@ -129,7 +132,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 			api.register(authCode, password[0], captcha, email).then((user: User) => {
 				notify('Sucesso! Agora, procure por um email para verificar sua conta!', 'success')
 				setPending(false)
-				history.push('/Login')
+				history.push(buildLoginPageURI())
 			}).catch(err => {
 				if (err === 400) {
 					alert('Email, código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
@@ -160,7 +163,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 		<FormGroup row>
 			<FormControlLabel
 				control={<Checkbox id="accept" disableRipple color='secondary'/>}
-				label={<>Aceito os <Link color='secondary' href='/Termos' target='_blank'> termos e condições </Link></>}
+				label={<>Aceito os <Link color='secondary' href={buildUseTermsPageURI()} target='_blank'> termos e condições </Link></>}
 			/>
 		</FormGroup>
 		<Button
@@ -179,7 +182,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 			<FormGroup row>
 				<FormControlLabel
 					control={<Checkbox id="accept" disableRipple color='secondary'/>}
-					label={<>Aceito os <Link color='secondary' href='/Termos' target='_blank'> termos e condições </Link></>}
+					label={<>Aceito os <Link color='secondary' href={buildUseTermsPageURI()} target='_blank'> termos e condições </Link></>}
 				/>
 			</FormGroup>
 		</Grid>
@@ -203,7 +206,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				<Navbar/>
 				<div style={{ height: '94px' }}></div>
 				<Container style={{ width: '100% !important' }}>
-					<BreadCrumb links={[{ text: 'Home', url: '/' }, { text: 'Cadastrar', url: '/Cadastro' }]}/>
+					<BreadCrumb links={[{ text: 'Home', url: buildHomePageURI() }, { text: 'Cadastrar', url: '/Cadastro' }]}/>
 					<div style={{ height: `${isDesktop ? '50' : '30'}px` }}></div> {/* Separa 50 verticalmente, ou 30 verticalmente se for mobile */}
 
 					<Typography> Para se registrar, gere um código de autenticidade do seu resumo escolar. <InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)} /> </Typography>

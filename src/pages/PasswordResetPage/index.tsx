@@ -19,6 +19,7 @@ import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
 import InputPassword from 'components/PasswordInput'
 import { useMySnackbar } from 'hooks'
+import { buildURI as buildHomePageURI } from 'pages/HomePage'
 
 import './style.css'
 
@@ -106,7 +107,7 @@ const PasswordResetPage: React.FC = () => {
 			api.resetPassword(authCode, password, captcha).then(() => {
 				notify('Senha redefinida com sucesso!', 'success')
 				setPending(false)
-				history.push('/')
+				history.push(buildHomePageURI())
 			}).catch(err => {
 				if (err === 400) {
 					alert('Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')

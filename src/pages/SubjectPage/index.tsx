@@ -17,12 +17,15 @@ import CollapsibleText from 'components/CollapsibleText'
 import MessagePanel from 'components/MessagePanel'
 import Navbar from 'components/Navbar'
 import RequirementsGraph from 'components/RequirementsGraph'
+import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
+import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
+import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
 import { copyObj, getCourseAlias } from 'utils'
 
 import CreditsIndicator from './CreditsIndicator'
 import GradeDistributionChart from './GradeDistributionChart'
 
-interface URLParameter {
+export interface URLParameter {
 	course: string
 	specialization: string
 	code: string
@@ -31,11 +34,11 @@ interface URLParameter {
 function getBreadcrumbLinks (course: string, specialization: string, code: string) {
 	return [
 		{
-			url: '/Disciplinas',
+			url: buildSubjectsPageURI(),
 			text: 'Disciplinas'
 		},
 		{
-			url: `/Disciplinas/${course}/${specialization}/${code}`,
+			url: buildSubjectPageURI(course, specialization, code),
 			text: code
 		}
 
@@ -172,7 +175,7 @@ const SubjectPage = () => {
 		}
 	} else {
 		const redirectLogin = () => {
-			history.push('/Login', { from: history.location })
+			history.push(buildLoginPageURI(), { from: history.location })
 		}
 		chartContent = <MessagePanel height={200} action={redirectLogin} actionTitle="Entrar" message="Você precisa estar logado para ter acesso a esse recurso"/>
 	}

@@ -22,6 +22,7 @@ import BreadCrumb from 'components/Breadcrumb'
 import Navbar from 'components/Navbar'
 import InputPassword from 'components/PasswordInput'
 import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
+import { buildURI as buildHomePageURI } from 'pages/HomePage'
 import { validatePassword } from 'utils'
 
 const textFieldCommonProps = {
@@ -58,7 +59,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const removeAccount = () => {
 		api.removeAccount().then(() => {
 			setUserNone()
-			history.push('/') // redirect to home page
+			history.push(buildHomePageURI) // redirect to home page
 		}).catch((err: number) => {
 			alert(`Erro: algo aconteceu e o status (${err}) foi recebido.`)
 		})

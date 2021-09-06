@@ -22,7 +22,11 @@ import { setUser } from 'actions'
 import api from 'API'
 import Navbar from 'components/Navbar'
 import { useMySnackbar } from 'hooks'
+
 import './style.css'
+
+import { buildURI as buildPasswordResetPageURI } from 'pages/PasswordResetPage'
+import { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
 
 interface LoginPageProps {
 	setUser: ActionCreator<ReduxAction>
@@ -126,10 +130,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 								<Grid container justify='center'>
 									<Grid item>
 										<Breadcrumbs separator=' '>
-											<Link variant='caption' color='secondary' href='/RedefinicaoSenha'>
+											<Link variant='caption' color='secondary' href={buildPasswordResetPageURI()}>
 											Esqueci a senha
 											</Link>
-											<Link variant='caption' color='secondary' href='/Cadastro'>
+											<Link variant='caption' color='secondary' href={buildRegisterPageURI()}>
 											Cadastrar
 											</Link>
 										</Breadcrumbs>
