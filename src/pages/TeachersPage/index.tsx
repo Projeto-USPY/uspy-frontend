@@ -73,6 +73,11 @@ function renderRow (t: TeacherInfo, clickCallback: Function) {
 	</MyListItem>
 }
 
+export function buildURI (): string {
+	// TODO fix this to include teacher code
+	return '/professores'
+}
+
 const TeachersPage = () => {
 	const clickItem = (id: number) => {
 		console.log('Clicou no id = ', id)

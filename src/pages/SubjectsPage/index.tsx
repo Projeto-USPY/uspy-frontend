@@ -80,6 +80,11 @@ interface SubjectListProps {
 	arr: CourseInfo
 	sortByCode: boolean
 }
+
+export function buildURI (): string {
+	return '/disciplinas'
+}
+
 const SubjectList: React.FC<SubjectListProps> = ({ arr, sortByCode }) => {
 	const [open, setOpen] = useState<boolean>(false)
 

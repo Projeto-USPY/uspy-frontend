@@ -76,6 +76,10 @@ function getRecommendationRate (recommend: number, total: number) {
 	return (100 * recommend / total).toFixed(0)
 }
 
+export function buildURI (courseCode: string, courseSpecialization: string, subjectCode: string): string {
+	return `/disciplinas/${courseCode}/${courseSpecialization}/${subjectCode}`
+}
+
 const SubjectPage = () => {
 	const { course, specialization, code } = useParams<URLParameter>()
 

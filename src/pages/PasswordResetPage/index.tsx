@@ -34,6 +34,10 @@ function goodPassword (pwd: string) {
 	return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(pwd)
 }
 
+export function buildURI (): string {
+	return '/redefinicao-senha'
+}
+
 const PasswordResetPage: React.FC = () => {
 	const notify = useMySnackbar()
 

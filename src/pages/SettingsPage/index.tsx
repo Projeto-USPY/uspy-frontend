@@ -44,6 +44,10 @@ interface SettingsPageProps {
 	setUserNone: ActionCreator<ReduxAction>
 }
 
+export function buildURI (): string {
+	return '/perfil'
+}
+
 const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const [newPwd, setNewPwd] = useState<string>('')
 	const [showPwdError, setShowPwdError] = useState<boolean>(false)

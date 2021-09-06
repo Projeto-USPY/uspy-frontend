@@ -46,6 +46,10 @@ interface RegisterPageProps {
 	setUser: ActionCreator<ReduxAction>
 }
 
+export function buildURI (): string {
+	return '/cadastro'
+}
+
 const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	const notify = useMySnackbar()
 

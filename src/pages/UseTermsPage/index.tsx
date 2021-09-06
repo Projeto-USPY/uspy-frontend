@@ -39,6 +39,10 @@ const cookieList: CookieDescription[] = [{
 	description: <> <i>Cookie</i> usado no fluxo de cadastro, para a obtenção do resumo escolar do usuário </>
 }]
 
+export function buildURI (): string {
+	return '/termos-de-uso'
+}
+
 const UseTermsPage = () => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))

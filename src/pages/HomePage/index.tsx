@@ -14,6 +14,10 @@ import withSearchData from 'HOCs/withSearchData'
 import logo from 'images/logo.svg'
 import './style.css'
 
+export function buildURI (): string {
+	return '/'
+}
+
 const HomePage = () => {
 	const theme = useTheme()
 	const isLarge = useMediaQuery(theme.breakpoints.up('sm'))

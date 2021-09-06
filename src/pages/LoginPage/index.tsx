@@ -28,6 +28,10 @@ interface LoginPageProps {
 	setUser: ActionCreator<ReduxAction>
 }
 
+export function buildURI (): string {
+	return '/login'
+}
+
 const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 	const [nusp, setNusp] = useState('')
 	const history = useHistory()
