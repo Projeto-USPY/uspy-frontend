@@ -12,17 +12,17 @@ import { makeStyles } from '@material-ui/core/styles'
 import { setUser, setUserNone } from 'actions'
 import api from 'API'
 import { SnackbarProvider } from 'notistack'
-import AboutPage from 'pages/AboutPage'
-import HomePage from 'pages/HomePage'
-import LoginPage from 'pages/LoginPage'
+import AboutPage, { buildURI as buildAboutPageURI } from 'pages/AboutPage'
+import HomePage, { buildURI as buildHomePageURI } from 'pages/HomePage'
+import LoginPage, { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import NotFoundPage from 'pages/NotFoundPage'
-import PasswordResetPage from 'pages/PasswordResetPage'
-import RegisterPage from 'pages/RegisterPage'
-import SettingsPage from 'pages/SettingsPage'
-import SubjectPage from 'pages/SubjectPage'
-import SubjectsPage from 'pages/SubjectsPage'
-import TeachersPage from 'pages/TeachersPage'
-import UseTermsPage from 'pages/UseTermsPage'
+import PasswordResetPage, { buildURI as buildPasswordResetPageURI } from 'pages/PasswordResetPage'
+import RegisterPage, { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
+import SettingsPage, { buildURI as buildProfilePageURI } from 'pages/SettingsPage'
+import SubjectPage, { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
+import SubjectsPage, { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
+import TeachersPage, { buildURI as buildTeachersPageURI } from 'pages/TeachersPage'
+import UseTermsPage, { buildURI as buildUseTermsPageURI } from 'pages/UseTermsPage'
 import reducer from 'reducer'
 import LoggedInRoute from 'routes/LoggedInRoute'
 import LoggedOutRoute from 'routes/LoggedOutRoute'
@@ -79,16 +79,16 @@ const App = () => {
 					<BrowserRouter>
 						<ScrollToTop/>
 						<Switch>
-							<LoggedOutRoute exact path='/Login' component={LoginPage}/>
-							<LoggedOutRoute exact path='/Cadastro' component={RegisterPage}/>
-							<Route exact path='/Professores' component={TeachersPage}/>
-							<Route exact path='/Disciplinas' component={SubjectsPage}/>
-							<LoggedOutRoute exact path='/RedefinicaoSenha' component={PasswordResetPage}/>
-							<LoggedInRoute exact path='/Perfil' component={SettingsPage}/>
-							<Route exact path='/Sobre' component={AboutPage}/>
-							<Route exact path='/Termos' component={UseTermsPage}/>
-							<Route exact path='/Disciplinas/:course/:specialization/:code' component={SubjectPage}/>
-							<Route exact path='/' component={HomePage}/>
+							<LoggedOutRoute exact path={buildLoginPageURI()} component={LoginPage}/>
+							<LoggedOutRoute exact path={buildRegisterPageURI()} component={RegisterPage}/>
+							<Route exact path={buildTeachersPageURI()} component={TeachersPage}/>
+							<Route exact path={buildSubjectsPageURI()} component={SubjectsPage}/>
+							<LoggedOutRoute exact path={buildPasswordResetPageURI()} component={PasswordResetPage}/>
+							<LoggedInRoute exact path={buildProfilePageURI()} component={SettingsPage}/>
+							<Route exact path={buildAboutPageURI()} component={AboutPage}/>
+							<Route exact path={buildUseTermsPageURI()} component={UseTermsPage}/>
+							<Route exact path={buildSubjectPageURI(':course', ':specialization', ':code')} component={SubjectPage}/>
+							<Route exact path={buildHomePageURI()} component={HomePage}/>
 							<Route path='/' component={NotFoundPage}/>
 						</Switch>
 					</BrowserRouter>
