@@ -206,7 +206,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				<Navbar/>
 				<div style={{ height: '94px' }}></div>
 				<Container style={{ width: '100% !important' }}>
-					<BreadCrumb links={[{ text: 'Home', url: buildHomePageURI() }, { text: 'Cadastrar', url: '/Cadastro' }]}/>
+					<BreadCrumb links={[{ text: 'Home', url: buildHomePageURI() }, { text: 'Cadastrar', url: buildURI() }]}/>
 					<div style={{ height: `${isDesktop ? '50' : '30'}px` }}></div> {/* Separa 50 verticalmente, ou 30 verticalmente se for mobile */}
 
 					<Typography> Para se registrar, gere um código de autenticidade do seu resumo escolar. <InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)} /> </Typography>
