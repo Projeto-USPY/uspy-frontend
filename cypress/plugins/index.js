@@ -16,7 +16,41 @@
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line no-unused-vars
-module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+
+const webpackPreprocessor = require('@cypress/webpack-preprocessor')
+const path = require('path')
+
+const webpackConfig = require('../../webpack.config')({ local: true }, { mode: 'development' })
+
+module.exports = (on) => {
+	const options = webpackPreprocessor.defaultOptions
+
+	// fix bug with strict imports that require extension
+	webpackConfig.module.rules.push({
+		test: /\.m?js/,
+		resolve: {
+			fullySpecified: false
+		}
+	})
+
+	// change root path
+	webpackConfig.resolve = {
+		extensions: ['.tsx', '.ts', '.js'],
+		modules: [path.join('../..', 'node_modules'), path.join('../..', 'src')]
+	}
+
+	// fix incompatiblity with webpack 5 https://github.com/cypress-io/cypress/issues/8900
+	let outputOptions = {}
+	Object.defineProperty(webpackConfig, 'output', {
+		get: () => {
+			return { ...outputOptions, publicPath: '' }
+		},
+		set: function (x) {
+			outputOptions = x
+		}
+	})
+
+	options.webpackOptions = webpackConfig
+
+	on('file:preprocessor', webpackPreprocessor(options))
 }
