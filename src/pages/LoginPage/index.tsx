@@ -21,11 +21,12 @@ import { ReduxAction } from 'types/redux'
 import { setUser } from 'actions'
 import api from 'API'
 import Navbar from 'components/Navbar'
+import PasswordRedefinitionModal from 'components/PasswordRedefinitionModal'
+import SendActivationEmailModal from 'components/SendActivationEmailModal'
 import { useMySnackbar } from 'hooks'
 
 import './style.css'
 
-import { buildURI as buildPasswordResetPageURI } from 'pages/PasswordResetPage'
 import { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
 
 interface LoginPageProps {
@@ -38,6 +39,9 @@ export function buildURI (): string {
 
 const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 	const [nusp, setNusp] = useState('')
+	const [passwordRedefinitionModalOpen, setPasswordRedefinitionModalOpen] = useState<boolean>(false)
+	const [sendActivationEmailModalOpen, setSendActivationEmailModalOpen] = useState<boolean>(false)
+	const [showSendActivationEmailButton, setShowSendActivationEmailButton] = useState<boolean>(false)
 	const history = useHistory()
 	const notify = useMySnackbar()
 	const location = useLocation()
@@ -57,12 +61,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 			// Redirect cases
 			const { from } = location.state || { from: { pathname: '/' } } as any
 			history.replace(from)
-		}).catch((statusCode: number) => {
+		}).catch(({ statusCode, errorMessage }) => {
 			if (statusCode === 400) {
 				alert('Bad Request (400). Certifique-se de que os campos estão corretos')
 			} else if (statusCode === 401) {
 				alert('Número USP ou senha incorretos')
+			} else if (statusCode === 403) {
+				if (errorMessage === 'e-mail ainda não foi verificado') {
+					alert('Sua conta ainda não foi verificada. Cheque seu inbox ou clique em "Reenviar email de ativação" se você não recebeu nenhuma mensagem')
+					setShowSendActivationEmailButton(true)
+				}
 			} else {
+				console.error(errorMessage)
 				alert('Algo de errado aconteceu :(. Tente novamente mais tarde.')
 			}
 		})
@@ -130,12 +140,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 								<Grid container justify='center'>
 									<Grid item>
 										<Breadcrumbs separator=' '>
-											<Link variant='caption' color='secondary' href={buildPasswordResetPageURI()}>
+											<Link variant='caption' color='secondary' style={{ cursor: 'pointer' }} onClick={() => setPasswordRedefinitionModalOpen(true)}>
 											Esqueci a senha
 											</Link>
 											<Link variant='caption' color='secondary' href={buildRegisterPageURI()}>
 											Cadastrar
 											</Link>
+											{ showSendActivationEmailButton
+												? <Link variant='caption' color='secondary' style={{ cursor: 'pointer' }} onClick={() => setSendActivationEmailModalOpen(true)}>
+											Reenviar email de ativação
+												</Link>
+												: null}
 										</Breadcrumbs>
 									</Grid>
 								</Grid>
@@ -144,6 +159,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 
 					</Grid>
 				</Container>
+				<PasswordRedefinitionModal open={passwordRedefinitionModalOpen} handleClose={() => setPasswordRedefinitionModalOpen(false)} />
+				<SendActivationEmailModal open={sendActivationEmailModalOpen} handleClose={() => setSendActivationEmailModalOpen(false)} />
 			</main>
 		</div>
 

@@ -118,7 +118,12 @@ class APIClient {
 			})
 			return data
 		} catch (err) {
-			throw err.request.status
+			// TODO(25): remove the line below
+			// eslint-disable-next-line no-throw-literal
+			throw ({
+				statusCode: err.response.status,
+				errorMessage: err.response.data
+			})
 		}
 	}
 
@@ -193,6 +198,26 @@ class APIClient {
 				access_key: authCode,
 				captcha,
 				password
+			})
+		} catch (err) {
+			throw err.request.status
+		}
+	}
+
+	async sendActivationEmail (email: string) {
+		try {
+			await this.axiosClient.post('/account/email/verification', {
+				email: email
+			})
+		} catch (err) {
+			throw err.request.status
+		}
+	}
+
+	async sendPasswordRedefinitionEmail (email: string) {
+		try {
+			await this.axiosClient.post('/account/email/password_reset', {
+				email: email
 			})
 		} catch (err) {
 			throw err.request.status

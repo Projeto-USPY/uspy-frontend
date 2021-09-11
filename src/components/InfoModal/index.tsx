@@ -21,7 +21,7 @@ import { buildURI as buildUseTermsPageURI } from 'pages/UseTermsPage'
 
 interface InfoModalProps {
 	open: boolean
-	handleClose: ()=>void
+	handleClose: () => void
 }
 
 const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
