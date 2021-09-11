@@ -147,7 +147,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 		targetId: x.code,
 		targetAnchor: 'left',
 		sourceAnchor: 'right',
-		style: x.strong ? { strokeWidth: 2 } : {}
+		style: x.strong ? { strokeWidth: 2.5 } : {}
 	}))
 
 	const content = <Grid container spacing={3} alignItems="stretch" style={{ height: `${cardHeight}px` }} >
@@ -162,7 +162,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 					targetId: code,
 					targetAnchor: 'left',
 					sourceAnchor: 'right',
-					style: req.strong ? { strokeWidth: 2 } : {}
+					style: req.strong ? { strokeWidth: 2.5 } : {}
 				}]}
 			/>
 			)}
