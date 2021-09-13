@@ -223,6 +223,18 @@ class APIClient {
 			throw err.request.status
 		}
 	}
+
+	async verifyAccount (token: string) {
+		try {
+			await this.axiosClient.get('/account/verify', {
+				params: {
+					token
+				}
+			})
+		} catch (err) {
+			throw err.request.status
+		}
+	}
 };
 
 const Client = new APIClient()

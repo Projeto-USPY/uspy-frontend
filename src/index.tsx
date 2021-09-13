@@ -13,6 +13,7 @@ import { setUser, setUserNone } from 'actions'
 import api from 'API'
 import { SnackbarProvider } from 'notistack'
 import AboutPage, { buildURI as buildAboutPageURI } from 'pages/AboutPage'
+import AccountActivationPage, { buildURI as buildAccountActivationPageURI } from 'pages/AccountActivationPage'
 import HomePage, { buildURI as buildHomePageURI } from 'pages/HomePage'
 import LoginPage, { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import NotFoundPage from 'pages/NotFoundPage'
@@ -89,6 +90,7 @@ const App = () => {
 							<Route exact path={buildUseTermsPageURI()} component={UseTermsPage}/>
 							<Route exact path={buildSubjectPageURI(':course', ':specialization', ':code')} component={SubjectPage}/>
 							<Route exact path={buildHomePageURI()} component={HomePage}/>
+							<Route exact path={buildAccountActivationPageURI()} component={AccountActivationPage}/>
 							<Route path='/' component={NotFoundPage}/>
 						</Switch>
 					</BrowserRouter>
