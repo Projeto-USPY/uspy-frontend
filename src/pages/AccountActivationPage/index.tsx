@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 
 import api from 'API'
 import Navbar from 'components/Navbar'
+import ErrorDrawing from 'images/error-illustration.svg'
 import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 
 export function buildURI (): string {
@@ -27,10 +28,11 @@ const AccountActivationPage = () => {
 				history.replace(buildLoginPageURI())
 			}, 3000)
 		}).catch(err => {
+			setVerifying(false)
 			if (err === 400) {
-				setErrorMessage('Este link expirou :(')
+				setErrorMessage('Erro: este link expirou :(')
 			} else if (err === 404) {
-				setErrorMessage('Este usuário não existe')
+				setErrorMessage('Erro: este usuário não existe')
 			} else {
 				setErrorMessage(`Algo de errado aconteceu :(. Tente novamente mais tarde (${err})`)
 			}
@@ -52,6 +54,9 @@ const AccountActivationPage = () => {
 									? <Typography variant='h4'> {errorMessage} </Typography>
 									: <Typography variant='h4'> Conta verificada com sucesso! </Typography>
 						}
+					</Grid>
+					<Grid item>
+						<img src={ErrorDrawing} height={200}/>
 					</Grid>
 				</Grid>
 
