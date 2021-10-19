@@ -55,9 +55,11 @@ const AccountActivationPage = () => {
 									: <Typography variant='h4'> Conta verificada com sucesso! </Typography>
 						}
 					</Grid>
-					<Grid item>
-						<img src={ErrorDrawing} height={200}/>
-					</Grid>
+					{errorMessage
+						? <Grid item>
+							<img src={ErrorDrawing} height={200}/>
+						</Grid>
+						: null}
 				</Grid>
 
 			</Container>
