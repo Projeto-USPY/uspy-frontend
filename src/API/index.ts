@@ -192,11 +192,10 @@ class APIClient {
 		}
 	}
 
-	async resetPassword (authCode: string, password: string, captcha: string) {
+	async resetPassword (token: string, password: string) {
 		try {
 			await this.axiosClient.put('/account/password_reset', {
-				access_key: authCode,
-				captcha,
+				token,
 				password
 			})
 		} catch (err) {
