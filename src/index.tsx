@@ -17,6 +17,7 @@ import AccountActivationPage, { buildURI as buildAccountActivationPageURI } from
 import HomePage, { buildURI as buildHomePageURI } from 'pages/HomePage'
 import LoginPage, { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import NotFoundPage from 'pages/NotFoundPage'
+import OfferingsPage, { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 import PasswordResetPage, { buildURI as buildPasswordResetPageURI } from 'pages/PasswordResetPage'
 import RegisterPage, { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
 import SettingsPage, { buildURI as buildProfilePageURI } from 'pages/SettingsPage'
@@ -89,6 +90,7 @@ const App = () => {
 							<Route exact path={buildAboutPageURI()} component={AboutPage}/>
 							<Route exact path={buildUseTermsPageURI()} component={UseTermsPage}/>
 							<Route exact path={buildSubjectPageURI(':course', ':specialization', ':code')} component={SubjectPage}/>
+							<LoggedInRoute exact path={buildOfferingsPageURI(':course', ':specialization', ':code')} component={OfferingsPage}/>
 							<Route exact path={buildHomePageURI()} component={HomePage}/>
 							<Route exact path={buildAccountActivationPageURI()} component={AccountActivationPage}/>
 							<Route path='/' component={NotFoundPage}/>

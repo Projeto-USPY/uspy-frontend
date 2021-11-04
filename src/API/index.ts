@@ -1,4 +1,5 @@
 
+import { Offering } from 'types/Offering'
 import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { User } from 'types/User'
 
@@ -134,6 +135,22 @@ class APIClient {
 			// Fail gracefully, do nothing
 			if (err.request.status === 401) console.error('Can\'t logout if you are not logged in (401)')
 			else console.error(`Something bad happened (${err.request.status})`)
+		}
+	}
+
+	async getSubjectOfferings (course: string, specialization: string, code: string, limit?: number): Promise<Offering[]> {
+		try {
+			const { data } = await this.axiosClient.get('/api/restricted/subject/offerings', {
+				params: {
+					code,
+					specialization,
+					course,
+					limit: limit || 100
+				}
+			})
+			return data as Offering[]
+		} catch (err) {
+			throw err.request.status
 		}
 	}
 

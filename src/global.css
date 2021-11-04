@@ -10,6 +10,14 @@
 	background-color: #F1F1F1
 }
 
+.not-so-gray {
+	background-color: #FAFAFA
+}
+
+.full-height {
+	height: 100%;
+}
+
 .tooltip-card {
 	padding: 4px;
 	min-width: 150px;
