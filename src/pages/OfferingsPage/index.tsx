@@ -52,11 +52,11 @@ function getBreadcrumbLinks (course: string, specialization: string, code: strin
 	]
 }
 
-/* const offeringss = [
+const offeringss = [
 	{
 		professor: 'Kalinka Castelo Branco',
 		code: 'fjdsalfjdksljfkldsa',
-		years: ['2020'],
+		years: ['2020', '2017', '2016'],
 		approval: 0.4,
 		neutral: 0.1,
 		disapproval: 0.5
@@ -64,7 +64,7 @@ function getBreadcrumbLinks (course: string, specialization: string, code: strin
 	{
 		professor: 'João do Espírito Santo Batista De Mattos',
 		code: 'fjdsalfjdksljfkldsadfs',
-		years: ['2020'],
+		years: ['2020', '2021', '2019', '2015', '2014', '2013'],
 		approval: 0.6,
 		neutral: 0.1,
 		disapproval: 0.3
@@ -72,12 +72,12 @@ function getBreadcrumbLinks (course: string, specialization: string, code: strin
 	{
 		professor: 'Abacaxi',
 		code: 'fjdsalxdsjdksljfkldsadfs',
-		years: ['2020'],
+		years: ['2020', '2019', '2018'],
 		approval: 0.6,
 		neutral: 0.1,
 		disapproval: 0.3
 	}
-] */
+]
 
 const OfferingsPage = () => {
 	const { course, specialization, code } = useParams<URLParameter>()
@@ -101,7 +101,6 @@ const OfferingsPage = () => {
 		})
 
 		api.getSubjectOfferings(course, specialization, code).then(data => {
-			console.log(data)
 			setOfferings(data)
 		}).catch((err: number) => {
 			if (err === 404) {
@@ -134,7 +133,7 @@ const OfferingsPage = () => {
 						<Grid item spacing={2} xs container alignItems='stretch'>
 							<Grid item xs={3}>
 								<GrayCard elevation={3} raised className='full-height not-so-gray'>
-									<OfferingsList list={offerings} selected={selectedOffering} setSelected={setSelectedOffering}/>
+									<OfferingsList list={offeringss} selected={selectedOffering} setSelected={setSelectedOffering}/>
 								</GrayCard>
 							</Grid>
 							<Grid item xs={9}>

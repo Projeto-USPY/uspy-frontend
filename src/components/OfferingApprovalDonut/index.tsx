@@ -12,7 +12,7 @@ interface PropsType {
 }
 
 function toPercentage (x: number): string {
-	return (100 * x).toFixed(1) + '%'
+	return (100 * x).toFixed(0) + '%'
 }
 
 const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disapproval }: PropsType) => {
@@ -68,8 +68,8 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 	>
 		<Paper className="prompt tooltip-card">
 			{
-				missingData ? <span style={{ textAlign: 'center' }}>Ainda não existem avaliações para este professor </span>
-					: <ul>
+				missingData ? 'Não existem avaliações suficientes para este professor'
+					: <ul className="donut-tooltip">
 						<li> Aprovam: {toPercentage(approval)} </li>
 						<li> Desaprovam: {toPercentage(disapproval)} </li>
 						<li> Neutros: {toPercentage(neutral)} </li>

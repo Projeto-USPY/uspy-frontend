@@ -10,8 +10,28 @@
 	background-color: #F1F1F1
 }
 
-.not-so-gray {
-	background-color: #FAFAFA
+.donut-tooltip {
+	list-style: none; /* Remove default bullets */
+	margin-left: -2em;
+}
+
+.donut-tooltip li::before {
+	content: "\25A0";
+}
+
+.donut-tooltip li:nth-child(1)::before {
+	color: #00910E;
+	font-weight: bolder;
+}
+
+.donut-tooltip li:nth-child(2)::before {
+	color: red;
+	font-weight: bolder;
+}
+
+.donut-tooltip li:nth-child(3)::before {
+	color: #DEDEDE;
+	font-weight: bolder;
 }
 
 .full-height {
