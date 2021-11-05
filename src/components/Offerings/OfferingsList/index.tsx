@@ -6,7 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 
 import { Offering } from 'types/Offering'
 
-import OfferingApprovalDonut from 'components/OfferingApprovalDonut'
+import OfferingApprovalDonut from 'components/Offerings/OfferingApprovalDonut'
 
 interface PropsType {
     list: Offering[]

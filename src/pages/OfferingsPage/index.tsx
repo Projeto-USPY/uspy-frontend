@@ -15,7 +15,8 @@ import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import ErrorScreen from 'components/ErrorScreen'
 import Navbar from 'components/Navbar'
-import OfferingsList from 'components/OfferingsList'
+import OfferingReviewsPanel from 'components/Offerings/OfferingReviewsPanel'
+import OfferingsList from 'components/Offerings/OfferingsList'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
 
@@ -81,7 +82,7 @@ const offeringss = [
 
 const OfferingsPage = () => {
 	const { course, specialization, code } = useParams<URLParameter>()
-	const [selectedOffering, setSelectedOffering] = useState<string>('fjdsalfjdksljfkldsa')
+	const [selectedOffering, setSelectedOffering] = useState<string>('')
 	const [subject, setSubject] = useState<Subject | null>(null)
 	const [errorMessage, setErrorMessage] = useState<string>('')
 	const [offerings, setOfferings] = useState<Offering[] | null>(null)
@@ -138,7 +139,7 @@ const OfferingsPage = () => {
 							</Grid>
 							<Grid item xs={9}>
 								<GrayCard elevation={3} raised className='full-height not-so-gray'>
-									Hello World!
+									<OfferingReviewsPanel/>
 								</GrayCard>
 							</Grid>
 						</Grid>

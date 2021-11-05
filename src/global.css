@@ -34,8 +34,31 @@
 	font-weight: bolder;
 }
 
+.offering-review-form-accordion {
+	position: absolute;
+	bottom: 0;
+	min-height: 50px;
+	background-color: #415C7755;
+}
+
+.offering-review-form-accordion-button {
+	height: 50px;
+	padding-right: 25px;
+	cursor: pointer;
+}
+
+.offering-review-form-accordion-content {
+	min-height: 150px;
+	padding: 1rem;	
+}
+
+
 .full-height {
 	height: 100%;
+}
+
+.full-width {
+	width: 100%;
 }
 
 .tooltip-card {
