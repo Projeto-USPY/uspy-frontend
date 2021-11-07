@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Chip from '@material-ui/core/Chip'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -15,21 +16,23 @@ interface PropsType {
 	maxWidth?: number | string
 }
 
-function createYearsList (offering: Offering): string {
+function createYearsList (offering: Offering): React.ReactNode {
 	return offering.years
 		.sort((a: string, b: string) => {
 			const aa = parseInt(a)
 			const bb = parseInt(b)
 			return aa === bb ? 0 : a > b ? -1 : 1
 		})
-		.slice(0, 5).join(', ')
+		.slice(0, 5)
+		.map(year => <Chip component='span' size='small' variant='outlined' color='secondary' key={year} label={year}/>)
 }
 
 const OfferingsList: React.FC<PropsType> = ({ list, selected, setSelected, maxWidth }: PropsType) => {
+	console.log('selected', selected)
 	return <List style={{ maxWidth }}>
 		{list.map(offering => {
-			return <ListItem button key={offering.code} selected={offering.code === selected} onClick={() => setSelected(offering.code)}>
-				<ListItemText primary={offering.professor} secondary={createYearsList(offering)}/>
+			return <ListItem button key={offering.code} selected={offering.code === selected} color='secondary' onClick={() => setSelected(offering.code)}>
+				<ListItemText primary={offering.professor} secondary={<>{createYearsList(offering)}</>}/>
 				<OfferingApprovalDonut approval={offering.approval} neutral={offering.neutral} disapproval={offering.disapproval}/>
 			</ListItem>
 		})}

@@ -53,7 +53,7 @@ function getBreadcrumbLinks (course: string, specialization: string, code: strin
 	]
 }
 
-const offeringss = [
+/* const offeringss = [
 	{
 		professor: 'Kalinka Castelo Branco',
 		code: 'fjdsalfjdksljfkldsa',
@@ -78,7 +78,7 @@ const offeringss = [
 		neutral: 0.1,
 		disapproval: 0.3
 	}
-]
+] */
 
 const OfferingsPage = () => {
 	const { course, specialization, code } = useParams<URLParameter>()
@@ -103,6 +103,9 @@ const OfferingsPage = () => {
 
 		api.getSubjectOfferings(course, specialization, code).then(data => {
 			setOfferings(data)
+			if (data.length) {
+				setSelectedOffering(data[0].code)
+			}
 		}).catch((err: number) => {
 			if (err === 404) {
 				setErrorMessage('Não foi possível encontrar essa disciplina')
@@ -130,16 +133,17 @@ const OfferingsPage = () => {
 					: <Grid item xs container direction="column">
 						<Grid item xs="auto">
 							<Typography variant="h4"> Oferecimentos de {subject.name} </Typography>
+							<br/>
 						</Grid>
 						<Grid item spacing={2} xs container alignItems='stretch'>
 							<Grid item xs={3}>
 								<GrayCard elevation={3} raised className='full-height not-so-gray'>
-									<OfferingsList list={offeringss} selected={selectedOffering} setSelected={setSelectedOffering}/>
+									<OfferingsList list={offerings} selected={selectedOffering} setSelected={setSelectedOffering}/>
 								</GrayCard>
 							</Grid>
 							<Grid item xs={9}>
 								<GrayCard elevation={3} raised className='full-height not-so-gray'>
-									<OfferingReviewsPanel/>
+									<OfferingReviewsPanel professor={selectedOffering}/>
 								</GrayCard>
 							</Grid>
 						</Grid>

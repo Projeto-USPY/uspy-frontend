@@ -10,8 +10,6 @@ import GithubLogo from 'images/GithubLogo.svg'
 import { buildURI as buildAboutPageURI } from 'pages/AboutPage'
 import { buildURI as buildUseTermsPageURI } from 'pages/UseTermsPage'
 
-import './style.css'
-
 const useStyles = makeStyles(theme => createStyles({
 	footer: {
 		backgroundColor: theme.palette.primary.main,

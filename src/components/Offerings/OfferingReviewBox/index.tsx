@@ -1,20 +1,31 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
+import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import LockIcon from '@material-ui/icons/Lock'
+import LockOpenIcon from '@material-ui/icons/LockOpen'
 
+import { OfferingReview } from 'types/Offering'
+
+import api from 'API'
+import { useMySnackbar } from 'hooks'
 import EmoteHated from 'images/hated.svg'
 import EmoteIndifferent from 'images/indifferent.png'
 import EmoteLiked from 'images/liked.png'
 import EmoteLoved from 'images/loved.svg'
 import EmoteUnliked from 'images/unliked.png'
+import { URLParameter } from 'pages/OfferingsPage'
 
 const emotes = [
 	{
@@ -50,17 +61,82 @@ const OfferingReviewInput = withStyles(theme => ({
 		boxSizing: 'border-box',
 		'&:hover': {
 			backgroundColor: '#fff'
-		},
-		'&$focused': {
-			backgroundColor: '#fff',
-			borderColor: theme.palette.primary.main
 		}
-	},
-	focused: {}
+	}
 }))(TextField)
 
-const OfferingReviewBox = () => {
+const COMMENT_THRESHOLD = 10
+const COMMENT_LIMIT = 300
+
+interface PropTypes {
+    professor: string
+    review: OfferingReview
+    setReview: (r: OfferingReview) => void
+}
+
+const OfferingReviewBox: React.FC<PropTypes> = ({ professor, review, setReview }) => {
 	const [isReviewFormOpen, setIsReviewFormOpen] = useState<boolean>(false)
+	const [comment, setComment] = useState<string>('')
+	const [rate, setRate] = useState<number | null>(null)
+	const [pending, setPending] = useState<boolean>(false)
+	const [editing, setEditing] = useState<boolean>(false)
+	const notify = useMySnackbar()
+	const { course, specialization, code } = useParams<URLParameter>()
+
+	// Loaded review
+	useEffect(() => {
+		setComment(review?.body || '')
+		setRate(review?.rating || null)
+		setEditing(false)
+	}, [review])
+
+	// Reset component when selected professor changes
+	useEffect(() => {
+		setComment('')
+		setRate(null)
+		setPending(false)
+		setEditing(false)
+	}, [professor])
+
+	const handleCommentChange = (s: string) => {
+		if (s.length <= COMMENT_LIMIT) {
+			setComment(s)
+		}
+	}
+
+	const handleRateChange = (x: number) => {
+		if (x === rate) {
+			setRate(null)
+		} else {
+			setRate(x)
+		}
+	}
+
+	const handleReviewSubmit = useCallback(() => {
+		setPending(true)
+		api.submitOfferingReview(
+			course,
+			specialization,
+			code,
+			professor,
+			comment,
+			rate
+		).then(review => {
+			notify('Sua avaliação foi enviada!', 'success')
+			setReview(review)
+			setPending(false)
+		}).catch(err => {
+			if (err === 403) {
+				notify('Você precisa ter feito a matéria para avaliar', 'info')
+			} else {
+				alert(`Algo de errado aconteceu (${err}). Tente novamente mais tarde!`)
+			}
+			setPending(false)
+		})
+	}, [comment, rate])
+
+	const isLocked = editing === false && review !== null
+
 	return <div className='full-width offering-review-form-accordion'>
 		<Grid container
 			className='offering-review-form-accordion-button'
@@ -87,19 +163,36 @@ const OfferingReviewBox = () => {
 				>
 					<Grid container item justify='center' xs='auto'>
 						<Typography variant='caption'> Lembre-se:
-                        O USPY não se responsabiliza pelas avaliações feita por você,
-                        porém desrespeitar ou ofender docentes podem resultar no
-                        banimento da sua conta e remoção do seu comentário.
+                        O USPY não se responsabiliza pelas avaliações feitas por você,
+                        porém desrespeitar ou ofender docentes podem resultar na
+                        remoção do seu comentário e banimento da sua conta.
 						</Typography>
 					</Grid>
 					<Grid item xs>
 						<OfferingReviewInput
 							InputProps={{ disableUnderline: true }}
 							multiline
+							value={comment}
+							onChange={evt => handleCommentChange(evt.target.value)}
 							rows={5}
 							fullWidth
-							helperText='ola'
+							helperText={`${comment.length}/300`}
+							disabled={isLocked}
 						/>
+						{ review
+							? <Grid container direction='row-reverse'>
+								<IconButton onClick={() => setEditing(!editing)}>
+									<Tooltip title={editing ? 'Lock review' : 'Edit Review' }>
+										{
+											editing
+												? <LockOpenIcon color='secondary'/>
+												: <LockIcon color='secondary'/>
+										}
+									</Tooltip>
+								</IconButton>
+							</Grid>
+							: null
+						}
 					</Grid>
 					<Grid item container justify='space-around' wrap='wrap'>
 						<Grid
@@ -108,16 +201,27 @@ const OfferingReviewBox = () => {
 							justify='space-around'
 							style={{ minWidth: 400, maxWidth: 400 }}
 						>
-							{emotes.map(emote => (
+							{emotes.map((emote, idx) => (
 								<Grid
 									xs item container
 									direction='column'
 									justify='center'
 									alignItems='center'
-									key={emote.caption}
+									key={idx}
 								>
-									<img src={emote.emote} height={36}/>
-									<Typography variant='caption'>
+									<div tabIndex={idx} className={`
+                                        move-up-hover-parent 
+                                        move-down-on-click-parent 
+                                        ${rate === idx + 1 ? 'img-popped' : ''}
+                                    `}>
+										<img
+											src={emote.emote}
+											height={36}
+											className={isLocked ? '' : `cursor-pointer ${rate !== idx + 1 ? 'move-up-hover-child' : ''}`}
+											onClick={isLocked ? null : () => handleRateChange(idx + 1)}
+										/>
+									</div>
+									<Typography variant='caption' color={idx + 1 === rate ? 'textPrimary' : 'textSecondary'}>
 										{emote.caption}
 									</Typography>
 								</Grid>
@@ -129,8 +233,16 @@ const OfferingReviewBox = () => {
 								color="secondary"
 								size="large"
 								variant="outlined"
+								disabled={rate === null || comment.length < COMMENT_THRESHOLD || isLocked || (comment === review.body && rate === review.rating)}
+								onClick={handleReviewSubmit}
 							>
-                            ENVIAR
+								{
+									pending
+										? <CircularProgress color='secondary'/>
+										: review === null
+											? 'ENVIAR'
+											: 'EDITAR'
+								}
 							</Button>
 						</Grid>
 					</Grid>

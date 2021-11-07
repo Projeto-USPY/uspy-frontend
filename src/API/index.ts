@@ -1,5 +1,5 @@
 
-import { Offering } from 'types/Offering'
+import { Offering, OfferingReview } from 'types/Offering'
 import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { User } from 'types/User'
 
@@ -149,6 +149,64 @@ class APIClient {
 				}
 			})
 			return data as Offering[]
+		} catch (err) {
+			throw err.request.status
+		}
+	}
+
+	async getUserOfferingReview (course: string, specialization: string, code: string, professor: string): Promise<OfferingReview> {
+		try {
+			const { data } = await this.axiosClient.get('/private/subject/offerings/comments', {
+				params: {
+					code,
+					specialization,
+					course,
+					professor
+				}
+			})
+			return data as OfferingReview
+		} catch (err) {
+			throw err.request.status
+		}
+	}
+
+	async getOfferingReviews (course: string, specialization: string, code: string, professor: string): Promise<OfferingReview[]> {
+		try {
+			const { data } = await this.axiosClient.get('/api/restricted/subject/offerings/comments', {
+				params: {
+					code,
+					specialization,
+					course,
+					professor
+				}
+			})
+			return data as OfferingReview[]
+		} catch (err) {
+			throw err.request.status
+		}
+	}
+
+	async submitOfferingReview (
+		course: string,
+		specialization: string,
+		code: string,
+		professor: string,
+		body: string,
+		rating: number
+	): Promise<OfferingReview> {
+		try {
+			const { data } = await this.axiosClient.put('/private/subject/offerings/comments', {
+				body,
+				rating
+			}, {
+				params: {
+					course,
+					specialization,
+					code,
+					professor
+				}
+			})
+			return data as OfferingReview
 		} catch (err) {
 			throw err.request.status
 		}

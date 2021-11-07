@@ -96,7 +96,7 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 
 	return <>
 		<div onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
-			<ResponsiveContainer width={60} height={60}>
+			<ResponsiveContainer aspect={1} height={60}>
 				<PieChart width={60} height={60}>
 					<Pie dataKey='value' data={data} cx="50%" cy="50%" outerRadius={20} innerRadius={10} startAngle={90} endAngle={450}>
 						{

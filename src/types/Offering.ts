@@ -6,3 +6,13 @@ export interface Offering {
     neutral: number
     disapproval: number
 }
+
+export interface OfferingReview {
+    id: string,
+    rating: number
+    body: string
+    edited: boolean
+    timestamp: string
+    upvotes: number
+    downvotes: number
+}
