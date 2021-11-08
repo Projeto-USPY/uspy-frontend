@@ -8,11 +8,15 @@ export interface Offering {
 }
 
 export interface OfferingReview {
-    id: string,
+    uuid: string,
     rating: number
     body: string
     edited: boolean
     timestamp: string
     upvotes: number
     downvotes: number
+}
+
+export interface OfferingReviewVote {
+    type: 'upvote' | 'downvote'
 }

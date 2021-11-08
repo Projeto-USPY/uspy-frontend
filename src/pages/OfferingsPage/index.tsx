@@ -17,6 +17,7 @@ import ErrorScreen from 'components/ErrorScreen'
 import Navbar from 'components/Navbar'
 import OfferingReviewsPanel from 'components/Offerings/OfferingReviewsPanel'
 import OfferingsList from 'components/Offerings/OfferingsList'
+import OfferingContext from 'contexts/OfferingContext'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
 
@@ -143,7 +144,14 @@ const OfferingsPage = () => {
 							</Grid>
 							<Grid item xs={9}>
 								<GrayCard elevation={3} raised className='full-height not-so-gray'>
-									<OfferingReviewsPanel professor={selectedOffering}/>
+									<OfferingContext.Provider value={{
+										professor: selectedOffering,
+										course,
+										specialization,
+										code
+									}}>
+										<OfferingReviewsPanel />
+									</OfferingContext.Provider>
 								</GrayCard>
 							</Grid>
 						</Grid>

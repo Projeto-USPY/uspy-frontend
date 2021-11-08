@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -19,13 +18,13 @@ import LockOpenIcon from '@material-ui/icons/LockOpen'
 import { OfferingReview } from 'types/Offering'
 
 import api from 'API'
+import OfferingContext from 'contexts/OfferingContext'
 import { useMySnackbar } from 'hooks'
 import EmoteHated from 'images/hated.svg'
 import EmoteIndifferent from 'images/indifferent.png'
 import EmoteLiked from 'images/liked.png'
 import EmoteLoved from 'images/loved.svg'
 import EmoteUnliked from 'images/unliked.png'
-import { URLParameter } from 'pages/OfferingsPage'
 
 const emotes = [
 	{
@@ -69,19 +68,18 @@ const COMMENT_THRESHOLD = 10
 const COMMENT_LIMIT = 300
 
 interface PropTypes {
-    professor: string
     review: OfferingReview
     setReview: (r: OfferingReview) => void
 }
 
-const OfferingReviewBox: React.FC<PropTypes> = ({ professor, review, setReview }) => {
+const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 	const [isReviewFormOpen, setIsReviewFormOpen] = useState<boolean>(false)
 	const [comment, setComment] = useState<string>('')
 	const [rate, setRate] = useState<number | null>(null)
 	const [pending, setPending] = useState<boolean>(false)
 	const [editing, setEditing] = useState<boolean>(false)
 	const notify = useMySnackbar()
-	const { course, specialization, code } = useParams<URLParameter>()
+	const { professor, course, specialization, code } = useContext(OfferingContext)
 
 	// Loaded review
 	useEffect(() => {
@@ -162,7 +160,7 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ professor, review, setReview }
 					className='offering-review-form-accordion-content'
 				>
 					<Grid container item justify='center' xs='auto'>
-						<Typography variant='caption'> Lembre-se:
+						<Typography variant='caption' color='textSecondary'> Lembre-se:
                         O USPY não se responsabiliza pelas avaliações feitas por você,
                         porém desrespeitar ou ofender docentes podem resultar na
                         remoção do seu comentário e banimento da sua conta.
@@ -180,16 +178,19 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ professor, review, setReview }
 							disabled={isLocked}
 						/>
 						{ review
-							? <Grid container direction='row-reverse'>
+							? <Grid container alignItems='center' direction='row-reverse'>
 								<IconButton onClick={() => setEditing(!editing)}>
-									<Tooltip title={editing ? 'Lock review' : 'Edit Review' }>
+									<Tooltip title={editing ? 'Travar avaliação' : 'Editar avaliação' }>
 										{
 											editing
-												? <LockOpenIcon color='secondary'/>
-												: <LockIcon color='secondary'/>
+												? <LockOpenIcon color='primary'/>
+												: <LockIcon color='primary'/>
 										}
 									</Tooltip>
 								</IconButton>
+								<Typography variant='body2' color='textSecondary'>
+									{editing ? '' : 'Destrave para editar '} &nbsp;
+								</Typography>
 							</Grid>
 							: null
 						}
@@ -230,10 +231,10 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ professor, review, setReview }
 						<Grid item style={{ maxWidth: 400 }} xs>
 							<Button
 								fullWidth
-								color="secondary"
+								color="primary"
 								size="large"
-								variant="outlined"
-								disabled={rate === null || comment.length < COMMENT_THRESHOLD || isLocked || (comment === review.body && rate === review.rating)}
+								variant="contained"
+								disabled={rate === null || comment.length < COMMENT_THRESHOLD || isLocked || (comment === review?.body && rate === review?.rating)}
 								onClick={handleReviewSubmit}
 							>
 								{

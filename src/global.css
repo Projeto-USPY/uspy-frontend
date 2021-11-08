@@ -43,7 +43,7 @@
 	overflow-x: hidden;
 }
 
-.offering-review-balloon {
+.offering-review-balloon, .offering-review-balloon-locked {
 	width: 100%;
 	max-width: 800px;
 	min-height: 150px;
@@ -52,11 +52,16 @@
 	box-sizing: border-box;
 }
 
+.offering-review-balloon-locked {
+	background-color: #e1eaf9  !important;
+}
+
+
 .offering-review-form-accordion {
 	position: absolute;
 	bottom: 0;
 	min-height: 50px;
-	background-color: #BBC4CD;
+	background-color: #A77BC3;
 }
 
 .offering-review-form-accordion-button {

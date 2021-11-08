@@ -6,6 +6,7 @@ interface PropsType {
     selected: boolean
     setSelected: () => void
     orientation?: 'up' | 'down' | 'left' | 'right'
+	disabled?: boolean
 }
 
 const ORIENTATION_TO_DEGREE = {
@@ -15,17 +16,17 @@ const ORIENTATION_TO_DEGREE = {
 	down: 270
 }
 
-const VoteButton: React.FC<PropsType> = ({ selected, setSelected, orientation = 'right' }) => {
+const VoteButton: React.FC<PropsType> = ({ selected, setSelected, orientation = 'right', disabled = 'false' }) => {
 	const style = {
 		transform: `rotate(-${ORIENTATION_TO_DEGREE[orientation]}deg)`,
-		cursor: 'pointer'
+		cursor: disabled ? 'auto' : 'pointer'
 	}
 
 	return <PlayArrowIcon
 		fontSize='large'
 		htmlColor={selected ? '#A5A5A5' : '#D5D5D5'}
 		style={style}
-		onClick={setSelected}
+		onClick={disabled ? null : setSelected}
 	/>
 }
 

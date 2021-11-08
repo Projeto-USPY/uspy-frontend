@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
 
+import Divider from '@material-ui/core/Divider'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Skeleton from '@material-ui/lab/Skeleton'
@@ -10,10 +10,9 @@ import { OfferingReview } from 'types/Offering'
 import mockReviews from '__mocks__/MockReviews'
 import api from 'API'
 import OfferingReviewBalloon from 'components/Offerings/OfferingReviewBalloon'
-import { URLParameter } from 'pages/OfferingsPage'
+import OfferingContext from 'contexts/OfferingContext'
 
 interface PropTypes {
-    professor: string,
     review: OfferingReview
 }
 
@@ -34,10 +33,10 @@ const SkeletonProgress = () => {
 	</Grid>
 }
 
-const OfferingReviewsFeed: React.FC<PropTypes> = ({ professor, review }) => {
+const OfferingReviewsFeed: React.FC<PropTypes> = ({ review }) => {
 	const [loading, setLoading] = useState<boolean>(true)
 	const [reviews, setReviews] = useState<OfferingReview[] | null>(null)
-	const { course, specialization, code } = useParams<URLParameter>()
+	const { professor, course, specialization, code } = useContext(OfferingContext)
 
 	useEffect(() => {
 		setLoading(true)
@@ -54,7 +53,7 @@ const OfferingReviewsFeed: React.FC<PropTypes> = ({ professor, review }) => {
 		})
 	}, [professor])
 
-	if (loading) {
+	if (loading || reviews === null) {
 		return <div className='offering-reviews-feed full-width'>
 			<SkeletonProgress />
 		</div>
@@ -73,19 +72,21 @@ const OfferingReviewsFeed: React.FC<PropTypes> = ({ professor, review }) => {
 
 		</Grid>
 	} else {
-		console.log(reviews)
 		return <div className='offering-reviews-feed full-width'>
 			<Grid container spacing={2} direction='column' alignItems='stretch'>
 				{ review
-					? <Grid item container alignItems='stretch'>
-						<OfferingReviewBalloon review={review} locked />
-					</Grid>
+					? <>
+						<Grid item container justify='flex-end' wrap='nowrap' alignItems='stretch'>
+							<OfferingReviewBalloon review={review} locked />
+						</Grid>
+						<Divider light color='secondary' />
+					</>
 					: null
 				}
 
 				{mockReviews.map(review =>
-					<Grid item container key={review.id} direction='row-reverse' alignItems='stretch'>
-						<OfferingReviewBalloon review={review}/>
+					<Grid item container key={review.uuid} wrap='nowrap' justify='flex-end' alignItems='stretch'>
+						<OfferingReviewBalloon review={review} />
 					</Grid>
 				)}
 			</Grid>

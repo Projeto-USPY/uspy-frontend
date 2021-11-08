@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
 
 // import Grid from '@material-ui/core/Grid'
 
@@ -8,14 +7,10 @@ import { OfferingReview } from 'types/Offering'
 import api from 'API'
 import OfferingReviewBox from 'components/Offerings/OfferingReviewBox'
 import OfferingReviewsFeed from 'components/Offerings/OfferingReviewsFeed'
-import { URLParameter } from 'pages/OfferingsPage'
+import OfferingContext from 'contexts/OfferingContext'
 
-interface PropTypes {
-	professor: string
-}
-
-const OfferingReviewsPanel: React.FC<PropTypes> = ({ professor }) => {
-	const { course, specialization, code } = useParams<URLParameter>()
+const OfferingReviewsPanel = () => {
+	const { professor, course, specialization, code } = useContext(OfferingContext)
 	const [userReview, setUserReview] = useState<OfferingReview | null>(null)
 	useEffect(() => {
 		api.getUserOfferingReview(course, specialization, code, professor).then(review => {
@@ -29,8 +24,8 @@ const OfferingReviewsPanel: React.FC<PropTypes> = ({ professor }) => {
 		})
 	}, [course, specialization, code, professor])
 	return <div className='full-height full-width' style={{ position: 'relative', maxHeight: '100%', overflow: 'hidden' }}>
-		<OfferingReviewsFeed review={userReview} professor={professor} />
-		<OfferingReviewBox review={userReview} setReview={setUserReview} professor={professor} />
+		<OfferingReviewsFeed review={userReview} />
+		<OfferingReviewBox review={userReview} setReview={setUserReview} />
 	</div>
 }
 

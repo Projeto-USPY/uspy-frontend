@@ -1,6 +1,6 @@
 const mockReviews = [
 	{
-		id: '1',
+		uuid: '1',
 		rating: 4,
 		body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
 		edited: false,
@@ -9,7 +9,7 @@ const mockReviews = [
 		downvotes: 1
 	},
 	{
-		id: '2',
+		uuid: '2',
 		rating: 1,
 		body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
 		edited: false,
@@ -18,7 +18,7 @@ const mockReviews = [
 		downvotes: 0
 	},
 	{
-		id: '3',
+		uuid: '3',
 		rating: 5,
 		body: 'Esse professor é horroroso! Eu odeio ele',
 		edited: true,
@@ -27,7 +27,7 @@ const mockReviews = [
 		downvotes: 10
 	},
 	{
-		id: '4',
+		uuid: '4',
 		rating: 3,
 		body: 'Olha aqui, as provas desse cara não são nada compatíveis com as listas que ele dá',
 		edited: true,
