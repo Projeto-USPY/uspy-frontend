@@ -17,6 +17,8 @@ import EmoteLoved from 'images/loved.svg'
 import EmoteUnliked from 'images/unliked.png'
 import { getRelativeDate } from 'utils/time'
 
+import OfferingReviewReportDialog from '../OfferingReviewReportDialog'
+
 const RATE_TO_EMOJI = [
 	null,
 	EmoteHated,
@@ -33,6 +35,7 @@ interface PropsType {
 
 const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) => {
 	const [vote, setVote] = useState<number>(0)
+	const [reporting, setReporting] = useState<boolean>(false)
 	console.log(review, vote)
 	const { professor, course, specialization, code } = useContext(OfferingContext)
 
@@ -49,10 +52,6 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 	const balance = review.upvotes - review.downvotes + vote
 	const handleVote = (x: number) => {
 		setVote(x)
-	}
-
-	const handleReport = () => {
-		alert('Tem certeza que deseja reportar?')
 	}
 
 	return <>
@@ -82,10 +81,19 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 			{
 				locked
 					? null
-					: <Grid item> <ReportIcon onClick={handleReport} className='cursor-pointer' /> </Grid>
+					: <Grid item> <ReportIcon onClick={() => setReporting(true)} className='cursor-pointer' /> </Grid>
 			}
 
 		</Grid>
+		{
+			locked
+				? null
+				: <OfferingReviewReportDialog
+					isOpen={reporting}
+					close={() => setReporting(false)}
+					review={review.uuid}
+				/>
+		}
 	</>
 }
 

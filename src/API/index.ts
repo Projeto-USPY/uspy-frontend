@@ -245,6 +245,31 @@ class APIClient {
 		}
 	}
 
+	async reportOfferingReview (
+		course: string,
+		specialization: string,
+		code: string,
+		professor: string,
+		comment: string,
+		report: string
+	) {
+		try {
+			await this.axiosClient.put('/private/subject/offerings/comments', {
+				body: report
+			}, {
+				params: {
+					course,
+					specialization,
+					code,
+					professor,
+					comment
+				}
+			})
+		} catch (err) {
+			throw err.request.status
+		}
+	}
+
 	async getSubjectReview (course: string, specialization: string, code: string): Promise<SubjectReview> {
 		try {
 			const { data } = await this.axiosClient.get(`/private/subject/review?course=${course}&specialization=${specialization}&code=${code}`)

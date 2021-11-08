@@ -5,7 +5,7 @@ import { useSnackbar } from 'notistack'
 export const useMySnackbar = () => {
 	const { enqueueSnackbar } = useSnackbar()
 
-	return function (message: string, type: 'success' | 'info') {
+	return function (message: string, type: 'success' | 'info' | 'error') {
 		enqueueSnackbar(message, {
 			variant: type,
 			anchorOrigin: {
