@@ -27,7 +27,7 @@ const ErrorScreen: React.FC<PropsType> = ({ message, breadcrumbs }) => {
 			</Grid>
 			<Grid item container direction='column' justify='center' alignItems='center'>
 				<Grid item>
-					<Typography variant='h4'> {message} </Typography>
+					<Typography variant='h4' align='center'> {message} </Typography>
 					<br/>
 				</Grid>
 				<Grid item>

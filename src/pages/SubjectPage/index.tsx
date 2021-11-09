@@ -14,6 +14,7 @@ import { Subject, SubjectGradeStats, SubjectReview } from 'types/Subject'
 import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
+import ErrorScreen from 'components/ErrorScreen'
 import MessagePanel from 'components/MessagePanel'
 import Navbar from 'components/Navbar'
 import RequirementsGraph from 'components/RequirementsGraph'
@@ -269,21 +270,22 @@ const SubjectPage = () => {
 
 	const object =
 		isLoading ? <Grid container justify='center'><Grid item><CircularProgress/></Grid></Grid>
-			: (
-				errorMessage ? <Typography variant='h4'>{errorMessage}</Typography>
-					: content
-			)
+			: content
 	return <div className='main'>
 		<main>
 			<Navbar/>
 			<div style={{ height: '64px' }}></div>
-			<Container>
-				<Grid container alignItems='center' style={{ height: '50px' }}>
-					<BreadCrumb links={getBreadcrumbLinks(course, specialization, code)}/>
-				</Grid>
+			{
+				errorMessage
+					? <ErrorScreen message={errorMessage} breadcrumbs={getBreadcrumbLinks(course, specialization, code)} />
+					:	<Container>
+						<Grid container alignItems='center' style={{ height: '50px' }}>
+							<BreadCrumb links={getBreadcrumbLinks(course, specialization, code)}/>
+						</Grid>
 
-				{object}
-			</Container>
+						{object}
+					</Container>
+			}
 		</main>
 	</div>
 }
