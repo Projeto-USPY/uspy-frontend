@@ -36,11 +36,11 @@ interface PropsType {
 const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) => {
 	const [vote, setVote] = useState<number>(0)
 	const [reporting, setReporting] = useState<boolean>(false)
-	console.log(review, vote)
 	const { professor, course, specialization, code } = useContext(OfferingContext)
 
 	useEffect(() => {
 		api.getOfferingReviewUserVote(course, specialization, code, professor, review.uuid).then(vote => {
+			console.log(vote)
 			setVote(vote.type === 'upvote' ? 1 : -1)
 		}).catch(err => {
 			if (err !== 404) {
@@ -51,6 +51,9 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 
 	const balance = review.upvotes - review.downvotes + vote
 	const handleVote = (x: number) => {
+		api.submitOfferingReviewUserVote(course, specialization, code, professor, review.uuid, {
+			type: x === 0 ? 'none' : x === 1 ? 'upvote' : 'downvote'
+		})
 		setVote(x)
 	}
 

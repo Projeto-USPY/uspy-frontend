@@ -7,7 +7,7 @@ import Skeleton from '@material-ui/lab/Skeleton'
 
 import { OfferingReview } from 'types/Offering'
 
-import mockReviews from '__mocks__/MockReviews'
+// import mockReviews from '__mocks__/MockReviews'
 import api from 'API'
 import OfferingReviewBalloon from 'components/Offerings/OfferingReviewBalloon'
 import OfferingContext from 'contexts/OfferingContext'
@@ -57,7 +57,7 @@ const OfferingReviewsFeed: React.FC<PropTypes> = ({ review }) => {
 		return <div className='offering-reviews-feed full-width'>
 			<SkeletonProgress />
 		</div>
-	} else if (reviews?.length === 0) {
+	} else if (reviews?.length === 0 && review === null) {
 		return <Grid container justify='center' direction='column' alignItems='center' className='offering-reviews-feed full-width'>
 			<Grid item>
 				<Typography variant='h6'>
@@ -84,10 +84,12 @@ const OfferingReviewsFeed: React.FC<PropTypes> = ({ review }) => {
 					: null
 				}
 
-				{mockReviews.map(review =>
-					<Grid item container key={review.uuid} wrap='nowrap' justify='flex-end' alignItems='stretch'>
-						<OfferingReviewBalloon review={review} />
-					</Grid>
+				{reviews.map(rev =>
+					review?.uuid === rev.uuid
+						? null
+						: <Grid item container key={rev.uuid} wrap='nowrap' justify='flex-end' alignItems='stretch'>
+							<OfferingReviewBalloon review={rev} />
+						</Grid>
 				)}
 			</Grid>
 		</div>

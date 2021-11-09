@@ -18,5 +18,5 @@ export interface OfferingReview {
 }
 
 export interface OfferingReviewVote {
-    type: 'upvote' | 'downvote'
+    type: 'upvote' | 'downvote' | 'none'
 }

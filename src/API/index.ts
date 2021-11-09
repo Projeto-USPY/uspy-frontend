@@ -254,7 +254,7 @@ class APIClient {
 		report: string
 	) {
 		try {
-			await this.axiosClient.put('/private/subject/offerings/comments', {
+			await this.axiosClient.put('/private/subject/offerings/comments/report', {
 				body: report
 			}, {
 				params: {
