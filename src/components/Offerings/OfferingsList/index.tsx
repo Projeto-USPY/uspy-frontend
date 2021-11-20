@@ -11,8 +11,8 @@ import OfferingApprovalDonut from 'components/Offerings/OfferingApprovalDonut'
 
 interface PropsType {
     list: Offering[]
-	selected: string
-	setSelected: (itemID: string) => any
+	selected: Offering | null
+	setSelected: (o: Offering) => any
 	maxWidth?: number | string
 }
 
@@ -28,10 +28,9 @@ function createYearsList (offering: Offering): React.ReactNode {
 }
 
 const OfferingsList: React.FC<PropsType> = ({ list, selected, setSelected, maxWidth }: PropsType) => {
-	console.log('selected', selected)
-	return <List style={{ maxWidth }}>
+	return <List style={{ maxWidth, backgroundColor: 'white' }} >
 		{list.map(offering => {
-			return <ListItem button key={offering.code} selected={offering.code === selected} color='secondary' onClick={() => setSelected(offering.code)}>
+			return <ListItem button key={offering.code} selected={offering.code === selected?.code} color='secondary' onClick={() => setSelected(offering)}>
 				<ListItemText primary={offering.professor} secondary={<>{createYearsList(offering)}</>}/>
 				<OfferingApprovalDonut approval={offering.approval} neutral={offering.neutral} disapproval={offering.disapproval}/>
 			</ListItem>

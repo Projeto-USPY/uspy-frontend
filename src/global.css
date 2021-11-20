@@ -33,6 +33,9 @@
 	color: #DEDEDE;
 	font-weight: bolder;
 }
+b {
+	font-weight: 700;
+}
 
 .offering-reviews-feed {
 	padding: 1rem;
@@ -61,18 +64,37 @@
 	position: absolute;
 	bottom: 0;
 	min-height: 50px;
+	max-height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
 	background-color: #A77BC3;
+
+	/* to hide scrollbar */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+.offering-review-form-accordion::-webkit-scrollbar {
+	width: 0;
+    height: 0;
 }
 
 .offering-review-form-accordion-button {
 	height: 50px;
 	padding-right: 25px;
 	cursor: pointer;
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0px;
+	background-color: #A77BC3;
 }
 
 .offering-review-form-accordion-content {
 	min-height: 150px;
 	padding: 1rem;	
+}
+
+.pad {
+	padding: .5rem;
 }
 
 

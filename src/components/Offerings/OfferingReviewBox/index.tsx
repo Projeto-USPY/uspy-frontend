@@ -6,10 +6,11 @@ import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, useTheme/* , withStyles */ } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import LockIcon from '@material-ui/icons/Lock'
@@ -21,10 +22,10 @@ import api from 'API'
 import OfferingContext from 'contexts/OfferingContext'
 import { useMySnackbar } from 'hooks'
 import EmoteHated from 'images/hated.svg'
-import EmoteIndifferent from 'images/indifferent.png'
-import EmoteLiked from 'images/liked.png'
+import EmoteIndifferent from 'images/indifferent.svg'
+import EmoteLiked from 'images/liked.svg'
 import EmoteLoved from 'images/loved.svg'
-import EmoteUnliked from 'images/unliked.png'
+import EmoteUnliked from 'images/unliked.svg'
 
 const emotes = [
 	{
@@ -73,6 +74,9 @@ interface PropTypes {
 }
 
 const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
+	const theme = useTheme()
+	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
+
 	const [isReviewFormOpen, setIsReviewFormOpen] = useState<boolean>(false)
 	const [comment, setComment] = useState<string>('')
 	const [rate, setRate] = useState<number | null>(null)
@@ -140,7 +144,7 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 			className='offering-review-form-accordion-button'
 			direction='row-reverse'
 			alignItems='center'
-			onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}
+			onClick={() => setIsReviewFormOpen(!isReviewFormOpen) }
 		>
 			<Grid item>
 				{isReviewFormOpen
@@ -199,56 +203,84 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 						<Grid
 							item xs container
 							direction='row'
-							justify='space-around'
+							justify='center'
+							spacing={2}
 							style={{ minWidth: 400, maxWidth: 400 }}
 						>
 							{emotes.map((emote, idx) => (
 								<Grid
-									xs item container
-									direction='column'
-									justify='center'
-									alignItems='center'
+									xs="auto"
+									item
 									key={idx}
 								>
-									<div tabIndex={idx} className={`
+									<Grid container
+										direction='column'
+										justify='center'
+										alignItems='center'
+									>
+										<div tabIndex={idx} className={`
                                         move-up-hover-parent 
                                         move-down-on-click-parent 
                                         ${rate === idx + 1 ? 'img-popped' : ''}
                                     `}>
-										<img
-											src={emote.emote}
-											height={36}
-											className={isLocked ? '' : `cursor-pointer ${rate !== idx + 1 ? 'move-up-hover-child' : ''}`}
-											onClick={isLocked ? null : () => handleRateChange(idx + 1)}
-										/>
-									</div>
-									<Typography variant='caption' color={idx + 1 === rate ? 'textPrimary' : 'textSecondary'}>
-										{emote.caption}
-									</Typography>
+											<img
+												src={emote.emote}
+												height={isDesktop ? 36 : 24}
+												className={isLocked ? '' : `cursor-pointer ${rate !== idx + 1 ? 'move-up-hover-child' : ''}`}
+												onClick={isLocked ? null : () => handleRateChange(idx + 1)}
+											/>
+										</div>
+										<Typography variant='caption' color={idx + 1 === rate ? 'textPrimary' : 'textSecondary'}>
+											{emote.caption}
+										</Typography>
+									</Grid>
 								</Grid>
 							))}
 						</Grid>
-						<Grid item style={{ maxWidth: 400 }} xs>
-							<Button
-								fullWidth
-								color="primary"
-								size="large"
-								variant="contained"
-								disabled={rate === null || comment.length < COMMENT_THRESHOLD || isLocked || (comment === review?.body && rate === review?.rating)}
-								onClick={handleReviewSubmit}
-							>
-								{
-									pending
-										? <CircularProgress color='secondary'/>
-										: review === null
-											? 'ENVIAR'
-											: 'EDITAR'
-								}
-							</Button>
-						</Grid>
+						{isDesktop
+							? <Grid item style={{ maxWidth: 400 }} xs>
+								<Button
+									fullWidth
+									color="primary"
+									size="large"
+									variant="contained"
+									disabled={rate === null || comment.length < COMMENT_THRESHOLD || isLocked || (comment === review?.body && rate === review?.rating)}
+									onClick={handleReviewSubmit}
+								>
+									{
+										pending
+											? <CircularProgress color='secondary'/>
+											: review === null
+												? 'ENVIAR'
+												: 'EDITAR'
+									}
+								</Button>
+							</Grid>
+							: null
+						}
 					</Grid>
 				</Grid>
 			</Container>
+			{!isDesktop
+				? <Button
+					fullWidth
+					color="primary"
+					size="large"
+					variant="contained"
+					disabled={rate === null || comment.length < COMMENT_THRESHOLD || isLocked || (comment === review?.body && rate === review?.rating)}
+					onClick={handleReviewSubmit}
+					style={{ height: 40 }}
+				>
+					{
+						pending
+							? <CircularProgress color='secondary' size={20}/>
+							: review === null
+								? 'ENVIAR'
+								: 'EDITAR'
+					}
+				</Button>
+				: null
+			}
 		</Collapse>
 
 	</div>

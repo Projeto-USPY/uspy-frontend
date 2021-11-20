@@ -59,7 +59,7 @@ const OfferingReviewsFeed: React.FC<PropTypes> = ({ review }) => {
 		</div>
 	} else if (reviews?.length === 0 && review === null) {
 		return <Grid container justify='center' direction='column' alignItems='center' className='offering-reviews-feed full-width'>
-			<Grid item>
+			<Grid item style={{ textAlign: 'center' }}>
 				<Typography variant='h6'>
 					Nenhum comentário foi encontrado para este oferecimento.
 				</Typography>
