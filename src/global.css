@@ -37,6 +37,23 @@ b {
 	font-weight: 700;
 }
 
+.mobile-offering-selector-list {
+	position: absolute;
+	top: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	background: white;
+	height: calc(100% - 42px);
+}
+
+.mobile-offering-selector-button {
+	position: absolute;
+	bottom: 0;
+	height: 42px;
+	display: flex;
+	align-items: center;
+}
+
 .offering-reviews-feed {
 	padding: 1rem;
 	box-sizing: border-box;

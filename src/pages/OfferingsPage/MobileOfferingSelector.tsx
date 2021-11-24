@@ -27,14 +27,14 @@ const MobileOfferingSelector: React.FC<PropsType> = ({ open, close, offerings, s
 		handleClose()
 	}
 	return <div >
-		<div className='full-width  teste'>
+		<div className='full-width mobile-offering-selector-list'>
 			<Slide direction='down' in={open && !isClosing} mountOnEnter unmountOnExit timeout={500}>
 				<div>
 					<OfferingsList list={offerings} selected={selected} setSelected={handleSelect} />
 				</div>
 			</Slide>
 		</div>
-		<div className='full-width teste2'>
+		<div className='full-width mobile-offering-selector-button'>
 			<Slide direction='up' in={open && !isClosing} mountOnEnter unmountOnExit>
 				<div className='full-width full-height' style={{ backgroundColor: 'white' }}>
 					<Button
