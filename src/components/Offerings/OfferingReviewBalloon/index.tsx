@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useCallback } from 'react'
 
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
@@ -35,13 +35,14 @@ interface PropsType {
 
 const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) => {
 	const [vote, setVote] = useState<number>(0)
+	const [voteRegistered, setVoteRegistered] = useState<number>(0)
+	const [updatedVote, setUpdatedVote] = useState<boolean>(false)
 	const [reporting, setReporting] = useState<boolean>(false)
 	const { professor, course, specialization, code } = useContext(OfferingContext)
 
 	useEffect(() => {
 		api.getOfferingReviewUserVote(course, specialization, code, professor, review.uuid).then(vote => {
-			console.log(vote)
-			setVote(vote.type === 'upvote' ? 1 : -1)
+			setVoteRegistered(vote.type === 'upvote' ? 1 : -1)
 		}).catch(err => {
 			if (err !== 404) {
 				console.log(err)
@@ -49,13 +50,16 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 		})
 	}, [])
 
-	const balance = review.upvotes - review.downvotes + vote
+	const balance = review.upvotes - review.downvotes + (updatedVote ? vote - voteRegistered : 0)
 	const handleVote = (x: number) => {
 		api.submitOfferingReviewUserVote(course, specialization, code, professor, review.uuid, {
 			type: x === 0 ? 'none' : x === 1 ? 'upvote' : 'downvote'
 		})
 		setVote(x)
+		setUpdatedVote(true)
 	}
+
+	const getVote = useCallback(() => updatedVote ? vote : voteRegistered, [vote, updatedVote, voteRegistered])
 
 	return <>
 		<Paper square elevation={2} className={`offering-review-balloon${locked ? '-locked' : ''}`}>
@@ -77,9 +81,9 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 		</Paper>
 		<Grid container direction='column' justify='space-around' alignItems='center' style={{ width: 45 }}>
 			<Grid item container direction='column' alignItems='center'>
-				<VoteButton disabled={locked} selected={vote === 1} setSelected={() => handleVote(vote === 1 ? 0 : 1)} orientation='up' />
+				<VoteButton disabled={locked} selected={getVote() === 1} setSelected={() => handleVote(getVote() === 1 ? 0 : 1)} orientation='up' />
 				<Typography variant='body1'> {balance} </Typography>
-				<VoteButton disabled={locked} selected={vote === -1} setSelected={() => handleVote(vote === -1 ? 0 : -1)} orientation='down' />
+				<VoteButton disabled={locked} selected={getVote() === -1} setSelected={() => handleVote(getVote() === -1 ? 0 : -1)} orientation='down' />
 			</Grid>
 			{
 				locked
