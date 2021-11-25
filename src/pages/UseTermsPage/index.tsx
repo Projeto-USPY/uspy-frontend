@@ -78,7 +78,7 @@ const UseTermsPage = () => {
 
 						<p> O presente Termo estabelece direitos e obrigações contratadas de livre e espontânea vontade, por tempo indeterminado, entre a plataforma e as pessoas usuárias do USPY. </p>
 
-						<p> Ao utilizar a plataforma o usuário aceita integralmente as presentes normas e compromete-se a observá-las, sob o risco de banimento de sua conta. Caso não concorde com as disposições deste instrumento, o usuário não deve utilizá-los. </p>
+						<p> Ao utilizar a plataforma o usuário aceita integralmente as presentes normas e compromete-se a observá-las, sob o risco de banimento de sua conta. Caso não concorde com as disposições deste instrumento, o usuário não deve utilizá-la. </p>
 
 					</section>
 
@@ -104,7 +104,7 @@ const UseTermsPage = () => {
 
 						<p> O usuário se compromete a não informar seus dados cadastrais e/ou de acesso à plataforma a terceiros, responsabilizando-se integralmente pelo uso que deles seja feito. </p>
 
-						<p> Além disso, o usuário poderá, a qualquer tempo, requerer o cancelamento de seu cadastro conosco e suas informações serão completamente removidas da plataforma. </p>
+						<p> Além disso, o usuário poderá, a qualquer momento, requisitar o cancelamento de seu cadastro conosco e suas informações serão completamente removidas da plataforma. </p>
 
 					</section>
 
@@ -124,7 +124,7 @@ const UseTermsPage = () => {
 
 						<p> O USPY não é um sistema oficial, com isso, as informações fornecidas deverão ser desfrutadas com muito cuidado. Os dados disponibilizados devem ser utilizados com o objetivo somente de informação pessoal.  </p>
 
-						<p> Não nos responsabilizamos pelo uso indevido dos dados fornecidos, e o mau uso das ferramentas disponibilizadas pela plataforma podem sujeitar o usuário a ter sua conta banida sem aviso prévio.  </p>
+						<p> Nós não nos responsabilizamos pelo uso indevido dos dados fornecidos, e o mau uso das ferramentas disponibilizadas pela plataforma podem sujeitar o usuário a ter sua conta banida sem aviso prévio.  </p>
 
 					</section>
 
@@ -167,7 +167,7 @@ const UseTermsPage = () => {
 
 						<p> O <i>cookie</i> de autenticação é necessário pois existem recursos do site (dentre esses são: avaliar disciplina ou professor, visualizar estatísticas de uma disciplina, ver perfil, etc) que estão restritos a usuários cadastrados e devidamente autenticados. </p>
 
-						<p> Apesar da maioria dos navegadores estar inicialmente configurada para aceitar <i> cookies </i> de forma automática, você pode rever suas permissões a qualquer tempo, de forma a bloqueá-los, aceitá-los ou ativar notificações para quando alguns <i> cookies </i> forem enviados ao seu dispositivo.  Todavia, a revogação do consentimento de determinados <i> cookies </i> pode inviabilizar o funcionamento correto de alguns recursos da plataforma. </p>
+						<p> Apesar da maioria dos navegadores estar inicialmente configurada para aceitar <i> cookies </i> de forma automática, você pode rever suas permissões a qualquer tempo, de forma a bloqueá-los, aceitá-los ou ativar notificações para quando alguns <i> cookies </i> forem enviados ao seu dispositivo.  Todavia, a revogação do consentimento de determinados <i> cookies </i> pode inviabilizar o funcionamento de alguns recursos da plataforma. </p>
 
 					</section>
 
@@ -175,7 +175,7 @@ const UseTermsPage = () => {
 
 					<section>
 
-						<p> Os itens descritos no presente instrumento poderão sofrer alterações, unilateralmente e a qualquer tempo, para adequar ou modificar os serviços, bem como para atender novas exigências legais. As alterações serão veiculadas pelo site e o usuário poderá optar por aceitar o novo conteúdo ou cancelar o cadastro vigente. </p>
+						<p> Os itens descritos no presente instrumento poderão sofrer alterações, unilateralmente e a qualquer momento, para adequar ou modificar os serviços, bem como para atender a novas exigências legais. As alterações serão veiculadas pelo site e o usuário poderá optar por aceitar o novo conteúdo ou cancelar o cadastro vigente. </p>
 
 					</section>
 
@@ -183,7 +183,7 @@ const UseTermsPage = () => {
 
 					<section>
 
-						<p> Os desenvolvedores solicitam encarecidamente que, caso os usuários tenham alguma sugestão para acrescentar ou possibilitar uma melhoria, entrem em contato. Para quaisquer dúvidas sobre o sistema, opções, botões, cadastros e outros, a equipe de desenvolvimento estará à disposição para auxiliar a todos. A plataforma foi feita de alunos para alunos e portanto, toda colaboração é bem vinda. </p>
+						<p> Os desenvolvedores solicitam encarecidamente que, caso os usuários tenham alguma sugestão para acrescentar ou possibilitar uma melhoria, entrem em contato. Para quaisquer dúvidas sobre o sistema, opções, botões, cadastros e outros, a equipe de desenvolvimento estará à disposição para auxiliar a todos. A plataforma foi feita de alunos para alunos, portanto toda colaboração é bem vinda. </p>
 
 					</section>
 
