@@ -138,6 +138,21 @@ class APIClient {
 		}
 	}
 
+	async getSubjectOfferingsSummary (course: string, specialization: string, code: string): Promise<Offering[]> {
+		try {
+			const { data } = await this.axiosClient.get('/api/subject/offerings', {
+				params: {
+					code,
+					specialization,
+					course
+				}
+			})
+			return data as Offering[]
+		} catch (err) {
+			throw err.request.status
+		}
+	}
+
 	async getSubjectOfferings (course: string, specialization: string, code: string, limit?: number): Promise<Offering[]> {
 		try {
 			const { data } = await this.axiosClient.get('/api/restricted/subject/offerings', {

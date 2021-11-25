@@ -1,6 +1,8 @@
-import React, { useState, useEffect, ReactElement } from 'react'
+import React, { useState, useEffect, useCallback, ReactElement } from 'react'
+import { connect } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 
+import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -9,7 +11,10 @@ import Grid from '@material-ui/core/Grid'
 import Radio from '@material-ui/core/Radio'
 import Typography from '@material-ui/core/Typography'
 
+import { Offering } from 'types/Offering'
+import { AppState } from 'types/redux'
 import { Subject, SubjectGradeStats, SubjectReview } from 'types/Subject'
+import { User, unknownUser, guestUser } from 'types/User'
 
 import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
@@ -17,8 +22,10 @@ import CollapsibleText from 'components/CollapsibleText'
 import ErrorScreen from 'components/ErrorScreen'
 import MessagePanel from 'components/MessagePanel'
 import Navbar from 'components/Navbar'
+import OfferingsList from 'components/Offerings/OfferingsList'
 import RequirementsGraph from 'components/RequirementsGraph'
 import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
+import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
 import { copyObj, getCourseAlias } from 'utils'
@@ -84,7 +91,11 @@ export function buildURI (courseCode: string, courseSpecialization: string, subj
 	return `/disciplinas/${courseCode}/${courseSpecialization}/${subjectCode}`
 }
 
-const SubjectPage = () => {
+interface PropsType {
+	user: User
+}
+
+const SubjectPage: React.FC<PropsType> = ({ user }) => {
 	const { course, specialization, code } = useParams<URLParameter>()
 
 	const history = useHistory()
@@ -97,20 +108,17 @@ const SubjectPage = () => {
 	const [canSeeChart, setCanSeeChart] = useState<boolean>(false)
 	const [gradeStats, setGradeStats] = useState<SubjectGradeStats | null>(null)
 	const [yourGrade, setYourGrade] = useState<number | null>(null)
+	const [offerings, setOfferings] = useState<Offering[] | null>(null)
 	// query for the subject with code 'code'
 	useEffect(() => {
 		setSubject(null)
 		setIsLoading(true)
 		setErrorMessage('')
-		setEvaluateSubject(false)
-		setCanSeeChart(false)
-		setSubjectReview(null)
-		setYourGrade(null)
 
 		api.getSubjectWithCourseAndCode(course, specialization, code).then((data) => {
 			setSubject(data)
 			setIsLoading(false)
-		}).catch((err: number) => {
+		}).catch(err => {
 			setIsLoading(false)
 			if (err === 404) {
 				setErrorMessage('Não foi possível encontrar essa disciplina')
@@ -120,11 +128,19 @@ const SubjectPage = () => {
 				setErrorMessage('')
 			}
 		})
+	}, [course, specialization, code])
+
+	useEffect(() => {
+		setEvaluateSubject(false)
+		setCanSeeChart(false)
+		setSubjectReview(null)
+		setYourGrade(null)
+		setOfferings(null)
 
 		api.getSubjectReview(course, specialization, code).then((rev) => {
 			setSubjectReview(rev)
 			setEvaluateSubject(true)
-		}).catch((err: number) => {
+		}).catch(err => {
 			if (err === 404) {
 				setEvaluateSubject(true)
 			} else { // either user is not logged in or user was not enrolled in subject
@@ -140,10 +156,28 @@ const SubjectPage = () => {
 			setGradeStats(null)
 		})
 
+		if (user === unknownUser || user === guestUser) {
+			api.getSubjectOfferingsSummary(course, specialization, code).then(o => {
+				setOfferings(o)
+			}).catch(err => {
+				if (err !== 404) {
+					console.error(err)
+				}
+			})
+		} else {
+			api.getSubjectOfferings(course, specialization, code, 3).then(o => {
+				setOfferings(o)
+			}).catch(err => {
+				if (err !== 404) {
+					console.error(err)
+				}
+			})
+		}
+
 		api.getGrade(course, specialization, code).then((grade) => {
 			setYourGrade(grade.grade)
 		}).catch(() => {})
-	}, [course, specialization, code])
+	}, [course, specialization, code, user])
 
 	const handleReviewSubject = (c: 'S' | 'N') => {
 		const review: SubjectReview = {
@@ -181,6 +215,10 @@ const SubjectPage = () => {
 		chartContent = <MessagePanel height={200} action={redirectLogin} actionTitle="Entrar" message="Você precisa estar logado para ter acesso a esse recurso"/>
 	}
 
+	const goToOfferingsPage = useCallback(() => {
+		history.push(buildOfferingsPageURI(course, specialization, code))
+	}, [course, specialization, code])
+
 	const content = subject ? <>
 		<Typography variant='h4'>{`${subject.code} - ${subject.name}`}</Typography>
 
@@ -215,6 +253,44 @@ const SubjectPage = () => {
 								Semestre: {subject.semester + '°'} <br/>
 								Requisitos: {subject.requirements.length ? getSubjectRequirementsList(subject) : 'Nenhum'}<br/>
 								Carga horária: {subject.hours}<br/>
+							</CardContent>
+						</Card>
+					</Grid>
+					<Grid item xs={12}>
+						<Card elevation={3} className='prompt'>
+							<CardContent>
+								<p className="roboto-condensed"> PROFESSORES DA DISCIPLINA </p>
+
+								{
+									offerings === null
+										? <CircularProgress />
+										: offerings.length === 0
+											? 'Não foram encontrados oferecimentos para esta disciplina'
+											: <>
+												<OfferingsList
+													list={offerings}
+													selected={null}
+													setSelected={(o: Offering) => {
+														goToOfferingsPage()
+													}}
+													secondary={'Ver avaliações'}
+													noStatsMessage={
+														user === unknownUser || user === guestUser
+															? 'Registre-se ou faça login para ter acesso às estatísticas do professor'
+															: 'Não há avaliações para este professor'
+													}
+												/>
+												<Button
+													fullWidth
+													color='secondary'
+													size='medium'
+													variant="outlined"
+													onClick={goToOfferingsPage}
+												>
+													Ver Tudo
+												</Button>
+											</>
+								}
 							</CardContent>
 						</Card>
 					</Grid>
@@ -289,5 +365,5 @@ const SubjectPage = () => {
 		</main>
 	</div>
 }
-
-export default SubjectPage
+const mapStateToProps = (st: AppState) => ({ user: st.user })
+export default connect(mapStateToProps)(SubjectPage)

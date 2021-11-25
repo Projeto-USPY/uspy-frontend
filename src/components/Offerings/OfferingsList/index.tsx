@@ -14,6 +14,8 @@ interface PropsType {
 	selected: Offering | null
 	setSelected: (o: Offering) => any
 	maxWidth?: number | string
+	noStatsMessage?: string
+	secondary?: string
 }
 
 function createYearsList (offering: Offering): React.ReactNode {
@@ -27,12 +29,12 @@ function createYearsList (offering: Offering): React.ReactNode {
 		.map(year => <Chip component='span' size='small' variant='outlined' color='secondary' key={year} label={year}/>)
 }
 
-const OfferingsList: React.FC<PropsType> = ({ list, selected, setSelected, maxWidth }: PropsType) => {
+const OfferingsList: React.FC<PropsType> = ({ list, selected, setSelected, maxWidth, noStatsMessage, secondary }: PropsType) => {
 	return <List style={{ maxWidth, backgroundColor: 'white' }} >
 		{list.map(offering => (
 			<ListItem button key={offering.code} selected={offering.code === selected?.code} color='secondary' onClick={() => setSelected(offering)}>
-				<ListItemText primary={offering.professor} secondary={<>{createYearsList(offering)}</>}/>
-				<OfferingApprovalDonut approval={offering.approval} neutral={offering.neutral} disapproval={offering.disapproval}/>
+				<ListItemText primary={offering.professor} secondary={<>{!secondary ? createYearsList(offering) : secondary}</>}/>
+				<OfferingApprovalDonut approval={offering.approval} neutral={offering.neutral} disapproval={offering.disapproval} noStatsMessage={noStatsMessage}/>
 			</ListItem>
 		))}
 	</List>
