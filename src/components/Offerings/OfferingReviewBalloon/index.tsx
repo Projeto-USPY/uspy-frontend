@@ -70,7 +70,7 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 							{review.body}
 						</Typography>
 					</Grid>
-					<Grid item xs='auto'>
+					<Grid item xs='auto' className='pad'>
 						<img src={RATE_TO_EMOJI[review.rating]} height={30}/>
 					</Grid>
 				</Grid>

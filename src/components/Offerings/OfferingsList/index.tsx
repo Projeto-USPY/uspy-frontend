@@ -29,12 +29,12 @@ function createYearsList (offering: Offering): React.ReactNode {
 
 const OfferingsList: React.FC<PropsType> = ({ list, selected, setSelected, maxWidth }: PropsType) => {
 	return <List style={{ maxWidth, backgroundColor: 'white' }} >
-		{list.map(offering => {
-			return <ListItem button key={offering.code} selected={offering.code === selected?.code} color='secondary' onClick={() => setSelected(offering)}>
+		{list.map(offering => (
+			<ListItem button key={offering.code} selected={offering.code === selected?.code} color='secondary' onClick={() => setSelected(offering)}>
 				<ListItemText primary={offering.professor} secondary={<>{createYearsList(offering)}</>}/>
 				<OfferingApprovalDonut approval={offering.approval} neutral={offering.neutral} disapproval={offering.disapproval}/>
 			</ListItem>
-		})}
+		))}
 	</List>
 }
 

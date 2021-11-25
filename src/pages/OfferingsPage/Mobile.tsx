@@ -48,11 +48,6 @@ const Mobile: React.FC<PropsType> = ({ offerings, subject }) => {
 				</Grid>
 				<Grid item xs>
 					<Grid container direction='column' className='full-height'>
-						<Grid item xs="auto" className='pad'>
-							<Typography variant='body2' >
-                                Avaliações de
-							</Typography>
-						</Grid>
 						<Grid item xs="auto" container className='pad'>
 							<Grid item xs={8} >
 								<Typography variant='subtitle1'>

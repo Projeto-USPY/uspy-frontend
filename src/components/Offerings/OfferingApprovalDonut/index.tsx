@@ -17,6 +17,7 @@ function toPercentage (x: number): string {
 
 const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disapproval }: PropsType) => {
 	const missingData = !approval || !neutral || !disapproval
+	console.log(approval, neutral, disapproval)
 	if (missingData) {
 		neutral = 1.0
 		approval = 0.0
