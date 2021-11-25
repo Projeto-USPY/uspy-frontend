@@ -83,6 +83,7 @@ function getSubjectRequirementsList (sub: Subject) {
 }
 
 function getRecommendationRate (recommend: number, total: number) {
+	if (isNaN(recommend) || isNaN(total)) return 0
 	if (total === 0) return 0
 	return (100 * recommend / total).toFixed(0)
 }
@@ -168,7 +169,9 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			api.getSubjectOfferings(course, specialization, code, 3).then(o => {
 				setOfferings(o)
 			}).catch(err => {
-				if (err !== 404) {
+				if (err === 404) {
+					setOfferings([])
+				} else {
 					console.error(err)
 				}
 			})
@@ -187,7 +190,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 		}
 
 		// remove subjectReview, se ja existir
-		const newSubject = subject
+		const newSubject = JSON.parse(JSON.stringify(subject))
 		if (subjectReview !== null) {
 			newSubject.stats.total--
 			newSubject.stats.worth_it -= subjectReview.categories.worth_it ? 1 : 0
@@ -260,37 +263,38 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 						<Card elevation={3} className='prompt'>
 							<CardContent>
 								<p className="roboto-condensed"> PROFESSORES DA DISCIPLINA </p>
-
-								{
-									offerings === null
-										? <CircularProgress />
-										: offerings.length === 0
-											? 'Não foram encontrados oferecimentos para esta disciplina'
-											: <>
-												<OfferingsList
-													list={offerings}
-													selected={null}
-													setSelected={(o: Offering) => {
-														goToOfferingsPage()
-													}}
-													secondary={'Ver avaliações'}
-													noStatsMessage={
-														user === unknownUser || user === guestUser
-															? 'Registre-se ou faça login para ter acesso às estatísticas do professor'
-															: 'Não há avaliações para este professor'
-													}
-												/>
-												<Button
-													fullWidth
-													color='secondary'
-													size='medium'
-													variant="outlined"
-													onClick={goToOfferingsPage}
-												>
-													Ver Tudo
-												</Button>
-											</>
-								}
+								<Grid container justify='center' alignItems='center'>
+									{
+										offerings === null
+											? <CircularProgress />
+											: offerings.length === 0
+												? 'Não foram encontrados oferecimentos para esta disciplina'
+												: <>
+													<OfferingsList
+														list={offerings}
+														selected={null}
+														setSelected={(o: Offering) => {
+															goToOfferingsPage()
+														}}
+														secondary={'Ver avaliações'}
+														noStatsMessage={
+															user === unknownUser || user === guestUser
+																? 'Registre-se ou faça login para ter acesso às estatísticas do professor'
+																: 'Não há avaliações para este professor'
+														}
+													/>
+													<Button
+														fullWidth
+														color='secondary'
+														size='medium'
+														variant="outlined"
+														onClick={goToOfferingsPage}
+													>
+														Ver Tudo
+													</Button>
+												</>
+									}
+								</Grid>
 							</CardContent>
 						</Card>
 					</Grid>
@@ -300,10 +304,17 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 								<p className="roboto-condensed"> {evaluateSubject ? 'AVALIE A DISCIPLINA' : 'SOBRE A DISCIPLINA'} </p>
 
 								{evaluateSubject
-									? <SubjectEvaluationRadio chosen={subjectReview ? (subjectReview.categories.worth_it ? 'S' : 'N') : null} clickCallback={handleReviewSubject}/>
+									? <SubjectEvaluationRadio chosen={subjectReview ? subjectReview.categories ? (subjectReview.categories.worth_it ? 'S' : 'N') : null : null} clickCallback={handleReviewSubject}/>
 									: <></>}
-								<p> {getRecommendationRate(subject.stats.worth_it, subject.stats.total)}% dos alunos dizem que essa disciplina vale a pena! </p>
-								<p> Total de reviews: {subject.stats.total}</p>
+
+								{
+									subject.stats
+										? <>
+											<p> {getRecommendationRate(subject?.stats?.worth_it, subject?.stats?.total)}% dos alunos dizem que essa disciplina vale a pena! </p>
+											<p> Total de reviews: {subject?.stats?.total}</p>
+										</>
+										: 'Ainda não existem avaliações para esta disciplina'
+								}
 
 							</CardContent>
 						</Card>
