@@ -11,6 +11,7 @@ import { Subject } from 'types/Subject'
 import api from 'API'
 import ErrorScreen from 'components/ErrorScreen'
 import Navbar from 'components/Navbar'
+import { useQueryParam } from 'hooks'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
 
@@ -23,8 +24,8 @@ export interface URLParameter {
 	code: string
 }
 
-export function buildURI (courseCode: string, courseSpecialization: string, subjectCode: string): string {
-	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}`
+export function buildURI (courseCode: string, courseSpecialization: string, subjectCode: string, professorCode?: string): string {
+	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}${professorCode ? '?professor=' + professorCode : ''}`
 }
 
 export function getBreadcrumbLinks (course: string, specialization: string, code: string) {
@@ -52,6 +53,8 @@ const OfferingsPage = () => {
 	const [subject, setSubject] = useState<Subject | null>(null)
 	const [errorMessage, setErrorMessage] = useState<string>('')
 	const [offerings, setOfferings] = useState<Offering[] | null>(null)
+
+	const selectedOfferingCode: string = useQueryParam().get('professor') || ''
 
 	useEffect(() => {
 		api.getSubjectWithCourseAndCode(course, specialization, code).then(data => {
@@ -81,6 +84,9 @@ const OfferingsPage = () => {
 		})
 	}, [])
 
+	let selectedOffering: Offering = offerings?.find(o => o.code === selectedOfferingCode)
+	if (!selectedOffering && offerings?.length) selectedOffering = offerings[0]
+
 	return <div className="main">
 		<Navbar/>
 		<Grid container direction='column' className='full-height' wrap='nowrap'>
@@ -96,10 +102,12 @@ const OfferingsPage = () => {
 							? <Desktop
 								offerings={offerings}
 								subject={subject}
+								selectedOffering={selectedOffering}
 							/>
 							: <Mobile
 								offerings={offerings}
 								subject={subject}
+								selectedOffering={selectedOffering}
 							/>
 
 				}

@@ -1,3 +1,6 @@
+import { useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
+
 import Slide from '@material-ui/core/Slide'
 
 import { useSnackbar } from 'notistack'
@@ -16,4 +19,10 @@ export const useMySnackbar = () => {
 			TransitionComponent: Slide
 		})
 	}
+}
+
+export const useQueryParam = () => {
+	const { search } = useLocation()
+
+	return useMemo(() => new URLSearchParams(search), [search])
 }

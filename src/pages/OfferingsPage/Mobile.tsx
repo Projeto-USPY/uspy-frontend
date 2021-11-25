@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -13,26 +13,25 @@ import Breadcrumb from 'components/Breadcrumb'
 import OfferingReviewsPanel from 'components/Offerings/OfferingReviewsPanel'
 // import OfferingsList from 'components/Offerings/OfferingsList'
 import OfferingContext from 'contexts/OfferingContext'
-import { getBreadcrumbLinks, URLParameter } from 'pages/OfferingsPage'
+import { buildURI, getBreadcrumbLinks, URLParameter } from 'pages/OfferingsPage'
 
 import MobileOfferingSelector from './MobileOfferingSelector'
 
 interface PropsType {
     subject: Subject | null
     offerings: Offering[] | null
+    selectedOffering: Offering | null
 }
 
-const Mobile: React.FC<PropsType> = ({ offerings, subject }) => {
-	const [selectedOffering, setSelectedOffering] = useState<Offering | null>(null)
+const Mobile: React.FC<PropsType> = ({ offerings, subject, selectedOffering }) => {
 	const [mobileOfferingSelectorOpen, setMobileOfferingSelectorOpen] = useState<boolean>(false)
 
-	useEffect(() => {
-		if (selectedOffering === null && offerings) {
-			setSelectedOffering(offerings[0])
-		}
-	}, [offerings])
-
 	const { course, specialization, code } = useParams<URLParameter>()
+	const history = useHistory()
+
+	const handleSelectOffering = (o: Offering) => {
+		history.replace(buildURI(course, specialization, code, o.code))
+	}
 
 	const isLoading = subject === null || offerings === null
 
@@ -83,7 +82,7 @@ const Mobile: React.FC<PropsType> = ({ offerings, subject }) => {
 									open={mobileOfferingSelectorOpen}
 									close={() => setMobileOfferingSelectorOpen(false)}
 									selected={selectedOffering}
-									setSelected={setSelectedOffering}
+									setSelected={handleSelectOffering}
 									offerings={offerings}
 								/>
 							}

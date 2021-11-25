@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 
 import Card from '@material-ui/core/Card'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -15,7 +15,7 @@ import Breadcrumb from 'components/Breadcrumb'
 import OfferingReviewsPanel from 'components/Offerings/OfferingReviewsPanel'
 import OfferingsList from 'components/Offerings/OfferingsList'
 import OfferingContext from 'contexts/OfferingContext'
-import { getBreadcrumbLinks, URLParameter } from 'pages/OfferingsPage'
+import { buildURI, getBreadcrumbLinks, URLParameter } from 'pages/OfferingsPage'
 
 const GrayCard = withStyles({
 	root: {
@@ -23,135 +23,19 @@ const GrayCard = withStyles({
 	}
 })(Card)
 
-/* const offeringss = [
-	{
-		professor: 'Kalinka Castelo Branco',
-		code: 'fjdsalfjdksljfkldsa',
-		years: ['2020', '2017', '2016'],
-		approval: 0.4,
-		neutral: 0.1,
-		disapproval: 0.5
-	},
-	{
-		professor: 'João do Espírito Santo Batista De Mattos',
-		code: 'fjdsalfjdksljfkldsadfs',
-		years: ['2020', '2021', '2019', '2015', '2014', '2013'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsjdksljfkldsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsjdksljfkldsa1dfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsjdksljfkl2dsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsjdksljf3kldsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsjdk4sljfkldsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsjd5ksljfkldsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsj6dksljfkldsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsjdksljfkld7sadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsjdksl8jfkldsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxdsjdksljfk9ldsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxds11jdksljfkldsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	},
-	{
-		professor: 'Abacaxi',
-		code: 'fjdsalxd12sjdksljfkldsadfs',
-		years: ['2020', '2019', '2018'],
-		approval: 0.6,
-		neutral: 0.1,
-		disapproval: 0.3
-	}
-] */
-
 interface PropsType {
     subject: Subject | null
     offerings: Offering[] | null
+    selectedOffering: Offering | null
 }
 
-const Desktop: React.FC<PropsType> = ({ offerings, subject }) => {
-	const [selectedOffering, setSelectedOffering] = useState<Offering | null>(null)
-	useEffect(() => {
-		if (selectedOffering === null && offerings) {
-			setSelectedOffering(offerings[0])
-		}
-	}, [offerings])
-
+const Desktop: React.FC<PropsType> = ({ offerings, subject, selectedOffering }) => {
 	const { course, specialization, code } = useParams<URLParameter>()
+	const history = useHistory()
+
+	const handleSelectOffering = (o: Offering) => {
+		history.replace(buildURI(course, specialization, code, o.code))
+	}
 
 	const isLoading = subject === null || offerings === null
 
@@ -171,7 +55,7 @@ const Desktop: React.FC<PropsType> = ({ offerings, subject }) => {
 						<Grid item xs={3}>
 							<GrayCard elevation={3} raised className='full-height not-so-gray' style={{ position: 'relative' }}>
 								<div className='full-width full-height' style={{ position: 'absolute', overflow: 'auto' }}>
-									<OfferingsList list={offerings} selected={selectedOffering} setSelected={setSelectedOffering}/>
+									<OfferingsList list={offerings} selected={selectedOffering} setSelected={handleSelectOffering}/>
 								</div>
 							</GrayCard>
 						</Grid>

@@ -218,8 +218,8 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 		chartContent = <MessagePanel height={200} action={redirectLogin} actionTitle="Entrar" message="Você precisa estar logado para ter acesso a esse recurso"/>
 	}
 
-	const goToOfferingsPage = useCallback(() => {
-		history.push(buildOfferingsPageURI(course, specialization, code))
+	const goToOfferingsPage = useCallback((offeringCode?: string) => {
+		history.push(buildOfferingsPageURI(course, specialization, code, offeringCode))
 	}, [course, specialization, code])
 
 	const content = subject ? <>
@@ -274,7 +274,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 														list={offerings}
 														selected={null}
 														setSelected={(o: Offering) => {
-															goToOfferingsPage()
+															goToOfferingsPage(o.code)
 														}}
 														secondary={'Ver avaliações'}
 														noStatsMessage={
