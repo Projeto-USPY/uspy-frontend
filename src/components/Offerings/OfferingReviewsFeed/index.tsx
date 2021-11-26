@@ -45,7 +45,7 @@ const OfferingReviewsFeed: React.FC<PropTypes> = ({ review }) => {
 			setReviews(reviews)
 		}).catch(err => {
 			setLoading(false)
-			if (err === 404) {
+			if (err.status === 404) {
 				setReviews([])
 			} else {
 				console.error(err)

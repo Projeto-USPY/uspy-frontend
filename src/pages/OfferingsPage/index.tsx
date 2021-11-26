@@ -59,10 +59,10 @@ const OfferingsPage = () => {
 	useEffect(() => {
 		api.getSubjectWithCourseAndCode(course, specialization, code).then(data => {
 			setSubject(data)
-		}).catch((err: number) => {
-			if (err === 404) {
+		}).catch(err => {
+			if (err.status === 404) {
 				setErrorMessage('Não foi possível encontrar essa disciplina')
-			} else if (err !== 200) {
+			} else if (err.status !== 200) {
 				setErrorMessage(`Algo de errado aconteceu e essa página retornou com status ${err}`)
 			} else {
 				setErrorMessage('')
@@ -72,11 +72,11 @@ const OfferingsPage = () => {
 		api.getSubjectOfferings(course, specialization, code).then(data => {
 			setOfferings(data)
 		}).catch((err: number) => {
-			if (err === 404) {
+			if (err.status === 404) {
 				setErrorMessage('Não foi possível encontrar oferecimentos para esta disciplina')
-			} else if (err === 401) {
+			} else if (err.status === 401) {
 				setErrorMessage('Você deve estar logado para ver esta página (401)')
-			} else if (err !== 200) {
+			} else if (err.status !== 200) {
 				setErrorMessage(`Algo de errado aconteceu e essa página retornou com status ${err}`)
 			} else {
 				setErrorMessage('')

@@ -128,10 +128,10 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 			setReview(review)
 			setPending(false)
 		}).catch(err => {
-			if (err === 403) {
+			if (err.status === 403) {
 				notify('Você precisa ter feito a matéria para avaliar', 'info')
 			} else {
-				alert(`Algo de errado aconteceu (${err}). Tente novamente mais tarde!`)
+				alert(`Algo de errado aconteceu (${err.message}). Tente novamente mais tarde!`)
 			}
 			setPending(false)
 		})

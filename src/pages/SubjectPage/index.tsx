@@ -121,10 +121,10 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			setIsLoading(false)
 		}).catch(err => {
 			setIsLoading(false)
-			if (err === 404) {
+			if (err.status === 404) {
 				setErrorMessage('Não foi possível encontrar essa disciplina')
-			} else if (err !== 200) {
-				setErrorMessage(`Algo de errado aconteceu e essa página retornou com status ${err}`)
+			} else if (err.status !== 200) {
+				setErrorMessage(`Algo de errado aconteceu e essa página retornou com status ${err.message}`)
 			} else {
 				setErrorMessage('')
 			}
@@ -142,7 +142,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			setSubjectReview(rev)
 			setEvaluateSubject(true)
 		}).catch(err => {
-			if (err === 404) {
+			if (err.status === 404) {
 				setEvaluateSubject(true)
 			} else { // either user is not logged in or user was not enrolled in subject
 				setEvaluateSubject(false)
@@ -161,7 +161,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			api.getSubjectOfferingsSummary(course, specialization, code).then(o => {
 				setOfferings(o)
 			}).catch(err => {
-				if (err !== 404) {
+				if (err.status !== 404) {
 					console.error(err)
 				}
 			})
@@ -169,7 +169,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			api.getSubjectOfferings(course, specialization, code, 3).then(o => {
 				setOfferings(o)
 			}).catch(err => {
-				if (err === 404) {
+				if (err.status === 404) {
 					setOfferings([])
 				} else {
 					console.error(err)

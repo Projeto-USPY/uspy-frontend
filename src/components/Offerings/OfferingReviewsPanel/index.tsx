@@ -16,7 +16,7 @@ const OfferingReviewsPanel = () => {
 		api.getUserOfferingReview(course, specialization, code, professor).then(review => {
 			setUserReview(review)
 		}).catch(err => {
-			if (err === 404) {
+			if (err.status === 404) {
 				setUserReview(null)
 			} else {
 				console.error(err)

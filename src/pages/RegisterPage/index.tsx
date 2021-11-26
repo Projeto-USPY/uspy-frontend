@@ -134,9 +134,9 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				setPending(false)
 				history.push(buildLoginPageURI())
 			}).catch(err => {
-				if (err === 400) {
+				if (err.status === 400) {
 					alert('Email, código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
-				} else if (err === 403) {
+				} else if (err.status === 403) {
 					alert('Usuário já registrado')
 				} else {
 					alert(`Esta página retornou com status (${err})`)

@@ -61,18 +61,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 			// Redirect cases
 			const { from } = location.state || { from: { pathname: '/' } } as any
 			history.replace(from)
-		}).catch(({ statusCode, errorMessage }) => {
-			if (statusCode === 400) {
+		}).catch(err => {
+			if (err.status === 400) {
 				alert('Bad Request (400). Certifique-se de que os campos estão corretos')
-			} else if (statusCode === 401) {
+			} else if (err.status === 401) {
 				alert('Número USP ou senha incorretos')
-			} else if (statusCode === 403) {
-				if (errorMessage === 'e-mail ainda não foi verificado') {
+			} else if (err.status === 403) {
+				if (err.code === 'unverified_user') {
 					alert('Sua conta ainda não foi verificada. Cheque seu inbox ou clique em "Reenviar email de ativação" se você não recebeu nenhuma mensagem')
 					setShowSendActivationEmailButton(true)
 				}
 			} else {
-				console.error(errorMessage)
+				console.error(err.message)
 				alert('Algo de errado aconteceu :(. Tente novamente mais tarde.')
 			}
 		})

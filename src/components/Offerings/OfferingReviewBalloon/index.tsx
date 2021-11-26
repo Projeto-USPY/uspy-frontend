@@ -44,7 +44,7 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 		api.getOfferingReviewUserVote(course, specialization, code, professor, review.uuid).then(vote => {
 			setVoteRegistered(vote.type === 'upvote' ? 1 : -1)
 		}).catch(err => {
-			if (err !== 404) {
+			if (err.status !== 404) {
 				console.log(err)
 			}
 		})
