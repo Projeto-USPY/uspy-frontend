@@ -1,9 +1,9 @@
 steps:
-- name: node:latest
+- name: node:$_NODE_VERSION
   entrypoint: yarn
   args: ['install']
 
-- name: node:latest
+- name: node:$_NODE_VERSION
   entrypoint: yarn
   args: ['webpack', '--mode=$_MODE']
 
