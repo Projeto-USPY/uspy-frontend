@@ -103,6 +103,7 @@ b {
 	position: sticky;
 	top: 0px;
 	background-color: #A77BC3;
+	z-index: 1;
 }
 
 .offering-review-form-accordion-content {
