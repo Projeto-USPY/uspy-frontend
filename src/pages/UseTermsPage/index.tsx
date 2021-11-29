@@ -91,6 +91,7 @@ const UseTermsPage = () => {
 						<ul>
 							<li> Número USP (número de matrícula)  </li>
 							<li> Histórico de notas do aluno  </li>
+							<li> E-mail @usp.br do aluno  </li>
 						</ul>
 
 						<p> Essas informações são obtidas a partir do resumo escolar do aluno e são necessárias pelos seguintes motivos </p>
@@ -98,6 +99,7 @@ const UseTermsPage = () => {
 						<ul>
 							<li> O Número USP é usado como identificador de <i>login</i> do usuário </li>
 							<li> O histórico de notas do usuário é usado para o cálculo das estatísticas conjuntas de cada disciplina: taxa de aprovação, distribuição e média, além de fornecer a informação de quais disciplinas foram cursadas pelo aluno. </li>
+							<li> O e-mail institucional é usado para operações que exigem gerenciamento da conta do usuário, dentre essas: Verificação de conta, redefinição de senha, etc. </li>
 						</ul>
 
 						<p> Todos os dados são ofuscados utilizando técnicas de criptografia. </p>
@@ -114,7 +116,7 @@ const UseTermsPage = () => {
 
 						<p> Os dados adicionados no site a partir do cadastro dos usuários e suas ações posteriores seguem a Lei Nº 13.709, de 14 de agosto de 2018, sendo assim, anônimas. </p>
 
-						<p> Não serão divulgadas quaisquer avaliações e/ou informações específicas de algum aluno, somente estatísticas conjuntas que ofuscam os desempenhos e opiniões individuais dos usuários. Todos os dados pessoais serão protegidos e criptografados. </p>
+						<p> Não serão divulgadas quaisquer avaliações e/ou informações específicas de algum aluno, somente estatísticas conjuntas que ofuscam os desempenhos e opiniões anonimizadas dos usuários. Todos os dados pessoais serão protegidos e criptografados. </p>
 
 					</section>
 
@@ -124,7 +126,7 @@ const UseTermsPage = () => {
 
 						<p> O USPY não é um sistema oficial, com isso, as informações fornecidas deverão ser desfrutadas com muito cuidado. Os dados disponibilizados devem ser utilizados com o objetivo somente de informação pessoal.  </p>
 
-						<p> Nós não nos responsabilizamos pelo uso indevido dos dados fornecidos, e o mau uso das ferramentas disponibilizadas pela plataforma podem sujeitar o usuário a ter sua conta banida sem aviso prévio.  </p>
+						<p> Nós não nos responsabilizamos pelo uso indevido dos dados fornecidos, e o mau uso (como por exemplo o desrespeito com outros usuários e docentes) das ferramentas disponibilizadas pela plataforma podem sujeitar o usuário a ter sua conta banida sem aviso prévio.  </p>
 
 					</section>
 
