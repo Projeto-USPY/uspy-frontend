@@ -7,8 +7,8 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import api from 'API'
+import ErrorScreen from 'components/ErrorScreen'
 import Navbar from 'components/Navbar'
-import ErrorDrawing from 'images/error-illustration.svg'
 import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 
 export function buildURI (): string {
@@ -44,25 +44,20 @@ const AccountActivationPage = () => {
 			<Navbar/>
 			<div style={{ height: '150px' }}></div>
 
-			<Container>
-				<Grid container justify='center' alignItems='center' direction='column'>
-					<Grid item>
-						{
-							verifying
-								? <CircularProgress />
-								: errorMessage
-									? <Typography variant='h4'> {errorMessage} </Typography>
+			{errorMessage
+				? <ErrorScreen message={errorMessage} />
+				: <Container>
+					<Grid container justify='center' alignItems='center' direction='column'>
+						<Grid item>
+							{
+								verifying
+									? <CircularProgress />
 									: <Typography variant='h4'> Conta verificada com sucesso! </Typography>
-						}
-					</Grid>
-					{errorMessage
-						? <Grid item>
-							<img src={ErrorDrawing} height={200}/>
+							}
 						</Grid>
-						: null}
-				</Grid>
-
-			</Container>
+					</Grid>
+				</Container>
+			}
 		</main>
 	</div>
 }
