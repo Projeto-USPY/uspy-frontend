@@ -15,6 +15,15 @@ function sendForm () {
 	cy.get('#submit').click()
 }
 
+function dismissDialog () {
+	cy.get('#dismiss-error-dialog').click()
+}
+
+function checkErrorAndDismiss (errMessage) {
+	cy.contains(errMessage)
+	dismissDialog()
+}
+
 describe('Password Reset Page', () => {
 	beforeEach(() => {
 		cy.visit(buildURI())
@@ -72,18 +81,18 @@ describe('Password Reset Page', () => {
 	describe('Post-form submit events', () => {
 		it('Should give alert on invalid or missing token', () => {
 			sendForm()
-			cy.on('window:alert', str => expect(str).to.equal('Token inválido!'))
+			checkErrorAndDismiss('Token inválido!')
 		})
 		it('Should give alert on missing user', () => {
 			cy.intercept('PUT', passwordResetUrl, { statusCode: 404 })
 			sendForm()
-			cy.on('window:alert', str => expect(str).to.equal('O usuário não existe!'))
+			checkErrorAndDismiss('O usuário não existe!')
 		})
 
 		it('Should give alert on unexpected error', () => {
 			cy.intercept('PUT', passwordResetUrl, { statusCode: 500 })
 			sendForm()
-			cy.on('window:alert', str => expect(str).to.equal('Algo de errado aconteceu :(. Tente novamente mais tarde!'))
+			checkErrorAndDismiss('Algo deu errado')
 		})
 
 		it('Should redirect to login page on success', () => {

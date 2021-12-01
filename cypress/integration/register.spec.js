@@ -22,6 +22,15 @@ function clickSubmit () {
 	cy.get('#submit').click()
 }
 
+function dismissDialog () {
+	cy.get('#dismiss-error-dialog').click()
+}
+
+function checkErrorAndDismiss (errMessage) {
+	cy.contains(errMessage)
+	dismissDialog()
+}
+
 describe('Register Page', () => {
 	beforeEach(() => {
 		cy.visit('/Cadastro')
@@ -56,10 +65,10 @@ describe('Register Page', () => {
 			})
 			it('Should be validated on submit', () => {
 				const authCodeIncompleteError = 'O código de autenticidade está incompleto'
-				cy.on('window:confirm', str => expect(str).to.contain(authCodeIncompleteError))
 
 				// empty inputs
 				clickSubmit()
+				checkErrorAndDismiss(authCodeIncompleteError)
 
 				// incomplete inputs
 				cy.get('#auth-code-0').type('12345678ABCDEFG')
@@ -155,7 +164,7 @@ describe('Register Page', () => {
 				statusCode: 403
 			})
 			clickSubmit()
-			cy.on('window:confirm', str => expect(str).to.contain(alreadyRegisteredUserError))
+			checkErrorAndDismiss(alreadyRegisteredUserError)
 		})
 		it('On bad request', () => {
 			const badRequestError = 'Email, código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!'
@@ -165,14 +174,14 @@ describe('Register Page', () => {
 				statusCode: 400
 			})
 			clickSubmit()
-			cy.on('window:confirm', str => expect(str).to.contain(badRequestError))
+			checkErrorAndDismiss(badRequestError)
 		})
 		it('On submitting without accepting terms and conditions', () => {
 			const didntAcceptTermsAndConditionsError = 'Você deve aceitar os termos e condições'
 			fillForm(false)
 
 			clickSubmit()
-			cy.on('window:confirm', str => expect(str).to.contain(didntAcceptTermsAndConditionsError))
+			checkErrorAndDismiss(didntAcceptTermsAndConditionsError)
 		})
 	})
 })

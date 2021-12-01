@@ -57,7 +57,7 @@ const PasswordResetPage: React.FC = () => {
 			} else if (err.status === 404) {
 				uspyAlert('O usuário não existe!')
 			} else {
-				uspyAlert('Algo de errado aconteceu :(. Tente novamente mais tarde!')
+				uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde!`)
 			}
 		})
 	}

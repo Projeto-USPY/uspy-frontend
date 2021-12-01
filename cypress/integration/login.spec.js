@@ -9,6 +9,15 @@ function submitForm (nusp, pwd) {
 	cy.contains('Entrar').click()
 }
 
+function dismissDialog () {
+	cy.get('#dismiss-error-dialog').click()
+}
+
+function checkErrorAndDismiss (errMessage) {
+	cy.contains(errMessage)
+	dismissDialog()
+}
+
 describe('Login Page', () => {
 	it('Should return 401 for wrong user or pwd', () => {
 		cy.intercept('POST', loginUrl).as('loginRequest')
@@ -21,7 +30,7 @@ describe('Login Page', () => {
 		cy.wait('@loginRequest').then((interception) => {
 			expect(interception.response.statusCode).to.equal(401)
 		})
-		cy.on('window:alert', str => expect(str).to.equal('Número USP ou senha incorretos'))
+		checkErrorAndDismiss('Número USP ou senha incorretos')
 	})
 
 	it('Should return 400 if NUSP is not numeric', () => {
@@ -33,7 +42,7 @@ describe('Login Page', () => {
 		cy.wait('@loginRequest').then((interception) => {
 			expect(interception.response.statusCode).to.equal(400)
 		})
-		cy.on('window:alert', str => expect(str).to.contain('Bad Request (400)'))
+		checkErrorAndDismiss('Número USP ou senha incorretos')
 	})
 
 	it('Should return 400 if password doesnt attend requirements', () => {
@@ -44,7 +53,7 @@ describe('Login Page', () => {
 		cy.wait('@loginRequest').then((interception) => {
 			expect(interception.response.statusCode).to.equal(400)
 		})
-		cy.on('window:alert', str => expect(str).to.contain('Bad Request (400)'))
+		checkErrorAndDismiss('Número USP ou senha incorretos')
 	})
 
 	it('Should work properly if login request returns 200', () => {
