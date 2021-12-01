@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import { Provider as StoreProvider } from 'react-redux'
+import { Provider as StoreProvider, useSelector, useDispatch } from 'react-redux'
 import { Switch, Route, useLocation } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -9,8 +9,9 @@ import { createStore } from 'redux'
 import { ThemeProvider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { setUser, setUserNone } from 'actions'
+import { setUser, setUserNone, uspyAlert } from 'actions'
 import api from 'API'
+import ErrorDialog from 'components/ErrorDialog'
 import { SnackbarProvider } from 'notistack'
 import AboutPage, { buildURI as buildAboutPageURI } from 'pages/AboutPage'
 import AccountActivationPage, { buildURI as buildAccountActivationPageURI } from 'pages/AccountActivationPage'
@@ -65,6 +66,20 @@ const useStyles = makeStyles({
 	info: { backgroundColor: '#37537df8 !important' }
 })
 
+const DialogManager = () => {
+	const dialogError = useSelector(state => state.dialogError)
+	const dispatch = useDispatch()
+	console.log(dialogError)
+	return <ErrorDialog
+		open={!!dialogError && Boolean(dialogError.message)}
+		message={dialogError?.message || ''}
+		title={dialogError?.title}
+		close={() => {
+			dispatch(uspyAlert())
+		}}
+	/>
+}
+
 const App = () => {
 	// Checks if user exists and dispatches action to update it.
 	useEffect(checkUserExists, [])
@@ -96,6 +111,7 @@ const App = () => {
 							<Route path='/' component={NotFoundPage}/>
 						</Switch>
 					</BrowserRouter>
+					<DialogManager />
 				</SnackbarProvider>
 			</ThemeProvider>
 		</StoreProvider>

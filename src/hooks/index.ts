@@ -1,8 +1,10 @@
 import { useMemo } from 'react'
+import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 
 import Slide from '@material-ui/core/Slide'
 
+import { uspyAlert } from 'actions'
 import { useSnackbar } from 'notistack'
 
 export const useMySnackbar = () => {
@@ -25,4 +27,12 @@ export const useQueryParam = () => {
 	const { search } = useLocation()
 
 	return useMemo(() => new URLSearchParams(search), [search])
+}
+
+export const useErrorDialog = () => {
+	const dispatch = useDispatch()
+
+	return function (message: string, title?: string) {
+		dispatch(uspyAlert(message, title))
+	}
 }

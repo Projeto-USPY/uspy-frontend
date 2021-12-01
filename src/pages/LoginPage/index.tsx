@@ -23,7 +23,7 @@ import api from 'API'
 import Navbar from 'components/Navbar'
 import PasswordRedefinitionModal from 'components/PasswordRedefinitionModal'
 import SendActivationEmailModal from 'components/SendActivationEmailModal'
-import { useMySnackbar } from 'hooks'
+import { useMySnackbar, useErrorDialog } from 'hooks'
 
 import './style.css'
 
@@ -44,6 +44,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 	const [showSendActivationEmailButton, setShowSendActivationEmailButton] = useState<boolean>(false)
 	const history = useHistory()
 	const notify = useMySnackbar()
+	const uspyAlert = useErrorDialog()
 	const location = useLocation()
 
 	const handleNUSPInputChange = (evt: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -62,18 +63,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 			const { from } = location.state || { from: { pathname: '/' } } as any
 			history.replace(from)
 		}).catch(err => {
-			if (err.status === 400) {
-				alert('Bad Request (400). Certifique-se de que os campos estão corretos')
-			} else if (err.status === 401) {
-				alert('Número USP ou senha incorretos')
+			if (err.status === 400 || err.status === 401) {
+				uspyAlert('Número USP ou senha incorretos')
 			} else if (err.status === 403) {
 				if (err.code === 'unverified_user') {
-					alert('Sua conta ainda não foi verificada. Cheque seu inbox ou clique em "Reenviar email de ativação" se você não recebeu nenhuma mensagem')
+					uspyAlert('Sua conta ainda não foi verificada. Cheque seu inbox ou clique em "Reenviar email de ativação" se você não recebeu nenhuma mensagem')
 					setShowSendActivationEmailButton(true)
 				}
 			} else {
 				console.error(err.message)
-				alert('Algo de errado aconteceu :(. Tente novamente mais tarde.')
+				uspyAlert('Algo de errado aconteceu :(. Tente novamente mais tarde.')
 			}
 		})
 	}
