@@ -22,6 +22,7 @@ import BreadCrumb from 'components/Breadcrumb'
 import Navbar from 'components/Navbar'
 import InputPassword from 'components/PasswordInput'
 import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
+import { useMySnackbar, useErrorDialog } from 'hooks'
 import { buildURI as buildHomePageURI } from 'pages/HomePage'
 import { validatePassword } from 'utils'
 
@@ -54,29 +55,33 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const [showPwdError, setShowPwdError] = useState<boolean>(false)
 
 	const history = useHistory()
+	const notify = useMySnackbar()
+	const uspyAlert = useErrorDialog()
 	// Remove account feature
 	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
 	const removeAccount = () => {
 		api.removeAccount().then(() => {
 			setUserNone()
-			history.push(buildHomePageURI) // redirect to home page
-		}).catch((err: number) => {
-			alert(`Erro: algo aconteceu e o status (${err}) foi recebido.`)
+			history.push(buildHomePageURI()) // redirect to home page
+		}).catch(err => {
+			uspyAlert(`Algo deu errado (${err.message}).`, 'Falha na Remoção')
 		})
 	}
 
 	const changePassword = () => {
 		const old = document.querySelector('#old_pwd').value
-		if (old === newPwd) alert('Senhas nova e antiga não podem ser as mesmas')
-		else if (!validatePassword(newPwd)) alert('Senha inválida')
+		if (old === newPwd) uspyAlert('Senhas nova e antiga não podem ser as mesmas')
+		else if (!validatePassword(newPwd)) uspyAlert('Senha inválida')
 		else {
-			api.changePassword(old, newPwd).then(() => alert('Senha alterada com sucesso!')).catch(statusCode => {
-				if (statusCode === 400) {
-					alert(`Erro: algo aconteceu e o status (${statusCode}) foi recebido.`)
-				} else if (statusCode === 401) {
-					alert('Erro: você não está autenticado')
-				} else if (statusCode === 403) {
-					alert('Erro: senha antiga incorreta.')
+			api.changePassword(old, newPwd).then(() => notify('Senha alterada com sucesso!', 'success')).catch(err => {
+				if (err.status === 400) {
+					uspyAlert(`Algo aconteceu e o status (${err.status}) foi recebido.`, 'Falha na alteração da senha')
+				} else if (err.status === 401) {
+					uspyAlert('Você não está autenticado!')
+				} else if (err.status === 403) {
+					uspyAlert('Senha antiga incorreta!')
+				} else {
+					uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde.`)
 				}
 			})
 		}

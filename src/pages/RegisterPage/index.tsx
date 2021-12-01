@@ -30,7 +30,7 @@ import InfoModal from 'components/InfoModal'
 import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
 import InputPassword from 'components/PasswordInput'
-import { useMySnackbar } from 'hooks'
+import { useErrorDialog, useMySnackbar } from 'hooks'
 import { buildURI as buildHomePageURI } from 'pages/HomePage'
 import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import { buildURI as buildUseTermsPageURI } from 'pages/UseTermsPage'
@@ -55,6 +55,7 @@ export function buildURI (): string {
 
 const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	const notify = useMySnackbar()
+	const uspyAlert = useErrorDialog()
 
 	const [captchaImg, setCaptchaImg] = useState<string>('')
 	useEffect(() => {
@@ -118,15 +119,15 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 		const authCode = ['0', '1', '2', '3'].reduce((prev, cur) => prev + '-' + document.querySelector(`#auth-code-${cur}`).value, '').substr(1)
 
 		if (!/^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCode)) {
-			alert('O código de autenticidade está incompleto')
+			uspyAlert('O código de autenticidade está incompleto')
 		} else if (!validatePassword(password[0])) {
-			alert('A senha está inválida')
+			uspyAlert('A senha está inválida')
 		} else if (!/^[\w\d]{4}$/.test(captcha)) {
-			alert('O captcha deve ter exatamente 4 caracteres com letras ou números')
+			uspyAlert('O captcha deve ter exatamente 4 caracteres com letras ou números')
 		} else if (password[0] !== password[1]) {
-			alert('As senhas diferem')
+			uspyAlert('As senhas diferem')
 		} else if (!acceptedTerms) {
-			alert('Você deve aceitar os termos e condições')
+			uspyAlert('Você deve aceitar os termos e condições')
 		} else {
 			setPending(true) // registrating is pending
 			api.register(authCode, password[0], captcha, email).then((user: User) => {
@@ -135,11 +136,11 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				history.push(buildLoginPageURI())
 			}).catch(err => {
 				if (err.status === 400) {
-					alert('Email, código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
+					uspyAlert('Email, código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
 				} else if (err.status === 403) {
-					alert('Usuário já registrado')
+					uspyAlert('Usuário já registrado')
 				} else {
-					alert(`Esta página retornou com status (${err})`)
+					uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde`, 'Falha no cadastro')
 				}
 				setCaptcha('')
 				setShowCaptchaError(false)

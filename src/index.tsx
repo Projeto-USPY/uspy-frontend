@@ -46,8 +46,8 @@ function checkUserExists () {
 		} else {
 			store.dispatch(setUserNone())
 		}
-	}).catch((statusCode: number) => {
-		console.error(`Error: (${statusCode})`)
+	}).catch(err => {
+		console.error(`Error: (${err})`)
 	})
 }
 

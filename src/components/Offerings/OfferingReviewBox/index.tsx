@@ -20,7 +20,7 @@ import { OfferingReview } from 'types/Offering'
 
 import api from 'API'
 import OfferingContext from 'contexts/OfferingContext'
-import { useMySnackbar } from 'hooks'
+import { useErrorDialog, useMySnackbar } from 'hooks'
 import EmoteHated from 'images/hated.svg'
 import EmoteIndifferent from 'images/indifferent.svg'
 import EmoteLiked from 'images/liked.svg'
@@ -85,6 +85,8 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 	const notify = useMySnackbar()
 	const { professor, course, specialization, code } = useContext(OfferingContext)
 
+	const uspyAlert = useErrorDialog()
+
 	// Loaded review
 	useEffect(() => {
 		setComment(review?.body || '')
@@ -131,7 +133,7 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 			if (err.status === 403) {
 				notify('Você precisa ter feito a matéria para avaliar', 'info')
 			} else {
-				alert(`Algo de errado aconteceu (${err.message}). Tente novamente mais tarde!`)
+				uspyAlert(`Algo de errado aconteceu (${err.message}). Tente novamente mais tarde!`)
 			}
 			setPending(false)
 		})

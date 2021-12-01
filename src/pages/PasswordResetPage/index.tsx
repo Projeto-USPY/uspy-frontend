@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import api from 'API'
 import Navbar from 'components/Navbar'
 import PasswordInput from 'components/PasswordInput'
-import { useMySnackbar } from 'hooks'
+import { useErrorDialog, useMySnackbar } from 'hooks'
 import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import { validatePassword } from 'utils'
 
@@ -34,6 +34,7 @@ const PasswordResetPage: React.FC = () => {
 	const token = new URLSearchParams(window.location.search).get('token')
 
 	const notify = useMySnackbar()
+	const uspyAlert = useErrorDialog()
 
 	const history = useHistory()
 
@@ -52,11 +53,11 @@ const PasswordResetPage: React.FC = () => {
 		}).catch(err => {
 			setPending(false)
 			if (err.status === 400) {
-				alert('Token inválido!')
+				uspyAlert('Token inválido!')
 			} else if (err.status === 404) {
-				alert('O usuário não existe!')
+				uspyAlert('O usuário não existe!')
 			} else {
-				alert('Algo de errado aconteceu :(. Tente novamente mais tarde!')
+				uspyAlert('Algo de errado aconteceu :(. Tente novamente mais tarde!')
 			}
 		})
 	}

@@ -48,7 +48,7 @@ const OfferingReviewReportDialog: React.FC<PropsType> = ({ review, isOpen, close
 			notify('Sua denúncia foi enviada', 'success')
 			close()
 		}).catch(err => {
-			notify('Desculpe, mas algo deu errado :(', 'error')
+			notify('Algo deu errado, tente novamente mais tarde', 'error')
 			console.error(err)
 		})
 	}, [comment])

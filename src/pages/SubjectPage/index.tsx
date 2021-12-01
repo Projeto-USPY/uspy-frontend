@@ -124,7 +124,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			if (err.status === 404) {
 				setErrorMessage('Não foi possível encontrar essa disciplina')
 			} else if (err.status !== 200) {
-				setErrorMessage(`Algo de errado aconteceu e essa página retornou com status ${err.message}`)
+				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
 			} else {
 				setErrorMessage('')
 			}
@@ -179,7 +179,11 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 
 		api.getGrade(course, specialization, code).then((grade) => {
 			setYourGrade(grade.grade)
-		}).catch(() => {})
+		}).catch(err => {
+			if (err.status !== 404) {
+				console.error(err)
+			}
+		})
 	}, [course, specialization, code, user])
 
 	const handleReviewSubject = (c: 'S' | 'N') => {

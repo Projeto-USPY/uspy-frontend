@@ -34,7 +34,7 @@ const AccountActivationPage = () => {
 			} else if (err.status === 404) {
 				setErrorMessage('Erro: este usuário não existe')
 			} else {
-				setErrorMessage(`Algo de errado aconteceu :(. Tente novamente mais tarde (${err})`)
+				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`, 'Falha na ativação')
 			}
 		})
 	}, [])

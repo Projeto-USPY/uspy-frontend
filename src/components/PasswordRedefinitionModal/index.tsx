@@ -11,7 +11,7 @@ import CloseIcon from '@material-ui/icons/CloseOutlined'
 import { useTheme } from '@material-ui/styles'
 
 import api from 'API'
-import { useMySnackbar } from 'hooks'
+import { useErrorDialog, useMySnackbar } from 'hooks'
 import { validateEmail } from 'utils'
 
 interface PasswordRedefinitionModalProps {
@@ -27,6 +27,7 @@ const PasswordRedefinitionModal: React.FC<PasswordRedefinitionModalProps> = ({ o
 	const [showEmailError, setShowEmailError] = useState<boolean>(false)
 	const emailOk = !showEmailError || validateEmail(email)
 	const notify = useMySnackbar()
+	const uspyAlert = useErrorDialog()
 
 	useEffect(() => {
 		if (!open) setShowEmailError(false)
@@ -38,7 +39,7 @@ const PasswordRedefinitionModal: React.FC<PasswordRedefinitionModalProps> = ({ o
 			handleClose()
 		}).catch(err => {
 			console.error(err)
-			alert('Algo de errado aconteceu :(. Tente novamente mais tarde.')
+			uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde.`, 'Falha na redefinição')
 		})
 	}
 

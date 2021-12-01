@@ -139,7 +139,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 			setIsLoading(false)
 		}).catch(err => {
 			setIsLoading(false)
-			console.log(`ERROR: ${err}`)
+			console.error(`ERROR: ${err}`)
 		})
 	}, [course, specialization, code])
 
