@@ -5,7 +5,6 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
 
 import Box from '@material-ui/core/Box'
-import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import Container from '@material-ui/core/Container'
@@ -82,78 +81,82 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 				<Container style={{ backgroundColor: 'secondary' }}>
 					<Grid container justify='center'>
 						<Grid item md={6} xs={10}>
-							<Paper variant='outlined'>
-								<Box p={2}>
-									<Grid container spacing={2} alignItems='stretch' direction='column'>
-										<Grid item>
-											<TextField
-												fullWidth
-												autoFocus
-												color='secondary'
-												label="Número USP"
-												name="NUSP"
-												size="small"
-												type="text"
-												variant="outlined"
-												value={nusp}
-												onChange={evt => handleNUSPInputChange(evt)}
-											/>
-										</Grid>
-										<Grid item>
-											<TextField
-												fullWidth
-												label="Senha"
-												id="senha"
-												color='secondary'
-												name="senha"
-												size="small"
-												type="password"
-												variant="outlined"
-												onKeyPress={(evt) => (evt.key === 'Enter' ? handleLogin() : null)}
-											/>
-										</Grid>
-										<Grid item style={{ marginTop: '-1rem', marginBottom: '-1rem' }}>
-											<FormControlLabel
-												control={<Checkbox id="remember" disableRipple size='small' color='secondary'/>}
-												label={<Typography variant='caption'>Lembrar de mim por um mês</Typography>}
-											/>
-										</Grid>
-										<Grid item>
-											<Button
-												fullWidth
-												color='secondary'
-												size="medium"
-												variant="outlined"
-												onClick={handleLogin}
-											>
+							<Grid container justify='center' direction='column' spacing={1}>
+								<Grid item>
+									<Paper variant='outlined'>
+										<Box p={2}>
+											<Grid container spacing={2} alignItems='stretch' direction='column'>
+												<Grid item>
+													<TextField
+														fullWidth
+														autoFocus
+														color='secondary'
+														label="Número USP"
+														name="NUSP"
+														size="small"
+														type="text"
+														variant="outlined"
+														value={nusp}
+														onChange={evt => handleNUSPInputChange(evt)}
+													/>
+												</Grid>
+												<Grid item>
+													<TextField
+														fullWidth
+														label="Senha"
+														id="senha"
+														color='secondary'
+														name="senha"
+														size="small"
+														type="password"
+														variant="outlined"
+														onKeyPress={(evt) => (evt.key === 'Enter' ? handleLogin() : null)}
+													/>
+												</Grid>
+												<Grid item style={{ marginTop: '-1rem', marginBottom: '-1rem' }}>
+													<FormControlLabel
+														control={<Checkbox id="remember" disableRipple size='small' color='secondary'/>}
+														label={<Typography variant='caption'>Lembrar de mim por um mês</Typography>}
+													/>
+												</Grid>
+												<Grid item>
+													<Button
+														fullWidth
+														color='secondary'
+														size="medium"
+														variant="outlined"
+														onClick={handleLogin}
+													>
 												Entrar
-											</Button>
-										</Grid>
+													</Button>
+												</Grid>
 
-									</Grid>
-								</Box>
-							</Paper>
-							<Grid item>
-								<Grid container justify='center'>
-									<Grid item>
-										<Breadcrumbs separator=' '>
-											<Link variant='caption' color='secondary' style={{ cursor: 'pointer' }} onClick={() => setPasswordRedefinitionModalOpen(true)}>
-											Esqueci a senha
-											</Link>
-											<Link variant='caption' color='secondary' href={buildRegisterPageURI()}>
-											Cadastrar
-											</Link>
-											{ showSendActivationEmailButton
-												? <Link variant='caption' color='secondary' style={{ cursor: 'pointer' }} onClick={() => setSendActivationEmailModalOpen(true)}>
-											Reenviar email de ativação
-												</Link>
-												: null}
-										</Breadcrumbs>
-									</Grid>
+											</Grid>
+										</Box>
+									</Paper>
 								</Grid>
+								<Grid item container spacing={1} justify='center' wrap='wrap'>
+									<Grid item>
+										<Link variant='caption' color='secondary' style={{ cursor: 'pointer' }} onClick={() => setPasswordRedefinitionModalOpen(true)}>
+											Esqueci a senha
+										</Link>
+									</Grid>
+									<Grid item>
+										<Link variant='caption' color='secondary' href={buildRegisterPageURI()}>
+											Cadastrar
+										</Link>
+									</Grid>
+									{ showSendActivationEmailButton
+										? <Grid item>
+											<Link variant='caption' color='secondary' style={{ cursor: 'pointer' }} onClick={() => setSendActivationEmailModalOpen(true)}>
+												Reenviar email de ativação
+											</Link>
+										</Grid>
+										: null}
+								</Grid>
+
 							</Grid>
 						</Grid>
-
 					</Grid>
 				</Container>
 				<PasswordRedefinitionModal open={passwordRedefinitionModalOpen} handleClose={() => setPasswordRedefinitionModalOpen(false)} />
