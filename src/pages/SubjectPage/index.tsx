@@ -121,12 +121,10 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			setIsLoading(false)
 		}).catch(err => {
 			setIsLoading(false)
-			if (err.status === 404) {
+			if (err.code === 'not_found') {
 				setErrorMessage('Não foi possível encontrar essa disciplina')
-			} else if (err.status !== 200) {
-				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
 			} else {
-				setErrorMessage('')
+				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
 			}
 		})
 	}, [course, specialization, code])
@@ -142,7 +140,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			setSubjectReview(rev)
 			setEvaluateSubject(true)
 		}).catch(err => {
-			if (err.status === 404) {
+			if (err.code === 'not_found') {
 				setEvaluateSubject(true)
 			} else { // either user is not logged in or user was not enrolled in subject
 				setEvaluateSubject(false)
@@ -161,7 +159,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			api.getSubjectOfferingsSummary(course, specialization, code).then(o => {
 				setOfferings(o)
 			}).catch(err => {
-				if (err.status !== 404) {
+				if (err.code !== 'not_found') {
 					console.error(err)
 				}
 			})
@@ -169,7 +167,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			api.getSubjectOfferings(course, specialization, code, 3).then(o => {
 				setOfferings(o)
 			}).catch(err => {
-				if (err.status === 404) {
+				if (err.code === 'not_found') {
 					setOfferings([])
 				} else {
 					console.error(err)
@@ -180,7 +178,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 		api.getGrade(course, specialization, code).then((grade) => {
 			setYourGrade(grade.grade)
 		}).catch(err => {
-			if (err.status !== 404) {
+			if (err.code !== 'not_found') {
 				console.error(err)
 			}
 		})

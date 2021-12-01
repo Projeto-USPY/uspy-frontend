@@ -74,11 +74,11 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 		else if (!validatePassword(newPwd)) uspyAlert('Senha inválida')
 		else {
 			api.changePassword(old, newPwd).then(() => notify('Senha alterada com sucesso!', 'success')).catch(err => {
-				if (err.status === 400) {
+				if (err.code === 'bad_request') {
 					uspyAlert(`Algo aconteceu e o status (${err.status}) foi recebido.`, 'Falha na alteração da senha')
-				} else if (err.status === 401) {
+				} else if (err.code === 'unauthorized') {
 					uspyAlert('Você não está autenticado!')
-				} else if (err.status === 403) {
+				} else if (err.code === 'forbidden') {
 					uspyAlert('Senha antiga incorreta!')
 				} else {
 					uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde.`)

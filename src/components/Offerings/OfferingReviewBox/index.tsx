@@ -130,7 +130,7 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 			setReview(review)
 			setPending(false)
 		}).catch(err => {
-			if (err.status === 403) {
+			if (err.code === 'forbidden') {
 				notify('Você precisa ter feito a matéria para avaliar', 'info')
 			} else {
 				uspyAlert(`Algo de errado aconteceu (${err.message}). Tente novamente mais tarde!`)

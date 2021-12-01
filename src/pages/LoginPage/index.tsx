@@ -63,16 +63,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 			const { from } = location.state || { from: { pathname: '/' } } as any
 			history.replace(from)
 		}).catch(err => {
-			if (err.status === 400 || err.status === 401) {
+			if (err.code === 'bad_request' || err.code === 'unauthorized') {
 				uspyAlert('Número USP ou senha incorretos')
-			} else if (err.status === 403) {
-				if (err.code === 'unverified_user') {
-					uspyAlert('Sua conta ainda não foi verificada. Cheque seu inbox ou clique em "Reenviar email de ativação" se você não recebeu nenhuma mensagem')
-					setShowSendActivationEmailButton(true)
-				}
+			} else if (err.code === 'unverified_user') {
+				uspyAlert('Sua conta ainda não foi verificada. Cheque seu inbox ou clique em "Reenviar email de ativação" se você não recebeu nenhuma mensagem')
+				setShowSendActivationEmailButton(true)
 			} else {
-				console.error(err.message)
-				uspyAlert('Algo de errado aconteceu :(. Tente novamente mais tarde.')
+				uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde.`)
+				console.error(err)
 			}
 		})
 	}

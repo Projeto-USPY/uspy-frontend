@@ -60,26 +60,24 @@ const OfferingsPage = () => {
 		api.getSubjectWithCourseAndCode(course, specialization, code).then(data => {
 			setSubject(data)
 		}).catch(err => {
-			if (err.status === 404) {
+			if (err.code === 'not_found') {
 				setErrorMessage('Não foi possível encontrar essa disciplina')
-			} else if (err.status !== 200) {
-				setErrorMessage(`Algo de errado aconteceu e essa página retornou com status ${err}`)
 			} else {
-				setErrorMessage('')
+				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
+				console.error(err)
 			}
 		})
 
 		api.getSubjectOfferings(course, specialization, code).then(data => {
 			setOfferings(data)
-		}).catch((err: number) => {
-			if (err.status === 404) {
+		}).catch(err => {
+			if (err.code === 'not_found') {
 				setErrorMessage('Não foi possível encontrar oferecimentos para esta disciplina')
-			} else if (err.status === 401) {
-				setErrorMessage('Você deve estar logado para ver esta página (401)')
-			} else if (err.status !== 200) {
-				setErrorMessage(`Algo de errado aconteceu e essa página retornou com status ${err}`)
+			} else if (err.code === 'unauthorized') {
+				setErrorMessage('Você deve estar logado para ver esta página!')
 			} else {
-				setErrorMessage('')
+				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
+				console.error(err)
 			}
 		})
 	}, [])

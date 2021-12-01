@@ -29,9 +29,9 @@ const AccountActivationPage = () => {
 			}, 3000)
 		}).catch(err => {
 			setVerifying(false)
-			if (err.status === 400) {
+			if (err.code === 'bad_request') {
 				setErrorMessage('Erro: este link expirou :(')
-			} else if (err.status === 404) {
+			} else if (err.code === 'not_found') {
 				setErrorMessage('Erro: este usuário não existe')
 			} else {
 				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`, 'Falha na ativação')

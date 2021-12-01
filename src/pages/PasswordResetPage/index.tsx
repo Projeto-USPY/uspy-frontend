@@ -52,9 +52,9 @@ const PasswordResetPage: React.FC = () => {
 			notify('Senha redefinida com sucesso!', 'success')
 		}).catch(err => {
 			setPending(false)
-			if (err.status === 400) {
+			if (err.code === 'bad_request') {
 				uspyAlert('Token inválido!')
-			} else if (err.status === 404) {
+			} else if (err.code === 'not_found') {
 				uspyAlert('O usuário não existe!')
 			} else {
 				uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde!`)
