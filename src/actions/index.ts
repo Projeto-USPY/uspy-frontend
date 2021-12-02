@@ -10,3 +10,11 @@ export const setUserNone = (): ReduxAction => ({
 	type: 'LOGOUT',
 	payload: null
 })
+
+export const uspyAlert = (message?: string, title?: string): ReduxAction => ({
+	type: 'ALERT',
+	payload: message ? {
+		message,
+		title
+	} : null
+})

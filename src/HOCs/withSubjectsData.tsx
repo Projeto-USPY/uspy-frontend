@@ -3,7 +3,7 @@ import React, { createContext, ReactElement, useEffect, useState } from 'react'
 import { CourseInfo } from 'types/Course'
 import { SubjectInfo } from 'types/Subject'
 
-import { API } from 'API'
+import { client } from 'API'
 export const SubjectsDataContext: React.Context<any> = createContext([])
 
 function transformSubjects (subjects: any): SubjectInfo[] {
@@ -16,7 +16,7 @@ function transformSubjects (subjects: any): SubjectInfo[] {
 let data: CourseInfo[]
 function getData (setter: Function) {
 	if (!data) {
-		API.get('/api/subject/all').then((res: any) => {
+		client().get('/api/subject/all').then((res: any) => {
 			data = res.data.map((course: any) => ({
 				...course,
 				subjects: transformSubjects(course.subjects)

@@ -1,46 +1,48 @@
 {
-    "env": {
-        "browser": true,
-        "es2015": true
-    },
-    "extends": [
-        "plugin:react/recommended",
-        "standard"
+	"env": {
+		"browser": true,
+		"es2015": true
+	},
+	"extends": [
+		"plugin:react/recommended",
+		"standard",
+		"plugin:cypress/recommended"
 	],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 6,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 6,
+		"sourceType": "module"
+	},
+	"plugins": [
+		"react",
 		"@typescript-eslint",
-		"import-helpers"
+		"import-helpers",
+		"cypress"
 	],
 	"overrides": [{
 		"files": "*.ts"
 	}],
-    "rules": {
+	"rules": {
 		"indent": ["error", "tab"],
 		"no-tabs": 0,
 		"react/prop-types": 0,
 		"camelcase": "warn",
 		"import-helpers/order-imports": [
-            "warn",
-            { // example configuration
-                "newlinesBetween": "always",
-                "groups": [
+			"warn",
+			{ // example configuration
+				"newlinesBetween": "always",
+				"groups": [
 					"/^react/",
 					"/^redux/",
 					"/^@material-ui/",
 					"/^types/",
 					"module"
-                ],
-                "alphabetize": { "order": "asc", "ignoreCase": true }
-            }
-        ]
+				],
+				"alphabetize": { "order": "asc", "ignoreCase": true }
+			}
+		]
 	}
 }

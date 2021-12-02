@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import { ArcherContainer, ArcherElement } from 'react-archer'
-import { useHistory } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
@@ -12,8 +12,10 @@ import { useTheme } from '@material-ui/styles'
 
 import { SubjectRequirement } from 'types/Subject'
 
-import { getSubjectRelations } from 'API'
+import api from 'API'
 import MessagePanel from 'components/MessagePanel'
+import RequirementGraphCaption from 'images/requirements_graph_captions.svg'
+import { URLParameter, buildURI as buildSubjectURI } from 'pages/SubjectPage'
 
 interface BoxProps {
 	code: string
@@ -29,10 +31,12 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 	const history = useHistory()
 
 	const style = {
-		height: '30px',
+		height: isLink ? '30px' : '40px',
 		boxSizing: 'border-box',
-		padding: '5px',
+		padding: isLink ? '5px' : '10px',
 		border: '1px solid grey',
+		background: '#346d34',
+		color: 'white',
 		borderRadius: '25px',
 		display: 'flex',
 		justifyContent: 'center',
@@ -59,16 +63,15 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 		}
 	})
 
+	const params = useParams<URLParameter>() // get subject parameters
 	const handleClick = () => {
-		const path = history.location.pathname
-		const lastSlash = path.lastIndexOf('/')
-		history.push(path.substr(0, lastSlash) + '/' + code)
+		history.push(buildSubjectURI(params.course, params.specialization, code))
 	}
 
-	const popoverActive = isLink && isDesktop
+	const popoverActive = isDesktop
 	const isPopoverOpen = Boolean(anchorEl)
 
-	const popover = isPopoverOpen ? <Popover
+	const popover = <Popover
 		anchorEl={anchorEl}
 		open={isPopoverOpen}
 		style={{
@@ -89,9 +92,9 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 		<Paper elevation={2} className="prompt tooltip-card">
 			<Typography color='secondary'><strong> {code}</strong></Typography>
 			<Typography variant='body2'>{name}</Typography>
-			<Typography variant='caption'> Requisito {strong ? 'forte' : 'fraco'} </Typography>
+			{isLink ? <Typography variant='caption'> Requisito {strong ? 'forte' : 'fraco'} </Typography> : null}
 		</Paper>
-	</Popover> : null
+	</Popover>
 
 	return <>
 		<ArcherElement
@@ -115,8 +118,9 @@ interface RequirementsGraphProps {
 	course: string
 	specialization: string
 	code: string
+	name: string
 }
-const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specialization, code }) => {
+const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specialization, code, name }) => {
 	const [predecessors, setPredecessors] = useState<SubjectRequirement[]>([])
 	const [successors, setSuccessors] = useState<SubjectRequirement[]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -129,20 +133,21 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 		setSuccessors([])
 		setIsLoading(true)
 
-		getSubjectRelations(course, specialization, code).then((data) => {
+		api.getSubjectRelations(course, specialization, code).then((data) => {
 			setPredecessors((data.predecessors && data.predecessors[0]) || []) // for now get only the first set of requirements
 			setSuccessors(data.successors || [])
 			setIsLoading(false)
 		}).catch(err => {
 			setIsLoading(false)
-			console.log(`ERROR: ${err}`)
+			console.error(`ERROR: ${err}`)
 		})
 	}, [course, specialization, code])
 
 	const mainRelations = successors.map(x => ({
 		targetId: x.code,
 		targetAnchor: 'left',
-		sourceAnchor: 'right'
+		sourceAnchor: 'right',
+		style: x.strong ? { strokeWidth: 2.5 } : {}
 	}))
 
 	const content = <Grid container spacing={3} alignItems="stretch" style={{ height: `${cardHeight}px` }} >
@@ -156,7 +161,8 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 				relations={[{
 					targetId: code,
 					targetAnchor: 'left',
-					sourceAnchor: 'right'
+					sourceAnchor: 'right',
+					style: req.strong ? { strokeWidth: 2.5 } : {}
 				}]}
 			/>
 			)}
@@ -164,6 +170,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 		<Grid container item direction="column" style={{ height: '100%' }} justify="center" alignItems="center" xs={4}>
 			<Box
 				code={code}
+				name={name}
 				isLink={false}
 				relations={mainRelations}
 			/>
@@ -181,13 +188,21 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 		</Grid>
 	</Grid>
 
-	return <ArcherContainer strokeColor="black">
-		{isLoading ? <Grid container justify='center'><Grid item><CircularProgress/></Grid></Grid>
-			: noRequirement
-				? <MessagePanel height={200} message="Sem requisitos ou trancamentos"/>
-				: content}
+	return <>
 
-	</ArcherContainer>
+		<div style={{ width: '100%', display: noRequirement ? 'none' : 'block' }}>
+			<br/>
+			<img src={RequirementGraphCaption} style={{ float: 'right' }} height={50} />
+		</div>
+		<ArcherContainer strokeColor="black" strokeWidth={1}>
+
+			{isLoading ? <Grid container justify='center'><Grid item><CircularProgress/></Grid></Grid>
+				: noRequirement
+					? <MessagePanel height={200} message="Sem requisitos ou trancamentos"/>
+					: content}
+
+		</ArcherContainer>
+	</>
 }
 
 export default memo(RequirementsGraph)

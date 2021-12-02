@@ -13,9 +13,12 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import { ReduxAction } from 'types/redux'
 
 import { setUserNone } from 'actions'
-import { logout } from 'API'
+import api from 'API'
 import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
+import { useMySnackbar } from 'hooks'
 import Logo from 'images/navbar_logo.svg'
+import { buildURI as buildHomePageURI } from 'pages/HomePage'
+import { buildURI as buildProfilePageURI } from 'pages/SettingsPage'
 
 interface UserMenuProps {
 	open: boolean
@@ -26,15 +29,16 @@ interface UserMenuProps {
 
 let UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen, setUserNone }) => {
 	const history = useHistory()
+	const notify = useMySnackbar()
 	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
 
 	const menuStyle = {
 		minWidth: '100px'
 	}
 	const handleLogout = () => {
-		logout()
+		notify('Sessão encerrada', 'info')
+		api.logout()
 		setUserNone()
-		history.push('/')
 	}
 	return <Menu
 		open={open}
@@ -45,7 +49,7 @@ let UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen, setUserNone })
 			horizontal: 'left'
 		}}
 	>
-		<MenuItem onClick={() => history.push('/Perfil')} style={menuStyle}> Perfil </MenuItem>
+		<MenuItem onClick={() => history.push(buildProfilePageURI())} style={menuStyle}> Perfil </MenuItem>
 		<MenuItem onClick={() => setConfirmationDialogOpen(true)} style={menuStyle}> Logout </MenuItem>
 		<SimpleConfirmationDialog
 			title="Tem certeza que deseja sair?"
@@ -67,7 +71,7 @@ const Navbar: React.FC = () => {
 	const history = useHistory()
 
 	const goHome = () => {
-		if (history.location.pathname !== '/') history.push('/')
+		if (history.location.pathname !== buildHomePageURI()) history.push(buildHomePageURI())
 	}
 
 	const menuIcon = <>

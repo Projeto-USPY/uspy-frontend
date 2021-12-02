@@ -17,11 +17,14 @@ import { useTheme, ThemeProvider } from '@material-ui/styles'
 import { ReduxAction } from 'types/redux'
 
 import { setUserNone } from 'actions'
-import { changePassword as changePasswordRequest, removeAccount as removeAccountRequest } from 'API'
+import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import Navbar from 'components/Navbar'
 import InputPassword from 'components/PasswordInput'
 import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
+import { useMySnackbar, useErrorDialog } from 'hooks'
+import { buildURI as buildHomePageURI } from 'pages/HomePage'
+import { validatePassword } from 'utils'
 
 const textFieldCommonProps = {
 	variant: 'outlined',
@@ -31,11 +34,6 @@ const textFieldCommonProps = {
 	style: {
 		height: '50px'
 	}
-}
-
-// Returns true if pwd has 8+ characters with at least one number and one special character
-function goodPassword (pwd: string) {
-	return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(pwd)
 }
 
 const dangerTheme = createMuiTheme({
@@ -48,34 +46,42 @@ interface SettingsPageProps {
 	setUserNone: ActionCreator<ReduxAction>
 }
 
+export function buildURI (): string {
+	return '/perfil'
+}
+
 const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const [newPwd, setNewPwd] = useState<string>('')
 	const [showPwdError, setShowPwdError] = useState<boolean>(false)
 
 	const history = useHistory()
+	const notify = useMySnackbar()
+	const uspyAlert = useErrorDialog()
 	// Remove account feature
 	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
 	const removeAccount = () => {
-		removeAccountRequest().then(() => {
+		api.removeAccount().then(() => {
 			setUserNone()
-			history.push('/') // redirect to home page
-		}).catch((err: number) => {
-			alert(`Erro: algo aconteceu e o status (${err}) foi recebido.`)
+			history.push(buildHomePageURI()) // redirect to home page
+		}).catch(err => {
+			uspyAlert(`Algo deu errado (${err.message}).`, 'Falha na Remoção')
 		})
 	}
 
 	const changePassword = () => {
 		const old = document.querySelector('#old_pwd').value
-		if (old === newPwd) alert('Senhas nova e antiga não podem ser as mesmas')
-		else if (!goodPassword(newPwd)) alert('Senha inválida')
+		if (old === newPwd) uspyAlert('Senhas nova e antiga não podem ser as mesmas')
+		else if (!validatePassword(newPwd)) uspyAlert('Senha inválida')
 		else {
-			changePasswordRequest(old, newPwd).then(() => alert('Senha alterada com sucesso!')).catch(statusCode => {
-				if (statusCode === 400) {
-					alert(`Erro: algo aconteceu e o status (${statusCode}) foi recebido.`)
-				} else if (statusCode === 401) {
-					alert('Erro: você não está autenticado')
-				} else if (statusCode === 403) {
-					alert('Erro: senha antiga incorreta.')
+			api.changePassword(old, newPwd).then(() => notify('Senha alterada com sucesso!', 'success')).catch(err => {
+				if (err.code === 'bad_request') {
+					uspyAlert(`Algo aconteceu e o status (${err.status}) foi recebido.`, 'Falha na alteração da senha')
+				} else if (err.code === 'unauthorized') {
+					uspyAlert('Você não está autenticado!')
+				} else if (err.code === 'forbidden') {
+					uspyAlert('Senha antiga incorreta!')
+				} else {
+					uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde.`)
 				}
 			})
 		}
@@ -84,7 +90,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
-	const pwdOk = goodPassword(newPwd) || !showPwdError
+	const pwdOk = validatePassword(newPwd) || !showPwdError
 	return <div className='main'>
 		<main>
 			<Navbar/>
@@ -146,7 +152,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 				</Grid>
 				<div style={{ height: '70px' }}></div>
 
-				<Grid container direction='row-reverse' style={{ display: 'none' }}>
+				<Grid container direction='row-reverse'>
 					<Grid item xs={!isDesktop ? 12 : 2}>
 						<ThemeProvider theme={dangerTheme}>
 							<Button

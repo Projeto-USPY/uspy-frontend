@@ -1,154 +1,243 @@
 
+import { Offering, OfferingReview, OfferingReviewVote } from 'types/Offering'
 import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { User } from 'types/User'
 
-import axios from 'axios'
+import APIError, { statusCodeToError } from 'API/APIError'
+import axios, { AxiosInstance } from 'axios'
+import axiosRetry from 'axios-retry'
 
-export const API = axios.create({
-	baseURL: process.env.API_URL,
-	responseType: 'json',
-	withCredentials: true
-})
+class APIClient {
+	axiosClient: AxiosInstance
 
-// Returns users NUSP if is authenticated and '' if status code is 401. Throws the status if it's different than that.
-export async function isAuthenticated (): Promise<string> {
-	try {
-		const { data } = await API.get('/account/profile')
+	constructor () {
+		this.axiosClient = axios.create({
+			baseURL: process.env.API_URL,
+			responseType: 'json',
+			withCredentials: true
+		})
 
-		return data.user
-	} catch (err) {
-		if (err.request.status === 401) return ''
-		else throw err.request.status
+		this.axiosClient.interceptors.response.use(
+			response => response,
+			error => {
+				const data = error.response.data || {}
+				const statusCode = error.response.status
+				data.code = data.code || statusCodeToError[statusCode]
+				data.message = data.message || error.response.statusText
+
+				throw new APIError(data.code, data.message, statusCode)
+			}
+		)
+
+		axiosRetry(this.axiosClient, {
+			retryDelay: axiosRetry.exponentialDelay
+		})
 	}
-}
 
-export async function getSubjectWithCourseAndCode (course: string, specialization: string, code: string): Promise<Subject> {
-	try {
-		const { data, status } = await API.get('/api/subject', {
+	// Returns users NUSP if is authenticated and '' if status code is 401. Throw status code if it's different than that.
+	async isAuthenticated (): Promise<string> {
+		try {
+			const { data } = await this.axiosClient.get('/account/profile')
+
+			return data.user
+		} catch (err) {
+			if (err.status === 401) return ''
+			else throw err
+		}
+	}
+
+	async getSubjectWithCourseAndCode (course: string, specialization: string, code: string): Promise<Subject> {
+		const { data } = await this.axiosClient.get('/api/subject', {
 			params: {
 				course,
 				specialization,
 				code
 			}
 		})
-		if (status !== 200) {
-			throw status
-		}
 		return data as Subject
-	} catch (err) {
-		throw err.request.status
 	}
-}
 
-export async function getSubjectRelations (course: string, specialization: string, code: string): Promise<SubjectRelations> {
-	try {
-		const { data, status } = await API.get('/api/subject/relations', {
+	async getSubjectRelations (course: string, specialization: string, code: string): Promise<SubjectRelations> {
+		const { data } = await this.axiosClient.get('/api/subject/relations', {
 			params: {
 				course,
 				specialization,
 				code
 			}
 		})
-
-		if (status !== 200) {
-			throw status
-		}
 
 		return data as SubjectRelations
-	} catch (err) {
-		throw err.request.status
 	}
-}
 
-// Returns promise with base64 string of the image
-export async function getRegistrationCaptcha (): Promise<string> {
-	try {
-		const response = await API.get('/account/captcha', {
+	// Returns promise with base64 string of the image
+	async getRegistrationCaptcha (): Promise<string> {
+		const response = await this.axiosClient.get('/account/captcha', {
 			responseType: 'blob'
 		})
 		return URL.createObjectURL(response.data)
-	} catch (err) {
-		console.error(err)
-		throw err.request.status
 	}
-}
 
-export async function changePassword (oldPassword: string, newPassword: string) {
-	try {
-		await API.put('/account/password_change', {
+	async changePassword (oldPassword: string, newPassword: string) {
+		await this.axiosClient.put('/account/password_change', {
 			old_password: oldPassword,
 			new_password: newPassword
 		})
-	} catch (err) {
-		throw err.request.status
 	}
-}
 
-export async function register (authCode: string, password: string, captcha: string): Promise<User> {
-	try {
-		const { data } = await API.post('/account/create', {
+	async register (authCode: string, password: string, captcha: string, email: string): Promise<User> {
+		const { data } = await this.axiosClient.post('/account/create', {
 			access_key: authCode,
-			password: password,
-			captcha: captcha
+			password,
+			captcha,
+			email
 		})
 
-		return data
-	} catch (err) {
-		throw err.request.status
+		return data as User
 	}
-}
 
-export async function login (username: string, password: string, remember: boolean): Promise<User> {
-	try {
-		const { data } = await API.post('/account/login', {
+	async login (username: string, password: string, remember: boolean): Promise<User> {
+		const { data } = await this.axiosClient.post('/account/login', {
 			login: username,
 			pwd: password,
 			remember
 		})
-		return data
-	} catch (err) {
-		throw err.request.status
+		return data as User
 	}
-}
 
-export async function logout () {
-	try {
-		await API.get('account/logout')
-	} catch (err) {
-		// Fail gracefully, do nothing
-		if (err.request.status === 401) console.error('Can\'t logout if you are not logged in (401)')
-		else console.error(`Something bad happened (${err.request.status})`)
+	async logout () {
+		await this.axiosClient.get('account/logout')
 	}
-}
 
-export async function getSubjectReview (course: string, specialization: string, code: string): Promise<SubjectReview> {
-	try {
-		const { data } = await API.get(`/private/subject/review?course=${course}&specialization=${specialization}&code=${code}`)
+	async getSubjectOfferingsSummary (course: string, specialization: string, code: string): Promise<Offering[]> {
+		const { data } = await this.axiosClient.get('/api/subject/offerings', {
+			params: {
+				code,
+				specialization,
+				course
+			}
+		})
+		return data as Offering[]
+	}
+
+	async getSubjectOfferings (course: string, specialization: string, code: string, limit?: number): Promise<Offering[]> {
+		const { data } = await this.axiosClient.get('/api/restricted/subject/offerings', {
+			params: {
+				code,
+				specialization,
+				course,
+				limit: limit || 100
+			}
+		})
+		return data as Offering[]
+	}
+
+	async getUserOfferingReview (course: string, specialization: string, code: string, professor: string): Promise<OfferingReview> {
+		const { data } = await this.axiosClient.get('/private/subject/offerings/comments', {
+			params: {
+				code,
+				specialization,
+				course,
+				professor
+			}
+		})
+		return data as OfferingReview
+	}
+
+	async getOfferingReviews (course: string, specialization: string, code: string, professor: string): Promise<OfferingReview[]> {
+		const { data } = await this.axiosClient.get('/api/restricted/subject/offerings/comments', {
+			params: {
+				code,
+				specialization,
+				course,
+				professor
+			}
+		})
+		return data as OfferingReview[]
+	}
+
+	async getOfferingReviewUserVote (course: string, specialization: string, code: string, professor: string, comment: string): Promise<OfferingReviewVote> {
+		const { data } = await this.axiosClient.get('/private/subject/offerings/comments/rating', {
+			params: {
+				code,
+				specialization,
+				course,
+				professor,
+				comment
+			}
+		})
+		return data as OfferingReviewVote
+	}
+
+	async submitOfferingReviewUserVote (course: string, specialization: string, code: string, professor: string, comment: string, vote: OfferingReviewVote) {
+		await this.axiosClient.put('/private/subject/offerings/comments/rating', vote, {
+			params: {
+				code,
+				specialization,
+				course,
+				professor,
+				comment
+			}
+		})
+	}
+
+	async submitOfferingReview (
+		course: string,
+		specialization: string,
+		code: string,
+		professor: string,
+		body: string,
+		rating: number
+	): Promise<OfferingReview> {
+		const { data } = await this.axiosClient.put('/private/subject/offerings/comments', {
+			body,
+			rating
+		}, {
+			params: {
+				course,
+				specialization,
+				code,
+				professor
+			}
+		})
+		return data as OfferingReview
+	}
+
+	async reportOfferingReview (
+		course: string,
+		specialization: string,
+		code: string,
+		professor: string,
+		comment: string,
+		report: string
+	) {
+		await this.axiosClient.put('/private/subject/offerings/comments/report', {
+			body: report
+		}, {
+			params: {
+				course,
+				specialization,
+				code,
+				professor,
+				comment
+			}
+		})
+	}
+
+	async getSubjectReview (course: string, specialization: string, code: string): Promise<SubjectReview> {
+		const { data } = await this.axiosClient.get(`/private/subject/review?course=${course}&specialization=${specialization}&code=${code}`)
 		return data as SubjectReview
-	} catch (err) {
-		throw err.request.status
 	}
-}
 
-export async function makeSubjectReview (course: string, specialization: string, code: string, review: SubjectReview) {
-	try {
-		await API.post(`/private/subject/review?course=${course}&specialization=${specialization}&code=${code}`, review)
-	} catch (err) {
-		throw err.request.status
+	async makeSubjectReview (course: string, specialization: string, code: string, review: SubjectReview) {
+		await this.axiosClient.post(`/private/subject/review?course=${course}&specialization=${specialization}&code=${code}`, review)
 	}
-}
 
-export async function removeAccount () {
-	try {
-		await API.delete('/account')
-	} catch (err) {
-		throw err.request.status
+	async removeAccount () {
+		await this.axiosClient.delete('/account')
 	}
-}
 
-export async function getSubjectGrades (course: string, specialization: string, code: string): Promise<SubjectGradeStats> {
-	try {
-		const { data } = await API.get('/api/restricted/subject/grades', {
+	async getSubjectGrades (course: string, specialization: string, code: string): Promise<SubjectGradeStats> {
+		const { data } = await this.axiosClient.get('/api/restricted/subject/grades', {
 			params: {
 				course,
 				specialization,
@@ -156,14 +245,10 @@ export async function getSubjectGrades (course: string, specialization: string, 
 			}
 		})
 		return data as SubjectGradeStats
-	} catch (err) {
-		throw err.request.status
 	}
-}
 
-export async function getGrade (course: string, specialization: string, code: string): Promise<SubjectGrade> {
-	try {
-		const { data } = await API.get('/private/subject/grade', {
+	async getGrade (course: string, specialization: string, code: string): Promise<SubjectGrade> {
+		const { data } = await this.axiosClient.get('/private/subject/grade', {
 			params: {
 				course,
 				specialization,
@@ -171,19 +256,39 @@ export async function getGrade (course: string, specialization: string, code: st
 			}
 		})
 		return data as SubjectGrade
-	} catch (err) {
-		throw err.request.status
 	}
-}
 
-export async function resetPassword (authCode: string, password: string, captcha: string) {
-	try {
-		await API.put('/account/password_reset', {
-			access_key: authCode,
-			captcha,
+	async resetPassword (token: string, password: string) {
+		await this.axiosClient.put('/account/password_reset', {
+			token,
 			password
 		})
-	} catch (err) {
-		throw err.request.status
 	}
+
+	async sendActivationEmail (email: string) {
+		await this.axiosClient.post('/account/email/verification', {
+			email: email
+		})
+	}
+
+	async sendPasswordRedefinitionEmail (email: string) {
+		await this.axiosClient.post('/account/email/password_reset', {
+			email: email
+		})
+	}
+
+	async verifyAccount (token: string) {
+		await this.axiosClient.get('/account/verify', {
+			params: {
+				token
+			}
+		})
+	}
+};
+
+const Client = new APIClient()
+export default Client
+
+export function client () {
+	return Client.axiosClient
 }

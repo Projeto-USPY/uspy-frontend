@@ -14,9 +14,9 @@ const devOptions = {
 	}
 }
 
-function buildConfig (env) {
+function buildConfig (env, argv) {
 	let envVars = {
-		API_URL: env.mode === 'development' ? 'https://dev.uspy.me' : 'https://prod.uspy.me'
+		API_URL: argv.mode === 'development' ? 'https://dev.uspy.me' : 'https://prod.uspy.me'
 	}
 	if (env.local) {
 		envVars = dotenv.config({

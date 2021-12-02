@@ -22,6 +22,7 @@ import { SubjectInfo } from 'types/Subject'
 
 import Navbar from 'components/Navbar'
 import withSubjectsData, { SubjectsDataContext } from 'HOCs/withSubjectsData'
+import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 
 const Accordion = withStyles({
 	root: {
@@ -80,12 +81,17 @@ interface SubjectListProps {
 	arr: CourseInfo
 	sortByCode: boolean
 }
+
+export function buildURI (): string {
+	return '/disciplinas'
+}
+
 const SubjectList: React.FC<SubjectListProps> = ({ arr, sortByCode }) => {
 	const [open, setOpen] = useState<boolean>(false)
 
 	const history = useHistory()
 	const clickItem = (courseCode: string, courseSpecialization: string, code: string) => {
-		history.push(`${history.location.pathname}/${courseCode}/${courseSpecialization}/${code}`)
+		history.push(buildSubjectPageURI(courseCode, courseSpecialization, code))
 	}
 
 	const getList = (course: CourseInfo, sortByCode: boolean) => {

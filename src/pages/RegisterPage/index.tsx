@@ -24,12 +24,17 @@ import { ReduxAction } from 'types/redux'
 import { User } from 'types/User'
 
 import { setUser } from 'actions'
-import { register, getRegistrationCaptcha } from 'API'
+import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import InfoModal from 'components/InfoModal'
 import Navbar from 'components/Navbar'
 import PartialInput from 'components/PartialInput'
 import InputPassword from 'components/PasswordInput'
+import { useErrorDialog, useMySnackbar } from 'hooks'
+import { buildURI as buildHomePageURI } from 'pages/HomePage'
+import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
+import { buildURI as buildUseTermsPageURI } from 'pages/UseTermsPage'
+import { validateEmail, validatePassword } from 'utils'
 
 import './style.css'
 
@@ -40,19 +45,21 @@ const textFieldCommonProps = {
 	fullWidth: true
 }
 
-// Returns true if pwd has 8+ characters with at least one number and one special character
-function goodPassword (pwd: string) {
-	return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(pwd)
-}
-
 interface RegisterPageProps {
 	setUser: ActionCreator<ReduxAction>
 }
 
+export function buildURI (): string {
+	return '/cadastro'
+}
+
 const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
+	const notify = useMySnackbar()
+	const uspyAlert = useErrorDialog()
+
 	const [captchaImg, setCaptchaImg] = useState<string>('')
 	useEffect(() => {
-		getRegistrationCaptcha().then(captchaImg => {
+		api.getRegistrationCaptcha().then(captchaImg => {
 			setCaptchaImg(captchaImg)
 		})
 	}, [])
@@ -73,6 +80,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	}
 
 	// text field values
+	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string[]>(['', ''])
 	const [captcha, setCaptcha] = useState<string>('')
 
@@ -83,6 +91,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	const [showPwd0Error, setShowPwd0Error] = useState<boolean>(false)
 	const [showPwd1Error, setShowPwd1Error] = useState<boolean>(false)
 	const [showCaptchaError, setShowCaptchaError] = useState<boolean>(false)
+	const [showEmailError, setShowEmailError] = useState<boolean>(false)
 
 	// is registration pending
 	const [pending, setPending] = useState<boolean>(false)
@@ -95,45 +104,47 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 			setPassword([password[0], value])
 		} else if (id === 'captcha') {
 			setCaptcha(value.toLowerCase())
+		} else if (id === 'email') {
+			setEmail(value)
 		}
 	}
 
 	// if fields are valid
-	const pwdOk = goodPassword(password[0]) || !showPwd0Error
+	const pwdOk = validatePassword(password[0]) || !showPwd0Error
 	const captchaOk = !showCaptchaError || /^[\w\d]{4}$/.test(captcha)
+	const emailOk = !showEmailError || validateEmail(email)
 
 	const registerClick = () => {
 		const acceptedTerms = document.querySelector('#accept').checked
 		const authCode = ['0', '1', '2', '3'].reduce((prev, cur) => prev + '-' + document.querySelector(`#auth-code-${cur}`).value, '').substr(1)
 
 		if (!/^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCode)) {
-			alert('O código de autenticidade está incompleto')
-		} else if (!goodPassword(password[0])) {
-			alert('A senha está inválida')
+			uspyAlert('O código de autenticidade está incompleto')
+		} else if (!validatePassword(password[0])) {
+			uspyAlert('A senha está inválida')
 		} else if (!/^[\w\d]{4}$/.test(captcha)) {
-			alert('O captcha deve ter exatamente 4 caracteres com letras ou números')
+			uspyAlert('O captcha deve ter exatamente 4 caracteres com letras ou números')
 		} else if (password[0] !== password[1]) {
-			alert('As senhas diferem')
+			uspyAlert('As senhas diferem')
 		} else if (!acceptedTerms) {
-			alert('Você deve aceitar os termos e condições')
+			uspyAlert('Você deve aceitar os termos e condições')
 		} else {
 			setPending(true) // registrating is pending
-			register(authCode, password[0], captcha).then((user: User) => {
-				setUser(user)
-				alert('Cadastro realizado com sucesso')
+			api.register(authCode, password[0], captcha, email).then((user: User) => {
+				notify('Sucesso! Agora, procure por um email para verificar sua conta!', 'success')
 				setPending(false)
-				history.push('/')
+				history.push(buildLoginPageURI())
 			}).catch(err => {
-				if (err === 400) {
-					alert('Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
-				} else if (err === 403) {
-					alert('Usuário já registrado')
+				if (err.code === 'bad_request') {
+					uspyAlert('Email, código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
+				} else if (err.code === 'forbidden') {
+					uspyAlert('Usuário já registrado')
 				} else {
-					alert(`Esta página retornou com status (${err})`)
+					uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde`, 'Falha no cadastro')
 				}
 				setCaptcha('')
 				setShowCaptchaError(false)
-				getRegistrationCaptcha().then(captchaImg => {
+				api.getRegistrationCaptcha().then(captchaImg => {
 					setCaptchaImg(captchaImg)
 				})
 				setPending(false)
@@ -141,6 +152,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 		}
 		setShowPwd0Error(true)
 		setShowPwd1Error(true)
+		setShowEmailError(true)
 	}
 
 	// Style stuff
@@ -152,12 +164,13 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 		<FormGroup row>
 			<FormControlLabel
 				control={<Checkbox id="accept" disableRipple color='secondary'/>}
-				label={<>Aceito os <Link color='secondary' href='/Termos' target='_blank'> termos e condições </Link></>}
+				label={<>Aceito os <Link color='secondary' href={buildUseTermsPageURI()} target='_blank'> termos e condições </Link></>}
 			/>
 		</FormGroup>
 		<Button
 			color="secondary"
 			size="medium"
+			id="submit"
 			variant="outlined"
 			disabled={pending}
 			onClick={registerClick}
@@ -170,7 +183,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 			<FormGroup row>
 				<FormControlLabel
 					control={<Checkbox id="accept" disableRipple color='secondary'/>}
-					label={<>Aceito os <Link color='secondary' href='/Termos' target='_blank'> termos e condições </Link></>}
+					label={<>Aceito os <Link color='secondary' href={buildUseTermsPageURI()} target='_blank'> termos e condições </Link></>}
 				/>
 			</FormGroup>
 		</Grid>
@@ -179,6 +192,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				fullWidth
 				color="secondary"
 				size="medium"
+				id="submit"
 				variant="outlined"
 				onClick={registerClick}
 			>
@@ -193,7 +207,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 				<Navbar/>
 				<div style={{ height: '94px' }}></div>
 				<Container style={{ width: '100% !important' }}>
-					<BreadCrumb links={[{ text: 'Home', url: '/' }, { text: 'Cadastrar', url: '/Cadastro' }]}/>
+					<BreadCrumb links={[{ text: 'Home', url: buildHomePageURI() }, { text: 'Cadastrar', url: buildURI() }]}/>
 					<div style={{ height: `${isDesktop ? '50' : '30'}px` }}></div> {/* Separa 50 verticalmente, ou 30 verticalmente se for mobile */}
 
 					<Typography> Para se registrar, gere um código de autenticidade do seu resumo escolar. <InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)} /> </Typography>
@@ -206,17 +220,35 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 
 					{isDesktop ? <> <Divider/> <br/><br/> </> : <br/> }
 					<Grid container spacing={6} direction={isDesktop ? 'row' : 'column'}>
-						<Grid item container xs={12} sm={6} direction='column' justify='center'>
+						<Grid item container xs={12} sm={6} direction='column' justify='center'> {/* Email and password fields */}
+							<Grid item>
+								<Typography> Seu email USP (@usp.br). Vamos te enviar um email de ativação da conta. </Typography>
+								<br/>
+							</Grid>
+							<Grid item>
+								<TextField
+									label="Email USP"
+									name="email"
+									id="email"
+									type="text"
+									value={email}
+									error={!emailOk}
+									helperText={emailOk ? '' : 'Email inválido'}
+									onBlur={() => setShowEmailError(true)}
+									onChange={evt => handleChange(evt.target.value, 'email')}
+									{...textFieldCommonProps}
+								/>
+								<br/>
+								<br/>
+							</Grid>
 							<Grid item>
 								<Typography> A senha deve conter no mínimo 8 caracteres, com pelo menos um símbolo e um número. </Typography>
-								<br/>
 								<br/>
 							</Grid>
 							<Grid item>
 								<InputPassword
 									label="Senha"
 									id="pwd1"
-									type="password"
 									value={password[0]}
 									error={!pwdOk}
 									helperText={!pwdOk ? 'Senha não satisfaz os requisitos' : ''}
@@ -230,7 +262,6 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 								<InputPassword
 									label="Confirme a senha"
 									id="pwd2"
-									type="password"
 									value={password[1]}
 									error={password[0] !== password[1] && showPwd1Error}
 									helperText={password[0] !== password[1] && showPwd1Error ? 'Senhas diferem' : ''}
@@ -240,7 +271,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 								/>
 							</Grid>
 						</Grid>
-						<Grid item container xs={12} sm={6} justify='center' alignItems='center'>
+						<Grid item container xs={12} sm={6} justify='center' alignItems='center'> {/* Captcha field */}
 							<div style={{ maxWidth: '400px', width: '100%' }}> <img src={captchaImg} style={{ width: '100%' }}/> </div>
 							<div style={{ width: '100%', height: '1rem' }}/>
 							<TextField
@@ -248,7 +279,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 								id="captcha"
 								type="text"
 								error={!captchaOk}
-								helperText={!captchaOk ? 'Somente 4 caracteres com letras ou números' : ''}
+								helperText={!captchaOk ? 'Exatamente 4 caracteres com letras ou números' : ''}
 								value={captcha}
 								onBlur={() => setShowCaptchaError(true)}
 								onChange={(evt: any) => handleChange(evt.target.value, 'captcha')}

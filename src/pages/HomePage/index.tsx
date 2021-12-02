@@ -14,13 +14,20 @@ import withSearchData from 'HOCs/withSearchData'
 import logo from 'images/logo.svg'
 import './style.css'
 
+import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
+import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
+
+export function buildURI (): string {
+	return '/'
+}
+
 const HomePage = () => {
 	const theme = useTheme()
 	const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
 
 	const history = useHistory()
 	const clickItem = (courseCode: string, courseSpecialization: string, code: string) => {
-		history.push(`/Disciplinas/${courseCode}/${courseSpecialization}/${code}`)
+		history.push(buildSubjectPageURI(courseCode, courseSpecialization, code))
 	}
 	return <Grid container direction='column' justify='space-between' alignItems='stretch' style={{ height: '100%' }}>
 		<Grid item>
@@ -35,14 +42,14 @@ const HomePage = () => {
 					{withSearchData(<GeneralSearch handleChange={clickItem} />)}
 
 					<div className='other-links'>
-						{/* <Link to='/Professores'> <Typography variant='caption' color='secondary'>Ver lista de professores</Typography> </Link> */}
-						<Link to='/Disciplinas'> <Typography variant='caption' color='secondary'>Ver lista de disciplinas</Typography> </Link>
+						{/* <Link to={buildTeachersPageURI()}> <Typography variant='caption' color='secondary'>Ver lista de professores</Typography> </Link> */}
+						<Link to={buildSubjectsPageURI()}> <Typography variant='caption' color='secondary'>Ver lista de disciplinas</Typography> </Link>
 					</div>
 				</Container>
 			</Grid>
 		</Grid>
 		<Grid item>
-			<Footer text='Made with love by Preischadt and Turci'/>
+			<Footer/>
 		</Grid>
 	</Grid>
 }

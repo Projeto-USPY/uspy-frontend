@@ -1,11 +1,11 @@
 steps:
-- name: node:latest
+- name: node:$_NODE_VERSION
   entrypoint: yarn
   args: ['install']
 
-- name: node:latest
+- name: node:$_NODE_VERSION
   entrypoint: yarn
-  args: ['webpack', '--mode=$_MODE', '--env.mode=$_MODE']
+  args: ['webpack', '--mode=$_MODE']
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'

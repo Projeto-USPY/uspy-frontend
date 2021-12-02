@@ -73,6 +73,10 @@ const Row: React.FC<RowProps> = ({ title, text, image, imageLeft }) => {
 	</Paper>
 }
 
+export function buildURI (): string {
+	return '/sobre'
+}
+
 const AboutPage = () => {
 	return <main>
 		<Navbar/>
