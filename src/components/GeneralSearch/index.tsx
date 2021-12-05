@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 
 import TextField from '@material-ui/core/TextField'
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete'
+import { matchSorter } from 'match-sorter'
 
 import { SearchDataContext } from 'HOCs/withSearchData'
 import { getCourseAlias } from 'utils'
@@ -13,17 +14,16 @@ interface GeneralSearchInputProps {
 const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	const options = useContext(SearchDataContext)
 
-	const defaultFilterOptions = createFilterOptions<string>()
-	const autocompleteFilterOptions = (options: string[], state: any) => {
-		const { inputValue } = state
-		if (inputValue === '') return [] as string[] // so it doesnt show up on empty query
-
-		return defaultFilterOptions(options, state).slice(0, 40)
-	}
-
 	const getOptionLabel = (opt: any) => {
 		if (!opt.code) return opt
 		return opt.code + ' - ' + opt.name + ` (${getCourseAlias(opt.course, opt.specialization)})`
+	}
+
+	const defaultFilterOptions = createFilterOptions<string>()
+	const autocompleteFilterOptions = (options: string[], { inputValue }: any) => {
+		if (inputValue === '') return [] as string[] // so it doesnt show up on empty query
+
+		return matchSorter(options, inputValue, { keys: [getOptionLabel] }).slice(0, 40)
 	}
 
 	const onChange = (evt: any, value: any) => {
