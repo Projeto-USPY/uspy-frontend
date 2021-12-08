@@ -5,6 +5,7 @@ import { useHistory } from 'react-router'
 import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
 
 import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import red from '@material-ui/core/colors/red'
 import Container from '@material-ui/core/Container'
 import Divider from '@material-ui/core/Divider'
@@ -53,17 +54,23 @@ export function buildURI (): string {
 const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const [newPwd, setNewPwd] = useState<string>('')
 	const [showPwdError, setShowPwdError] = useState<boolean>(false)
+	const [isDeletingAccount, setIsDeletingAccount] = useState<boolean>(false)
+	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
 
 	const history = useHistory()
 	const notify = useMySnackbar()
 	const uspyAlert = useErrorDialog()
 	// Remove account feature
-	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
 	const removeAccount = () => {
+		setIsDeletingAccount(true)
+		notify('Removendo dados da conta! Essa operação pode demorar', 'info')
+		setConfirmationDialogOpen(false)
 		api.removeAccount().then(() => {
 			setUserNone()
+			notify('Conta deletada!', 'info')
 			history.push(buildHomePageURI()) // redirect to home page
 		}).catch(err => {
+			setIsDeletingAccount(false)
 			uspyAlert(`Algo deu errado (${err.message}).`, 'Falha na Remoção')
 		})
 	}
@@ -163,7 +170,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 								fullWidth={!isDesktop}
 								onClick={() => setConfirmationDialogOpen(true)}
 							>
-								Deletar conta
+								{isDeletingAccount ? <CircularProgress size='1rem'/> : 'Deletar conta'}
 							</Button>
 						</ThemeProvider>
 					</Grid>
