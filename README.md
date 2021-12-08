@@ -46,11 +46,15 @@ The code is organized as follows:
 
 ```
 
-## Deployment & Execution
+## Running locally
 
-To run this project, you must do the following installations:
+There are two ways to run this project locally. One is installing dependencies on your machine with `nodejs`, and the other is using a container with [Docker](https://www.docker.com/).
 
-- Install [Node JS](https://nodejs.org/en/download/) (last version tested: v16.6.0). I recommend using [NVM](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 1. Traditional way
+
+You must do the following installations:
+
+- Install [Node JS](https://nodejs.org/en/download/) (last version tested: v16.6.0). I recommend installing via [nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 - Install yarn by running `npm install --global yarn`
 
 Then, clone this repo and enter it:
@@ -70,20 +74,38 @@ Here, `sudo` is necessary because we are opening port 80. You can also run this 
 
 Finally, you can see the website by visiting `127.0.0.1` in your browser. (Not `localhost`!)
 
+### 2. Using a container
+
+For this one, you should [install docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/).
+
+Then, clone this repo and enter it:
+```sh
+git clone https://github.com/Projeto-USPY/uspy-frontend
+cd uspy-frontend
+```
+Run docker-compose:
+```
+sudo docker-compose up --build
+```
+Done! You now should be able to visit `127.0.0.1` in your browser and see USPY!
+
+
 ### Configure the backend
 
-Although it works, the website is still not able to communicate with the backend yet, so some funcionality will not work. 
+Although it looks good, the website is still not able to communicate with the backend yet, so some funcionality will not work.
 
 See [USPY Backend - Running locally](https://github.com/Projeto-USPY/uspy-backend/tree/local_development#running-locally) to learn how to put it up.
 
-You will also have to create a `.env` with your backend network address:
+You will also have to create a `.env` with your backend URL:
 ```sh
 echo 'API_URL=http://127.0.0.1:8080' > .env
 ``` 
 
+Have it running at the same time you run your frontend and they should communicate gracefully, as long as you set the `API_URL` correctly (with the same port used by the backend) and visit 127.0.0.1 in your browser instead of localhost.
+
 ## Testing
 
-To run the tests, you can run either `yarn cypress` or `yarn cypress-ui`. The first will run all of the available tests and show which are failing. The second will open a UI where you can select which test to run.
+To run the tests, you can run either `yarn cypress` or `yarn cypress-ui`. The first will run all of the available tests and show which are failing (if any). The second will open a UI where you can select which test to run and see a simulation of what's going on.
 
 All of the test files are under `cypress/integration`
 
