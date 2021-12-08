@@ -83,10 +83,10 @@ fi
 
 # go to master and merge
 git checkout $MASTER_BRANCH || exit 1
-git merge --no-ff $CUR_BRANCH -m $MESSAGE || exit 1
+git merge --no-ff $CUR_BRANCH -m "$MESSAGE" || exit 1
 
 # create tag
-git tag -a $NEW_TAG -m $MESSAGE || exit 1
+git tag -a $NEW_TAG -m "$MESSAGE" || exit 1
 
 echo
 
