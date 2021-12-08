@@ -1,0 +1,14 @@
+version: "3.2"
+services:
+  web:
+    container_name: uspy-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 80:80
+    environment:
+      - CHOKIDAR_USEPOLLING=true
