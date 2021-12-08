@@ -8,11 +8,11 @@ The code is organized as follows:
 
 ```
 .
-├── index.html          -> HTML files
+├── build/              -> HTML files
+├── index.html
 ├── favicon.gif
-├── build
 |
-├── cypress             -> Cypress testing
+├── cypress/            -> Cypress testing
 ├── cypress.json
 ├── cypress.local.json
 |
@@ -27,22 +27,23 @@ The code is organized as follows:
 ├── cloudbuild.yaml
 ├── deploy.sh
 |
-├── src                 --> The source code
+├── src/                --> The source code
 |  ├── index.tsx            - entrypoint
-|  ├── utils                - misc util functions
-|  ├── reducer              - for redux
 |  ├── global.css           - CSS main file
-|  ├── hooks                - custom react hooks
-|  ├── API                  - code for communication with backend
-|  ├── images               - application set of images
-|  ├── routes               - custom React components for routes
-|  ├── actions              - redux actions
-|  ├── components           - set of react components
-|  ├── contexts             - set of react contexts
-|  ├── types                - custom typescript types
-|  ├── HOCs                 - react HOCs
-|  ├── pages                - react components used for pages
-|  ├── theme                - MUI theme
+|  |
+|  ├── utils/               - misc util functions
+|  ├── reducer/             - for redux
+|  ├── hooks/               - custom react hooks
+|  ├── API/                 - code for communication with backend
+|  ├── images/              - application set of images
+|  ├── routes/              - custom React components for routes
+|  ├── actions/             - redux actions
+|  ├── components/          - set of react components
+|  ├── contexts/            - set of react contexts
+|  ├── types/               - custom typescript types
+|  ├── HOCs/                - react HOCs
+|  ├── pages/               - react components used for pages
+|  ├── theme/               - MUI theme
 
 ```
 
