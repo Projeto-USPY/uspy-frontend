@@ -10,7 +10,7 @@ CUR_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 get_major_minor_patch() {
 	regex="v(.*)\\.(.*)\\.(.*)"
 	if [[ $1 =~ $regex ]]; then
-		echo "${BASH_REMATCH[0]}"
+		echo "Currently in ${BASH_REMATCH[0]}"
 		MAJOR=${BASH_REMATCH[1]}
 		MINOR=${BASH_REMATCH[2]}
 		PATCH=${BASH_REMATCH[3]}
@@ -19,21 +19,34 @@ get_major_minor_patch() {
 	fi
 }
 
+if [ $# = 0 ] || [ "$1" = "help" ] || [ "$1" = "--help" ]; then 
+	echo "Usage: ./deploy.sh <message> [tag]"
+	exit 0
+fi
+
+# check if switching to master will break. 
+# if so, do it and print the error
 git checkout $MASTER_BRANCH &> /dev/null
 if [ "$?" != "0" ]; then
 	git checkout $MASTER_BRANCH || exit 1
-else
-	TAG=$(git describe --tags --abbrev=0)
-	git checkout $CUR_BRANCH &> /dev/null
 fi
 
-get_major_minor_patch $TAG || exit 1
+MESSAGE="$1"
 
-if [ "$1" = "" ]; then
+# get the tag
+TAG=$(git describe --tags --abbrev=0)
 
+# go back to previous branch (remember we switched to master)
+git checkout $CUR_BRANCH &> /dev/null
+
+if [ $# -lt 2 ]; then
+
+	# parse the current tag
+	get_major_minor_patch $TAG || exit 1
+	
 	while [[ 0 ]]
 	do
-		read -p "Informe o tipo de release (patch/minor/major): " type
+		read -p "Please tell the type of release (patch/minor/major): " type
 
 		if [ $type = "patch" ]; then
 			let PATCH++
@@ -45,7 +58,7 @@ if [ "$1" = "" ]; then
 			MINOR=0
 			PATCH=0
 		else
-			echo "Escolha uma das opções"
+			echo "Choose one of the options"
 			continue
 		fi
 		break
@@ -54,30 +67,26 @@ if [ "$1" = "" ]; then
 	NEW_TAG=v$MAJOR.$MINOR.$PATCH
 
 else
-	NEW_TAG=v$1
+	NEW_TAG=v$2
 fi
 
 prompt_and_continue () {
 	echo -e $1 
-	read -p "Continuar? (Y/n) " aux
+	read -p "Continue? (Y/n) " aux
 }
 
-prompt_and_continue "Releasing${GREEN} ${NEW_TAG}${NC}."
+prompt_and_continue "Releasing ${GREEN}${NEW_TAG}${NC}."
 
 if [ "$aux" = "n" ] || [ "$aux" = "N" ]; then
 	exit 0
 fi
 
-if [ $CUR_BRANCH != $DEV_BRANCH ]; then
-	prompt_and_continue "Voce não está na branch $DEV_BRANCH"
-fi
-
 # go to master and merge
 git checkout $MASTER_BRANCH || exit 1
-git merge --no-ff $CUR_BRANCH -m "Update to version $NEW_TAG" || exit 1
+git merge --no-ff $CUR_BRANCH -m "$MESSAGE" || exit 1
 
 # create tag
-git tag -a $NEW_TAG -m "Releasing $NEW_TAG" || exit 1
+git tag -a $NEW_TAG -m "$MESSAGE" || exit 1
 
 echo
 
@@ -89,9 +98,9 @@ git checkout $CUR_BRANCH
 
 echo
 
-echo -e "${GREEN}Lançamento realizado com sucesso!${NC}"
+echo -e "${GREEN}Version released successfully!${NC}"
 echo
-echo "Sumário:"
-echo "- Merge de $CUR_BRANCH para $MASTER_BRANCH"
-echo "- Lançamento da versão $NEW_TAG"
-echo "- Push para master"
+echo "Summary:"
+echo "- Merged $CUR_BRANCH to $MASTER_BRANCH"
+echo "- Released version $NEW_TAG with message $MESSAGE"
+echo "- Push to master"
