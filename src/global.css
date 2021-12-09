@@ -42,8 +42,8 @@ b {
 	top: 0;
 	overflow-y: auto;
 	overflow-x: hidden;
-	background: white;
 	height: calc(100% - 42px);
+	z-index: 1;
 }
 
 .mobile-offering-selector-button {
@@ -52,6 +52,7 @@ b {
 	height: 42px;
 	display: flex;
 	align-items: center;
+	z-index: 1;
 }
 
 .offering-reviews-feed {
