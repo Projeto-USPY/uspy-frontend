@@ -1,8 +1,16 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react'
 
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import DeleteIcon from '@material-ui/icons/Delete'
 import ReportIcon from '@material-ui/icons/FlagOutlined'
 
 import { OfferingReview } from 'types/Offering'
@@ -18,6 +26,8 @@ import EmoteUnliked from 'images/unliked.svg'
 import { getRelativeDate } from 'utils/time'
 
 import OfferingReviewReportDialog from '../OfferingReviewReportDialog'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const RATE_TO_EMOJI = [
 	null,
@@ -35,6 +45,7 @@ interface PropsType {
 
 const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) => {
 	const [vote, setVote] = useState<number>(0)
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false)
 	const [voteRegistered, setVoteRegistered] = useState<number>(0)
 	const [updatedVote, setUpdatedVote] = useState<boolean>(false)
 	const [reporting, setReporting] = useState<boolean>(false)
@@ -60,8 +71,26 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 	}
 
 	const getVote = useCallback(() => updatedVote ? vote : voteRegistered, [vote, updatedVote, voteRegistered])
-
+	const deleteComment = () => {
+		// deletar o comentário
+	}
 	return <>
+		<Dialog onClose={() => setIsDeleteDialogOpen(false)} open={isDeleteDialogOpen}>
+			<DialogTitle> Excluir comentário </DialogTitle>
+			<DialogContent>
+				<DialogContentText>
+					Você tem certeza que deseja excluir seu comentário?
+				</DialogContentText>
+			</DialogContent>
+			<DialogActions>
+				<Button id='dismiss-error-dialog' onClick={() => setIsDeleteDialogOpen(false)} color="secondary">
+					Cancelar
+				</Button>
+				<Button id='dismiss-error-dialog' onClick={() => deleteComment()} color="secondary">
+					Confirmar
+				</Button>
+			</DialogActions>
+		</Dialog>
 		<Paper square elevation={2} className={`offering-review-balloon${locked ? '-locked' : ''}`}>
 			<Grid container direction='column' alignItems='stretch' className='full-height'>
 				<Grid item container alignItems='center' xs>
@@ -74,7 +103,15 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 						<img src={RATE_TO_EMOJI[review.rating]} height={30}/>
 					</Grid>
 				</Grid>
-				<Grid item container direction='row-reverse' xs='auto'> {/* Timestamp */}
+				<Grid item container direction='row-reverse' alignItems='flex-end' xs='auto'> {/* Timestamp */}
+					{ locked
+						? <IconButton onClick={() => setIsDeleteDialogOpen(true)} size="small" style={{ marginLeft: '.5rem' }}>
+							<Tooltip title="Deletar comentário">
+								<DeleteIcon color='secondary'/>
+							</Tooltip>
+						</IconButton>
+						: null
+					}
 					<Typography variant='caption' color='textSecondary'> <i> {getRelativeDate(new Date(review.timestamp))} {review.edited ? '(Editado)' : null} </i> </Typography>
 				</Grid>
 			</Grid>
