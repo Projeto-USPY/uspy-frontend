@@ -29,6 +29,8 @@ import OfferingReviewReportDialog from '../OfferingReviewReportDialog'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 
+import { useMySnackbar } from 'hooks'
+
 const RATE_TO_EMOJI = [
 	null,
 	EmoteHated,
@@ -51,6 +53,8 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 	const [reporting, setReporting] = useState<boolean>(false)
 	const { professor, course, specialization, code } = useContext(OfferingContext)
 
+	const notify = useMySnackbar()
+
 	useEffect(() => {
 		api.getOfferingReviewUserVote(course, specialization, code, professor, review.uuid).then(vote => {
 			setVoteRegistered(vote.type === 'upvote' ? 1 : -1)
@@ -72,7 +76,9 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 
 	const getVote = useCallback(() => updatedVote ? vote : voteRegistered, [vote, updatedVote, voteRegistered])
 	const deleteComment = () => {
-		// deletar o comentário
+		api.deleteOfferingReview(course, specialization, code, professor)
+		setIsDeleteDialogOpen(false)
+		notify('Sua avaliação foi removida com sucesso!', 'success')
 	}
 	return <>
 		<Dialog onClose={() => setIsDeleteDialogOpen(false)} open={isDeleteDialogOpen}>
