@@ -6,9 +6,10 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-
 import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
 import Paper from '@material-ui/core/Paper'
+import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ReportIcon from '@material-ui/icons/FlagOutlined'
@@ -16,20 +17,17 @@ import ReportIcon from '@material-ui/icons/FlagOutlined'
 import { OfferingReview } from 'types/Offering'
 
 import api from 'API'
+import OfferingReviewReportDialog from 'components/Offerings/OfferingReviewReportDialog'
 import VoteButton from 'components/VoteButton'
 import OfferingContext from 'contexts/OfferingContext'
+import ReviewContext from 'contexts/ReviewContext'
+import { useMySnackbar } from 'hooks'
 import EmoteHated from 'images/hated.svg'
 import EmoteIndifferent from 'images/indifferent.svg'
 import EmoteLiked from 'images/liked.svg'
 import EmoteLoved from 'images/loved.svg'
 import EmoteUnliked from 'images/unliked.svg'
 import { getRelativeDate } from 'utils/time'
-
-import OfferingReviewReportDialog from '../OfferingReviewReportDialog'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-
-import { useMySnackbar } from 'hooks'
 
 const RATE_TO_EMOJI = [
 	null,
@@ -51,7 +49,9 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 	const [voteRegistered, setVoteRegistered] = useState<number>(0)
 	const [updatedVote, setUpdatedVote] = useState<boolean>(false)
 	const [reporting, setReporting] = useState<boolean>(false)
+
 	const { professor, course, specialization, code } = useContext(OfferingContext)
+	const { setUserReview } = useContext(ReviewContext)
 
 	const notify = useMySnackbar()
 
@@ -78,6 +78,7 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 	const deleteComment = () => {
 		api.deleteOfferingReview(course, specialization, code, professor)
 		setIsDeleteDialogOpen(false)
+		setUserReview(null)
 		notify('Sua avaliação foi removida com sucesso!', 'success')
 	}
 	return <>

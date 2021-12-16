@@ -11,10 +11,7 @@ import { OfferingReview } from 'types/Offering'
 import api from 'API'
 import OfferingReviewBalloon from 'components/Offerings/OfferingReviewBalloon'
 import OfferingContext from 'contexts/OfferingContext'
-
-interface PropTypes {
-    review: OfferingReview
-}
+import ReviewContext from 'contexts/ReviewContext'
 
 const SkeletonProgress = () => {
 	return <Grid container spacing={3} direction="column" alignItems='stretch'>
@@ -33,10 +30,12 @@ const SkeletonProgress = () => {
 	</Grid>
 }
 
-const OfferingReviewsFeed: React.FC<PropTypes> = ({ review }) => {
+const OfferingReviewsFeed = () => {
 	const [loading, setLoading] = useState<boolean>(true)
 	const [reviews, setReviews] = useState<OfferingReview[] | null>(null)
 	const { professor, course, specialization, code } = useContext(OfferingContext)
+
+	const { userReview } = useContext(ReviewContext)
 
 	useEffect(() => {
 		setLoading(true)
@@ -51,13 +50,13 @@ const OfferingReviewsFeed: React.FC<PropTypes> = ({ review }) => {
 				console.error(err)
 			}
 		})
-	}, [professor])
+	}, [professor, userReview])
 
 	if (loading || reviews === null) {
 		return <div className='offering-reviews-feed full-width'>
 			<SkeletonProgress />
 		</div>
-	} else if (reviews?.length === 0 && review === null) {
+	} else if (reviews?.length === 0 && userReview === null) {
 		return <Grid container justify='center' direction='column' alignItems='center' className='offering-reviews-feed full-width'>
 			<Grid item style={{ textAlign: 'center' }}>
 				<Typography variant='h6'>
@@ -74,10 +73,10 @@ const OfferingReviewsFeed: React.FC<PropTypes> = ({ review }) => {
 	} else {
 		return <div className='offering-reviews-feed full-width'>
 			<Grid container spacing={2} direction='column' alignItems='stretch'>
-				{ review
+				{ userReview
 					? <>
 						<Grid item container justify='flex-end' wrap='nowrap' alignItems='stretch'>
-							<OfferingReviewBalloon review={review} locked />
+							<OfferingReviewBalloon review={userReview} locked />
 						</Grid>
 						<Divider light color='secondary' />
 					</>
@@ -85,7 +84,7 @@ const OfferingReviewsFeed: React.FC<PropTypes> = ({ review }) => {
 				}
 
 				{reviews.map(rev =>
-					review?.uuid === rev.uuid
+					userReview?.uuid === rev.uuid
 						? null
 						: <Grid item container key={rev.uuid} wrap='nowrap' justify='flex-end' alignItems='stretch'>
 							<OfferingReviewBalloon review={rev} />

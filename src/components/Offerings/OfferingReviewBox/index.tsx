@@ -6,7 +6,7 @@ import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
-import { withStyles, useTheme/* , withStyles */ } from '@material-ui/core/styles'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
@@ -16,10 +16,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import LockIcon from '@material-ui/icons/Lock'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
 
-import { OfferingReview } from 'types/Offering'
-
 import api from 'API'
 import OfferingContext from 'contexts/OfferingContext'
+import ReviewContext from 'contexts/ReviewContext'
 import { useErrorDialog, useMySnackbar } from 'hooks'
 import EmoteHated from 'images/hated.svg'
 import EmoteIndifferent from 'images/indifferent.svg'
@@ -68,12 +67,7 @@ const OfferingReviewInput = withStyles(theme => ({
 const COMMENT_THRESHOLD = 10
 const COMMENT_LIMIT = 300
 
-interface PropTypes {
-    review: OfferingReview
-    setReview: (r: OfferingReview) => void
-}
-
-const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
+const OfferingReviewBox = () => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
@@ -84,7 +78,7 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 	const [editing, setEditing] = useState<boolean>(false)
 	const notify = useMySnackbar()
 	const { professor, course, specialization, code } = useContext(OfferingContext)
-
+	const { userReview: review, setUserReview: setReview } = useContext(ReviewContext)
 	const uspyAlert = useErrorDialog()
 
 	// Loaded review
