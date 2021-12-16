@@ -13,6 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ReportIcon from '@material-ui/icons/FlagOutlined'
+import withStyles from '@material-ui/styles/withStyles'
 
 import { OfferingReview } from 'types/Offering'
 
@@ -28,6 +29,13 @@ import EmoteLiked from 'images/liked.svg'
 import EmoteLoved from 'images/loved.svg'
 import EmoteUnliked from 'images/unliked.svg'
 import { getRelativeDate } from 'utils/time'
+
+const MyDeleteIcon = withStyles({
+	root: {
+		fontSize: '1.25rem',
+		color: '#00000077'
+	}
+})(DeleteIcon)
 
 const RATE_TO_EMOJI = [
 	null,
@@ -112,9 +120,9 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 				</Grid>
 				<Grid item container direction='row-reverse' alignItems='flex-end' xs='auto'> {/* Timestamp */}
 					{ locked
-						? <IconButton onClick={() => setIsDeleteDialogOpen(true)} size="small" style={{ marginLeft: '.5rem' }}>
+						? <IconButton onClick={() => setIsDeleteDialogOpen(true)} size="small" style={{ margin: '0 -1rem 0 1rem' }}>
 							<Tooltip title="Deletar comentário">
-								<DeleteIcon color='secondary'/>
+								<MyDeleteIcon/>
 							</Tooltip>
 						</IconButton>
 						: null
