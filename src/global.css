@@ -77,6 +77,23 @@ b {
 	background-color: #e1eaf9  !important;
 }
 
+.transcript-tabs {
+	position: relative;
+	margin-top: 15px;
+}
+.transcript-tabs .Mui-selected {
+	text-decoration: underline;
+}
+
+.transcript-tabs .MuiTabs-indicator {
+	background-color: transparent;
+}
+
+.transcript-body {
+	height: 500px;
+	margin-top: -15px;
+}
+
 
 .offering-review-form-accordion {
 	position: absolute;
