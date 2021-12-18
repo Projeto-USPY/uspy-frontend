@@ -49,7 +49,7 @@ let UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen, setUserNone })
 			horizontal: 'left'
 		}}
 	>
-		<MenuItem onClick={() => history.push(buildProfilePageURI())} style={menuStyle}> Perfil </MenuItem>
+		<MenuItem onClick={() => history.push(buildProfilePageURI())} style={menuStyle}> Conta </MenuItem>
 		<MenuItem onClick={() => setConfirmationDialogOpen(true)} style={menuStyle}> Logout </MenuItem>
 		<SimpleConfirmationDialog
 			title="Tem certeza que deseja sair?"
