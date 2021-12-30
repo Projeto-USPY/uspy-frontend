@@ -6,9 +6,11 @@ import { useTheme } from '@material-ui/core/styles'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import Typography from '@material-ui/core/Typography'
-// import useMediaQuery from '@material-ui/core/useMediaQuery'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import Circle from 'components/Circle'
+import TranscriptList from 'pages/ProfilePage/TranscriptList'
+import TranscriptTable from 'pages/ProfilePage/TranscriptTable'
 
 interface TranscriptViewPropsType {
     courses: string[]
@@ -31,7 +33,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ courses }) => {
 	const [selectedCourse, setSelectedCourse] = useState<number>(0)
 	const [selectedSemester, setSelectedSemester] = useState<number>(0)
 	const theme = useTheme()
-	// const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
+	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const changeTab = (evt: React.ChangeEvent, tab: number) => {
 		setSelectedCourse(tab)
 	}
@@ -83,6 +85,10 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ courses }) => {
 				)}
 			</Grid>
 			<br/>
+			{ isDesktop
+				? <TranscriptTable semester={selectedSemester}/>
+				: <TranscriptList semester={selectedSemester}/>
+			}
 		</Paper>
 	</div>
 }
