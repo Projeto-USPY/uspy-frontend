@@ -17,6 +17,27 @@ const theme = createMuiTheme({
 			dark: '#2d4053',
 			contrastText: '#000'
 		}
+	},
+	overrides: {
+		MuiCardHeader: {
+			action: {
+				marginTop: 0,
+				marginRight: 0
+			}
+		},
+		MuiCollapse: {
+			/* Used for notistack-snackbar centering on mobile. */
+			wrapper: {
+				justifyContent: 'center',
+				alignItems: 'center'
+			}
+		},
+		MuiContainer: {
+			root: {
+				paddingLeft: 8,
+				paddingRight: 8
+			}
+		}
 	}
 
 })

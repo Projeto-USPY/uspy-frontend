@@ -10,6 +10,30 @@
 	background-color: #F1F1F1
 }
 
+.transcript-tabs {
+	position: relative;
+	margin-top: 15px;
+}
+.transcript-tabs .Mui-selected {
+	text-decoration: underline;
+}
+
+.transcript-tabs .MuiTabs-indicator {
+	background-color: transparent;
+}
+
+.transcript-body {
+	height: 500px;
+	margin-top: -15px;
+	padding: 2rem;
+}
+
+@media screen and (max-width: 600px) {
+	.transcript-body {
+		padding: 2rem .5rem;
+	}
+}
+
 .donut-tooltip {
 	list-style: none; /* Remove default bullets */
 	margin-left: -2em;
@@ -76,24 +100,6 @@ b {
 .offering-review-balloon-locked {
 	background-color: #e1eaf9  !important;
 }
-
-.transcript-tabs {
-	position: relative;
-	margin-top: 15px;
-}
-.transcript-tabs .Mui-selected {
-	text-decoration: underline;
-}
-
-.transcript-tabs .MuiTabs-indicator {
-	background-color: transparent;
-}
-
-.transcript-body {
-	height: 500px;
-	margin-top: -15px;
-}
-
 
 .offering-review-form-accordion {
 	position: absolute;
@@ -174,12 +180,6 @@ b {
 
 main {
 	margin-bottom: 50px;
-}
-
-/* If you need to use Collapse Component, remove this. Used for notistack-snackbar centering on mobile. Hope this is not inconvenient for you, future developer. */
-.MuiCollapse-wrapper { 
-	justify-content: center;
-	align-items: center;
 }
 
 body {
