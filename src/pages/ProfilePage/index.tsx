@@ -52,7 +52,7 @@ const ProfilePage = () => {
 						titleTypographyProps={{
 							variant: isDesktop ? 'h5' : 'body1',
 							style: {
-								fontWeight: isDesktop ? 'bold' : '',
+								fontWeight: isDesktop ? 'bold' : 'normal',
 								fontFamily: isDesktop
 									? ''
 									: 'Roboto Condensed, sans-serif'

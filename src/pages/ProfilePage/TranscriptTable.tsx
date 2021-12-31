@@ -134,10 +134,10 @@ const TranscriptTable: React.FC<PropsType> = ({ semester }) => {
 							{
 								subject.grade
 									? <IconButton onClick={() => reviewOffering(subject.code)}>
-										<SvgIcon fontSize='large' color='secondary' component={WriteComment} viewBox="0 0 36 36" />
+										<SvgIcon fontSize='large' color='primary' component={WriteComment} viewBox="0 0 36 36" />
 									</IconButton>
 									: <IconButton onClick={() => reviewOffering(subject.code)}>
-										<SvgIcon color='secondary' component={SearchTeacher} viewBox="0 0 21 21" />
+										<SvgIcon color='primary' component={SearchTeacher} viewBox="0 0 32 32" />
 									</IconButton>
 							}
 
