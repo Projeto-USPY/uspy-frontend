@@ -136,7 +136,15 @@ b {
 }
 
 .pad {
-	padding: .5rem;
+	padding: 8px;
+}
+
+.pad1 {
+	padding: 16px;
+}
+
+.pad2 {
+	padding: 32px;
 }
 
 

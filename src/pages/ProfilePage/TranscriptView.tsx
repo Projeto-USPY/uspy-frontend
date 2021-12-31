@@ -48,7 +48,11 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ courses }) => {
 				{courses.map((course, idx) => <Tab key={idx} label={<b>{course}</b>} />)}
 			</Tabs>
 		</Paper>
-		<Paper variant='outlined' className='transcript-body'>
+		<Paper
+			variant={isDesktop ? 'outlined' : 'elevation'}
+			elevation={isDesktop ? 1 : 0}
+			className='transcript-body'
+		>
 			<Typography variant='h6'>
 				<b> Semestre </b>
 			</Typography>
