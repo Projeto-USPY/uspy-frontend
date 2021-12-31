@@ -8,12 +8,15 @@ import Tabs from '@material-ui/core/Tabs'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
+import { Course } from 'types/Course'
+
 import Circle from 'components/Circle'
 import TranscriptList from 'pages/ProfilePage/TranscriptList'
 import TranscriptTable from 'pages/ProfilePage/TranscriptTable'
+import { getCourseAlias } from 'utils'
 
 interface TranscriptViewPropsType {
-    courses: string[]
+    courses: Course[]
 }
 
 const semesters = [
@@ -45,7 +48,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ courses }) => {
 				onChange={changeTab}
 				style={{ color: 'white' }}
 			>
-				{courses.map((course, idx) => <Tab key={idx} label={<b>{course}</b>} />)}
+				{courses.map((course, idx) => <Tab key={idx} label={<b>{getCourseAlias(course.code, course.specialization)}</b>} />)}
 			</Tabs>
 		</Paper>
 		<Paper

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -11,8 +11,11 @@ import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined'
 
-// import api from 'API'
+import { Course } from 'types/Course'
+
+import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
+import MessagePanel from 'components/MessagePanel'
 import Navbar from 'components/Navbar'
 import TranscriptView from 'pages/ProfilePage/TranscriptView'
 
@@ -21,6 +24,17 @@ export function buildURI (): string {
 }
 
 const ProfilePage = () => {
+	const [courses, setCourses] = useState<Course[]>([])
+	const [errorMessage, setErrorMessage] = useState<string>('')
+	// get courses
+	useEffect(() => {
+		api.getMajors().then(majors => {
+			setCourses(majors)
+		}).catch(err => {
+			setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
+		})
+	}, [])
+
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
@@ -84,7 +98,11 @@ const ProfilePage = () => {
 						}
 					/>
 					<CardContent style={{ padding: isDesktop ? '16px 32px' : '0 0' }}>
-						<TranscriptView courses={['BCC', 'BSI']} />
+						{
+							!errorMessage
+								? <TranscriptView courses={courses} />
+								: <MessagePanel message={errorMessage} height={300}/>
+						}
 					</CardContent>
 				</Card>
 			</Container>

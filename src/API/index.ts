@@ -1,4 +1,5 @@
 
+import { Course } from 'types/Course'
 import { Offering, OfferingReview, OfferingReviewVote } from 'types/Offering'
 import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { User } from 'types/User'
@@ -256,6 +257,11 @@ class APIClient {
 			}
 		})
 		return data as SubjectGrade
+	}
+
+	async getMajors (): Promise<Course[]> {
+		const { data } = await this.axiosClient.get('/account/profile/majors')
+		return data as Course[]
 	}
 
 	async resetPassword (token: string, password: string) {
