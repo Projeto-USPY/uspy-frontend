@@ -88,7 +88,7 @@ const OfferingsPage = () => {
 	return <div className="main">
 		<Navbar/>
 		<Grid container direction='column' className='full-height' wrap='nowrap'>
-			<Grid item xs="auto" style={{ minHeight: '64px' }}/>
+			<Grid item xs="auto" style={{ minHeight: '72px' }}/>
 			<Grid item xs>
 				{
 					errorMessage
