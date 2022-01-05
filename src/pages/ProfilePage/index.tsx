@@ -100,7 +100,9 @@ const ProfilePage = () => {
 					<CardContent style={{ padding: isDesktop ? '16px 32px' : '0 0' }}>
 						{
 							!errorMessage
-								? <TranscriptView courses={courses} />
+								? courses.length
+									? <TranscriptView courses={courses} />
+									: null
 								: <MessagePanel message={errorMessage} height={300}/>
 						}
 					</CardContent>

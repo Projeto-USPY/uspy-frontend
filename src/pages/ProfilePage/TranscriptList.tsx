@@ -12,45 +12,18 @@ import ListItemText from '@material-ui/core/ListItemText'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import Typography from '@material-ui/core/Typography'
 
+import { Record } from 'types/Record'
+
 import { ReactComponent as SearchTeacher } from 'images/search-teacher.svg'
 import { ReactComponent as WriteComment } from 'images/write-comment.svg'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 
 interface PropsType {
     semester: number
+	course: string
+	specialization: string
+	records: Record[]
 }
-
-const subjects = [
-	{
-		code: 'SMA0356',
-		title: 'Cálculo IV',
-		grade: 10.0,
-		attendance: 95
-	},
-	{
-		code: 'SCC0221',
-		title: 'Introdução a Ciência de Computação I',
-		grade: 7.0,
-		attendance: 75
-	},
-	{
-		code: 'SCC0205',
-		title: 'Teoria da Computação e Linguagens Formais'
-	},
-	{
-		code: 'SCC0210',
-		title: 'Laboratório de Algoritmos Avançados I',
-		grade: 6.0,
-		attendance: 60
-	},
-	{
-		code: 'SCC0215',
-		title: 'Organização de Arquivos',
-		grade: 3.5,
-		attendance: 50
-	}
-
-]
 
 function RedIf ({ condition, children } : {condition: boolean, children: React.ReactNode}) {
 	return <span style={{ color: condition ? 'red' : 'green' }}>
@@ -58,11 +31,8 @@ function RedIf ({ condition, children } : {condition: boolean, children: React.R
 	</span>
 }
 
-const TranscriptList: React.FC<PropsType> = ({ semester }) => {
+const TranscriptList: React.FC<PropsType> = ({ semester, records, course, specialization }) => {
 	const [selectedRow, setSelectedRow] = useState<number | null>(null)
-
-	const course = '55041'
-	const specialization = '0'
 
 	const buildSubjectLink = (code: string) => {
 		return buildSubjectPageURI(course, specialization, code)
@@ -74,7 +44,7 @@ const TranscriptList: React.FC<PropsType> = ({ semester }) => {
 		</Typography>
 		<Divider variant='fullWidth' />
 		<List>
-			{subjects.map((subject, row) =>
+			{records.map((record, row) =>
 				<React.Fragment key={row}>
 					<ListItem
 						button
@@ -84,16 +54,16 @@ const TranscriptList: React.FC<PropsType> = ({ semester }) => {
 						<ListItemText>
 							<Link
 								color='secondary'
-								href={buildSubjectLink(subject.code)}
+								href={buildSubjectLink(record.code)}
 							>
-								{subject.code}
+								{record.code}
 							</Link>
 						</ListItemText>
 						<ListItemSecondaryAction>
 							{
-								subject.grade
-									? <RedIf condition={subject.grade < 5}>
-										{subject.grade.toFixed(1)}
+								record.completed
+									? <RedIf condition={record.grade < 5}>
+										{record.grade.toFixed(1)}
 									</RedIf>
 									: '-'
 							}
@@ -102,7 +72,7 @@ const TranscriptList: React.FC<PropsType> = ({ semester }) => {
 					<Collapse in={selectedRow === row} timeout="auto" unmountOnExit>
 						<div className='pad1'>
 							<Typography>
-								<Link color='textPrimary' href={buildSubjectLink(subject.code)} target="_blank"> {subject.title} </Link>
+								<Link color='textPrimary' href={buildSubjectLink(record.code)} target="_blank"> {record.title} </Link>
 							</Typography>
 						</div>
 						<Grid container justify='center' spacing={1} className='pad1'>
@@ -111,8 +81,8 @@ const TranscriptList: React.FC<PropsType> = ({ semester }) => {
 									<span className='prompt'> MÉDIA </span>
 									<span className='prompt'>
 										{
-											subject.grade
-												? <RedIf condition={subject.grade < 5}> {subject.grade.toFixed(1)} </RedIf>
+											record.completed
+												? <RedIf condition={record.grade < 5}> {record.grade.toFixed(1)} </RedIf>
 												: '-'
 										}
 									</span>
@@ -123,8 +93,8 @@ const TranscriptList: React.FC<PropsType> = ({ semester }) => {
 									<span className='prompt'> FREQUÊNCIA </span>
 									<span className='prompt'>
 										{
-											subject.grade
-												? <RedIf condition={subject.attendance < 70}> {subject.attendance}% </RedIf>
+											record.completed
+												? <RedIf condition={record.frequency < 70}> {record.frequency}% </RedIf>
 												: '-'
 										}
 									</span>
@@ -135,9 +105,9 @@ const TranscriptList: React.FC<PropsType> = ({ semester }) => {
 									<span className='prompt'> STATUS </span>
 									<span className='prompt'>
 										{
-											subject.grade
-												? <RedIf condition={subject.attendance < 70 || subject.grade < 5}>
-													{subject.attendance < 70 || subject.grade < 5 ? 'REPROVADO' : 'APROVADO'}
+											record.completed
+												? <RedIf condition={record.frequency < 70 || record.grade < 5}>
+													{record.frequency < 70 || record.grade < 5 ? 'REPROVADO' : 'APROVADO'}
 												</RedIf>
 												: '-'
 										}
@@ -151,9 +121,9 @@ const TranscriptList: React.FC<PropsType> = ({ semester }) => {
 							size='medium'
 							fullWidth
 							variant='outlined'
-							endIcon={<SvgIcon color='secondary' component={subject.grade ? WriteComment : SearchTeacher} viewBox="0 0 36 36"/>}
+							endIcon={<SvgIcon color='secondary' component={record.completed ? WriteComment : SearchTeacher} viewBox="0 0 36 36"/>}
 						>
-							{subject.grade ? 'AVALIAR' : 'OFERECIMENTOS'}
+							{record.completed ? 'AVALIAR' : 'OFERECIMENTOS'}
 						</Button>
 						<p/>
 					</Collapse>

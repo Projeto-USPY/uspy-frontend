@@ -1,6 +1,7 @@
 
 import { Course } from 'types/Course'
 import { Offering, OfferingReview, OfferingReviewVote } from 'types/Offering'
+import { Record } from 'types/Record'
 import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { User } from 'types/User'
 
@@ -262,6 +263,19 @@ class APIClient {
 	async getMajors (): Promise<Course[]> {
 		const { data } = await this.axiosClient.get('/account/profile/majors')
 		return data as Course[]
+	}
+
+	async getRecords (course: string, specialization: string, semester: number, optional?: boolean): Promise<Record[]> {
+		const { data } = await this.axiosClient.get('/account/profile/transcript', {
+			params: {
+				course,
+				specialization,
+				semester,
+				optional
+			}
+		})
+
+		return data as Record[]
 	}
 
 	async resetPassword (token: string, password: string) {

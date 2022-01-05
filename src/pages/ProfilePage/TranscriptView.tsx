@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
@@ -9,8 +9,11 @@ import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import { Course } from 'types/Course'
+import { Record } from 'types/Record'
 
+import api from 'API'
 import Circle from 'components/Circle'
+import MessagePanel from 'components/MessagePanel'
 import TranscriptList from 'pages/ProfilePage/TranscriptList'
 import TranscriptTable from 'pages/ProfilePage/TranscriptTable'
 import { getCourseAlias } from 'utils'
@@ -35,6 +38,23 @@ const semesters = [
 const TranscriptView: React.FC<TranscriptViewPropsType> = ({ courses }) => {
 	const [selectedCourse, setSelectedCourse] = useState<number>(0)
 	const [selectedSemester, setSelectedSemester] = useState<number>(0)
+	const [records, setRecords] = useState<Record[] | null>(null)
+	const [errorMessage, setErrorMessage] = useState<string>('')
+
+	const course = courses[selectedCourse]
+
+	useEffect(() => {
+		api.getRecords(course.code, course.specialization, selectedSemester + 1, false).then(records => {
+			setRecords(records)
+		}).catch(err => {
+			if (err.code === 'not_found') {
+				setErrorMessage('Não foram encontradas disciplinas para este curso')
+			} else {
+				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
+			}
+		})
+	}, [selectedSemester, course])
+
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const changeTab = (evt: React.ChangeEvent, tab: number) => {
@@ -92,9 +112,14 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ courses }) => {
 				)}
 			</Grid>
 			<br/>
-			{ isDesktop
-				? <TranscriptTable semester={selectedSemester}/>
-				: <TranscriptList semester={selectedSemester}/>
+			{
+				!errorMessage
+					? records
+						? isDesktop
+							? <TranscriptTable course={course.code} specialization={course.specialization} semester={selectedSemester} records={records}/>
+							: <TranscriptList course={course.code} specialization={course.specialization} semester={selectedSemester} records={records}/>
+						: null
+					: <MessagePanel message={errorMessage} height={300}/>
 			}
 		</Paper>
 	</div>
