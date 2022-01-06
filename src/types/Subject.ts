@@ -3,6 +3,12 @@ export interface SubjectInfo {
 	name: string
 }
 
+export interface SubjectKey {
+	course: string
+	code: string
+	specialization: string
+}
+
 export interface SubjectRequirement extends SubjectInfo {
 	strong: boolean
 }

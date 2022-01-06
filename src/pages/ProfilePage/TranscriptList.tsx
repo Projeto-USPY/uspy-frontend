@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography'
 import Skeleton from '@material-ui/lab/Skeleton'
 
 import { Record } from 'types/Record'
+import { SubjectKey } from 'types/Subject'
 
 import { ReactComponent as WriteComment } from 'images/write-comment.svg'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
@@ -21,6 +22,7 @@ import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 interface PropsType {
     semester: number
 	records: Record[]
+	reviewSubject: (subject: SubjectKey) => void
 	loading?: boolean
 }
 
@@ -48,7 +50,7 @@ function RedIf ({ condition, children } : {condition: boolean, children: React.R
 	</span>
 }
 
-const TranscriptList: React.FC<PropsType> = ({ semester, records, loading = false }) => {
+const TranscriptList: React.FC<PropsType> = ({ semester, records, reviewSubject, loading = false }) => {
 	const [selectedRow, setSelectedRow] = useState<number | null>(null)
 
 	const buildSubjectLink = (record: Record) => {
@@ -120,6 +122,7 @@ const TranscriptList: React.FC<PropsType> = ({ semester, records, loading = fals
 						size='medium'
 						fullWidth
 						variant='outlined'
+						onClick={() => reviewSubject({ course: record.course, specialization: record.specialization, code: record.code })}
 						endIcon={<SvgIcon color='secondary' component={WriteComment} viewBox="0 0 36 36"/>}
 					>
 					AVALIAR

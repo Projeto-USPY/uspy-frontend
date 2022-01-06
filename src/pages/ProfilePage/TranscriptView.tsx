@@ -13,9 +13,11 @@ import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 import { Record } from 'types/Record'
+import { SubjectKey } from 'types/Subject'
 
 import api from 'API'
 import MessagePanel from 'components/MessagePanel'
+import OfferingReviewModal from 'components/Offerings/OfferingReviewModal'
 import TranscriptList from 'pages/ProfilePage/TranscriptList'
 import TranscriptTable from 'pages/ProfilePage/TranscriptTable'
 import { unique } from 'utils'
@@ -33,6 +35,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 	const [selectedSemester, setSelectedSemester] = useState<number>(0)
 	const [records, setRecords] = useState<Record[] | null>(null)
 	const [errorMessage, setErrorMessage] = useState<string>('')
+	const [subjectInReview, setSubjectInReview] = useState<SubjectKey | null>(null)
 
 	const years = useMemo(() => unique(semesters.map(sem => Math.floor(sem / 2))), [semesters])
 	const selectedYear = years[selectedTab]
@@ -51,6 +54,10 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 			setPending(false)
 		})
 	}, [selectedYear, selectedSemester])
+
+	const reviewSubject = (subject: SubjectKey) => {
+		setSubjectInReview(subject)
+	}
 
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
@@ -146,8 +153,8 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 			{
 				!errorMessage
 					? isDesktop
-						? <TranscriptTable semester={selectedSemester} records={records || []} loading={pending}/>
-						: <TranscriptList semester={selectedSemester} records={records || []} loading={pending} />
+						? <TranscriptTable reviewSubject={reviewSubject} semester={selectedSemester} records={records || []} loading={pending}/>
+						: <TranscriptList reviewSubject={reviewSubject} semester={selectedSemester} records={records || []} loading={pending} />
 					: <MessagePanel message={errorMessage} height={300}/>
 			}
 			{isDesktop
@@ -176,6 +183,11 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 				</Grid>
 			}
 		</Paper>
+		<OfferingReviewModal
+			open={!!subjectInReview}
+			close={() => setSubjectInReview(null)}
+			subject={subjectInReview}
+		/>
 	</div>
 }
 

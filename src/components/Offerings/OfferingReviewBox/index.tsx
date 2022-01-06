@@ -6,8 +6,7 @@ import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
-import { withStyles, useTheme/* , withStyles */ } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
+import useTheme from '@material-ui/core/styles/useTheme'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -19,51 +18,10 @@ import LockOpenIcon from '@material-ui/icons/LockOpen'
 import { OfferingReview } from 'types/Offering'
 
 import api from 'API'
+import OfferingEmotesSelector from 'components/Offerings/OfferingEmotesSelector'
+import OfferingReviewInput from 'components/Offerings/OfferingReviewBox/OfferingReviewInput'
 import OfferingContext from 'contexts/OfferingContext'
 import { useErrorDialog, useMySnackbar } from 'hooks'
-import EmoteHated from 'images/hated.svg'
-import EmoteIndifferent from 'images/indifferent.svg'
-import EmoteLiked from 'images/liked.svg'
-import EmoteLoved from 'images/loved.svg'
-import EmoteUnliked from 'images/unliked.svg'
-
-const emotes = [
-	{
-		emote: EmoteHated,
-		caption: 'Odiei'
-	},
-	{
-		emote: EmoteUnliked,
-		caption: 'Não gostei'
-	},
-	{
-		emote: EmoteIndifferent,
-		caption: 'Indiferente'
-	},
-	{
-		emote: EmoteLiked,
-		caption: 'Gostei'
-	},
-	{
-		emote: EmoteLoved,
-		caption: 'Amei'
-	}
-]
-
-const OfferingReviewInput = withStyles(theme => ({
-	root: {
-		border: '1px solid #e2e2e1',
-		overflow: 'hidden',
-		borderRadius: 10,
-		backgroundColor: '#fcfcfb',
-		transition: theme.transitions.create(['border-color', 'box-shadow']),
-		padding: '1rem',
-		boxSizing: 'border-box',
-		'&:hover': {
-			backgroundColor: '#fff'
-		}
-	}
-}))(TextField)
 
 const COMMENT_THRESHOLD = 10
 const COMMENT_LIMIT = 300
@@ -202,43 +160,7 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 						}
 					</Grid>
 					<Grid item container justify='space-around' wrap='wrap'>
-						<Grid
-							item xs container
-							direction='row'
-							justify='center'
-							spacing={2}
-							style={{ minWidth: 400, maxWidth: 400 }}
-						>
-							{emotes.map((emote, idx) => (
-								<Grid
-									xs="auto"
-									item
-									key={idx}
-								>
-									<Grid container
-										direction='column'
-										justify='center'
-										alignItems='center'
-									>
-										<div tabIndex={idx} className={`
-                                        move-up-hover-parent 
-                                        move-down-on-click-parent 
-                                        ${rate === idx + 1 ? 'img-popped' : ''}
-                                    `}>
-											<img
-												src={emote.emote}
-												height={isDesktop ? 36 : 24}
-												className={isLocked ? '' : `cursor-pointer ${rate !== idx + 1 ? 'move-up-hover-child' : ''}`}
-												onClick={isLocked ? null : () => handleRateChange(idx + 1)}
-											/>
-										</div>
-										<Typography variant='caption' color={idx + 1 === rate ? 'textPrimary' : 'textSecondary'}>
-											{emote.caption}
-										</Typography>
-									</Grid>
-								</Grid>
-							))}
-						</Grid>
+						<OfferingEmotesSelector rate={rate} setRate={handleRateChange} isLocked={isLocked} />
 						{isDesktop
 							? <Grid item style={{ maxWidth: 400 }} xs>
 								<Button
