@@ -38,18 +38,18 @@ interface PropsType {
     rate: number,
     setRate: (rate: number) => void
     isLocked: boolean
+	compact?: boolean
 }
 
-const OfferingEmotesSelector: React.FC<PropsType> = ({ rate, setRate, isLocked }) => {
+const OfferingEmotesSelector: React.FC<PropsType> = ({ rate, setRate, isLocked, compact = true }) => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
 	return <Grid
 		item xs container
 		direction='row'
-		justify='center'
-		spacing={2}
-		style={{ minWidth: 400, maxWidth: 400 }}
+		justify={compact ? 'space-around' : 'center'}
+		spacing={compact ? 1 : 2}
 	>
 		{emotes.map((emote, idx) => (
 			<Grid

@@ -7,6 +7,11 @@ export interface Offering {
     disapproval: number
 }
 
+export interface OfferingInfo {
+    professor: string
+    code: string
+}
+
 export interface OfferingReview {
     uuid: string,
     rating: number

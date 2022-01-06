@@ -6,7 +6,7 @@ const secondaryColor = '#415c77'
 const theme = createMuiTheme({
 	palette: {
 		primary: {
-			light: '#866798',
+			light: '#A77BC3',
 			main: primaryColor,
 			dark: '#482d58',
 			contrastText: '#fff'
@@ -44,6 +44,11 @@ const theme = createMuiTheme({
 			},
 			root: {
 				fontSize: '1rem'
+			}
+		},
+		MuiDialog: {
+			paper: {
+				margin: 16
 			}
 		}
 	}

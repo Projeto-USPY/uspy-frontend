@@ -183,11 +183,14 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 				</Grid>
 			}
 		</Paper>
-		<OfferingReviewModal
-			open={!!subjectInReview}
-			close={() => setSubjectInReview(null)}
-			subject={subjectInReview}
-		/>
+		{ !subjectInReview
+			? null
+			: <OfferingReviewModal
+				close={() => setSubjectInReview(null)}
+				subject={subjectInReview}
+			/>
+		}
+
 	</div>
 }
 

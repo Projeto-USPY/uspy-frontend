@@ -138,6 +138,7 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 							onChange={evt => handleCommentChange(evt.target.value)}
 							rows={5}
 							fullWidth
+							placeholder='Escreva seu comentário aqui...'
 							helperText={`${comment.length}/300`}
 							disabled={isLocked}
 						/>
@@ -160,7 +161,7 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 						}
 					</Grid>
 					<Grid item container justify='space-around' wrap='wrap'>
-						<OfferingEmotesSelector rate={rate} setRate={handleRateChange} isLocked={isLocked} />
+						<OfferingEmotesSelector rate={rate} setRate={handleRateChange} isLocked={isLocked} compact={!isDesktop} />
 						{isDesktop
 							? <Grid item style={{ maxWidth: 400 }} xs>
 								<Button
