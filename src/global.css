@@ -1,3 +1,10 @@
+.disclosure {
+	font-size: 7pt;
+	line-height: 1.66;
+	font-weight: 400;
+    letter-spacing: 0.03333em;
+}
+
 .prompt {
 	font-family: 'Prompt', sans-serif;
 }
@@ -13,6 +20,7 @@
 .transcript-tabs {
 	position: relative;
 	margin-top: 15px;
+	z-index: 1;
 }
 .transcript-tabs .Mui-selected {
 	text-decoration: underline;
@@ -26,6 +34,13 @@
 	min-height: 500px;
 	margin-top: -15px;
 	padding: 2rem;
+	position: relative;
+}
+
+.transcript-arrow-navigator {
+	position: absolute;
+	bottom: 10px;
+	left: 0;
 }
 
 @media screen and (max-width: 600px) {

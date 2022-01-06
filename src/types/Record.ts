@@ -4,5 +4,7 @@ export interface Record {
     grade: number
     frequency: number
     status: string
-    completed: boolean
+    completed?: boolean
+    course?: string
+    specialization?: string
 }

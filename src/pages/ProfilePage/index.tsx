@@ -11,8 +11,6 @@ import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined'
 
-import { Course } from 'types/Course'
-
 import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import MessagePanel from 'components/MessagePanel'
@@ -24,12 +22,20 @@ export function buildURI (): string {
 }
 
 const ProfilePage = () => {
-	const [courses, setCourses] = useState<Course[]>([])
+	const [semesters, setSemesters] = useState<number[]>([])
 	const [errorMessage, setErrorMessage] = useState<string>('')
-	// get courses
+	console.log(setErrorMessage)
+	// get semesters where transcript has records
 	useEffect(() => {
-		api.getMajors().then(majors => {
-			setCourses(majors)
+		api.getTranscriptYears().then(years => {
+			const semesters: number[] = []
+			// semesters[i] is semesters[i]/2.semesters[i]%2
+			years.forEach(el => {
+				el.semesters.forEach(sem => {
+					semesters.push(2 * el.year + sem - 1)
+				})
+			})
+			setSemesters(semesters)
 		}).catch(err => {
 			setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
 		})
@@ -100,8 +106,8 @@ const ProfilePage = () => {
 					<CardContent style={{ padding: isDesktop ? '16px 32px' : '0 0' }}>
 						{
 							!errorMessage
-								? courses.length
-									? <TranscriptView courses={courses} />
+								? semesters.length
+									? <TranscriptView semesters={semesters} />
 									: null
 								: <MessagePanel message={errorMessage} height={300}/>
 						}

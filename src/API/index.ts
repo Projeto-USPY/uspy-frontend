@@ -265,13 +265,29 @@ class APIClient {
 		return data as Course[]
 	}
 
-	async getRecords (course: string, specialization: string, semester: number, optional?: boolean): Promise<Record[]> {
-		const { data } = await this.axiosClient.get('/account/profile/transcript', {
+	async getCurriculum (course: string, specialization: string, semester: number, optional?: boolean): Promise<Record[]> {
+		const { data } = await this.axiosClient.get('/account/profile/curriculum', {
 			params: {
 				course,
 				specialization,
 				semester,
 				optional
+			}
+		})
+
+		return data as Record[]
+	}
+
+	async getTranscriptYears (): Promise<{year: number, semesters: number[]}[]> {
+		const { data } = await this.axiosClient.get('/account/profile/transcript/years')
+		return data
+	}
+
+	async getRecords (year: number, semester: number): Promise<Record[]> {
+		const { data } = await this.axiosClient.get('/account/profile/transcript', {
+			params: {
+				year,
+				semester
 			}
 		})
 

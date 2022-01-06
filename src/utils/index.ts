@@ -41,3 +41,16 @@ export function validateEmail (email: string) {
 	const res = reg.exec(email)
 	return res && res[1] === 'usp.br'
 }
+
+export function unique<T> (arr: T[]): T[] {
+	const ret: T[] = []
+
+	const st = new Set<T>()
+	arr.forEach(el => {
+		if (!st.has(el)) {
+			ret.push(el)
+			st.add(el)
+		}
+	})
+	return ret
+}
