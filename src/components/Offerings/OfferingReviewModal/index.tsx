@@ -6,6 +6,8 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import FormControl from '@material-ui/core/FormControl'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -135,8 +137,8 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 
 	const isLocked = editing === false && userReview !== null
 
-	return <Dialog onClose={close} PaperProps={{ style: { backgroundColor: theme.palette.primary.light } }} open>
-		<DialogTitle style={{ color: theme.palette.primary.dark }}> Avaliar {code} </DialogTitle>
+	return <Dialog onClose={close} open>
+		<DialogTitle style={{ backgroundColor: theme.palette.primary.main, color: 'white' }}> Avaliar {code} </DialogTitle>
 		<DialogContent className='pad1'>
 			<Grid
 				container
@@ -146,19 +148,22 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				spacing={2}
 			>
 				<Grid item xs='auto'>
-					<InputLabel shrink htmlFor='professor-modal-selector'>
+					<FormControl>
+						<InputLabel shrink htmlFor='professor-modal-selector'>
 						Professor
-					</InputLabel>
-					<NativeSelect
-						name="professor"
-						value={selectedOffering}
-						onChange={evt => setSelectedOffering(evt.target.value)}
-						inputProps={{ id: 'professor-modal-selector' }}
-					>
-						{offerings.map(o =>
-							<option key={o.code} value={o.code}> {o.professor} </option>
-						)}
-					</NativeSelect>
+						</InputLabel>
+						<NativeSelect
+							name="professor"
+							value={selectedOffering}
+							onChange={evt => setSelectedOffering(evt.target.value)}
+							inputProps={{ id: 'professor-modal-selector' }}
+						>
+							{offerings.map(o =>
+								<option key={o.code} value={o.code}> {o.professor} </option>
+							)}
+						</NativeSelect>
+						<FormHelperText>Escolha o professor que lhe ministrou a disciplina</FormHelperText>
+					</FormControl>
 				</Grid>
 				<Grid container item justify='center' xs='auto'>
 					<Typography variant='caption' color='textSecondary'> Lembre-se:
@@ -203,13 +208,12 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 			</Grid>
 		</DialogContent>
 		<DialogActions>
-			<Button onClick={close} style={{ color: theme.palette.primary.dark }}>
+			<Button onClick={close}>
                 Cancelar
 			</Button>
 			<Button
 				onClick={handleReviewSubmit}
 				disabled={rate === null || comment.length < COMMENT_THRESHOLD || (comment === userReview?.body && rate === userReview?.rating)}
-				style={{ color: theme.palette.primary.dark }}
 				endIcon={pending ? <CircularProgress size={20} /> : null}
 			>
 				{userReview === null ? 'ENVIAR' : 'EDITAR'}
