@@ -84,10 +84,14 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 
 	const getVote = useCallback(() => updatedVote ? vote : voteRegistered, [vote, updatedVote, voteRegistered])
 	const deleteComment = () => {
-		api.deleteOfferingReview(course, specialization, code, professor)
-		setIsDeleteDialogOpen(false)
-		setUserReview(null)
-		notify('Sua avaliação foi removida com sucesso!', 'success')
+		api.deleteOfferingReview(course, specialization, code, professor).then(() => {
+			setIsDeleteDialogOpen(false)
+			setUserReview(null)
+			notify('Sua avaliação foi removida com sucesso!', 'success')
+		}).catch(err => {
+			setIsDeleteDialogOpen(false)
+			notify(`Algo deu errado (${err.message}). Tente novamente mais tarde!`, 'error')
+		})
 	}
 	return <>
 		<Dialog onClose={() => setIsDeleteDialogOpen(false)} open={isDeleteDialogOpen}>
