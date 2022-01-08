@@ -25,7 +25,7 @@ class APIClient {
 				const data = error.response.data || {}
 				const statusCode = error.response.status
 				data.code = data.code || statusCodeToError[statusCode]
-				data.message = data.message || error.response.statusText
+				data.message = data.message || error.response.statusText || statusCodeToError[statusCode] || 'erro desconhecido'
 
 				throw new APIError(data.code, data.message, statusCode)
 			}
