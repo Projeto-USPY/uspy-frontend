@@ -1,5 +1,7 @@
 
+import { Course } from 'types/Course'
 import { Offering, OfferingReview, OfferingReviewVote } from 'types/Offering'
+import { Record } from 'types/Record'
 import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { User } from 'types/User'
 
@@ -258,6 +260,40 @@ class APIClient {
 		return data as SubjectGrade
 	}
 
+	async getMajors (): Promise<Course[]> {
+		const { data } = await this.axiosClient.get('/account/profile/majors')
+		return data as Course[]
+	}
+
+	async getCurriculum (course: string, specialization: string, semester: number, optional?: boolean): Promise<Record[]> {
+		const { data } = await this.axiosClient.get('/account/profile/curriculum', {
+			params: {
+				course,
+				specialization,
+				semester,
+				optional
+			}
+		})
+
+		return data as Record[]
+	}
+
+	async getTranscriptYears (): Promise<{year: number, semesters: number[]}[]> {
+		const { data } = await this.axiosClient.get('/account/profile/transcript/years')
+		return data
+	}
+
+	async getRecords (year: number, semester: number): Promise<Record[]> {
+		const { data } = await this.axiosClient.get('/account/profile/transcript', {
+			params: {
+				year,
+				semester
+			}
+		})
+
+		return data as Record[]
+	}
+
 	async resetPassword (token: string, password: string) {
 		await this.axiosClient.put('/account/password_reset', {
 			token,
@@ -282,6 +318,13 @@ class APIClient {
 			params: {
 				token
 			}
+		})
+	}
+
+	async updateAccount (authCode: string, captcha: string) {
+		await this.axiosClient.put('/account/update', {
+			access_key: authCode,
+			captcha
 		})
 	}
 };

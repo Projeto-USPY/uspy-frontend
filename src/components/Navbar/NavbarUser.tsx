@@ -18,7 +18,8 @@ import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
 import { useMySnackbar } from 'hooks'
 import Logo from 'images/navbar_logo.svg'
 import { buildURI as buildHomePageURI } from 'pages/HomePage'
-import { buildURI as buildProfilePageURI } from 'pages/SettingsPage'
+import { buildURI as buildProfilePageURI } from 'pages/ProfilePage'
+import { buildURI as buildAccountPageURI } from 'pages/SettingsPage'
 
 interface UserMenuProps {
 	open: boolean
@@ -50,6 +51,7 @@ let UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen, setUserNone })
 		}}
 	>
 		<MenuItem onClick={() => history.push(buildProfilePageURI())} style={menuStyle}> Perfil </MenuItem>
+		<MenuItem onClick={() => history.push(buildAccountPageURI())} style={menuStyle}> Conta </MenuItem>
 		<MenuItem onClick={() => setConfirmationDialogOpen(true)} style={menuStyle}> Logout </MenuItem>
 		<SimpleConfirmationDialog
 			title="Tem certeza que deseja sair?"

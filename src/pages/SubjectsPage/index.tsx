@@ -17,7 +17,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { useTheme } from '@material-ui/styles'
 
-import { CourseInfo } from 'types/Course'
+import { CourseWithSubjects } from 'types/Course'
 import { SubjectInfo } from 'types/Subject'
 
 import Navbar from 'components/Navbar'
@@ -78,7 +78,7 @@ function renderRow (course: string, specialization: string, subject: SubjectInfo
 }
 
 interface SubjectListProps {
-	arr: CourseInfo
+	arr: CourseWithSubjects
 	sortByCode: boolean
 }
 
@@ -94,7 +94,7 @@ const SubjectList: React.FC<SubjectListProps> = ({ arr, sortByCode }) => {
 		history.push(buildSubjectPageURI(courseCode, courseSpecialization, code))
 	}
 
-	const getList = (course: CourseInfo, sortByCode: boolean) => {
+	const getList = (course: CourseWithSubjects, sortByCode: boolean) => {
 		const code = course.code
 		const specialization = course.specialization
 		course.subjects.sort((s1: SubjectInfo, s2: SubjectInfo) => {
@@ -142,7 +142,7 @@ const Accordions = () => {
 				</Grid>
 			</Grid>
 			<Grid item>
-				{coursesData.map((c: CourseInfo) => <SubjectList key={c.name} arr={c} sortByCode={sortByCode}/>)}
+				{coursesData.map((c: CourseWithSubjects) => <SubjectList key={c.name} arr={c} sortByCode={sortByCode}/>)}
 			</Grid>
 		</Grid>
 	}

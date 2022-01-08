@@ -1,3 +1,10 @@
+.disclosure {
+	font-size: 7pt;
+	line-height: 1.66;
+	font-weight: 400;
+    letter-spacing: 0.03333em;
+}
+
 .prompt {
 	font-family: 'Prompt', sans-serif;
 }
@@ -8,6 +15,38 @@
 
 .graybg {
 	background-color: #F1F1F1
+}
+
+.transcript-tabs {
+	position: relative;
+	margin-top: 15px;
+	z-index: 1;
+}
+.transcript-tabs .Mui-selected {
+	text-decoration: underline;
+}
+
+.transcript-tabs .MuiTabs-indicator {
+	background-color: transparent;
+}
+
+.transcript-body {
+	min-height: 500px;
+	margin-top: -15px;
+	padding: 2rem;
+	position: relative;
+}
+
+.transcript-arrow-navigator {
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+}
+
+@media screen and (max-width: 600px) {
+	.transcript-body {
+		padding: 2rem .5rem;
+	}
 }
 
 .donut-tooltip {
@@ -77,7 +116,6 @@ b {
 	background-color: #e1eaf9  !important;
 }
 
-
 .offering-review-form-accordion {
 	position: absolute;
 	bottom: 0;
@@ -113,7 +151,15 @@ b {
 }
 
 .pad {
-	padding: .5rem;
+	padding: 8px;
+}
+
+.pad1 {
+	padding: 16px;
+}
+
+.pad2 {
+	padding: 32px;
 }
 
 
@@ -156,13 +202,7 @@ b {
 }
 
 main {
-	margin-bottom: 50px;
-}
-
-/* If you need to use Collapse Component, remove this. Used for notistack-snackbar centering on mobile. Hope this is not inconvenient for you, future developer. */
-.MuiCollapse-wrapper { 
-	justify-content: center;
-	align-items: center;
+	padding-bottom: 16px;
 }
 
 body {

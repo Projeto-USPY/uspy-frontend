@@ -40,7 +40,7 @@ const Desktop: React.FC<PropsType> = ({ offerings, subject, selectedOffering }) 
 	const isLoading = subject === null || offerings === null
 
 	return <Container maxWidth='xl' className='full-height'>
-		<Grid container direction="column" className='full-height'>
+		<Grid container spacing={2} direction="column" className='full-height'>
 			<Grid item container alignItems='center' xs="auto" style={{ height: '50px' }}>
 				<Breadcrumb links={getBreadcrumbLinks(course, specialization, code)}/>
 			</Grid>

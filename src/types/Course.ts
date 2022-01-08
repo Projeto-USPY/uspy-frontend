@@ -1,8 +1,11 @@
 import { SubjectInfo } from 'types/Subject'
 
-export interface CourseInfo {
+export interface Course {
 	name: string
 	code: string
 	specialization: string
+}
+
+export interface CourseWithSubjects extends Course {
 	subjects: SubjectInfo[]
 }
