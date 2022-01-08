@@ -9,7 +9,7 @@ import { createStore } from 'redux'
 import { ThemeProvider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { setUser, setUserNone, uspyAlert } from 'actions'
+import { setUser, setLastUpdatedAccount, uspyAlert } from 'actions'
 import api from 'API'
 import ErrorDialog from 'components/ErrorDialog'
 import { SnackbarProvider } from 'notistack'
@@ -38,15 +38,9 @@ import 'global.css'
 const store = createStore(reducer)
 
 function checkUserExists () {
-	api.isAuthenticated().then(user => {
-		if (user) {
-			store.dispatch(setUser({
-				id: user,
-				name: '' // none for now. Change later
-			}))
-		} else {
-			store.dispatch(setUserNone())
-		}
+	api.isAuthenticated().then(([user, lastUpdated]) => {
+		store.dispatch(setUser(user))
+		store.dispatch(setLastUpdatedAccount(lastUpdated))
 	}).catch(err => {
 		console.error(`Error: (${err})`)
 	})

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -11,12 +12,15 @@ import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined'
 
+import { AppState } from 'types/redux'
+
 import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import MessagePanel from 'components/MessagePanel'
 import Navbar from 'components/Navbar'
 import UpdateTranscriptModal from 'components/UpdateTranscriptModal'
 import TranscriptView from 'pages/ProfilePage/TranscriptView'
+import { toSlashSeparatedDate, toTime } from 'utils/time'
 
 export function buildURI (): string {
 	return '/perfil'
@@ -41,6 +45,11 @@ const ProfilePage = () => {
 			setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
 		})
 	}, [])
+
+	const user = useSelector((state: AppState) => state.user)
+	const lastUpdatedAccount = useSelector((state: AppState) => state.lastUpdatedAccount)
+
+	console.log('Monstrando pagina de perfil de', user.name)
 
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
@@ -94,7 +103,14 @@ const ProfilePage = () => {
 									</Button>
 								</Grid>
 								<Grid item>
-									<Typography variant='caption'> Última atualização: 22/10/2021 { isDesktop ? 'às 13:48' : ''} </Typography>
+									<Typography variant='caption'>
+										{lastUpdatedAccount
+											? 'Última atualização: ' +
+												toSlashSeparatedDate(new Date(lastUpdatedAccount)) +
+												(isDesktop ? ` às ${toTime(new Date(lastUpdatedAccount))}` : '')
+											: ''
+										}
+									</Typography>
 								</Grid>
 							</Grid>
 						}

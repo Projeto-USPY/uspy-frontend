@@ -3,7 +3,7 @@ import { Course } from 'types/Course'
 import { Offering, OfferingReview, OfferingReviewVote } from 'types/Offering'
 import { Record } from 'types/Record'
 import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
-import { User } from 'types/User'
+import { guestUser, User } from 'types/User'
 
 import APIError, { statusCodeToError } from 'API/APIError'
 import axios, { AxiosInstance } from 'axios'
@@ -37,13 +37,16 @@ class APIClient {
 	}
 
 	// Returns users NUSP if is authenticated and '' if status code is 401. Throw status code if it's different than that.
-	async isAuthenticated (): Promise<string> {
+	async isAuthenticated (): Promise<[User, string]> {
 		try {
 			const { data } = await this.axiosClient.get('/account/profile')
 
-			return data.user
+			return [{
+				user: data.user,
+				name: data.name
+			}, data.last_update]
 		} catch (err) {
-			if (err.status === 401) return ''
+			if (err.status === 401) return [guestUser, '']
 			else throw err
 		}
 	}
