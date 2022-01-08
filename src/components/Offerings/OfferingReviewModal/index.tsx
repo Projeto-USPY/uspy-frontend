@@ -61,8 +61,6 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 
 	// Reset component when selected professor changes
 	useEffect(() => {
-		setComment('')
-		setRate(null)
 		setPending(false)
 		setEditing(false)
 	}, [selectedOffering])
