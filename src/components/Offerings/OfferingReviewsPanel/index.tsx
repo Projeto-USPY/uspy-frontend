@@ -8,6 +8,7 @@ import api from 'API'
 import OfferingReviewBox from 'components/Offerings/OfferingReviewBox'
 import OfferingReviewsFeed from 'components/Offerings/OfferingReviewsFeed'
 import OfferingContext from 'contexts/OfferingContext'
+import ReviewContext from 'contexts/ReviewContext'
 
 const OfferingReviewsPanel = () => {
 	const { professor, course, specialization, code } = useContext(OfferingContext)
@@ -24,8 +25,13 @@ const OfferingReviewsPanel = () => {
 		})
 	}, [course, specialization, code, professor])
 	return <div className='full-height full-width' style={{ position: 'relative', maxHeight: '100%', overflow: 'hidden' }}>
-		<OfferingReviewsFeed review={userReview} />
-		<OfferingReviewBox review={userReview} setReview={setUserReview} />
+		<ReviewContext.Provider value={{
+			userReview: userReview,
+			setUserReview: setUserReview
+		}} >
+			<OfferingReviewsFeed />
+			<OfferingReviewBox />
+		</ReviewContext.Provider>
 	</div>
 }
 

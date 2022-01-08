@@ -26,3 +26,13 @@ export function getRelativeDate (d: Date): string {
 		return `${d.toLocaleDateString()} às ${d.getHours()}:${d.getMinutes()}`
 	}
 }
+
+export function toSlashSeparatedDate (d: Date): string {
+	return d.toLocaleDateString('pt-BR')
+}
+
+export function toTime (d: Date): string {
+	const hours = d.getHours().toLocaleString('pt-BR', { minimumIntegerDigits: 2 })
+	const minutes = d.getMinutes().toLocaleString('pt-BR', { minimumIntegerDigits: 2 })
+	return hours + ':' + minutes
+}

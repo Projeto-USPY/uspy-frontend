@@ -48,7 +48,7 @@ interface SettingsPageProps {
 }
 
 export function buildURI (): string {
-	return '/perfil'
+	return '/conta'
 }
 
 const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
@@ -108,8 +108,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 						url: '/',
 						text: 'Home'
 					}, {
-						url: '/Perfil',
-						text: 'Perfil'
+						url: '/Conta',
+						text: 'Conta'
 					}]}/>
 				</Grid>
 

@@ -9,7 +9,7 @@ import { createStore } from 'redux'
 import { ThemeProvider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { setUser, setUserNone, uspyAlert } from 'actions'
+import { setUser, setLastUpdatedAccount, uspyAlert } from 'actions'
 import api from 'API'
 import ErrorDialog from 'components/ErrorDialog'
 import { SnackbarProvider } from 'notistack'
@@ -20,8 +20,9 @@ import LoginPage, { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import NotFoundPage from 'pages/NotFoundPage'
 import OfferingsPage, { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 import PasswordResetPage, { buildURI as buildPasswordResetPageURI } from 'pages/PasswordResetPage'
+import ProfilePage, { buildURI as buildProfilePageURI } from 'pages/ProfilePage'
 import RegisterPage, { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
-import SettingsPage, { buildURI as buildProfilePageURI } from 'pages/SettingsPage'
+import SettingsPage, { buildURI as buildSettingsPageURI } from 'pages/SettingsPage'
 import SubjectPage, { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 import SubjectsPage, { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
 import TeachersPage, { buildURI as buildTeachersPageURI } from 'pages/TeachersPage'
@@ -37,15 +38,9 @@ import 'global.css'
 const store = createStore(reducer)
 
 function checkUserExists () {
-	api.isAuthenticated().then(user => {
-		if (user) {
-			store.dispatch(setUser({
-				id: user,
-				name: '' // none for now. Change later
-			}))
-		} else {
-			store.dispatch(setUserNone())
-		}
+	api.isAuthenticated().then(([user, lastUpdated]) => {
+		store.dispatch(setUser(user))
+		store.dispatch(setLastUpdatedAccount(lastUpdated))
 	}).catch(err => {
 		console.error(`Error: (${err})`)
 	})
@@ -101,7 +96,8 @@ const App = () => {
 							<Route exact path={buildTeachersPageURI()} component={TeachersPage}/>
 							<Route exact path={buildSubjectsPageURI()} component={SubjectsPage}/>
 							<LoggedOutRoute exact path={buildPasswordResetPageURI()} component={PasswordResetPage}/>
-							<LoggedInRoute exact path={buildProfilePageURI()} component={SettingsPage}/>
+							<LoggedInRoute exact path={buildSettingsPageURI()} component={SettingsPage}/>
+							<LoggedInRoute exact path={buildProfilePageURI()} component={ProfilePage}/>
 							<Route exact path={buildAboutPageURI()} component={AboutPage}/>
 							<Route exact path={buildUseTermsPageURI()} component={UseTermsPage}/>
 							<Route exact path={buildSubjectPageURI(':course', ':specialization', ':code')} component={SubjectPage}/>

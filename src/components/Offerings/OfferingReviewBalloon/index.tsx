@@ -1,15 +1,28 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react'
 
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
 import Paper from '@material-ui/core/Paper'
+import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
+import DeleteIcon from '@material-ui/icons/Delete'
 import ReportIcon from '@material-ui/icons/FlagOutlined'
+import withStyles from '@material-ui/styles/withStyles'
 
 import { OfferingReview } from 'types/Offering'
 
 import api from 'API'
+import OfferingReviewReportDialog from 'components/Offerings/OfferingReviewReportDialog'
 import VoteButton from 'components/VoteButton'
 import OfferingContext from 'contexts/OfferingContext'
+import ReviewContext from 'contexts/ReviewContext'
+import { useMySnackbar } from 'hooks'
 import EmoteHated from 'images/hated.svg'
 import EmoteIndifferent from 'images/indifferent.svg'
 import EmoteLiked from 'images/liked.svg'
@@ -17,7 +30,12 @@ import EmoteLoved from 'images/loved.svg'
 import EmoteUnliked from 'images/unliked.svg'
 import { getRelativeDate } from 'utils/time'
 
-import OfferingReviewReportDialog from '../OfferingReviewReportDialog'
+const MyDeleteIcon = withStyles({
+	root: {
+		fontSize: '1.25rem',
+		color: '#00000077'
+	}
+})(DeleteIcon)
 
 const RATE_TO_EMOJI = [
 	null,
@@ -35,10 +53,15 @@ interface PropsType {
 
 const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) => {
 	const [vote, setVote] = useState<number>(0)
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false)
 	const [voteRegistered, setVoteRegistered] = useState<number>(0)
 	const [updatedVote, setUpdatedVote] = useState<boolean>(false)
 	const [reporting, setReporting] = useState<boolean>(false)
+
 	const { professor, course, specialization, code } = useContext(OfferingContext)
+	const { setUserReview } = useContext(ReviewContext)
+
+	const notify = useMySnackbar()
 
 	useEffect(() => {
 		api.getOfferingReviewUserVote(course, specialization, code, professor, review.uuid).then(vote => {
@@ -60,8 +83,33 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 	}
 
 	const getVote = useCallback(() => updatedVote ? vote : voteRegistered, [vote, updatedVote, voteRegistered])
-
+	const deleteComment = () => {
+		api.deleteOfferingReview(course, specialization, code, professor).then(() => {
+			setIsDeleteDialogOpen(false)
+			setUserReview(null)
+			notify('Sua avaliação foi removida com sucesso!', 'success')
+		}).catch(err => {
+			setIsDeleteDialogOpen(false)
+			notify(`Algo deu errado (${err.message}). Tente novamente mais tarde!`, 'error')
+		})
+	}
 	return <>
+		<Dialog onClose={() => setIsDeleteDialogOpen(false)} open={isDeleteDialogOpen}>
+			<DialogTitle> Excluir comentário </DialogTitle>
+			<DialogContent>
+				<DialogContentText>
+					Você tem certeza que deseja excluir seu comentário?
+				</DialogContentText>
+			</DialogContent>
+			<DialogActions>
+				<Button id='dismiss-error-dialog' onClick={() => setIsDeleteDialogOpen(false)} color="secondary">
+					Cancelar
+				</Button>
+				<Button id='dismiss-error-dialog' onClick={() => deleteComment()} color="secondary">
+					Confirmar
+				</Button>
+			</DialogActions>
+		</Dialog>
 		<Paper square elevation={2} className={`offering-review-balloon${locked ? '-locked' : ''}`}>
 			<Grid container direction='column' alignItems='stretch' className='full-height'>
 				<Grid item container alignItems='center' xs>
@@ -74,7 +122,15 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 						<img src={RATE_TO_EMOJI[review.rating]} height={30}/>
 					</Grid>
 				</Grid>
-				<Grid item container direction='row-reverse' xs='auto'> {/* Timestamp */}
+				<Grid item container direction='row-reverse' alignItems='flex-end' xs='auto'> {/* Timestamp */}
+					{ locked
+						? <IconButton onClick={() => setIsDeleteDialogOpen(true)} size="small" style={{ margin: '0 -1rem 0 1rem' }}>
+							<Tooltip title="Deletar comentário">
+								<MyDeleteIcon/>
+							</Tooltip>
+						</IconButton>
+						: null
+					}
 					<Typography variant='caption' color='textSecondary'> <i> {getRelativeDate(new Date(review.timestamp))} {review.edited ? '(Editado)' : null} </i> </Typography>
 				</Grid>
 			</Grid>

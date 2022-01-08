@@ -11,6 +11,11 @@ export const setUserNone = (): ReduxAction => ({
 	payload: null
 })
 
+export const setLastUpdatedAccount = (date: string): ReduxAction => ({
+	type: 'SET_LAST_UPDATED_ACCOUNT',
+	payload: date
+})
+
 export const uspyAlert = (message?: string, title?: string): ReduxAction => ({
 	type: 'ALERT',
 	payload: message ? {

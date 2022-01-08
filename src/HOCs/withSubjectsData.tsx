@@ -1,6 +1,6 @@
 import React, { createContext, ReactElement, useEffect, useState } from 'react'
 
-import { CourseInfo } from 'types/Course'
+import { CourseWithSubjects } from 'types/Course'
 import { SubjectInfo } from 'types/Subject'
 
 import { client } from 'API'
@@ -13,7 +13,7 @@ function transformSubjects (subjects: any): SubjectInfo[] {
 	}))
 }
 
-let data: CourseInfo[]
+let data: CourseWithSubjects[]
 function getData (setter: Function) {
 	if (!data) {
 		client().get('/api/subject/all').then((res: any) => {
