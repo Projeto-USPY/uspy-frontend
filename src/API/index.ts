@@ -320,6 +320,13 @@ class APIClient {
 			}
 		})
 	}
+
+	async updateAccount (authCode: string, captcha: string) {
+		await this.axiosClient.put('/account/update', {
+			access_key: authCode,
+			captcha
+		})
+	}
 };
 
 const Client = new APIClient()

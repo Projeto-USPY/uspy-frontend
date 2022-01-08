@@ -15,6 +15,7 @@ import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
 import MessagePanel from 'components/MessagePanel'
 import Navbar from 'components/Navbar'
+import UpdateTranscriptModal from 'components/UpdateTranscriptModal'
 import TranscriptView from 'pages/ProfilePage/TranscriptView'
 
 export function buildURI (): string {
@@ -24,7 +25,7 @@ export function buildURI (): string {
 const ProfilePage = () => {
 	const [semesters, setSemesters] = useState<number[]>([])
 	const [errorMessage, setErrorMessage] = useState<string>('')
-	console.log(setErrorMessage)
+	const [updateTranscriptModalOpen, setUpdateTranscriptModalOpen] = useState<boolean>(false)
 	// get semesters where transcript has records
 	useEffect(() => {
 		api.getTranscriptYears().then(years => {
@@ -43,11 +44,6 @@ const ProfilePage = () => {
 
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
-
-	const updateProfile = () => {
-		// do nothing for now
-		alert('updating profile')
-	}
 
 	return <div className='main'>
 		<main>
@@ -90,7 +86,7 @@ const ProfilePage = () => {
 										size={isDesktop ? 'large' : 'small'}
 										variant='outlined'
 										color='secondary'
-										onClick={updateProfile}
+										onClick={() => setUpdateTranscriptModalOpen(true)}
 									>
                                                 Atualizar
                                                 &nbsp;&nbsp;
@@ -114,6 +110,7 @@ const ProfilePage = () => {
 					</CardContent>
 				</Card>
 			</Container>
+			<UpdateTranscriptModal open={updateTranscriptModalOpen} close={() => setUpdateTranscriptModalOpen(false)} />
 		</main>
 	</div>
 }
