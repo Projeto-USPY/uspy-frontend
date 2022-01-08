@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Button from '@material-ui/core/Button'
 import Collapse from '@material-ui/core/Collapse'
@@ -52,6 +52,11 @@ function RedIf ({ condition, children } : {condition: boolean, children: React.R
 
 const TranscriptList: React.FC<PropsType> = ({ semester, records, reviewSubject, loading = false }) => {
 	const [selectedRow, setSelectedRow] = useState<number | null>(null)
+
+	// reset on semester change
+	useEffect(() => {
+		setSelectedRow(null)
+	}, [records])
 
 	const buildSubjectLink = (record: Record) => {
 		return buildSubjectPageURI(record.course, record.specialization, record.code)
