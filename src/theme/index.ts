@@ -50,6 +50,12 @@ const theme = createMuiTheme({
 			paper: {
 				margin: 16
 			}
+		},
+		// The following line is a workaround for https://github.com/mui-org/material-ui/issues/26251
+		MuiButton: {
+			root: {
+				transition: 'color .01s'
+			}
 		}
 	}
 

@@ -63,6 +63,7 @@ const OfferingEmotesSelector: React.FC<PropsType> = ({ rate, setRate, isLocked, 
 					alignItems='center'
 				>
 					<div tabIndex={idx} className={`
+				unselectable
                 move-up-hover-parent 
                 move-down-on-click-parent 
                 ${rate === idx + 1 ? 'img-popped' : ''}
