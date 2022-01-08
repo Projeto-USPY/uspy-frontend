@@ -130,7 +130,7 @@ const OfferingReviewBox = () => {
 							multiline
 							value={comment}
 							onChange={evt => handleCommentChange(evt.target.value)}
-							rows={5}
+							rows={isDesktop ? 5 : 10}
 							fullWidth
 							placeholder='Escreva seu comentário aqui...'
 							helperText={`${comment.length}/300`}
