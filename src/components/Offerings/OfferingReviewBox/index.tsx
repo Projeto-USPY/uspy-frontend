@@ -15,23 +15,17 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import LockIcon from '@material-ui/icons/Lock'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
 
-import { OfferingReview } from 'types/Offering'
-
 import api from 'API'
 import OfferingEmotesSelector from 'components/Offerings/OfferingEmotesSelector'
 import OfferingReviewInput from 'components/Offerings/OfferingReviewBox/OfferingReviewInput'
 import OfferingContext from 'contexts/OfferingContext'
+import ReviewContext from 'contexts/ReviewContext'
 import { useErrorDialog, useMySnackbar } from 'hooks'
 
 const COMMENT_THRESHOLD = 10
 const COMMENT_LIMIT = 300
 
-interface PropTypes {
-    review: OfferingReview
-    setReview: (r: OfferingReview) => void
-}
-
-const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
+const OfferingReviewBox = () => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
@@ -42,7 +36,7 @@ const OfferingReviewBox: React.FC<PropTypes> = ({ review, setReview }) => {
 	const [editing, setEditing] = useState<boolean>(false)
 	const notify = useMySnackbar()
 	const { professor, course, specialization, code } = useContext(OfferingContext)
-
+	const { userReview: review, setUserReview: setReview } = useContext(ReviewContext)
 	const uspyAlert = useErrorDialog()
 
 	// Loaded review

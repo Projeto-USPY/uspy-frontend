@@ -204,6 +204,22 @@ class APIClient {
 		return data as OfferingReview
 	}
 
+	async deleteOfferingReview (
+		course: string,
+		specialization: string,
+		code: string,
+		professor: string
+	) {
+		await this.axiosClient.delete('/private/subject/offerings/comments', {
+			params: {
+				course,
+				specialization,
+				code,
+				professor
+			}
+		})
+	}
+
 	async reportOfferingReview (
 		course: string,
 		specialization: string,
