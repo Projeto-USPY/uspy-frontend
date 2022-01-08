@@ -174,6 +174,9 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({ course, specializ
 				isLink={false}
 				relations={mainRelations}
 			/>
+			<Typography variant='caption'>
+				Você está aqui
+			</Typography>
 		</Grid>
 		<Grid container item direction="column" style={{ height: '100%' }} justify="center" alignItems="center" xs={4}>
 			{successors.map(req =>

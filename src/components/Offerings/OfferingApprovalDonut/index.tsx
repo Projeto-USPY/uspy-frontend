@@ -10,13 +10,14 @@ interface PropsType {
     neutral: number
     disapproval: number
     noStatsMessage?: string
+	showQuestionMark?: boolean
 }
 
 function toPercentage (x: number): string {
 	return (100 * x).toFixed(0) + '%'
 }
 
-const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disapproval, noStatsMessage = 'Não existem avaliações suficientes para este professor' }: PropsType) => {
+const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disapproval, noStatsMessage = 'Não existem avaliações suficientes para este professor', showQuestionMark = false }: PropsType) => {
 	const missingData = !approval && !neutral && !disapproval
 	if (missingData) {
 		neutral = 1.0
@@ -95,8 +96,15 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 	]
 	const colors = ['#00910E', '#DEDEDE', '#FF0000']
 
+	const wrapperStyle = {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		position: 'relative'
+	}
+
 	return <>
-		<div onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
+		<div style={wrapperStyle} onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
 			<ResponsiveContainer aspect={1} height={60}>
 				<PieChart width={60} height={60}>
 					<Pie dataKey='value' data={data} cx="50%" cy="50%" outerRadius={20} innerRadius={10} startAngle={90} endAngle={450}>
@@ -108,6 +116,12 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 					</Pie>
 				</PieChart>
 			</ResponsiveContainer>
+			{ showQuestionMark
+				? <span style={{ position: 'absolute', color: 'grey' }}>
+					?
+				</span>
+				: null
+			}
 		</div>
 		{popover}
 	</>
