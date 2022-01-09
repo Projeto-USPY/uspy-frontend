@@ -127,7 +127,7 @@ const TranscriptList: React.FC<PropsType> = ({ semester, records, reviewSubject,
 						size='medium'
 						fullWidth
 						variant='outlined'
-						onClick={() => reviewSubject({ course: record.course, specialization: record.specialization, code: record.code })}
+						onClick={() => reviewSubject({ course: record.course, specialization: record.specialization, code: record.code, name: record.name })}
 						endIcon={<SvgIcon color='secondary' component={WriteComment} viewBox="0 0 36 36"/>}
 					>
 					AVALIAR

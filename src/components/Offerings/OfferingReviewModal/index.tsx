@@ -23,6 +23,7 @@ import { OfferingInfo, OfferingReview } from 'types/Offering'
 import { SubjectKey } from 'types/Subject'
 
 import api from 'API'
+import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
 import OfferingEmotesSelector from 'components/Offerings/OfferingEmotesSelector'
 import OfferingReviewInput from 'components/Offerings/OfferingReviewBox/OfferingReviewInput'
 import { useMySnackbar, useErrorDialog } from 'hooks'
@@ -138,7 +139,14 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 	const isLocked = editing === false && userReview !== null
 
 	return <Dialog onClose={close} open>
-		<DialogTitle style={{ backgroundColor: theme.palette.primary.main, color: 'white' }}> Avaliar {code} </DialogTitle>
+		<DialogTitle style={{ backgroundColor: theme.palette.primary.main, color: 'white' }}>
+			<CompressedTextWithTooltip
+				text={'Avaliar ' + subject.name}
+				maxCharacters={isDesktop ? 50 : 32}
+				tooltipProps={{ placement: 'top' }}
+				component={isDesktop ? 'span' : Typography}
+			/>
+		</DialogTitle>
 		<DialogContent className='pad1'>
 			<Grid
 				container
