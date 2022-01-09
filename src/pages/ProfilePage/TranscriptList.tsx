@@ -16,6 +16,7 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import { Record } from 'types/Record'
 import { SubjectKey } from 'types/Subject'
 
+import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
 import { ReactComponent as WriteComment } from 'images/write-comment.svg'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 
@@ -31,9 +32,11 @@ const SkeletonProgress = () => {
 		{(new Array(6).fill(0)).map((_, idx) =>
 			<React.Fragment key={idx}>
 				<ListItem>
-					<ListItemText>
+					<ListItemText primary={
 						<Skeleton variant='text' width={70} />
-					</ListItemText>
+					} secondary={
+						<Skeleton variant='text' width={200} />
+					} />
 					<ListItemSecondaryAction>
 						<Skeleton variant='text' width={25} />
 					</ListItemSecondaryAction>
@@ -70,14 +73,16 @@ const TranscriptList: React.FC<PropsType> = ({ semester, records, reviewSubject,
 					selected={selectedRow === row}
 					onClick={() => setSelectedRow(selectedRow === row ? null : row)}
 				>
-					<ListItemText>
+					<ListItemText primary={
 						<Link
 							color='secondary'
 							href={buildSubjectLink(record)}
 						>
 							{record.code}
 						</Link>
-					</ListItemText>
+					} secondary={
+						<CompressedTextWithTooltip text={record.name} maxCharacters={32} />
+					} />
 					<ListItemSecondaryAction>
 						<RedIf condition={record.grade < 5}>
 							{record.grade.toFixed(1)}

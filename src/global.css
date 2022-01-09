@@ -34,6 +34,7 @@
 	min-height: 500px;
 	margin-top: -15px;
 	padding: 2rem;
+	padding-bottom: 20px;
 	position: relative;
 }
 
@@ -46,6 +47,7 @@
 @media screen and (max-width: 600px) {
 	.transcript-body {
 		padding: 2rem .5rem;
+		padding-bottom: 50px;
 	}
 }
 
