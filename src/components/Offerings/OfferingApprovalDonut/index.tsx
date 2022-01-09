@@ -18,15 +18,16 @@ function toPercentage (x: number): string {
 }
 
 const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disapproval, noStatsMessage = 'Não existem avaliações suficientes para este professor', showQuestionMark = false }: PropsType) => {
-	const missingData = !approval && !neutral && !disapproval
-	if (missingData) {
+	let missingData = false
+	let errorMessage = ''
+	if (!approval && !neutral && !disapproval) {
+		missingData = true
 		neutral = 1.0
-		approval = 0.0
-		disapproval = 0.0
+		approval = disapproval = 0.0
 	} else if (approval + neutral + disapproval !== 1) {
+		errorMessage = 'Dados incoerentes'
 		neutral = 1.0
-		approval = 0.0
-		disapproval = 0.0
+		approval = disapproval = 0.0
 		console.error('Statistics of approval must sum up to 1')
 	}
 
@@ -70,12 +71,12 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 	>
 		<Paper className="prompt tooltip-card">
 			{
-				missingData ? noStatsMessage
+				errorMessage || (missingData ? noStatsMessage
 					: <ul className="donut-tooltip">
 						<li> Aprovam: {toPercentage(approval)} </li>
 						<li> Desaprovam: {toPercentage(disapproval)} </li>
 						<li> Neutros: {toPercentage(neutral)} </li>
-					</ul>
+					</ul>)
 			}
 		</Paper>
 	</Popover>
@@ -94,7 +95,8 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 			name: 'disapproval'
 		}
 	]
-	const colors = ['#00910E', '#DEDEDE', '#FF0000']
+
+	const colors = ['#00910E', '#6a86a3', '#FF0000']
 
 	const wrapperStyle = {
 		display: 'flex',
@@ -103,6 +105,8 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 		position: 'relative'
 	}
 
+	console.log(`${errorMessage} # ${missingData}`)
+
 	return <>
 		<div style={wrapperStyle} onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
 			<ResponsiveContainer aspect={1} height={60}>
@@ -110,7 +114,7 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 					<Pie dataKey='value' data={data} cx="50%" cy="50%" outerRadius={20} innerRadius={10} startAngle={90} endAngle={450}>
 						{
 							data.map((_, index) => (
-								<Cell key={`cell-${index}`} fill={colors[index]}/>
+								<Cell key={`cell-${index}`} fill={errorMessage || missingData ? '#DEDEDE' : colors[index]}/>
 							))
 						}
 					</Pie>
