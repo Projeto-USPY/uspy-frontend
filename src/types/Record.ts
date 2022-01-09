@@ -7,4 +7,5 @@ export interface Record {
     completed?: boolean
     course?: string
     specialization?: string
+    reviewed?: boolean
 }

@@ -11,6 +11,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import Typography from '@material-ui/core/Typography'
+import DoneIcon from '@material-ui/icons/Done'
 import Skeleton from '@material-ui/lab/Skeleton'
 
 import { Record } from 'types/Record'
@@ -133,7 +134,8 @@ const TranscriptList: React.FC<PropsType> = ({ semester, records, reviewSubject,
 						fullWidth
 						variant='outlined'
 						onClick={() => reviewSubject({ course: record.course, specialization: record.specialization, code: record.code, name: record.name })}
-						endIcon={<SvgIcon color='secondary' component={WriteComment} viewBox="0 0 36 36"/>}
+						startIcon={<SvgIcon color='secondary' component={WriteComment} viewBox="0 0 36 36"/>}
+						endIcon={record.reviewed ? <DoneIcon color='secondary' fontSize='small' /> : null}
 					>
 					AVALIAR
 					</Button>
