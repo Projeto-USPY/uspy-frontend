@@ -112,6 +112,7 @@ b {
 	border-radius: 20px;
 	padding: 2rem 2rem .5rem 2rem;
 	box-sizing: border-box;
+	white-space: pre-line;
 }
 
 .offering-review-balloon-locked {
