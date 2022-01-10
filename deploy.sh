@@ -20,7 +20,7 @@ get_major_minor_patch() {
 }
 
 if [ $# = 0 ] || [ "$1" = "help" ] || [ "$1" = "--help" ]; then 
-	echo "Usage: ./deploy.sh <message> [tag]"
+	echo "Usage: ./deploy.sh \"<message>\" [tag]"
 	exit 0
 fi
 

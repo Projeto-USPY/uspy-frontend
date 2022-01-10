@@ -15,6 +15,7 @@ import NativeSelect from '@material-ui/core/NativeSelect'
 import useTheme from '@material-ui/core/styles/useTheme'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import LockIcon from '@material-ui/icons/Lock'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
 
@@ -22,6 +23,7 @@ import { OfferingInfo, OfferingReview } from 'types/Offering'
 import { SubjectKey } from 'types/Subject'
 
 import api from 'API'
+import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
 import OfferingEmotesSelector from 'components/Offerings/OfferingEmotesSelector'
 import OfferingReviewInput from 'components/Offerings/OfferingReviewBox/OfferingReviewInput'
 import { useMySnackbar, useErrorDialog } from 'hooks'
@@ -47,6 +49,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 	const uspyAlert = useErrorDialog()
 
 	const theme = useTheme()
+	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const { course, specialization, code } = subject
 	const notify = useMySnackbar()
 
@@ -59,8 +62,6 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 
 	// Reset component when selected professor changes
 	useEffect(() => {
-		setComment('')
-		setRate(null)
 		setPending(false)
 		setEditing(false)
 	}, [selectedOffering])
@@ -138,7 +139,14 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 	const isLocked = editing === false && userReview !== null
 
 	return <Dialog onClose={close} open>
-		<DialogTitle style={{ backgroundColor: theme.palette.primary.main, color: 'white' }}> Avaliar {code} </DialogTitle>
+		<DialogTitle style={{ backgroundColor: theme.palette.primary.main, color: 'white' }}>
+			<CompressedTextWithTooltip
+				text={'Avaliar ' + subject.name}
+				maxCharacters={isDesktop ? 50 : 32}
+				tooltipProps={{ placement: 'top' }}
+				component={isDesktop ? 'span' : Typography}
+			/>
+		</DialogTitle>
 		<DialogContent className='pad1'>
 			<Grid
 				container
@@ -178,7 +186,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 						multiline
 						value={comment}
 						onChange={evt => handleCommentChange(evt.target.value)}
-						rows={5}
+						rows={isDesktop ? 5 : 10}
 						fullWidth
 						placeholder='Escreva seu comentário aqui...'
 						helperText={`${comment.length}/300`}

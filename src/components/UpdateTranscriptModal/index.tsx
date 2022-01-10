@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -13,6 +14,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
 import useTheme from '@material-ui/styles/useTheme'
 
+import { setLastUpdatedAccount } from 'actions'
 import api from 'API'
 import InfoModal from 'components/InfoModal'
 import PartialInput from 'components/PartialInput'
@@ -58,12 +60,19 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 		setAuthCode(values)
 	}
 
+	const dispatch = useDispatch()
 	const submit = () => {
 		setPending(true) // update is pending
 		api.updateAccount(authCodeString, captcha).then(() => {
 			notify('Histórico atualizado com sucesso', 'success')
 			setPending(false)
 			close()
+
+			api.isAuthenticated().then(([_, lastUpdated]) => {
+				dispatch(setLastUpdatedAccount(lastUpdated))
+			}).catch(err => {
+				console.error(`Error: (${err})`)
+			})
 		}).catch(err => {
 			if (err.code === 'bad_request') {
 				uspyAlert('Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')

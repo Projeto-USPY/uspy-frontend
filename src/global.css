@@ -34,6 +34,7 @@
 	min-height: 500px;
 	margin-top: -15px;
 	padding: 2rem;
+	padding-bottom: 20px;
 	position: relative;
 }
 
@@ -46,6 +47,7 @@
 @media screen and (max-width: 600px) {
 	.transcript-body {
 		padding: 2rem .5rem;
+		padding-bottom: 50px;
 	}
 }
 
@@ -69,7 +71,7 @@
 }
 
 .donut-tooltip li:nth-child(3)::before {
-	color: #DEDEDE;
+	color: #6a86a3;
 	font-weight: bolder;
 }
 b {
@@ -110,6 +112,7 @@ b {
 	border-radius: 20px;
 	padding: 2rem 2rem .5rem 2rem;
 	box-sizing: border-box;
+	white-space: pre-line;
 }
 
 .offering-review-balloon-locked {

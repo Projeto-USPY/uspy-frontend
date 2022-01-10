@@ -284,6 +284,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 																? 'Registre-se ou faça login para ter acesso às estatísticas do professor'
 																: 'Não há avaliações para este professor'
 														}
+														showQuestionMark={user === unknownUser || user === guestUser}
 													/>
 													<Button
 														fullWidth

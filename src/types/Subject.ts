@@ -7,6 +7,7 @@ export interface SubjectKey {
 	course: string
 	code: string
 	specialization: string
+	name?: string
 }
 
 export interface SubjectRequirement extends SubjectInfo {

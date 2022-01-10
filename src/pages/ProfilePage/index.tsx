@@ -27,9 +27,14 @@ export function buildURI (): string {
 }
 
 const ProfilePage = () => {
-	const [semesters, setSemesters] = useState<number[]>([])
+	const [semesters, setSemesters] = useState<number[] | null>(null)
 	const [errorMessage, setErrorMessage] = useState<string>('')
 	const [updateTranscriptModalOpen, setUpdateTranscriptModalOpen] = useState<boolean>(false)
+
+	const lastUpdatedAccount = useSelector((state: AppState) => state.lastUpdatedAccount)
+	const user = useSelector((state: AppState) => state.user)
+	console.log('Mostrando pagina de perfil de', user.name)
+
 	// get semesters where transcript has records
 	useEffect(() => {
 		api.getTranscriptYears().then(years => {
@@ -41,15 +46,13 @@ const ProfilePage = () => {
 				})
 			})
 			setSemesters(semesters)
+			if (!years.length) {
+				setErrorMessage('Nenhum registro foi encontrado. Tente atualizar o seu histórico com o botão acima!')
+			}
 		}).catch(err => {
 			setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
 		})
-	}, [])
-
-	const user = useSelector((state: AppState) => state.user)
-	const lastUpdatedAccount = useSelector((state: AppState) => state.lastUpdatedAccount)
-
-	console.log('Monstrando pagina de perfil de', user.name)
+	}, [lastUpdatedAccount])
 
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
@@ -118,7 +121,7 @@ const ProfilePage = () => {
 					<CardContent style={{ padding: isDesktop ? '16px 32px' : '0 0' }}>
 						{
 							!errorMessage
-								? semesters.length
+								? semesters
 									? <TranscriptView semesters={semesters} />
 									: null
 								: <MessagePanel message={errorMessage} height={300}/>

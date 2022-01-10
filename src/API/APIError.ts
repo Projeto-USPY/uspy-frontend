@@ -21,7 +21,6 @@ export const statusCodeToError: {[index: number]: string} = {
 	501: 'not_implemented',
 	502: 'bad_gateway',
 	503: 'service_unavailable'
-
 }
 
 export default APIError

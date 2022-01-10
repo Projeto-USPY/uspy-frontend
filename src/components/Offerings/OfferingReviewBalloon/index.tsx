@@ -126,7 +126,7 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({ review, locked = false }) 
 					{ locked
 						? <IconButton onClick={() => setIsDeleteDialogOpen(true)} size="small" style={{ margin: '0 -1rem 0 1rem' }}>
 							<Tooltip title="Deletar comentário">
-								<MyDeleteIcon/>
+								<MyDeleteIcon style={{ fontSize: '1rem' }}/>
 							</Tooltip>
 						</IconButton>
 						: null
