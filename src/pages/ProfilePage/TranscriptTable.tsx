@@ -138,7 +138,7 @@ const TranscriptTable: React.FC<PropsType> = ({ semester, records, reviewSubject
 						<IconButton onClick={() => reviewSubject({ course: record.course, specialization: record.specialization, code: record.code, name: record.name })}>
 							<SvgIcon fontSize='large' color='primary' component={WriteComment} viewBox="0 0 36 36" />
 						</IconButton>
-						{ record.reviewed ? <DoneIcon fontSize='small' color='primary' /> : <DoneIcon fontSize='small' color='primary' style={{ visibility: 'hidden' }} /> }
+						{ record.reviewed ? <DoneIcon fontSize='small' color='primary' style={{ position: 'relative', top: 5 }} /> : <DoneIcon fontSize='small' color='primary' style={{ visibility: 'hidden' }} /> }
 					</TableCell>
 				</TableRow>
 			)}
