@@ -11,6 +11,7 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import InputLabel from '@material-ui/core/InputLabel'
+import Link from '@material-ui/core/Link'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import useTheme from '@material-ui/core/styles/useTheme'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -22,14 +23,12 @@ import LockOpenIcon from '@material-ui/icons/LockOpen'
 import { OfferingInfo, OfferingReview } from 'types/Offering'
 import { SubjectKey } from 'types/Subject'
 
-import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
-
 import api from 'API'
 import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
 import OfferingEmotesSelector from 'components/Offerings/OfferingEmotesSelector'
 import OfferingReviewInput from 'components/Offerings/OfferingReviewBox/OfferingReviewInput'
 import { useMySnackbar, useErrorDialog } from 'hooks'
-import Link from '@material-ui/core/Link'
+import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 
 interface PropsType {
 	subject: SubjectKey
