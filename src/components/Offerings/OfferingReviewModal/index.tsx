@@ -22,15 +22,18 @@ import LockOpenIcon from '@material-ui/icons/LockOpen'
 import { OfferingInfo, OfferingReview } from 'types/Offering'
 import { SubjectKey } from 'types/Subject'
 
+import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
+
 import api from 'API'
 import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
 import OfferingEmotesSelector from 'components/Offerings/OfferingEmotesSelector'
 import OfferingReviewInput from 'components/Offerings/OfferingReviewBox/OfferingReviewInput'
 import { useMySnackbar, useErrorDialog } from 'hooks'
+import Link from '@material-ui/core/Link'
 
 interface PropsType {
-    subject: SubjectKey
-    close: () => void
+	subject: SubjectKey
+	close: () => void
 }
 
 const COMMENT_THRESHOLD = 10
@@ -158,7 +161,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				<Grid item xs='auto'>
 					<FormControl>
 						<InputLabel shrink htmlFor='professor-modal-selector'>
-						Professor
+							Professor
 						</InputLabel>
 						<NativeSelect
 							name="professor"
@@ -175,9 +178,9 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				</Grid>
 				<Grid container item justify='center' xs='auto'>
 					<Typography variant='caption' color='textSecondary'> Lembre-se:
-                        O USPY não se responsabiliza pelas avaliações feitas por você,
-                        porém desrespeitar ou ofender docentes podem resultar na
-                        remoção do seu comentário e banimento da sua conta.
+					O USPY não se responsabiliza pelas avaliações feitas por você,
+					porém desrespeitar ou ofender docentes podem resultar na
+					remoção do seu comentário e banimento da sua conta.
 					</Typography>
 				</Grid>
 				<Grid item xs>
@@ -192,14 +195,14 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 						helperText={`${comment.length}/300`}
 						disabled={isLocked || loadingReview}
 					/>
-					{ userReview
+					{userReview
 						? <Grid container alignItems='center' direction='row-reverse'>
 							<IconButton onClick={() => setEditing(!editing)}>
-								<Tooltip title={editing ? 'Travar avaliação' : 'Editar avaliação' }>
+								<Tooltip title={editing ? 'Travar avaliação' : 'Editar avaliação'}>
 									{
 										editing
-											? <LockOpenIcon color='primary'/>
-											: <LockIcon color='primary'/>
+											? <LockOpenIcon color='primary' />
+											: <LockIcon color='primary' />
 									}
 								</Tooltip>
 							</IconButton>
@@ -213,11 +216,16 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				<Grid item container justify='space-around' wrap='wrap'>
 					<OfferingEmotesSelector rate={rate} setRate={handleRateChange} isLocked={isLocked} />
 				</Grid>
+				<Grid item xs>
+					<Link color='secondary' href={buildOfferingsPageURI(course, specialization, code, selectedOffering)} target='_blank' style={{ fontSize: '0.875rem' }}>
+						Ver avaliações
+					</Link>
+				</Grid>
 			</Grid>
 		</DialogContent>
 		<DialogActions>
 			<Button onClick={close}>
-                Cancelar
+				Cancelar
 			</Button>
 			<Button
 				onClick={handleReviewSubmit}
