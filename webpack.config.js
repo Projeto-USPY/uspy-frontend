@@ -19,9 +19,13 @@ function buildConfig (env, argv) {
 		API_URL: argv.mode === 'development' ? 'https://dev.uspy.me' : 'https://prod.uspy.me'
 	}
 	if (env.local) {
-		envVars = dotenv.config({
-			path: path.join(__dirname, '.env')
-		}).parsed
+		envVars = Object.assign({
+				API_URL: 'http://127.0.0.1:8080'
+			},
+			dotenv.config({
+				path: path.join(__dirname, '.env')
+			}).parsed
+		)
 	}
 	const envKeys = Object.keys(envVars).reduce((prev, next) => {
 		prev[`process.env.${next}`] = JSON.stringify(envVars[next])
