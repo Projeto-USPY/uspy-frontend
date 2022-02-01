@@ -17,7 +17,7 @@ import { SubjectKey } from 'types/Subject'
 
 import api from 'API'
 import MessagePanel from 'components/MessagePanel'
-import OfferingReviewModal from 'components/Offerings/OfferingReviewModal'
+import OfferingReviewModal from 'components/offerings/OfferingReviewModal'
 import TranscriptList from 'pages/ProfilePage/TranscriptList'
 import TranscriptTable from 'pages/ProfilePage/TranscriptTable'
 import { unique } from 'utils'

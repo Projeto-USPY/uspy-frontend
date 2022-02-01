@@ -19,6 +19,7 @@ import { Record } from 'types/Record'
 import { SubjectKey } from 'types/Subject'
 
 import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
+import { VoteButtonGroup } from 'components/profile/VoteButton'
 import { ReactComponent as ReviewsIcon } from 'images/reviews.svg'
 import { ReactComponent as WriteCommentIcon } from 'images/write-comment.svg'
 import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
@@ -130,6 +131,22 @@ const TranscriptList: React.FC<PropsType> = ({ semester, records, reviewSubject,
 										{record.frequency < 70 || record.grade < 5 ? 'REPROVADO' : 'APROVADO'}
 									</RedIf>
 								</span>
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid container spacing={2} justify='center' alignItems='center'>
+						<Grid item>
+							<Typography align='center'>
+								Gostou da disciplina?
+							</Typography>
+						</Grid>
+						<Grid item style={{ height: 64 }}>
+							<Grid className='full-height' container justify='center' alignItems='center'>
+								<VoteButtonGroup
+									record={record}
+									color='secondary'
+									size='default'
+								/>
 							</Grid>
 						</Grid>
 					</Grid>

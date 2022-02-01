@@ -25,8 +25,8 @@ import { SubjectKey } from 'types/Subject'
 
 import api from 'API'
 import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
-import OfferingEmotesSelector from 'components/Offerings/OfferingEmotesSelector'
-import OfferingReviewInput from 'components/Offerings/OfferingReviewBox/OfferingReviewInput'
+import OfferingEmotesSelector from 'components/offerings/OfferingEmotesSelector'
+import OfferingReviewInput from 'components/offerings/OfferingReviewBox/OfferingReviewInput'
 import { useMySnackbar, useErrorDialog } from 'hooks'
 import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 

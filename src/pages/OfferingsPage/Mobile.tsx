@@ -10,7 +10,7 @@ import { Offering } from 'types/Offering'
 import { Subject } from 'types/Subject'
 
 import Breadcrumb from 'components/Breadcrumb'
-import OfferingReviewsPanel from 'components/Offerings/OfferingReviewsPanel'
+import OfferingReviewsPanel from 'components/offerings/OfferingReviewsPanel'
 // import OfferingsList from 'components/Offerings/OfferingsList'
 import OfferingContext from 'contexts/OfferingContext'
 import { buildURI, getBreadcrumbLinks, URLParameter } from 'pages/OfferingsPage'

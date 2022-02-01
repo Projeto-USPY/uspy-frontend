@@ -5,8 +5,8 @@ import React, { useState, useEffect, useContext } from 'react'
 import { OfferingReview } from 'types/Offering'
 
 import api from 'API'
-import OfferingReviewBox from 'components/Offerings/OfferingReviewBox'
-import OfferingReviewsFeed from 'components/Offerings/OfferingReviewsFeed'
+import OfferingReviewBox from 'components/offerings/OfferingReviewBox'
+import OfferingReviewsFeed from 'components/offerings/OfferingReviewsFeed'
 import OfferingContext from 'contexts/OfferingContext'
 import ReviewContext from 'contexts/ReviewContext'
 

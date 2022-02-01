@@ -9,7 +9,7 @@ import { OfferingReview } from 'types/Offering'
 
 // import mockReviews from '__mocks__/MockReviews'
 import api from 'API'
-import OfferingReviewBalloon from 'components/Offerings/OfferingReviewBalloon'
+import OfferingReviewBalloon from 'components/offerings/OfferingReviewBalloon'
 import OfferingContext from 'contexts/OfferingContext'
 import ReviewContext from 'contexts/ReviewContext'
 
