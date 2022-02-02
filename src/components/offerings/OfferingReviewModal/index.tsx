@@ -36,7 +36,7 @@ interface PropsType {
 }
 
 const COMMENT_THRESHOLD = 10
-const COMMENT_LIMIT = 300
+const COMMENT_LIMIT = 500
 
 const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 	const [loadingReview, setLoadingReview] = useState<boolean>(false)

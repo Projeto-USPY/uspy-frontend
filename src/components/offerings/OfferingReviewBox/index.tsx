@@ -23,7 +23,7 @@ import ReviewContext from 'contexts/ReviewContext'
 import { useErrorDialog, useMySnackbar } from 'hooks'
 
 const COMMENT_THRESHOLD = 10
-const COMMENT_LIMIT = 300
+const COMMENT_LIMIT = 500
 
 const OfferingReviewBox = () => {
 	const theme = useTheme()
