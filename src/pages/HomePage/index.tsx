@@ -21,6 +21,15 @@ export function buildURI (): string {
 	return '/'
 }
 
+export function getMeta (): any {
+	return {
+		title: 'USPY',
+		description: `Procure por disciplinas e veja seus oferecimentos, requisitos, distribuição de médias, e muito mais.
+Avalie professores, veja seu histórico escolar, tudo em uma plataforma centralizada e fácil de usar!`,
+		robots: ['index', 'follow']
+	}
+}
+
 const HomePage = () => {
 	const theme = useTheme()
 	const isLarge = useMediaQuery(theme.breakpoints.up('sm'))

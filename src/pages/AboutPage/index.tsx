@@ -73,6 +73,14 @@ const Row: React.FC<RowProps> = ({ title, text, image, imageLeft }) => {
 	</Paper>
 }
 
+export function getMeta (): any {
+	return {
+		title: 'Sobre o USPY',
+		description: 'Leia sobre por que o USPY foi criado e como se tornar um usuário.',
+		robots: ['index', 'follow']
+	}
+}
+
 export function buildURI (): string {
 	return '/sobre'
 }

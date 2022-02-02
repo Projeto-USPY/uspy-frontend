@@ -13,9 +13,9 @@ import { setUser, setLastUpdatedAccount, uspyAlert } from 'actions'
 import api from 'API'
 import ErrorDialog from 'components/ErrorDialog'
 import { SnackbarProvider } from 'notistack'
-import AboutPage, { buildURI as buildAboutPageURI } from 'pages/AboutPage'
+import AboutPage, { buildURI as buildAboutPageURI, getMeta as getAboutPageMeta } from 'pages/AboutPage'
 import AccountActivationPage, { buildURI as buildAccountActivationPageURI } from 'pages/AccountActivationPage'
-import HomePage, { buildURI as buildHomePageURI } from 'pages/HomePage'
+import HomePage, { buildURI as buildHomePageURI, getMeta as getHomePageMeta } from 'pages/HomePage'
 import LoginPage, { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import NotFoundPage from 'pages/NotFoundPage'
 import OfferingsPage, { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
@@ -23,13 +23,14 @@ import PasswordResetPage, { buildURI as buildPasswordResetPageURI } from 'pages/
 import ProfilePage, { buildURI as buildProfilePageURI } from 'pages/ProfilePage'
 import RegisterPage, { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
 import SettingsPage, { buildURI as buildSettingsPageURI } from 'pages/SettingsPage'
-import SubjectPage, { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
-import SubjectsPage, { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
+import SubjectPage, { buildURI as buildSubjectPageURI, getMeta as getSubjectPageMeta } from 'pages/SubjectPage'
+import SubjectsPage, { buildURI as buildSubjectsPageURI, getMeta as getSubjectsPageMeta } from 'pages/SubjectsPage'
 import TeachersPage, { buildURI as buildTeachersPageURI } from 'pages/TeachersPage'
 import UseTermsPage, { buildURI as buildUseTermsPageURI } from 'pages/UseTermsPage'
 import reducer from 'reducer'
 import LoggedInRoute from 'routes/LoggedInRoute'
 import LoggedOutRoute from 'routes/LoggedOutRoute'
+import WithMetaRoute from 'routes/WithMetaRoute'
 import theme from 'theme'
 
 // CSS
@@ -94,15 +95,15 @@ const App = () => {
 							<LoggedOutRoute exact path={buildLoginPageURI()} component={LoginPage}/>
 							<LoggedOutRoute exact path={buildRegisterPageURI()} component={RegisterPage}/>
 							<Route exact path={buildTeachersPageURI()} component={TeachersPage}/>
-							<Route exact path={buildSubjectsPageURI()} component={SubjectsPage}/>
+							<WithMetaRoute exact path={buildSubjectsPageURI()} component={SubjectsPage} {...getSubjectsPageMeta()}/>
 							<LoggedOutRoute exact path={buildPasswordResetPageURI()} component={PasswordResetPage}/>
 							<LoggedInRoute exact path={buildSettingsPageURI()} component={SettingsPage}/>
 							<LoggedInRoute exact path={buildProfilePageURI()} component={ProfilePage}/>
-							<Route exact path={buildAboutPageURI()} component={AboutPage}/>
+							<WithMetaRoute exact path={buildAboutPageURI()} component={AboutPage} {...getAboutPageMeta()}/>
 							<Route exact path={buildUseTermsPageURI()} component={UseTermsPage}/>
-							<Route exact path={buildSubjectPageURI(':course', ':specialization', ':code')} component={SubjectPage}/>
+							<WithMetaRoute exact path={buildSubjectPageURI(':course', ':specialization', ':code')} component={SubjectPage} {...getSubjectPageMeta()} />
 							<LoggedInRoute exact path={buildOfferingsPageURI(':course', ':specialization', ':code')} component={OfferingsPage}/>
-							<Route exact path={buildHomePageURI()} component={HomePage}/>
+							<WithMetaRoute exact path={buildHomePageURI()} component={HomePage} {...getHomePageMeta()}/>
 							<Route exact path={buildAccountActivationPageURI()} component={AccountActivationPage}/>
 							<Route path='/' component={NotFoundPage}/>
 						</Switch>

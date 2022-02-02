@@ -86,6 +86,14 @@ export function buildURI (): string {
 	return '/disciplinas'
 }
 
+export function getMeta (): any {
+	return {
+		title: 'USPY - Disciplinas',
+		description: 'Explore os cursos e disciplinas disponíveis no USPY',
+		robots: ['index', 'follow']
+	}
+}
+
 const SubjectList: React.FC<SubjectListProps> = ({ arr, sortByCode }) => {
 	const [open, setOpen] = useState<boolean>(false)
 
