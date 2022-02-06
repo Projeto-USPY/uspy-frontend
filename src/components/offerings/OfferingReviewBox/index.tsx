@@ -17,7 +17,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen'
 
 import api from 'API'
 import OfferingEmotesSelector from 'components/offerings/OfferingEmotesSelector'
-import OfferingReviewInput from 'components/offerings/OfferingReviewBox/OfferingReviewInput'
+import OfferingReviewInput from 'components/offerings/OfferingReviewInput'
 import OfferingContext from 'contexts/OfferingContext'
 import ReviewContext from 'contexts/ReviewContext'
 import { useErrorDialog, useMySnackbar } from 'hooks'
@@ -55,9 +55,7 @@ const OfferingReviewBox = () => {
 	}, [professor])
 
 	const handleCommentChange = (s: string) => {
-		if (s.length <= COMMENT_LIMIT) {
-			setComment(s)
-		}
+		setComment(s)
 	}
 
 	const handleRateChange = (x: number) => {
@@ -126,14 +124,11 @@ const OfferingReviewBox = () => {
 					</Grid>
 					<Grid item xs>
 						<OfferingReviewInput
-							InputProps={{ disableUnderline: true }}
-							multiline
-							value={comment}
-							onChange={evt => handleCommentChange(evt.target.value)}
-							rows={isDesktop ? 5 : 10}
-							fullWidth
+							content={comment}
+							onChange={s => handleCommentChange(s)}
+							rows={isDesktop ? 6 : 12}
+							limit={COMMENT_LIMIT}
 							placeholder='Escreva seu comentário aqui...'
-							helperText={`${comment.length}/300`}
 							disabled={isLocked}
 						/>
 						{ review
@@ -163,7 +158,7 @@ const OfferingReviewBox = () => {
 									color="primary"
 									size="large"
 									variant="contained"
-									disabled={rate === null || comment.length < COMMENT_THRESHOLD || isLocked || (comment === review?.body && rate === review?.rating)}
+									disabled={rate === null || comment.length < COMMENT_THRESHOLD || comment.length > COMMENT_LIMIT || isLocked || (comment === review?.body && rate === review?.rating)}
 									onClick={handleReviewSubmit}
 								>
 									{
@@ -186,7 +181,7 @@ const OfferingReviewBox = () => {
 					color="primary"
 					size="large"
 					variant="contained"
-					disabled={rate === null || comment.length < COMMENT_THRESHOLD || isLocked || (comment === review?.body && rate === review?.rating)}
+					disabled={rate === null || comment.length < COMMENT_THRESHOLD || comment.length > COMMENT_LIMIT || isLocked || (comment === review?.body && rate === review?.rating)}
 					onClick={handleReviewSubmit}
 					style={{ height: 40 }}
 				>

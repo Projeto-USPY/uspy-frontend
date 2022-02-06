@@ -26,7 +26,7 @@ import { SubjectKey } from 'types/Subject'
 import api from 'API'
 import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
 import OfferingEmotesSelector from 'components/offerings/OfferingEmotesSelector'
-import OfferingReviewInput from 'components/offerings/OfferingReviewBox/OfferingReviewInput'
+import OfferingReviewInput from 'components/offerings/OfferingReviewInput'
 import { useMySnackbar, useErrorDialog } from 'hooks'
 import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 
@@ -103,9 +103,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 	}, [course, specialization, code, selectedOffering])
 
 	const handleCommentChange = (s: string) => {
-		if (s.length <= COMMENT_LIMIT) {
-			setComment(s)
-		}
+		setComment(s)
 	}
 
 	const handleRateChange = (x: number) => {
@@ -184,14 +182,11 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				</Grid>
 				<Grid item xs>
 					<OfferingReviewInput
-						InputProps={{ disableUnderline: true }}
-						multiline
-						value={comment}
-						onChange={evt => handleCommentChange(evt.target.value)}
-						rows={isDesktop ? 5 : 10}
-						fullWidth
+						content={comment}
+						onChange={s => handleCommentChange(s)}
+						rows={isDesktop ? 6 : 12}
+						limit={500}
 						placeholder='Escreva seu comentário aqui...'
-						helperText={`${comment.length}/300`}
 						disabled={isLocked || loadingReview}
 					/>
 					{userReview
@@ -228,7 +223,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 			</Button>
 			<Button
 				onClick={handleReviewSubmit}
-				disabled={rate === null || comment.length < COMMENT_THRESHOLD || (comment === userReview?.body && rate === userReview?.rating)}
+				disabled={rate === null || comment.length < COMMENT_THRESHOLD || comment.length > COMMENT_LIMIT || (comment === userReview?.body && rate === userReview?.rating)}
 				endIcon={pending ? <CircularProgress size={20} /> : null}
 			>
 				{userReview === null ? 'ENVIAR' : 'EDITAR'}
