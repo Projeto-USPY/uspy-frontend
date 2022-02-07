@@ -35,7 +35,7 @@ const OfferingReviewInput: React.FC<PropsType> = ({ content, limit, rows, onChan
 		>
 			{content}
 		</div>
-		, [disabled, disabled ? content : ''])}
+		, [disabled, disabled ? content : '', rows])}
 		<div ref={ref2} style={style} className="highlight-mirror">
 			{content.substr(0, limit)}
 			<span>{content.substr(limit)}</span>
