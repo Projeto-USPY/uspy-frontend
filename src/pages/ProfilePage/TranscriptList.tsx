@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import Button from '@material-ui/core/Button'
 import Collapse from '@material-ui/core/Collapse'
@@ -18,7 +19,10 @@ import { Record } from 'types/Record'
 import { SubjectKey } from 'types/Subject'
 
 import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
-import { ReactComponent as WriteComment } from 'images/write-comment.svg'
+import { VoteButtonGroup } from 'components/profile/VoteButton'
+import { ReactComponent as ReviewsIcon } from 'images/reviews.svg'
+import { ReactComponent as WriteCommentIcon } from 'images/write-comment.svg'
+import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 
 interface PropsType {
@@ -56,6 +60,8 @@ function RedIf ({ condition, children } : {condition: boolean, children: React.R
 
 const TranscriptList: React.FC<PropsType> = ({ semester, records, reviewSubject, loading = false }) => {
 	const [selectedRow, setSelectedRow] = useState<number | null>(null)
+
+	const history = useHistory()
 
 	// reset on semester change
 	useEffect(() => {
@@ -128,17 +134,49 @@ const TranscriptList: React.FC<PropsType> = ({ semester, records, reviewSubject,
 							</Grid>
 						</Grid>
 					</Grid>
-					<Button
-						color='secondary'
-						size='medium'
-						fullWidth
-						variant='outlined'
-						onClick={() => reviewSubject({ course: record.course, specialization: record.specialization, code: record.code, name: record.name })}
-						startIcon={<SvgIcon color='secondary' component={WriteComment} viewBox="0 0 36 36"/>}
-						endIcon={record.reviewed ? <DoneIcon color='secondary' fontSize='small' style={{ position: 'relative', bottom: 2 }} /> : null}
-					>
-					AVALIAR
-					</Button>
+					<Grid container spacing={2} justify='center' alignItems='center'>
+						<Grid item>
+							<Typography align='center'>
+								Gostou da disciplina?
+							</Typography>
+						</Grid>
+						<Grid item style={{ height: 64 }}>
+							<Grid className='full-height' container justify='center' alignItems='center'>
+								<VoteButtonGroup
+									record={record}
+									color='secondary'
+									size='default'
+								/>
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid container spacing={2}>
+						<Grid item xs={6}>
+							<Button
+								color='secondary'
+								size='medium'
+								fullWidth
+								variant='outlined'
+								onClick={() => history.push(buildOfferingsPageURI(record.course, record.specialization, record.code))}
+								startIcon={<SvgIcon color='secondary' component={ReviewsIcon} viewBox="0 0 24 24"/>}
+							>
+							AVALIAÇÕES
+							</Button>
+						</Grid>
+						<Grid item xs={6}>
+							<Button
+								color='secondary'
+								size='medium'
+								fullWidth
+								variant='outlined'
+								onClick={() => reviewSubject({ course: record.course, specialization: record.specialization, code: record.code, name: record.name })}
+								startIcon={<SvgIcon color='secondary' component={WriteCommentIcon} viewBox="5 5 32 32"/>}
+								endIcon={record.reviewed ? <DoneIcon color='secondary' fontSize='small' style={{ position: 'relative', bottom: 2 }} /> : null}
+							>
+							AVALIAR
+							</Button>
+						</Grid>
+					</Grid>
 					<p/>
 				</Collapse>
 				<Divider variant='fullWidth' component='li' />

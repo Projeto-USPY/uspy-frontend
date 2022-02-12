@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import MuiAccordion from '@material-ui/core/Accordion'
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails'
@@ -65,16 +65,10 @@ const AccordionDetails = withStyles((theme) => ({
 	}
 }))(MuiAccordionDetails)
 
-const MyListItem = withStyles(theme => ({
-	root: {
-		borderBottom: '1px solid #adadad'
-	}
-}))(ListItem)
-
-function renderRow (course: string, specialization: string, subject: SubjectInfo, clickCallback: Function) {
-	return <MyListItem button key={subject.code} onClick={() => clickCallback(course, specialization, subject.code)}>
+function renderRow (course: string, specialization: string, subject: SubjectInfo) {
+	return <ListItem button key={subject.code} style={{ borderBottom: '1px solid #adadad' }} component={Link} to={buildSubjectPageURI(course, specialization, subject.code)}>
 		<ListItemText primary={subject.code + ' - ' + subject.name} disableTypography/>
-	</MyListItem>
+	</ListItem>
 }
 
 interface SubjectListProps {
@@ -86,13 +80,16 @@ export function buildURI (): string {
 	return '/disciplinas'
 }
 
+export function getMeta (): any {
+	return {
+		title: 'USPY - Disciplinas',
+		description: 'Explore os cursos e disciplinas disponíveis no USPY',
+		robots: ['index', 'follow']
+	}
+}
+
 const SubjectList: React.FC<SubjectListProps> = ({ arr, sortByCode }) => {
 	const [open, setOpen] = useState<boolean>(false)
-
-	const history = useHistory()
-	const clickItem = (courseCode: string, courseSpecialization: string, code: string) => {
-		history.push(buildSubjectPageURI(courseCode, courseSpecialization, code))
-	}
 
 	const getList = (course: CourseWithSubjects, sortByCode: boolean) => {
 		const code = course.code
@@ -104,7 +101,7 @@ const SubjectList: React.FC<SubjectListProps> = ({ arr, sortByCode }) => {
 				return s1.name < s2.name ? -1 : s1.name === s2.name ? 0 : 1
 			}
 		})
-		return course.subjects.map(s => renderRow(code, specialization, s, clickItem))
+		return course.subjects.map(s => renderRow(code, specialization, s))
 	}
 
 	const listByCode = useMemo(() => getList(arr, true), [])

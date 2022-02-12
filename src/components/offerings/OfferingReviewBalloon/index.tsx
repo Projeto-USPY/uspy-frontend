@@ -18,7 +18,7 @@ import withStyles from '@material-ui/styles/withStyles'
 import { OfferingReview } from 'types/Offering'
 
 import api from 'API'
-import OfferingReviewReportDialog from 'components/Offerings/OfferingReviewReportDialog'
+import OfferingReviewReportDialog from 'components/offerings/OfferingReviewReportDialog'
 import VoteButton from 'components/VoteButton'
 import OfferingContext from 'contexts/OfferingContext'
 import ReviewContext from 'contexts/ReviewContext'

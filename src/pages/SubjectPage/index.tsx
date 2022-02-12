@@ -21,8 +21,9 @@ import BreadCrumb from 'components/Breadcrumb'
 import CollapsibleText from 'components/CollapsibleText'
 import ErrorScreen from 'components/ErrorScreen'
 import MessagePanel from 'components/MessagePanel'
+import MetaInfo from 'components/MetaInfo'
 import Navbar from 'components/Navbar'
-import OfferingsList from 'components/Offerings/OfferingsList'
+import OfferingsList from 'components/offerings/OfferingsList'
 import RequirementsGraph from 'components/RequirementsGraph'
 import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
@@ -90,6 +91,14 @@ function getRecommendationRate (recommend: number, total: number) {
 
 export function buildURI (courseCode: string, courseSpecialization: string, subjectCode: string): string {
 	return `/disciplinas/${courseCode}/${courseSpecialization}/${subjectCode}`
+}
+
+export function getMeta (): any {
+	return {
+		title: 'USPY',
+		description: 'Veja a disciplina, seus requisitos, créditos, oferecimentos, médias e avalie-a!',
+		robots: ['index', 'follow']
+	}
 }
 
 interface PropsType {
@@ -364,6 +373,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 	return <div className='main'>
 		<main>
 			<Navbar/>
+			{subject ? <MetaInfo title={subject.name}/> : null}
 			<div style={{ height: '64px' }}></div>
 			{
 				errorMessage

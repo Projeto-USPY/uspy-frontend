@@ -16,7 +16,7 @@ function transformSubjects (subjects: any): SubjectInfo[] {
 let data: CourseWithSubjects[]
 function getData (setter: Function) {
 	if (!data) {
-		client().get('/api/subject/all').then((res: any) => {
+		client().get('/api/subject/all?institute=55').then((res: any) => {
 			data = res.data.map((course: any) => ({
 				...course,
 				subjects: transformSubjects(course.subjects)

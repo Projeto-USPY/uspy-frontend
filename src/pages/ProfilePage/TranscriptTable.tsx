@@ -17,6 +17,7 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import { Record } from 'types/Record'
 import { SubjectKey } from 'types/Subject'
 
+import { VoteButtonGroup } from 'components/profile/VoteButton'
 import { ReactComponent as WriteComment } from 'images/write-comment.svg'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 
@@ -102,6 +103,9 @@ const TranscriptTable: React.FC<PropsType> = ({ semester, records, reviewSubject
 				<TableCell align='center'>
 					Frequência
 				</TableCell>
+				<TableCell align='center'>
+					Votar
+				</TableCell>
 				<TableCell/>
 			</TableRow>
 		</TableHead>
@@ -134,7 +138,10 @@ const TranscriptTable: React.FC<PropsType> = ({ semester, records, reviewSubject
 							{record.frequency}%
 						</RedIf>
 					</TableCell>
-					<TableCell align='right'>
+					<TableCell align='center' style={{ whiteSpace: 'nowrap' }}>
+						<VoteButtonGroup record={record}/>
+					</TableCell>
+					<TableCell align='right' style={{ whiteSpace: 'nowrap' }}>
 						<IconButton onClick={() => reviewSubject({ course: record.course, specialization: record.specialization, code: record.code, name: record.name })}>
 							<SvgIcon fontSize='large' color='primary' component={WriteComment} viewBox="0 0 36 36" />
 						</IconButton>

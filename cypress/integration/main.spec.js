@@ -15,7 +15,7 @@ const apiURL = Cypress.env('API_URL')
 
 describe('Home Page', () => {
 	beforeEach(() => {
-		cy.intercept(apiURL + '/api/subject/all').as('getAllSubjects')
+		cy.intercept(apiURL + '/api/subject/all*').as('getAllSubjects')
 		cy.visit('/')
 		cy.wait('@getAllSubjects')
 	})

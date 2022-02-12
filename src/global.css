@@ -84,7 +84,7 @@ b {
 	overflow-y: auto;
 	overflow-x: hidden;
 	height: calc(100% - 42px);
-	z-index: 1;
+	z-index: 3;
 }
 
 .mobile-offering-selector-button {
@@ -93,7 +93,7 @@ b {
 	height: 42px;
 	display: flex;
 	align-items: center;
-	z-index: 1;
+	z-index: 3;
 }
 
 .offering-reviews-feed {
@@ -145,7 +145,7 @@ b {
 	position: sticky;
 	top: 0px;
 	background-color: #A77BC3;
-	z-index: 1;
+	z-index: 3;
 }
 
 .offering-review-form-accordion-content {

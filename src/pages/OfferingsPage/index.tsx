@@ -86,9 +86,9 @@ const OfferingsPage = () => {
 	if (!selectedOffering && offerings?.length) selectedOffering = offerings[0]
 
 	return <div className="main">
-		<Navbar/>
+		<Navbar />
 		<Grid container direction='column' className='full-height' wrap='nowrap'>
-			<Grid item xs="auto" style={{ minHeight: '72px' }}/>
+			<Grid item xs="auto" style={{ minHeight: '72px' }} />
 			<Grid item xs>
 				{
 					errorMessage

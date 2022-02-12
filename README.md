@@ -97,9 +97,9 @@ Although it looks good, the website is still not able to communicate with the ba
 
 See [USPY Backend - Running locally](https://github.com/Projeto-USPY/uspy-backend/tree/local_development#running-locally) to learn how to put it up.
 
-You will also have to create a `.env` with your backend URL:
+By default, it communicates with the backend running at port 8080 of your localhost. If you wish to change it, you can create a `.env` with your backend URL:
 ```sh
-echo 'API_URL=http://127.0.0.1:8080' > .env
+echo 'API_URL=http://127.0.0.1:<port number>' > .env
 ``` 
 
 Have it running at the same time you run your frontend and they should communicate gracefully, as long as you set the `API_URL` correctly (with the same port used by the backend) and visit 127.0.0.1 in your browser instead of localhost.

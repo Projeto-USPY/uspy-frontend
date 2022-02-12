@@ -33,6 +33,11 @@ fi
 
 MESSAGE="$1"
 
+
+git pull --rebase
+if [ "$?" != "0" ]; then
+	git checkout $MASTER_BRANCH || exit 1
+fi
 # get the tag
 TAG=$(git describe --tags --abbrev=0)
 

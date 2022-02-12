@@ -5,7 +5,7 @@ import Slide from '@material-ui/core/Slide'
 
 import { Offering } from 'types/Offering'
 
-import OfferingsList from 'components/Offerings/OfferingsList'
+import OfferingsList from 'components/offerings/OfferingsList'
 // import Grid from '@material-ui/core/Grid'
 
 interface PropsType {

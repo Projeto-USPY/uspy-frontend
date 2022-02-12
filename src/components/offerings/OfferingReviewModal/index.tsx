@@ -11,6 +11,7 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import InputLabel from '@material-ui/core/InputLabel'
+import Link from '@material-ui/core/Link'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import useTheme from '@material-ui/core/styles/useTheme'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -24,17 +25,18 @@ import { SubjectKey } from 'types/Subject'
 
 import api from 'API'
 import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
-import OfferingEmotesSelector from 'components/Offerings/OfferingEmotesSelector'
-import OfferingReviewInput from 'components/Offerings/OfferingReviewBox/OfferingReviewInput'
+import OfferingEmotesSelector from 'components/offerings/OfferingEmotesSelector'
+import OfferingReviewInput from 'components/offerings/OfferingReviewInput'
 import { useMySnackbar, useErrorDialog } from 'hooks'
+import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 
 interface PropsType {
-    subject: SubjectKey
-    close: () => void
+	subject: SubjectKey
+	close: () => void
 }
 
 const COMMENT_THRESHOLD = 10
-const COMMENT_LIMIT = 300
+const COMMENT_LIMIT = 500
 
 const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 	const [loadingReview, setLoadingReview] = useState<boolean>(false)
@@ -101,9 +103,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 	}, [course, specialization, code, selectedOffering])
 
 	const handleCommentChange = (s: string) => {
-		if (s.length <= COMMENT_LIMIT) {
-			setComment(s)
-		}
+		setComment(s)
 	}
 
 	const handleRateChange = (x: number) => {
@@ -158,7 +158,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				<Grid item xs='auto'>
 					<FormControl>
 						<InputLabel shrink htmlFor='professor-modal-selector'>
-						Professor
+							Professor
 						</InputLabel>
 						<NativeSelect
 							name="professor"
@@ -175,31 +175,28 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				</Grid>
 				<Grid container item justify='center' xs='auto'>
 					<Typography variant='caption' color='textSecondary'> Lembre-se:
-                        O USPY não se responsabiliza pelas avaliações feitas por você,
-                        porém desrespeitar ou ofender docentes podem resultar na
-                        remoção do seu comentário e banimento da sua conta.
+					O USPY não se responsabiliza pelas avaliações feitas por você,
+					porém desrespeitar ou ofender docentes podem resultar na
+					remoção do seu comentário e banimento da sua conta.
 					</Typography>
 				</Grid>
 				<Grid item xs>
 					<OfferingReviewInput
-						InputProps={{ disableUnderline: true }}
-						multiline
-						value={comment}
-						onChange={evt => handleCommentChange(evt.target.value)}
-						rows={isDesktop ? 5 : 10}
-						fullWidth
+						content={comment}
+						onChange={s => handleCommentChange(s)}
+						rows={isDesktop ? 6 : 12}
+						limit={500}
 						placeholder='Escreva seu comentário aqui...'
-						helperText={`${comment.length}/300`}
 						disabled={isLocked || loadingReview}
 					/>
-					{ userReview
+					{userReview
 						? <Grid container alignItems='center' direction='row-reverse'>
 							<IconButton onClick={() => setEditing(!editing)}>
-								<Tooltip title={editing ? 'Travar avaliação' : 'Editar avaliação' }>
+								<Tooltip title={editing ? 'Travar avaliação' : 'Editar avaliação'}>
 									{
 										editing
-											? <LockOpenIcon color='primary'/>
-											: <LockIcon color='primary'/>
+											? <LockOpenIcon color='primary' />
+											: <LockIcon color='primary' />
 									}
 								</Tooltip>
 							</IconButton>
@@ -213,15 +210,20 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				<Grid item container justify='space-around' wrap='wrap'>
 					<OfferingEmotesSelector rate={rate} setRate={handleRateChange} isLocked={isLocked} />
 				</Grid>
+				<Grid item xs>
+					<Link color='secondary' href={buildOfferingsPageURI(course, specialization, code, selectedOffering)} target='_blank' style={{ fontSize: '0.875rem' }}>
+						Ver avaliações
+					</Link>
+				</Grid>
 			</Grid>
 		</DialogContent>
 		<DialogActions>
 			<Button onClick={close}>
-                Cancelar
+				Cancelar
 			</Button>
 			<Button
 				onClick={handleReviewSubmit}
-				disabled={rate === null || comment.length < COMMENT_THRESHOLD || (comment === userReview?.body && rate === userReview?.rating)}
+				disabled={rate === null || comment.length < COMMENT_THRESHOLD || comment.length > COMMENT_LIMIT || (comment === userReview?.body && rate === userReview?.rating)}
 				endIcon={pending ? <CircularProgress size={20} /> : null}
 			>
 				{userReview === null ? 'ENVIAR' : 'EDITAR'}

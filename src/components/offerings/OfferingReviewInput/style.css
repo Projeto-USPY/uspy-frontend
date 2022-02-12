@@ -1,0 +1,108 @@
+
+
+.offering-review-input-wrapper {
+	border: 1px solid #e2e2e1;
+	padding: 1rem;
+	border-radius: 10px;
+	position: relative;
+
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-size: 1rem;
+	font-stretch: 100%;
+	font-weight: 400;
+	color: rgba(0, 0, 0, 0.87);
+
+	line-height: 1.1876em;
+	letter-spacing: 0.15008px;
+
+	background-color: #f6f6f6;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+
+.offering-review-input-wrapper div {
+	box-sizing: border-box;
+	outline: none;
+	overflow-y: scroll;
+
+	position: relative;
+	text-transform: none;
+	text-indent: 0px;
+	text-shadow: none;
+	text-align: start;
+	appearance: auto;
+	-webkit-rtl-ordering: logical;
+	user-select: text;
+	column-count: initial !important;
+	word-spacing: normal;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+	z-index: 2;
+}
+
+.offering-review-input-wrapper div[contenteditable=true] {
+	cursor: text;
+	-webkit-writing-mode: horizontal-tb !important;
+	writing-mode: horizontal-tb !important;
+	-webkit-user-modify: read-write-plaintext-only;
+}
+
+
+.offering-review-input-wrapper div::-webkit-scrollbar {
+	display: none;
+}
+
+.offering-review-input-wrapper div.highlight-mirror {
+	min-width: 0;
+	vertical-align: top;
+
+	position: absolute;
+
+	top: 1rem;
+	left: 1rem;
+	right: 1rem;
+	bottom: 1rem;
+
+	color: transparent !important;
+
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+	z-index: 1;
+}
+
+.offering-review-input-wrapper div.placeholder {
+	position: absolute;
+
+	top: 1rem;
+	left: 1rem;
+	right: 1rem;
+	bottom: 1rem;
+
+	color: rgba(0, 0, 0, 0.753);
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+
+	z-index: 1;
+}
+
+.offering-review-input-wrapper div.highlight-mirror::-webkit-scrollbar {
+	display: none;
+}
+
+
+.offering-review-input-wrapper div.highlight-mirror span {
+	background-color: rgb(251, 159, 168);
+}
+

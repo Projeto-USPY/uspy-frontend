@@ -10,7 +10,7 @@ function unique (arr: string[]): string[] {
 let data: string[] = null
 function getData (setter: Function) {
 	if (data == null) {
-		client().get('/api/subject/all').then((res: any) => {
+		client().get('/api/subject/all?institute=55').then((res: any) => {
 			data = res.data.reduce((cur: string[], course: any) => {
 				return [...cur, ...Object.keys(course.subjects).map((val, idx) => ({
 					course: course.code,
