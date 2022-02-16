@@ -44,18 +44,16 @@ const HomePage = () => {
 			<div style={{ height: '64px' }}></div>
 		</Grid>
 		<Grid item container direction='column' justify='center' alignItems='stretch' xs>
-			<Grid item>
-				<Container>
-					<center><img width={isLarge ? 350 : '75%'} src={logo}/></center>
-					{/* <Typography align='justify' variant='body1'>O {'<placeholder nome>'} é um sistema colaborativo em que você pode consultar estatísticas e reviews sobre disciplinas e professores do ICMC. Para colaborar, você deve submeter um PDF do seu resumo escolar, mas fique tranquilo, todos os dados são anônimos, criptografados e armazenados sigilosamente. Para começar, inscreva-se com seu email USP, ou faça login.</Typography> */}
-					{withSearchData(<GeneralSearch handleChange={clickItem} />)}
+			<Container>
+				<img width={isLarge ? 350 : '75%'} style={{ display: 'block', margin: '0 auto' }} src={logo}/>
+				{/* <Typography align='justify' variant='body1'>O {'<placeholder nome>'} é um sistema colaborativo em que você pode consultar estatísticas e reviews sobre disciplinas e professores do ICMC. Para colaborar, você deve submeter um PDF do seu resumo escolar, mas fique tranquilo, todos os dados são anônimos, criptografados e armazenados sigilosamente. Para começar, inscreva-se com seu email USP, ou faça login.</Typography> */}
+				{withSearchData(<GeneralSearch handleChange={clickItem} />)}
 
-					<div className='other-links'>
-						{/* <Link to={buildTeachersPageURI()}> <Typography variant='caption' color='secondary'>Ver lista de professores</Typography> </Link> */}
-						<Link to={buildSubjectsPageURI()}> <Typography variant='caption' color='secondary'>Ver lista de disciplinas</Typography> </Link>
-					</div>
-				</Container>
-			</Grid>
+				<div className='other-links'>
+					{/* <Link to={buildTeachersPageURI()}> <Typography variant='caption' color='secondary'>Ver lista de professores</Typography> </Link> */}
+					<Link to={buildSubjectsPageURI()}> <Typography variant='caption' color='secondary'>Ver lista de disciplinas</Typography> </Link>
+				</div>
+			</Container>
 		</Grid>
 		<Grid item>
 			<Footer/>
