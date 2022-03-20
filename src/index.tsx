@@ -31,11 +31,12 @@ import reducer from 'reducer'
 import LoggedInRoute from 'routes/LoggedInRoute'
 import LoggedOutRoute from 'routes/LoggedOutRoute'
 import WithMetaRoute from 'routes/WithMetaRoute'
+import smoothscroll from 'smoothscroll-polyfill'
 import theme from 'theme'
-
 // CSS
 import 'global.css'
 
+smoothscroll.polyfill()
 const store = createStore(reducer)
 
 function checkUserExists () {
