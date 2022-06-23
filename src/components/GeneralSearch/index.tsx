@@ -1,25 +1,40 @@
-import React, { useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import TextField from '@material-ui/core/TextField'
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete'
-import { matchSorter } from 'match-sorter'
+import Autocomplete from '@material-ui/lab/Autocomplete'
 
-import { SearchDataContext } from 'HOCs/withSearchData'
+import { CourseComplete } from 'types/Course'
+
+import api from 'API'
+import { matchSorter } from 'match-sorter'
 import { getCourseAlias } from 'utils'
 
 interface GeneralSearchInputProps {
+	course: [string, string]
+	institute: string
 	handleChange: Function
 }
 
-const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
-	const options = useContext(SearchDataContext)
+const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ course, institute, handleChange }) => {
+	const [keys, setKeys] = useState([])
+	useEffect(() => {
+		const [courseCode, specializationCode] = course
+		api.getCourseComplete(institute, courseCode, specializationCode).then((res : CourseComplete) => {
+			const data = Object.keys(res.subjects).map((val) => ({
+				course: res.code,
+				specialization: res.specialization,
+				code: val,
+				name: res.subjects[val]
+			}))
+			setKeys(data)
+		})
+	}, [course, institute])
 
 	const getOptionLabel = (opt: any) => {
 		if (!opt.code) return opt
 		return opt.code + ' - ' + opt.name + ` (${getCourseAlias(opt.course, opt.specialization)})`
 	}
 
-	const defaultFilterOptions = createFilterOptions<string>()
 	const autocompleteFilterOptions = (options: string[], { inputValue }: any) => {
 		if (inputValue === '') return [] as string[] // so it doesnt show up on empty query
 
@@ -27,12 +42,6 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	}
 
 	const onChange = (evt: any, value: any) => {
-		if (typeof value !== 'object') {
-			const firstOption = defaultFilterOptions(options, { inputValue: value, getOptionLabel })[0]
-			if (firstOption) handleChange(firstOption.course, firstOption.specialization, firstOption.code)
-			evt.preventDefault()
-			return false
-		}
 		handleChange(value.course, value.specialization, value.code)
 	}
 
@@ -43,7 +52,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 		freeSolo
 		className="inputfield"
 
-		options={options}
+		options={keys}
 		openOnFocus={false}
 		onChange={onChange}
 		getOptionLabel={getOptionLabel}
