@@ -1,8 +1,8 @@
 
-import { Course } from 'types/Course'
+import { Institute, Course, CourseComplete } from 'types/Course'
 import { Offering, OfferingReview, OfferingReviewVote } from 'types/Offering'
 import { Record } from 'types/Record'
-import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
+import { Subject, SubjectKey, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { guestUser, User } from 'types/User'
 
 import APIError, { statusCodeToError } from 'API/APIError'
@@ -60,6 +60,31 @@ class APIClient {
 			}
 		})
 		return data as Subject
+	}
+
+	async getInstitutes (): Promise<Institute[]> {
+		const { data } = await this.axiosClient.get('/api/institutes')
+		return data as Institute[]
+	}
+
+	async getCourses (institute: string): Promise<Course[]> {
+		const { data } = await this.axiosClient.get('/api/courses', {
+			params: {
+				institute
+			}
+		})
+		return data as Course[]
+	}
+
+	async getCourseComplete (institute: string, course: string, specialization: string): Promise<CourseComplete> {
+		const { data } = await this.axiosClient.get('/api/subject/all', {
+			params: {
+				institute,
+				course,
+				specialization
+			}
+		})
+		return data as CourseComplete
 	}
 
 	async getSubjectRelations (course: string, specialization: string, code: string): Promise<SubjectRelations> {
