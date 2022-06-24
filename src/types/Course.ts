@@ -2,7 +2,7 @@ import { SubjectInfo } from 'types/Subject'
 
 export interface Institute {
 	name: string
-	code: number
+	code: string
 }
 
 export interface Course {
