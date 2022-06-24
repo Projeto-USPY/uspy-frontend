@@ -36,8 +36,6 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ course, institute, h
 	}
 
 	const autocompleteFilterOptions = (options: string[], { inputValue }: any) => {
-		if (inputValue === '') return [] as string[] // so it doesnt show up on empty query
-
 		return matchSorter(options, inputValue, { keys: [getOptionLabel] }).slice(0, 40)
 	}
 
@@ -50,10 +48,10 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ course, institute, h
 		clearText='Limpar'
 		clearOnEscape
 		freeSolo
+		openOnFocus
 		className="inputfield"
 
 		options={keys}
-		openOnFocus={false}
 		onChange={onChange}
 		getOptionLabel={getOptionLabel}
 		filterOptions={autocompleteFilterOptions}
@@ -67,7 +65,6 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ course, institute, h
 			color='secondary'
 			label="Procure por uma disciplina"
 			variant="outlined"
-			margin="normal"
 		/>}/>
 }
 
