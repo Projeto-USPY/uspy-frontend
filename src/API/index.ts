@@ -2,7 +2,7 @@
 import { Institute, Course, CourseComplete } from 'types/Course'
 import { Offering, OfferingReview, OfferingReviewVote } from 'types/Offering'
 import { Record } from 'types/Record'
-import { Subject, SubjectKey, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
+import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { guestUser, User } from 'types/User'
 
 import APIError, { statusCodeToError } from 'API/APIError'
