@@ -11,21 +11,9 @@ import { CourseComplete, Institute, Course } from 'types/Course'
 
 import api from 'API'
 import { matchSorter } from 'match-sorter'
-import { getCourseAlias } from 'utils'
+import { getInitials } from 'utils'
 
 import SearchSelector from './SearchSelector'
-
-function getInitials (name: string): string {
-	const words = name.split(' ')
-	return words.reduce((prev, cur) => {
-		const caps = cur[0].toUpperCase()
-		if (cur[0] === caps && caps > 'A' && caps < 'Z') {
-			return prev + cur[0]
-		}
-
-		return prev
-	}, '')
-}
 
 interface GeneralSearchInputProps {
 	handleChange: Function
@@ -73,7 +61,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 
 	const getOptionLabel = (opt: any) => {
 		if (!opt.code) return opt
-		return opt.code + ' - ' + opt.name + ` (${getCourseAlias(opt.course, opt.specialization)})`
+		return opt.code + ' - ' + opt.name
 	}
 
 	const autocompleteFilterOptions = (options: string[], { inputValue }: any) => {

@@ -1,19 +1,6 @@
 export function copyObj (obj: any) {
 	return JSON.parse(JSON.stringify(obj))
 }
-const courseAliases = new Map<string, string>()
-courseAliases.set('550410', 'BCC')
-courseAliases.set('550514', 'BSI')
-courseAliases.set('550714', 'Estat.')
-courseAliases.set('55030300', 'Lic. em Mat.')
-courseAliases.set('55030100', 'Mat. - Núcleo Geral')
-courseAliases.set('550601', 'Mat. Apl.')
-courseAliases.set('550900', 'BCD')
-courseAliases.set('55030200', 'Mat. Pura')
-
-export function getCourseAlias (code: string, specialization: string) {
-	return courseAliases.get(code + specialization)
-}
 
 function isDigit (c: string) {
 	return c >= '0' && c <= '9'
@@ -33,6 +20,19 @@ export function validatePassword (pwd: string) {
 	}
 
 	return hasDigit && hasSpecialCharacter && pwd.length >= 8
+}
+
+// Returns the capitalized initials of a given string with multiple words
+export function getInitials (name: string): string {
+	const words = name.split(' ')
+	return words.reduce((prev, cur) => {
+		const caps = cur[0].toUpperCase()
+		if (cur[0] === caps && caps > 'A' && caps < 'Z') {
+			return prev + cur[0]
+		}
+
+		return prev
+	}, '')
 }
 
 // Returns true if email is valid and has domain "usp.br"
