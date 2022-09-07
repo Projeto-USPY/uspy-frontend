@@ -1,10 +1,11 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-// import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+
+// import Container from '@material-ui/core/Container'
 
 import Footer from 'components/Footer'
 import GeneralSearch from 'components/GeneralSearch'
@@ -43,7 +44,7 @@ const HomePage = () => {
 		</Grid>
 		<Grid item container direction='column' justify='center' alignItems='stretch' xs>
 			<Grid item>
-				<center><img width={isLarge ? 350 : '75%'} src={logo} /></center>
+				<center><img width={isLarge ? 350 : '75%'} src={logo} style={{ marginBottom: '15px' }} /></center>
 				<GeneralSearch handleChange={clickItem}/>
 			</Grid>
 		</Grid>

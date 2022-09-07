@@ -8,9 +8,10 @@ interface PropsType {
     onChange: (o: any) => void
     getOptionLabel: (o: any) => string
     label: string
+	hidden: boolean
 }
 
-const SearchSelector: React.FC<PropsType> = ({ options, onChange, getOptionLabel, label }) => {
+const SearchSelector: React.FC<PropsType> = ({ options, onChange, getOptionLabel, label, hidden }) => {
 	return <Autocomplete
 		autoHighlight
 		clearText='Limpar'
@@ -19,6 +20,10 @@ const SearchSelector: React.FC<PropsType> = ({ options, onChange, getOptionLabel
 		freeSolo
 		openOnFocus
 		size='small'
+
+		style={{
+			display: hidden ? 'none' : 'block'
+		}}
 
 		options={options}
 		getOptionLabel={getOptionLabel}
@@ -30,7 +35,6 @@ const SearchSelector: React.FC<PropsType> = ({ options, onChange, getOptionLabel
 			color='secondary'
 			label={label}
 			variant="outlined"
-			margin="normal"
 			required={true}
 		/>}
 	/>

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
+import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { useTheme } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import DomainIcon from '@material-ui/icons/Domain'
+import LayersIcon from '@material-ui/icons/Layers'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 
 import { CourseComplete, Institute, Course } from 'types/Course'
@@ -72,63 +75,144 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 		handleChange(value.course, value.specialization, value.code)
 	}
 
+	let selectedInstitute : string, selectedCourse : string
+	useEffect(() => {
+		// get chosen options from memory
+		selectedInstitute = localStorage.getItem('selected-institute')
+		selectedCourse = localStorage.getItem('selected-course')
+
+		if (selectedInstitute) {
+			setInstitute(selectedInstitute)
+
+			if (selectedCourse) {
+				const courseTokens = selectedCourse.split('-')
+				if (courseTokens.length === 2) {
+					setCourse([courseTokens[0], courseTokens[1]])
+				}
+
+				setSearchDisabled(false)
+			}
+		}
+	}, [])
+
+	const [domainCollapse, setDomainCollapse] = useState(() => { return selectedInstitute?.length > 0 })
+	const [layersCollapse, setLayersCollapse] = useState(() => { return selectedCourse?.length > 0 })
+
 	return <Container>
 		<Grid
 			container
-			spacing={1}
-			direction={isLarge ? 'row' : 'column'}
+
+			wrap={'wrap'}
+			direction='column'
+			style={{ margin: '5px 0 5px 0' }}
 		>
 			<Grid
 				item
-				xs
-			>
-				<SearchSelector
-					options={instituteOptions}
-					onChange={(val: Institute) => setInstitute(val.code)}
-					label='Procure por um instituto'
-					getOptionLabel={(option) => `${option.name} (${getInitials(option.name)})`}
-				/>
+				spacing={1}
+				container
 
+				style={{
+					justifyContent: 'flex-start',
+					alignItems: isLarge ? 'center' : 'flex-start'
+				}}
+			>
+				<Grid // building button
+					item
+				>
+					<DomainIcon
+						onClick={() => { setDomainCollapse(!domainCollapse) }}
+						cursor='pointer'
+					></DomainIcon>
+				</Grid>
+				<Grid
+					item // institute input
+					xs={domainCollapse ?? true}
+
+					style={{
+						justifyContent: 'center',
+						alignItems: 'center',
+						maxWidth: '300px'
+					}}
+				>
+					<Collapse
+						in={domainCollapse}
+					>
+						<SearchSelector
+							hidden={!domainCollapse}
+							options={instituteOptions}
+							onChange={(val: Institute) => {
+								setInstitute(val.code)
+								localStorage.setItem('selected-institute', val.code)
+							}}
+							label='Procure por um instituto'
+							getOptionLabel={(option) => `${option.name} (${getInitials(option.name)})`}
+						/>
+					</Collapse>
+				</Grid>
+
+				<Grid // course button
+					item
+				>
+					<LayersIcon
+						onClick={() => { setLayersCollapse(!layersCollapse) }}
+						cursor='pointer'
+					></LayersIcon>
+				</Grid>
+				<Grid // course input
+					item
+					xs={true}
+
+					style={{
+						maxWidth: '300px'
+					}}
+				>
+					<Collapse
+						in={layersCollapse}
+					>
+						<SearchSelector
+							hidden={!layersCollapse}
+							options={courseOptions}
+							onChange={(val: Course) => {
+								setCourse([val.code, val.specialization])
+								localStorage.setItem('selected-course', `${val.code}-${val.specialization}`)
+								setSearchDisabled(false)
+							}}
+							label='Procure por um curso'
+							getOptionLabel={(option) => `${option.name} (${getInitials(option.name)})`}
+						/>
+					</Collapse>
+				</Grid>
 			</Grid>
 			<Grid
 				item
-				xs
 			>
-				<SearchSelector
-					options={courseOptions}
-					onChange={(val: Course) => {
-						setCourse([val.code, val.specialization])
-						setSearchDisabled(false)
+				<Autocomplete
+					disabled={searchDisabled}
+					autoHighlight
+					clearText='Limpar'
+					clearOnEscape
+					freeSolo
+					openOnFocus
+					className="inputfield"
+
+					options={subjectOptions}
+					onChange={onChange}
+					getOptionLabel={getOptionLabel}
+					filterOptions={autocompleteFilterOptions}
+					ListboxProps={{
+						style: {
+							maxHeight: '180px'
+						}
 					}}
-					label='Procure por um curso'
-					getOptionLabel={(option) => `${option.name} (${getInitials(option.name)})`}
-				/>
+					renderInput={(params) => <TextField
+						{...params}
+						color='secondary'
+						label="Procure por uma disciplina"
+						variant="outlined"
+					/>}/>
 			</Grid>
 		</Grid>
-		<Autocomplete
-			disabled={searchDisabled}
-			autoHighlight
-			clearText='Limpar'
-			clearOnEscape
-			freeSolo
-			openOnFocus
-			className="inputfield"
 
-			options={subjectOptions}
-			onChange={onChange}
-			getOptionLabel={getOptionLabel}
-			filterOptions={autocompleteFilterOptions}
-			ListboxProps={{
-				style: {
-					maxHeight: '180px'
-				}
-			}}
-			renderInput={(params) => <TextField
-				{...params}
-				color='secondary'
-				label="Procure por uma disciplina"
-				variant="outlined"
-			/>}/>
 	</Container>
 }
 
