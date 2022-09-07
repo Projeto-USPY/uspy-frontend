@@ -76,6 +76,9 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	}
 
 	let selectedInstitute : string, selectedCourse : string
+	const [domainCollapse, setDomainCollapse] = useState(() => { return false })
+	const [layersCollapse, setLayersCollapse] = useState(() => { return false })
+
 	useEffect(() => {
 		// get chosen options from memory
 		selectedInstitute = localStorage.getItem('selected-institute')
@@ -92,12 +95,11 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 
 				setSearchDisabled(false)
 			}
+		} else {
+			setLayersCollapse(!domainCollapse)
+			setDomainCollapse(!layersCollapse)
 		}
 	}, [])
-
-	const [domainCollapse, setDomainCollapse] = useState(() => { return selectedInstitute?.length > 0 })
-	const [layersCollapse, setLayersCollapse] = useState(() => { return selectedCourse?.length > 0 })
-
 	return <Container>
 		<Grid
 			container
