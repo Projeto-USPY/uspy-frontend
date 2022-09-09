@@ -24,7 +24,7 @@ export function validatePassword (pwd: string) {
 
 // Returns the capitalized initials of a given string with multiple words
 export function getInitials (name: string): string {
-	const words = name.split(' ')
+	const words = name.split(/\s+/)
 	return words.reduce((prev, cur) => {
 		const caps = cur[0].toUpperCase()
 		if (cur[0] === caps && caps > 'A' && caps < 'Z') {
