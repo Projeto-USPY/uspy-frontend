@@ -29,7 +29,7 @@ import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
-import { copyObj, getCourseAlias } from 'utils'
+import { copyObj } from 'utils'
 
 import CreditsIndicator from './CreditsIndicator'
 import GradeDistributionChart from './GradeDistributionChart'
@@ -263,7 +263,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 							</div>
 							<CardContent>
 								Tipo: {subject.optional ? 'Optativa' : 'Obrigatória'}<br/>
-								Curso: {getCourseAlias(course, specialization)}<br/>
+								Curso: {course}<br/>
 								Semestre: {subject.semester + '°'} <br/>
 								Requisitos: {subject.requirements.length ? getSubjectRequirementsList(subject) : 'Nenhum'}<br/>
 								Carga horária: {subject.hours}<br/>
