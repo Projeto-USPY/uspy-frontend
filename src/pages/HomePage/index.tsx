@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container'
 import Fab from '@material-ui/core/Fab'
 import Grid from '@material-ui/core/Grid'
 import { useTheme } from '@material-ui/core/styles'
+import SvgIcon from '@material-ui/core/SvgIcon'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import NavigationIcon from '@material-ui/icons/Navigation'
 
@@ -13,8 +14,12 @@ import GeneralSearch from 'components/GeneralSearch'
 import Landing from 'components/Landing'
 import Navbar from 'components/Navbar'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
+
 import './style.css'
+import Typography from '@material-ui/core/Typography'
+
 import logo from 'images/logo.svg'
+import { ReactComponent as ArrowDownIcon } from 'images/arrow-down.svg'
 
 export function buildURI (): string {
 	return '/'
@@ -30,7 +35,6 @@ Avalie professores, veja seu histórico escolar, tudo em uma plataforma centrali
 }
 
 const HomePage = () => {
-	const homeRef = useRef()
 	const theme = useTheme()
 	const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
 
@@ -45,14 +49,14 @@ const HomePage = () => {
 		)
 	}
 
+	const seeMoreRef = useRef(null)
 	// const [showSearch, setShowSearch] = useState<boolean>(false)
 	return (
 		<>
 			<Grid
 				container
 				direction="column"
-				justify="space-between"
-				alignItems="stretch"
+				justify="center"
 				style={{ height: '100vh', width: '100%' }}>
 				<Grid item>
 					<Navbar />
@@ -62,36 +66,73 @@ const HomePage = () => {
 					item
 					container
 					direction="column"
-					justify="center"
+					justify="space-around"
 					alignItems="stretch"
-					xs>
-					<Grid item>
-						<center>
+					style={{ gap: '30px' }}>
+					<Grid
+						item
+						container
+						direction="column"
+						justify="center"
+						alignItems="center">
+						<Grid item>
 							<img
-								width={isLarge ? 350 : '75%'}
+								width={isLarge ? 350 : '100%'}
 								src={logo}
-								style={{ marginBottom: '15px' }}
+								style={{
+									marginBottom: '15px',
+									minWidth: '250px'
+								}}
 							/>
-						</center>
+						</Grid>
 						<GeneralSearch handleChange={clickItem} />
+					</Grid>
+					<Grid item container direction="column" alignItems="center" style={{ gap: '15px' }}>
+						<div className="hor-centered">
+							<Fab
+								size="small"
+								className="point-arrow-down-parent"
+								color="primary"
+								onClick={() => {
+									seeMoreRef.current.scrollIntoView({
+										behavior: 'smooth'
+									})
+								}}>
+								<SvgIcon
+									className="point-arrow-down-child"
+									component={ArrowDownIcon}
+									viewBox="0 0 64 64"
+								/>
+							</Fab>
+						</div>
+						<Typography color='primary'> Saber mais </Typography>
 					</Grid>
 				</Grid>
 			</Grid>
 			<Container>
-				<Landing ref={homeRef}/>
+				<div ref={seeMoreRef}>
+					<Landing />
+				</div>
 			</Container>
 			<Grid>
 				<Footer />
 			</Grid>
 
-			<Fab size={isLarge ? 'large' : 'small'} onClick={() => { scrollTo({ left: 0, top: 0, behavior: 'smooth' }) }} variant="circular" color="primary" style={{
-				margin: 0,
-				top: 'auto',
-				right: 20,
-				bottom: 20,
-				left: 'auto',
-				position: 'fixed'
-			}}>
+			<Fab
+				size={isLarge ? 'large' : 'small'}
+				onClick={() => {
+					scrollTo({ left: 0, top: 0, behavior: 'smooth' })
+				}}
+				variant="circular"
+				color="primary"
+				style={{
+					margin: 0,
+					top: 'auto',
+					right: 20,
+					bottom: 20,
+					left: 'auto',
+					position: 'fixed'
+				}}>
 				<NavigationIcon />
 			</Fab>
 		</>

@@ -34,7 +34,6 @@ const Landing: React.FC<LandingProps> = () => {
 				paddingLeft: !isDesktop ? '15px' : 0,
 				paddingRight: !isDesktop ? '15px' : 0
 			}}
-			spacing={3}
 		>
 			<Grid
 				item
@@ -187,14 +186,14 @@ const Landing: React.FC<LandingProps> = () => {
 						nosso{' '}
 						<a
 							className="link"
-							href=""
+							href="https://github.com/Projeto-USPY"
 							style={{ color: theme.palette.primary.main }}>
 							GitHub
 						</a>{' '}
 						ou entre em contato conosco{' '}
 						<a
 							className="link"
-							href=""
+							href="https://forms.gle/2Yrm1VGDJiDH1Dnm6"
 							style={{ color: theme.palette.primary.main }}>
 							aqui
 						</a>
@@ -216,7 +215,7 @@ const Landing: React.FC<LandingProps> = () => {
 						<Grid item>
 							<ContributeButton
 								text="QUERO CONTRIBUIR!"
-								url="https://github.com/Projeto-USPY/"></ContributeButton>
+								url="https://forms.gle/2Yrm1VGDJiDH1Dnm6"></ContributeButton>
 						</Grid>
 					</Grid>
 				</Grid>
