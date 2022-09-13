@@ -20,11 +20,11 @@ function buildConfig (env, argv) {
 	}
 	if (env.local) {
 		envVars = Object.assign({
-				API_URL: 'http://127.0.0.1:8080'
-			},
-			dotenv.config({
-				path: path.join(__dirname, '.env')
-			}).parsed
+			API_URL: 'http://127.0.0.1:8080'
+		},
+		dotenv.config({
+			path: path.join(__dirname, '.env')
+		}).parsed
 		)
 	}
 	const envKeys = Object.keys(envVars).reduce((prev, next) => {

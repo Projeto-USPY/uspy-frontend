@@ -2,6 +2,7 @@
 import { Institute, Course, CourseComplete } from 'types/Course'
 import { Offering, OfferingReview, OfferingReviewVote } from 'types/Offering'
 import { Record } from 'types/Record'
+import { Stats } from 'types/Stats'
 import { Subject, SubjectRelations, SubjectReview, SubjectGradeStats, SubjectGrade } from 'types/Subject'
 import { guestUser, User } from 'types/User'
 
@@ -60,6 +61,11 @@ class APIClient {
 			}
 		})
 		return data as Subject
+	}
+
+	async getStats (): Promise<Stats> {
+		const { data } = await this.axiosClient.get('/api/stats')
+		return data as Stats
 	}
 
 	async getInstitutes (): Promise<Institute[]> {
