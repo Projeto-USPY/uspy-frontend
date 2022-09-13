@@ -9,6 +9,14 @@
 	font-family: 'Prompt', sans-serif;
 }
 
+.btn {
+    color: 'white';
+    border: 'none';
+    border-radius: '10px';
+    padding: '12px';
+    font-weight: 'bolder';
+}
+
 .roboto-condensed {
 	font-family: 'Roboto Condensed', sans-serif;
 }
