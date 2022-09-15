@@ -195,7 +195,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 								getOptionLabel={(option) =>
 									`${option.name} (${getInitials(
 										option.name
-									)})`
+									)}) (${option.shift ?? ''})`
 								}
 							/>
 						</Collapse>
