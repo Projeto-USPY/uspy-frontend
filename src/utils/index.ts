@@ -28,7 +28,7 @@ export function getInitials (name: string): string {
 		const words = name.split(/\s+/)
 		return words.reduce((prev, cur) => {
 			const caps = cur[0].toUpperCase()
-			if (cur[0] === caps && caps > 'A' && caps < 'Z') {
+			if (cur[0] === caps && caps >= 'A' && caps <= 'Z') {
 				return prev + cur[0]
 			}
 
