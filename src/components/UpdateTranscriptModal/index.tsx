@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from '@material-ui/core/Button'
@@ -8,7 +8,6 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
@@ -30,25 +29,14 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 	const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false)
 	const [pending, setPending] = useState<boolean>(false)
 
-	const [captchaImg, setCaptchaImg] = useState<string>('')
-	const [captcha, setCaptcha] = useState<string>('')
-	const [showCaptchaError, setShowCaptchaError] = useState<boolean>(false)
-
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const notify = useMySnackbar()
 
-	const captchaOk = /^[\w\d]{4}$/.test(captcha)
 	const authCodeString = ['0', '1', '2', '3'].reduce((prev, cur) => prev + '-' + (document.querySelector(`#auth-code-${cur}`)?.value || ''), '').substr(1)
 	const authCodeOk = /^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCodeString)
 
 	const uspyAlert = useErrorDialog()
-
-	useEffect(() => {
-		api.getRegistrationCaptcha().then(captchaImg => {
-			setCaptchaImg(captchaImg)
-		})
-	}, [])
 
 	const handlePaste = (id: number, str: string) => {
 		const values = authCode.slice()
@@ -63,7 +51,7 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 	const dispatch = useDispatch()
 	const submit = () => {
 		setPending(true) // update is pending
-		api.updateAccount(authCodeString, captcha).then(() => {
+		api.updateAccount(authCodeString).then(() => {
 			notify('Histórico atualizado com sucesso', 'success')
 			setPending(false)
 			close()
@@ -79,11 +67,6 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 			} else {
 				uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde`, 'Falha no cadastro')
 			}
-			setCaptcha('')
-			setShowCaptchaError(false)
-			api.getRegistrationCaptcha().then(captchaImg => {
-				setCaptchaImg(captchaImg)
-			})
 			setPending(false)
 		})
 	}
@@ -108,27 +91,6 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 						)}
 					</Grid>
 				</Grid>
-				<Grid item style={{ maxWidth: '400px', width: '100%' }}>
-					<img
-						src={captchaImg}
-						style={{ width: '100%' }}
-						alt="Captcha não encontrado"
-					/>
-				</Grid>
-				<Grid item style={{ maxWidth: '400px', width: '100%' }}>
-					<TextField
-						label="Captcha"
-						error={!captchaOk && showCaptchaError}
-						helperText={!captchaOk && showCaptchaError ? 'Exatamente 4 caracteres com letras ou números' : ''}
-						value={captcha}
-						onBlur={() => setShowCaptchaError(true)}
-						onChange={(evt: any) => setCaptcha(evt.target.value)}
-						variant='outlined'
-						color='secondary'
-						size='small'
-						fullWidth
-					/>
-				</Grid>
 			</Grid>
 		</DialogContent>
 		<DialogActions>
@@ -138,7 +100,7 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 			<Button
 				onClick={submit}
 				color="secondary"
-				disabled={!captchaOk || !authCodeOk}
+				disabled={!authCodeOk || pending}
 				endIcon={pending ? <CircularProgress size={20} /> : null}
 			>
                 Confirmar
