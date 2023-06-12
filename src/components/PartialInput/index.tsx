@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import InputBase from '@material-ui/core/InputBase'
 import { makeStyles } from '@material-ui/styles'
@@ -20,25 +20,23 @@ const useStyles = makeStyles((theme) => ({
 
 interface PartialInputProps {
 	id: number
-	initialValue?: string
+	value: string
 	handlePaste: Function
+	handleChange: Function
 }
-const PartialInput: React.FC<PartialInputProps> = ({ id, initialValue = '', handlePaste }) => {
+const PartialInput: React.FC<PartialInputProps> = ({ id, value, handlePaste, handleChange }) => {
 	const classes = useStyles()
 	const [focused, setFocused] = useState(false)
-	const [value, setValue] = useState(initialValue)
 
-	useEffect(() => {
-		setValue(initialValue)
-	}, [initialValue])
-	const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+	const onChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		let str = evt.target.value
 		str = str.replace(/-/g, '')
 		if (/^\w*$/.test(str)) {
+			console.log(evt.nativeEvent.inputType)
 			if (evt.nativeEvent.inputType === 'insertFromPaste') { // allow to paste input
 				handlePaste(id, str)
 			} else {
-				if (str.length <= 4) setValue(str.toUpperCase())
+				if (str.length <= 4) handleChange(id, str.toUpperCase())
 				if (str.length === 4) {
 					const next = document.querySelector(`#auth-code-${id + 1}`)
 					if (next) {
@@ -69,7 +67,7 @@ const PartialInput: React.FC<PartialInputProps> = ({ id, initialValue = '', hand
 		inputProps= {inputProps}
 		value={value}
 		id={`auth-code-${id}`}
-		onChange={evt => handleChange(evt)}
+		onChange={evt => onChange(evt)}
 
 	/>
 }

@@ -68,15 +68,21 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 
 	// Elements of the first input
 	const inputs = [0, 1, 2, 3]
-	const [initialValues, setInitialValues] = useState(['', '', '', ''])
-	const handlePaste = (id: number, str: string) => {
-		const values = initialValues.slice()
+	const [authCodeValues, setAuthCodeValues] = useState(['', '', '', ''])
+	const handleAuthCodePaste = (id: number, str: string) => {
+		const values = authCodeValues.slice()
 		for (let i = id; i < 4; ++i) values[i] = ''
 		for (let i = 0; i < str.length; ++i) {
 			if (id + Math.floor(i / 4) >= 4) break
 			values[id + Math.floor(i / 4)] += str[i]
 		}
-		setInitialValues(values)
+		setAuthCodeValues(values)
+	}
+
+	const handleAuthCodeChange = (id: number, str: string) => {
+		const values = authCodeValues.slice()
+		values[id] = str
+		setAuthCodeValues(values)
 	}
 
 	// text field values
@@ -116,7 +122,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 
 	const registerClick = () => {
 		const acceptedTerms = document.querySelector('#accept').checked
-		const authCode = ['0', '1', '2', '3'].reduce((prev, cur) => prev + '-' + document.querySelector(`#auth-code-${cur}`).value, '').substr(1)
+		const authCode = authCodeValues.reduce((prev, cur) => prev + '-' + cur, '').substring(1)
 
 		if (!/^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCode)) {
 			uspyAlert('O código de autenticidade está incompleto')
@@ -214,7 +220,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 					<br/>
 					<Box m={2} style={{ marginTop: '2rem', marginBottom: '2rem' }}>
 						<Grid container justify={isDesktop ? 'center' : 'space-around'} alignItems='center' wrap='wrap' >
-							{inputs.map(val => <React.Fragment key={val}><PartialInput id={val} initialValue={initialValues[val]} handlePaste={handlePaste}/> {val < 3 ? '-' : <span>&nbsp;</span>}</React.Fragment>)}
+							{inputs.map(val => <React.Fragment key={val}><PartialInput id={val} value={authCodeValues[val]} handlePaste={handleAuthCodePaste} handleChange={handleAuthCodeChange}/> {val < 3 ? '-' : <span>&nbsp;</span>}</React.Fragment>)}
 						</Grid>
 					</Box>
 
