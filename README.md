@@ -95,7 +95,7 @@ Done! You now should be able to visit `127.0.0.1` in your browser and see USPY!
 
 Although it looks good, the website is still not able to communicate with the backend yet, so some funcionality will not work.
 
-See [USPY Backend - Running locally](https://github.com/Projeto-USPY/uspy-backend/tree/local_development#running-locally) to learn how to put it up.
+See [USPY Backend - Running locally](https://github.com/Projeto-USPY/uspy-backend/blob/dev/README.md#running-locally) to learn how to put it up.
 
 By default, it communicates with the backend running at port 8080 of your localhost. If you wish to change it, you can create a `.env` with your backend URL:
 ```sh
