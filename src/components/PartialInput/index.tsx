@@ -23,8 +23,9 @@ interface PartialInputProps {
 	value: string
 	handlePaste: Function
 	handleChange: Function
+	disabled: boolean
 }
-const PartialInput: React.FC<PartialInputProps> = ({ id, value, handlePaste, handleChange }) => {
+const PartialInput: React.FC<PartialInputProps> = ({ id, value, handlePaste, handleChange, disabled=false }) => {
 	const classes = useStyles()
 	const [focused, setFocused] = useState(false)
 
@@ -50,7 +51,7 @@ const PartialInput: React.FC<PartialInputProps> = ({ id, value, handlePaste, han
 	const inputProps = {
 		size: '4',
 		style: {
-			backgroundColor: '#F7F7F7',
+			backgroundColor: disabled ? '#adadad' : '#F7F7F7',
 			borderRadius: '2px 2px',
 			boxShadow: focused ? 'inset 0 0 2px blue' : 'inset 0 0 2px #000000',
 			padding: '5pt'
@@ -58,6 +59,7 @@ const PartialInput: React.FC<PartialInputProps> = ({ id, value, handlePaste, han
 	}
 	return <InputBase
 		type='text'
+		disabled={disabled}
 		className={classes.input}
 		onFocus={(evt: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 			evt.target.select()
