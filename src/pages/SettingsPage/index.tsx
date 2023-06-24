@@ -33,21 +33,21 @@ const textFieldCommonProps = {
 	size: 'medium',
 	fullWidth: true,
 	style: {
-		height: '50px'
-	}
+		height: '50px',
+	},
 }
 
 const dangerTheme = createMuiTheme({
 	palette: {
-		primary: red
-	}
+		primary: red,
+	},
 })
 
 interface SettingsPageProps {
 	setUserNone: ActionCreator<ReduxAction>
 }
 
-export function buildURI (): string {
+export function buildURI(): string {
 	return '/conta'
 }
 
@@ -55,7 +55,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const [newPwd, setNewPwd] = useState<string>('')
 	const [showPwdError, setShowPwdError] = useState<boolean>(false)
 	const [isDeletingAccount, setIsDeletingAccount] = useState<boolean>(false)
-	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
+	const [confirmationDialogOpen, setConfirmationDialogOpen] =
+		useState<boolean>(false)
 
 	const history = useHistory()
 	const notify = useMySnackbar()
@@ -65,32 +66,45 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 		setIsDeletingAccount(true)
 		notify('Removendo dados da conta! Essa operação pode demorar', 'info')
 		setConfirmationDialogOpen(false)
-		api.removeAccount().then(() => {
-			setUserNone()
-			notify('Conta deletada!', 'info')
-			history.push(buildHomePageURI()) // redirect to home page
-		}).catch(err => {
-			setIsDeletingAccount(false)
-			uspyAlert(`Algo deu errado (${err.message}).`, 'Falha na Remoção')
-		})
+		api.removeAccount()
+			.then(() => {
+				setUserNone()
+				notify('Conta deletada!', 'info')
+				history.push(buildHomePageURI()) // redirect to home page
+			})
+			.catch((err) => {
+				setIsDeletingAccount(false)
+				uspyAlert(
+					`Algo deu errado (${err.message}).`,
+					'Falha na Remoção',
+				)
+			})
 	}
 
 	const changePassword = () => {
 		const old = document.querySelector('#old_pwd').value
-		if (old === newPwd) uspyAlert('Senhas nova e antiga não podem ser as mesmas')
+		if (old === newPwd)
+			uspyAlert('Senhas nova e antiga não podem ser as mesmas')
 		else if (!validatePassword(newPwd)) uspyAlert('Senha inválida')
 		else {
-			api.changePassword(old, newPwd).then(() => notify('Senha alterada com sucesso!', 'success')).catch(err => {
-				if (err.code === 'bad_request') {
-					uspyAlert(`Algo aconteceu e o status (${err.status}) foi recebido.`, 'Falha na alteração da senha')
-				} else if (err.code === 'unauthorized') {
-					uspyAlert('Você não está autenticado!')
-				} else if (err.code === 'forbidden') {
-					uspyAlert('Senha antiga incorreta!')
-				} else {
-					uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde.`)
-				}
-			})
+			api.changePassword(old, newPwd)
+				.then(() => notify('Senha alterada com sucesso!', 'success'))
+				.catch((err) => {
+					if (err.code === 'bad_request') {
+						uspyAlert(
+							`Algo aconteceu e o status (${err.status}) foi recebido.`,
+							'Falha na alteração da senha',
+						)
+					} else if (err.code === 'unauthorized') {
+						uspyAlert('Você não está autenticado!')
+					} else if (err.code === 'forbidden') {
+						uspyAlert('Senha antiga incorreta!')
+					} else {
+						uspyAlert(
+							`Algo deu errado (${err.message}). Tente novamente mais tarde.`,
+						)
+					}
+				})
 		}
 	}
 
@@ -98,97 +112,133 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
 	const pwdOk = validatePassword(newPwd) || !showPwdError
-	return <div className='main'>
-		<main>
-			<Navbar/>
-			<div style={{ height: '94px' }}></div>
-			<Container>
-				<Grid container alignItems='center' style={{ height: '50px' }}>
-					<BreadCrumb links={[{
-						url: '/',
-						text: 'Home'
-					}, {
-						url: '/Conta',
-						text: 'Conta'
-					}]}/>
-				</Grid>
-
-				<br/><br/>
-				<Typography variant='h5'> <b>Alterar Senha</b> </Typography>
-				<Divider/>
-				<br/>
-				<Typography> A senha deve conter no mínimo 8 caracteres, com pelo menos um símbolo e um número. </Typography>
-				<br/>
-				<br/>
-				<Grid container direction={isDesktop ? 'row' : 'column'} spacing={2}>
-					<Grid item>
-						<InputPassword
-							label="Senha Antiga"
-							id="old_pwd"
-							{...textFieldCommonProps}
+	return (
+		<div className="main">
+			<main>
+				<Navbar />
+				<div style={{ height: '94px' }}></div>
+				<Container>
+					<Grid
+						container
+						alignItems="center"
+						style={{ height: '50px' }}
+					>
+						<BreadCrumb
+							links={[
+								{
+									url: '/',
+									text: 'Home',
+								},
+								{
+									url: '/Conta',
+									text: 'Conta',
+								},
+							]}
 						/>
 					</Grid>
-					<Grid item>
-						<InputPassword
-							label="Senha Nova"
-							id="new_pwd"
-							value={newPwd}
-							error={!pwdOk}
-							helperText={!pwdOk ? 'Senha não satisfaz os requisitos' : ''}
-							onBlur={() => setShowPwdError(true)}
-							onChange={(evt: any) => setNewPwd(evt.target.value)}
-							{...textFieldCommonProps}
-						/>
-					</Grid>
-					<Grid item>
-						{/* Gap to be occupied by helperText of the button above */}
-					</Grid>
 
-					<Grid item>
-						<Button
-							color="secondary"
-							size="medium"
-							variant='outlined'
-							style={{ height: '55px' }}
-							fullWidth={!isDesktop}
-							onClick={changePassword}
-						>
-							Alterar
-						</Button>
-					</Grid>
-				</Grid>
-				<div style={{ height: '70px' }}></div>
+					<br />
+					<br />
+					<Typography variant="h5">
+						{' '}
+						<b>Alterar Senha</b>{' '}
+					</Typography>
+					<Divider />
+					<br />
+					<Typography>
+						{' '}
+						A senha deve conter no mínimo 8 caracteres, com pelo
+						menos um símbolo e um número.{' '}
+					</Typography>
+					<br />
+					<br />
+					<Grid
+						container
+						direction={isDesktop ? 'row' : 'column'}
+						spacing={2}
+					>
+						<Grid item>
+							<InputPassword
+								label="Senha Antiga"
+								id="old_pwd"
+								{...textFieldCommonProps}
+							/>
+						</Grid>
+						<Grid item>
+							<InputPassword
+								label="Senha Nova"
+								id="new_pwd"
+								value={newPwd}
+								error={!pwdOk}
+								helperText={
+									!pwdOk
+										? 'Senha não satisfaz os requisitos'
+										: ''
+								}
+								onBlur={() => setShowPwdError(true)}
+								onChange={(evt: any) =>
+									setNewPwd(evt.target.value)
+								}
+								{...textFieldCommonProps}
+							/>
+						</Grid>
+						<Grid item>
+							{/* Gap to be occupied by helperText of the button above */}
+						</Grid>
 
-				<Grid container direction='row-reverse'>
-					<Grid item xs={!isDesktop ? 12 : 2}>
-						<ThemeProvider theme={dangerTheme}>
+						<Grid item>
 							<Button
-								color='primary'
+								color="secondary"
 								size="medium"
-								variant='outlined'
+								variant="outlined"
 								style={{ height: '55px' }}
 								fullWidth={!isDesktop}
-								onClick={() => setConfirmationDialogOpen(true)}
+								onClick={changePassword}
 							>
-								{isDeletingAccount ? <CircularProgress size='1rem'/> : 'Deletar conta'}
+								Alterar
 							</Button>
-						</ThemeProvider>
+						</Grid>
 					</Grid>
-				</Grid>
-			</Container>
-			<SimpleConfirmationDialog
-				title="Sua conta será apagada!"
-				body="Você tem certeza que deseja apagar sua conta?"
-				cancelText="Cancelar"
-				confirmText="Deletar"
-				open={confirmationDialogOpen}
-				cancelCallback={() => setConfirmationDialogOpen(false)}
-				confirmCallback={removeAccount}
-			/>
-		</main>
-	</div>
+					<div style={{ height: '70px' }}></div>
+
+					<Grid container direction="row-reverse">
+						<Grid item xs={!isDesktop ? 12 : 2}>
+							<ThemeProvider theme={dangerTheme}>
+								<Button
+									color="primary"
+									size="medium"
+									variant="outlined"
+									style={{ height: '55px' }}
+									fullWidth={!isDesktop}
+									onClick={() =>
+										setConfirmationDialogOpen(true)
+									}
+								>
+									{isDeletingAccount ? (
+										<CircularProgress size="1rem" />
+									) : (
+										'Deletar conta'
+									)}
+								</Button>
+							</ThemeProvider>
+						</Grid>
+					</Grid>
+				</Container>
+				<SimpleConfirmationDialog
+					title="Sua conta será apagada!"
+					body="Você tem certeza que deseja apagar sua conta?"
+					cancelText="Cancelar"
+					confirmText="Deletar"
+					open={confirmationDialogOpen}
+					cancelCallback={() => setConfirmationDialogOpen(false)}
+					confirmCallback={removeAccount}
+				/>
+			</main>
+		</div>
+	)
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setUserNone }, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch) =>
+	bindActionCreators({ setUserNone }, dispatch)
 
 export default connect(null, mapDispatchToProps)(SettingsPage)

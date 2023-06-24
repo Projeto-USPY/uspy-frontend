@@ -14,11 +14,14 @@ import { useErrorDialog, useMySnackbar } from 'hooks'
 import { validateEmail } from 'utils'
 
 interface PasswordRedefinitionModalProps {
-    open: boolean
-    handleClose: () => void
+	open: boolean
+	handleClose: () => void
 }
 
-const PasswordRedefinitionModal: React.FC<PasswordRedefinitionModalProps> = ({ open, handleClose }) => {
+const PasswordRedefinitionModal: React.FC<PasswordRedefinitionModalProps> = ({
+	open,
+	handleClose,
+}) => {
 	const [email, setEmail] = useState<string>('')
 	const [showEmailError, setShowEmailError] = useState<boolean>(false)
 	const emailOk = !showEmailError || validateEmail(email) || !open
@@ -27,60 +30,64 @@ const PasswordRedefinitionModal: React.FC<PasswordRedefinitionModalProps> = ({ o
 
 	const sendEmail = () => {
 		// send activation email
-		api.sendPasswordRedefinitionEmail(email).then(() => {
-			notify('Email enviado com sucesso', 'success')
-			handleClose()
-		}).catch(err => {
-			console.error(err)
-			uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde.`, 'Falha na redefinição')
-		})
+		api.sendPasswordRedefinitionEmail(email)
+			.then(() => {
+				notify('Email enviado com sucesso', 'success')
+				handleClose()
+			})
+			.catch((err) => {
+				console.error(err)
+				uspyAlert(
+					`Algo deu errado (${err.message}). Tente novamente mais tarde.`,
+					'Falha na redefinição',
+				)
+			})
 	}
 
-	return <Dialog onClose={handleClose} open={open}>
-		<DialogTitle> Redefinir senha </DialogTitle>
-		<DialogContent style={{ overflow: 'hidden' }}>
-			<Grid
-				container
-				direction="column"
-				spacing={3}
-			>
-				<Grid item>
-					<Typography variant="body1">
-                            Insira seu email USP cadastrado para que enviemos um link de redefinição de senha!
-					</Typography>
+	return (
+		<Dialog onClose={handleClose} open={open}>
+			<DialogTitle> Redefinir senha </DialogTitle>
+			<DialogContent style={{ overflow: 'hidden' }}>
+				<Grid container direction="column" spacing={3}>
+					<Grid item>
+						<Typography variant="body1">
+							Insira seu email USP cadastrado para que enviemos um
+							link de redefinição de senha!
+						</Typography>
+					</Grid>
+					<Grid item>
+						<TextField
+							label="Email USP"
+							name="email"
+							id="email"
+							type="text"
+							value={email}
+							error={!emailOk}
+							helperText={emailOk ? '' : 'Email inválido'}
+							onBlur={() => setShowEmailError(true)}
+							onChange={(evt: any) => setEmail(evt.target.value)}
+							variant="outlined"
+							color="secondary"
+							size="small"
+							fullWidth
+						/>
+					</Grid>
 				</Grid>
-				<Grid item>
-					<TextField
-						label="Email USP"
-						name="email"
-						id="email"
-						type="text"
-						value={email}
-						error={!emailOk}
-						helperText={emailOk ? '' : 'Email inválido'}
-						onBlur={() => setShowEmailError(true)}
-						onChange={(evt: any) => setEmail(evt.target.value)}
-						variant="outlined"
-						color="secondary"
-						size="small"
-						fullWidth
-					/>
-				</Grid>
-			</Grid>
-		</DialogContent>
-		<DialogActions>
-			<Button
-				fullWidth
-				color="secondary"
-				size="medium"
-				variant='outlined'
-				onClick={sendEmail}
-				disabled={!validateEmail(email)}
-			>
-				Enviar
-			</Button>
-		</DialogActions>
-	</Dialog>
+			</DialogContent>
+			<DialogActions>
+				<Button
+					fullWidth
+					color="secondary"
+					size="medium"
+					variant="outlined"
+					onClick={sendEmail}
+					disabled={!validateEmail(email)}
+				>
+					Enviar
+				</Button>
+			</DialogActions>
+		</Dialog>
+	)
 }
 
 export default PasswordRedefinitionModal

@@ -21,16 +21,16 @@ import Typography from '@material-ui/core/Typography'
 import logo from 'images/logo.svg'
 import { ReactComponent as ArrowDownIcon } from 'images/arrow-down.svg'
 
-export function buildURI (): string {
+export function buildURI(): string {
 	return '/'
 }
 
-export function getMeta (): any {
+export function getMeta(): any {
 	return {
 		title: 'USPY',
 		description: `Procure por disciplinas e veja seus oferecimentos, requisitos, distribuição de médias, e muito mais.
 Avalie professores, veja seu histórico escolar, tudo em uma plataforma centralizada e fácil de usar!`,
-		robots: ['index', 'follow']
+		robots: ['index', 'follow'],
 	}
 }
 
@@ -42,10 +42,10 @@ const HomePage = () => {
 	const clickItem = (
 		courseCode: string,
 		courseSpecialization: string,
-		code: string
+		code: string,
 	) => {
 		history.push(
-			buildSubjectPageURI(courseCode, courseSpecialization, code)
+			buildSubjectPageURI(courseCode, courseSpecialization, code),
 		)
 	}
 
@@ -57,7 +57,8 @@ const HomePage = () => {
 				container
 				direction="column"
 				justify="center"
-				style={{ height: '100vh', width: '100%' }}>
+				style={{ height: '100vh', width: '100%' }}
+			>
 				<Grid item>
 					<Navbar />
 					<div style={{ height: '64px' }}></div>
@@ -68,26 +69,34 @@ const HomePage = () => {
 					direction="column"
 					justify="space-around"
 					alignItems="stretch"
-					style={{ gap: '30px' }}>
+					style={{ gap: '30px' }}
+				>
 					<Grid
 						item
 						container
 						direction="column"
 						justify="center"
-						alignItems="center">
+						alignItems="center"
+					>
 						<Grid item>
 							<img
 								width={isLarge ? 350 : '100%'}
 								src={logo}
 								style={{
 									marginBottom: '15px',
-									minWidth: '250px'
+									minWidth: '250px',
 								}}
 							/>
 						</Grid>
 						<GeneralSearch handleChange={clickItem} />
 					</Grid>
-					<Grid item container direction="column" alignItems="center" style={{ gap: '15px' }}>
+					<Grid
+						item
+						container
+						direction="column"
+						alignItems="center"
+						style={{ gap: '15px' }}
+					>
 						<div className="hor-centered">
 							<Fab
 								size="small"
@@ -95,9 +104,10 @@ const HomePage = () => {
 								color="primary"
 								onClick={() => {
 									seeMoreRef.current.scrollIntoView({
-										behavior: 'smooth'
+										behavior: 'smooth',
 									})
-								}}>
+								}}
+							>
 								<SvgIcon
 									className="point-arrow-down-child"
 									component={ArrowDownIcon}
@@ -105,7 +115,7 @@ const HomePage = () => {
 								/>
 							</Fab>
 						</div>
-						<Typography color='primary'> Saber mais </Typography>
+						<Typography color="primary"> Saber mais </Typography>
 					</Grid>
 				</Grid>
 			</Grid>
@@ -131,8 +141,9 @@ const HomePage = () => {
 					right: 20,
 					bottom: 20,
 					left: 'auto',
-					position: 'fixed'
-				}}>
+					position: 'fixed',
+				}}
+			>
 				<NavigationIcon />
 			</Fab>
 		</>

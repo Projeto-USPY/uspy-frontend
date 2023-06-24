@@ -11,7 +11,12 @@ interface props {
 	actionTitle?: string
 }
 
-const MessagePanel: React.FC<props> = ({ message, height, action, actionTitle }) => {
+const MessagePanel: React.FC<props> = ({
+	message,
+	height,
+	action,
+	actionTitle,
+}) => {
 	const style = {
 		height,
 		flexGrow: 1,
@@ -22,14 +27,28 @@ const MessagePanel: React.FC<props> = ({ message, height, action, actionTitle })
 		textAlign: 'center',
 		border: '1px solid #BBBBBB',
 		boxShadow: 'inset 0 0 3px 1px #BBBBBB',
-		padding: '5px'
+		padding: '5px',
 	}
-	return <Grid container justify='center' alignItems='stretch'>
-		<div style={style}>
-			<Typography variant='body2'> {message} </Typography>
-			{action ? <><br/><Button onClick={action} color="primary" variant="contained"> {actionTitle} </Button></> : null}
-		</div>
-	</Grid>
+	return (
+		<Grid container justify="center" alignItems="stretch">
+			<div style={style}>
+				<Typography variant="body2"> {message} </Typography>
+				{action ? (
+					<>
+						<br />
+						<Button
+							onClick={action}
+							color="primary"
+							variant="contained"
+						>
+							{' '}
+							{actionTitle}{' '}
+						</Button>
+					</>
+				) : null}
+			</div>
+		</Grid>
+	)
 }
 
 export default memo(MessagePanel)

@@ -8,9 +8,17 @@
 
 */
 
-const WEEK_DAY = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
+const WEEK_DAY = [
+	'Domingo',
+	'Segunda',
+	'Terça',
+	'Quarta',
+	'Quinta',
+	'Sexta',
+	'Sábado',
+]
 
-export function getRelativeDate (d: Date): string {
+export function getRelativeDate(d: Date): string {
 	const diff = new Date().getTime() - d.getTime()
 	if (diff < 5 * 60 * 1000) {
 		return 'Agora'
@@ -27,19 +35,19 @@ export function getRelativeDate (d: Date): string {
 	}
 }
 
-export function toSlashSeparatedDate (d: Date): string {
+export function toSlashSeparatedDate(d: Date): string {
 	return d.toLocaleDateString('pt-BR')
 }
 
-export function getHours (d: Date): string {
+export function getHours(d: Date): string {
 	return d.getHours().toLocaleString('pt-BR', { minimumIntegerDigits: 2 })
 }
 
-export function getMinutes (d: Date): string {
+export function getMinutes(d: Date): string {
 	return d.getMinutes().toLocaleString('pt-BR', { minimumIntegerDigits: 2 })
 }
 
-export function toTime (d: Date): string {
+export function toTime(d: Date): string {
 	const hours = getHours(d)
 	const minutes = getMinutes(d)
 	return hours + ':' + minutes

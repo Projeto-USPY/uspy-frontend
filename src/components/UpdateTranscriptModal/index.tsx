@@ -20,8 +20,8 @@ import PartialInput from 'components/PartialInput'
 import { useErrorDialog, useMySnackbar } from 'hooks'
 
 interface PropsType {
-    open: boolean
-    close: () => void
+	open: boolean
+	close: () => void
 }
 
 const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
@@ -33,8 +33,12 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const notify = useMySnackbar()
 
-	const authCodeString = authCode.reduce((prev, cur) => prev + '-' + cur, '').substring(1)
-	const authCodeOk = /^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCodeString)
+	const authCodeString = authCode
+		.reduce((prev, cur) => prev + '-' + cur, '')
+		.substring(1)
+	const authCodeOk = /^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(
+		authCodeString,
+	)
 
 	const uspyAlert = useErrorDialog()
 
@@ -57,63 +61,97 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 	const dispatch = useDispatch()
 	const submit = () => {
 		setPending(true) // update is pending
-		api.updateAccount(authCodeString).then(() => {
-			notify('Histórico atualizado com sucesso', 'success')
-			setPending(false)
-			close()
+		api.updateAccount(authCodeString)
+			.then(() => {
+				notify('Histórico atualizado com sucesso', 'success')
+				setPending(false)
+				close()
 
-			api.isAuthenticated().then(([_, lastUpdated]) => {
-				dispatch(setLastUpdatedAccount(lastUpdated))
-			}).catch(err => {
-				console.error(`Error: (${err})`)
+				api.isAuthenticated()
+					.then(([_, lastUpdated]) => {
+						dispatch(setLastUpdatedAccount(lastUpdated))
+					})
+					.catch((err) => {
+						console.error(`Error: (${err})`)
+					})
 			})
-		}).catch(err => {
-			if (err.code === 'bad_request') {
-				uspyAlert('Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
-			} else {
-				uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde`, 'Falha no cadastro')
-			}
-			setPending(false)
-		})
+			.catch((err) => {
+				if (err.code === 'bad_request') {
+					uspyAlert(
+						'Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!',
+					)
+				} else {
+					uspyAlert(
+						`Algo deu errado (${err.message}). Tente novamente mais tarde`,
+						'Falha no cadastro',
+					)
+				}
+				setPending(false)
+			})
 	}
 
-	return <Dialog onClose={close} open={open}>
-		<DialogTitle> Atualizar histórico </DialogTitle>
-		<DialogContent>
-			<Grid container direction='column' alignItems='center' spacing={2}>
-				<Grid item>
-					<Typography>
-                        Atualize seu histórico obtendo um novo código de autenticidade do seu resumo escolar.
-						<InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => setInfoModalOpen(true)} />
-					</Typography>
-				</Grid>
-				<Grid item style={{ maxWidth: '400px', width: '100%' }}>
-					<Grid container justify={isDesktop ? 'center' : 'space-around'} alignItems='center' wrap='wrap' >
-						{authCode.map((val, idx) =>
-							<React.Fragment key={idx}>
-								{idx ? '-' : <span> &nbsp; </span>}
-								<PartialInput id={idx} value={val} handlePaste={handleAuthCodePaste} handleChange={handleAuthCodeChange}/>
-							</React.Fragment>
-						)}
+	return (
+		<Dialog onClose={close} open={open}>
+			<DialogTitle> Atualizar histórico </DialogTitle>
+			<DialogContent>
+				<Grid
+					container
+					direction="column"
+					alignItems="center"
+					spacing={2}
+				>
+					<Grid item>
+						<Typography>
+							Atualize seu histórico obtendo um novo código de
+							autenticidade do seu resumo escolar.
+							<InfoIcon
+								fontSize="inherit"
+								style={{ cursor: 'pointer' }}
+								onClick={() => setInfoModalOpen(true)}
+							/>
+						</Typography>
+					</Grid>
+					<Grid item style={{ maxWidth: '400px', width: '100%' }}>
+						<Grid
+							container
+							justify={isDesktop ? 'center' : 'space-around'}
+							alignItems="center"
+							wrap="wrap"
+						>
+							{authCode.map((val, idx) => (
+								<React.Fragment key={idx}>
+									{idx ? '-' : <span> &nbsp; </span>}
+									<PartialInput
+										id={idx}
+										value={val}
+										handlePaste={handleAuthCodePaste}
+										handleChange={handleAuthCodeChange}
+									/>
+								</React.Fragment>
+							))}
+						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
-		</DialogContent>
-		<DialogActions>
-			<Button onClick={close} color="secondary">
-                Cancelar
-			</Button>
-			<Button
-				onClick={submit}
-				color="secondary"
-				disabled={!authCodeOk || pending}
-				endIcon={pending ? <CircularProgress size={20} /> : null}
-			>
-                Confirmar
-			</Button>
-		</DialogActions>
-		<InfoModal open={infoModalOpen} handleClose={() => setInfoModalOpen(false)}/>
-	</Dialog>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={close} color="secondary">
+					Cancelar
+				</Button>
+				<Button
+					onClick={submit}
+					color="secondary"
+					disabled={!authCodeOk || pending}
+					endIcon={pending ? <CircularProgress size={20} /> : null}
+				>
+					Confirmar
+				</Button>
+			</DialogActions>
+			<InfoModal
+				open={infoModalOpen}
+				handleClose={() => setInfoModalOpen(false)}
+			/>
+		</Dialog>
+	)
 }
 
 export default UpdateTranscriptModal

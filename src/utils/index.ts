@@ -1,17 +1,17 @@
-export function copyObj (obj: any) {
+export function copyObj(obj: any) {
 	return JSON.parse(JSON.stringify(obj))
 }
 
-function isDigit (c: string) {
+function isDigit(c: string) {
 	return c >= '0' && c <= '9'
 }
 
-function isSpecialCharacter (c: string) {
-	return " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".includes(c)
+function isSpecialCharacter(c: string) {
+	return ' !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'.includes(c)
 }
 
 // Returns true if password has at least 8 digits with at least one number and one special character
-export function validatePassword (pwd: string) {
+export function validatePassword(pwd: string) {
 	let hasDigit = false
 	let hasSpecialCharacter = false
 	for (let i = 0; i < pwd.length; ++i) {
@@ -23,7 +23,7 @@ export function validatePassword (pwd: string) {
 }
 
 // Returns the capitalized initials of a given string with multiple words
-export function getInitials (name: string): string {
+export function getInitials(name: string): string {
 	try {
 		const words = name.split(/\s+/)
 		return words.reduce((prev, cur) => {
@@ -40,17 +40,18 @@ export function getInitials (name: string): string {
 }
 
 // Returns true if email is valid and has domain "usp.br"
-export function validateEmail (email: string) {
-	const reg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)$/
+export function validateEmail(email: string) {
+	const reg =
+		/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)$/
 	const res = reg.exec(email)
 	return res && res[1] === 'usp.br'
 }
 
-export function unique<T> (arr: T[]): T[] {
+export function unique<T>(arr: T[]): T[] {
 	const ret: T[] = []
 
 	const st = new Set<T>()
-	arr.forEach(el => {
+	arr.forEach((el) => {
 		if (!st.has(el)) {
 			ret.push(el)
 			st.add(el)

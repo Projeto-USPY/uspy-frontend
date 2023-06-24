@@ -25,30 +25,30 @@ const SimpleConfirmationDialog: React.FC<SimpleConfirmationDialogProps> = ({
 	confirmText,
 	open,
 	confirmCallback,
-	cancelCallback
+	cancelCallback,
 }) => {
-	return <Dialog
-		open={open}
-		onClose={cancelCallback}
-		PaperComponent={PaperComponent}
-	>
-		<DialogTitle>
-			{title}
-		</DialogTitle>
-		{body ? <DialogContent>
-			<DialogContentText>
-				{body}
-			</DialogContentText>
-		</DialogContent> : null}
-		<DialogActions>
-			<Button autoFocus onClick={cancelCallback} color="secondary">
-				{cancelText}
-			</Button>
-			<Button onClick={confirmCallback} color="secondary">
-				{confirmText}
-			</Button>
-		</DialogActions>
-	</Dialog>
+	return (
+		<Dialog
+			open={open}
+			onClose={cancelCallback}
+			PaperComponent={PaperComponent}
+		>
+			<DialogTitle>{title}</DialogTitle>
+			{body ? (
+				<DialogContent>
+					<DialogContentText>{body}</DialogContentText>
+				</DialogContent>
+			) : null}
+			<DialogActions>
+				<Button autoFocus onClick={cancelCallback} color="secondary">
+					{cancelText}
+				</Button>
+				<Button onClick={confirmCallback} color="secondary">
+					{confirmText}
+				</Button>
+			</DialogActions>
+		</Dialog>
+	)
 }
 
 export default SimpleConfirmationDialog
