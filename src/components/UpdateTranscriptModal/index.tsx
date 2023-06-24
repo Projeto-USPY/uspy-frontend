@@ -33,18 +33,24 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const notify = useMySnackbar()
 
-	const authCodeString = ['0', '1', '2', '3'].reduce((prev, cur) => prev + '-' + (document.querySelector(`#auth-code-${cur}`)?.value || ''), '').substr(1)
+	const authCodeString = authCode.reduce((prev, cur) => prev + '-' + cur, '').substring(1)
 	const authCodeOk = /^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCodeString)
 
 	const uspyAlert = useErrorDialog()
 
-	const handlePaste = (id: number, str: string) => {
+	const handleAuthCodePaste = (id: number, str: string) => {
 		const values = authCode.slice()
 		for (let i = id; i < 4; ++i) values[i] = ''
 		for (let i = 0; i < str.length; ++i) {
 			if (id + Math.floor(i / 4) >= 4) break
 			values[id + Math.floor(i / 4)] += str[i]
 		}
+		setAuthCode(values)
+	}
+
+	const handleAuthCodeChange = (id: number, str: string) => {
+		const values = authCode.slice()
+		values[id] = str
 		setAuthCode(values)
 	}
 
@@ -86,7 +92,7 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 						{authCode.map((val, idx) =>
 							<React.Fragment key={idx}>
 								{idx ? '-' : <span> &nbsp; </span>}
-								<PartialInput id={idx} initialValue={val} handlePaste={handlePaste}/>
+								<PartialInput id={idx} value={val} handlePaste={handleAuthCodePaste} handleChange={handleAuthCodeChange}/>
 							</React.Fragment>
 						)}
 					</Grid>
