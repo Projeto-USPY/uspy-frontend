@@ -27,18 +27,14 @@ class APIClient {
 		})
 
 		this.axiosClient.interceptors.response.use(
-			(response) => response,
-			(error) => {
-				const data = error.response.data || {}
-				const statusCode = error.response.status
-				data.code = data.code || statusCodeToError[statusCode]
-				data.message =
-					data.message ||
-					error.response.statusText ||
-					statusCodeToError[statusCode] ||
-					'erro desconhecido'
+			response => response,
+			error => {
+				const data = error?.response?.data ?? {}
+				const statusCode = error?.response?.status ?? 0
+				const code = data.code || statusCodeToError[statusCode]
+				const message = data.message || error?.response?.statusText || statusCodeToError[statusCode] || 'erro desconhecido'
 
-				throw new APIError(data.code, data.message, statusCode)
+				throw new APIError(code, message, statusCode)
 			},
 		)
 

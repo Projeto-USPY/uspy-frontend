@@ -9,7 +9,8 @@ class APIError extends Error {
 	}
 }
 
-export const statusCodeToError: { [index: number]: string } = {
+export const statusCodeToError: {[index: number]: string} = {
+	0: 'erro desconhecido',
 	400: 'bad_request',
 	401: 'unauthorized',
 	403: 'forbidden',
