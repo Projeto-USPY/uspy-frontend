@@ -28,42 +28,69 @@ interface UserMenuProps {
 	setUserNone?: ActionCreator<ReduxAction>
 }
 
-let UserMenu: React.FC<UserMenuProps> = ({ open, anchor, setOpen, setUserNone }) => {
+let UserMenu: React.FC<UserMenuProps> = ({
+	open,
+	anchor,
+	setOpen,
+	setUserNone,
+}) => {
 	const history = useHistory()
 	const notify = useMySnackbar()
-	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
+	const [confirmationDialogOpen, setConfirmationDialogOpen] =
+		useState<boolean>(false)
 
 	const menuStyle = {
-		minWidth: '100px'
+		minWidth: '100px',
 	}
 	const handleLogout = () => {
 		notify('Sessão encerrada', 'info')
 		api.logout()
 		setUserNone()
 	}
-	return <Menu
-		open={open}
-		anchorEl={anchor}
-		onClose={() => setOpen(false)}
-		transformOrigin={{
-			vertical: -60,
-			horizontal: 'left'
-		}}
-	>
-		<MenuItem onClick={() => history.push(buildProfilePageURI())} style={menuStyle}> Perfil </MenuItem>
-		<MenuItem onClick={() => history.push(buildAccountPageURI())} style={menuStyle}> Conta </MenuItem>
-		<MenuItem onClick={() => setConfirmationDialogOpen(true)} style={menuStyle}> Logout </MenuItem>
-		<SimpleConfirmationDialog
-			title="Tem certeza que deseja sair?"
-			cancelText="Cancelar"
-			confirmText="Sim"
-			open={confirmationDialogOpen}
-			cancelCallback={() => setConfirmationDialogOpen(false)}
-			confirmCallback={handleLogout}
-		/>
-	</Menu>
+	return (
+		<Menu
+			open={open}
+			anchorEl={anchor}
+			onClose={() => setOpen(false)}
+			transformOrigin={{
+				vertical: -60,
+				horizontal: 'left',
+			}}
+		>
+			<MenuItem
+				onClick={() => history.push(buildProfilePageURI())}
+				style={menuStyle}
+			>
+				{' '}
+				Perfil{' '}
+			</MenuItem>
+			<MenuItem
+				onClick={() => history.push(buildAccountPageURI())}
+				style={menuStyle}
+			>
+				{' '}
+				Conta{' '}
+			</MenuItem>
+			<MenuItem
+				onClick={() => setConfirmationDialogOpen(true)}
+				style={menuStyle}
+			>
+				{' '}
+				Logout{' '}
+			</MenuItem>
+			<SimpleConfirmationDialog
+				title="Tem certeza que deseja sair?"
+				cancelText="Cancelar"
+				confirmText="Sim"
+				open={confirmationDialogOpen}
+				cancelCallback={() => setConfirmationDialogOpen(false)}
+				confirmCallback={handleLogout}
+			/>
+		</Menu>
+	)
 }
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setUserNone }, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch) =>
+	bindActionCreators({ setUserNone }, dispatch)
 UserMenu = connect(null, mapDispatchToProps)(UserMenu)
 
 const Navbar: React.FC = () => {
@@ -73,20 +100,40 @@ const Navbar: React.FC = () => {
 	const history = useHistory()
 
 	const goHome = () => {
-		if (history.location.pathname !== buildHomePageURI()) history.push(buildHomePageURI())
+		if (history.location.pathname !== buildHomePageURI())
+			history.push(buildHomePageURI())
 	}
 
-	const menuIcon = <>
-		<IconButton size='medium' ref={anchorRef} style={{ color: 'white' }} aria-label="Menu" onClick={() => setMenuOpen(true)}>
-			<AccountCircleIcon />
-		</IconButton>
-	</>
+	const menuIcon = (
+		<>
+			<IconButton
+				size="medium"
+				ref={anchorRef}
+				style={{ color: 'white' }}
+				aria-label="Menu"
+				onClick={() => setMenuOpen(true)}
+			>
+				<AccountCircleIcon />
+			</IconButton>
+		</>
+	)
 
-	return <Toolbar className="toolbar">
-		<img src={Logo} style={{ marginTop: '-.5rem', cursor: 'pointer' } } height={30} onClick={goHome} />
-		{menuIcon}
-		<UserMenu anchor={anchorRef.current} open={menuOpen} setOpen={setMenuOpen}/>
-	</Toolbar>
+	return (
+		<Toolbar className="toolbar">
+			<img
+				src={Logo}
+				style={{ marginTop: '-.5rem', cursor: 'pointer' }}
+				height={30}
+				onClick={goHome}
+			/>
+			{menuIcon}
+			<UserMenu
+				anchor={anchorRef.current}
+				open={menuOpen}
+				setOpen={setMenuOpen}
+			/>
+		</Toolbar>
+	)
 }
 
 export default memo(connect(null, mapDispatchToProps)(Navbar))

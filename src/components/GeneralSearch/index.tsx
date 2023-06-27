@@ -57,10 +57,10 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 					course: res.code,
 					specialization: res.specialization,
 					code: val,
-					name: res.subjects[val]
+					name: res.subjects[val],
 				}))
 				setSubjectOptions(data)
-			}
+			},
 		)
 	}, [course, institute])
 
@@ -73,10 +73,10 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 
 	const autocompleteFilterOptions = (
 		options: string[],
-		{ inputValue }: any
+		{ inputValue }: any,
 	) => {
 		return matchSorter(options, inputValue, {
-			keys: [getOptionLabel]
+			keys: [getOptionLabel],
 		}).slice(0, 40)
 	}
 
@@ -119,22 +119,26 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 			<Grid
 				container
 				direction="column"
-				style={{ margin: '5px 0 5px 0' }}>
+				style={{ margin: '5px 0 5px 0' }}
+			>
 				<Grid
 					item
 					spacing={1}
 					container
 					style={{
 						justifyContent: 'flex-start',
-						alignItems: isLarge ? 'center' : 'flex-start'
-					}}>
+						alignItems: isLarge ? 'center' : 'flex-start',
+					}}
+				>
 					<Grid // building button
-						item>
+						item
+					>
 						<DomainIcon
 							onClick={() => {
 								setDomainCollapse(!domainCollapse)
 							}}
-							cursor="pointer"></DomainIcon>
+							cursor="pointer"
+						></DomainIcon>
 					</Grid>
 					<Grid
 						item // institute input
@@ -142,8 +146,9 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							minWidth: !isLarge && domainCollapse ? '100%' : '0'
-						}}>
+							minWidth: !isLarge && domainCollapse ? '100%' : '0',
+						}}
+					>
 						<Collapse in={domainCollapse}>
 							<SearchSelector
 								hidden={!domainCollapse}
@@ -152,13 +157,13 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 									setInstitute(val.code)
 									localStorage.setItem(
 										'selected-institute',
-										val.code
+										val.code,
 									)
 								}}
 								label="Procure por um instituto"
 								getOptionLabel={(option) =>
 									`${option.name} (${getInitials(
-										option.name
+										option.name,
 									)})`
 								}
 							/>
@@ -166,19 +171,22 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 					</Grid>
 
 					<Grid // course button
-						item>
+						item
+					>
 						<LayersIcon
 							onClick={() => {
 								setLayersCollapse(!layersCollapse)
 							}}
-							cursor="pointer"></LayersIcon>
+							cursor="pointer"
+						></LayersIcon>
 					</Grid>
 					<Grid // course input
 						item
 						xs={true}
 						style={{
-							minWidth: !isLarge && layersCollapse ? '100%' : '0'
-						}}>
+							minWidth: !isLarge && layersCollapse ? '100%' : '0',
+						}}
+					>
 						<Collapse in={layersCollapse}>
 							<SearchSelector
 								hidden={!layersCollapse}
@@ -187,14 +195,14 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 									setCourse([val.code, val.specialization])
 									localStorage.setItem(
 										'selected-course',
-										`${val.code}-${val.specialization}`
+										`${val.code}-${val.specialization}`,
 									)
 									setSearchDisabled(false)
 								}}
 								label="Procure por um curso"
 								getOptionLabel={(option) =>
 									`${option.name} (${getInitials(
-										option.name
+										option.name,
 									)}) (${option.shift ?? ''})`
 								}
 							/>
@@ -202,9 +210,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 					</Grid>
 				</Grid>
 				<Grid item>
-					<Collapse
-						in={!searchDisabled}
-					>
+					<Collapse in={!searchDisabled}>
 						<Autocomplete
 							autoHighlight
 							clearText="Limpar"
@@ -218,21 +224,23 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 							filterOptions={autocompleteFilterOptions}
 							ListboxProps={{
 								style: {
-									maxHeight: '180px'
-								}
+									maxHeight: '180px',
+								},
 							}}
-
 							renderInput={(params) => (
 								<TextField
 									{...params}
 									color="secondary"
-									label={searchDisabled ? 'Selecione seu instituto e curso' : 'Procure por uma disciplina'}
+									label={
+										searchDisabled
+											? 'Selecione seu instituto e curso'
+											: 'Procure por uma disciplina'
+									}
 									variant="outlined"
 								/>
 							)}
 						/>
 					</Collapse>
-
 				</Grid>
 			</Grid>
 		</Container>

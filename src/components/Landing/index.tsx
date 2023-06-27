@@ -32,7 +32,7 @@ const Landing: React.FC<LandingProps> = () => {
 			style={{
 				gap: '75px',
 				paddingLeft: !isDesktop ? '15px' : 0,
-				paddingRight: !isDesktop ? '15px' : 0
+				paddingRight: !isDesktop ? '15px' : 0,
 			}}
 		>
 			<Grid
@@ -41,7 +41,8 @@ const Landing: React.FC<LandingProps> = () => {
 				style={{ gap: '75px' }}
 				direction={isDesktop ? 'row' : 'column'}
 				justify="center"
-				alignItems="center">
+				alignItems="center"
+			>
 				{/** review professors */}
 				<Grid item xs>
 					<h1>Avalie seus professores prediletos</h1>
@@ -59,7 +60,7 @@ const Landing: React.FC<LandingProps> = () => {
 							boxShadow: '1px 1px 5px 0px rgb(0, 0, 0, .25)',
 							maxWidth: isDesktop ? '100%' : '80%',
 							height: 'auto',
-							width: 'auto'
+							width: 'auto',
 						}}
 					/>
 				</Grid>
@@ -71,7 +72,8 @@ const Landing: React.FC<LandingProps> = () => {
 				style={{ gap: '75px' }}
 				direction={isDesktop ? 'row' : 'column'}
 				justify="center"
-				alignItems="center">
+				alignItems="center"
+			>
 				{/** track your progress */}
 				<Grid item container justify="center" xs>
 					<h1>Acompanhe seu progresso na USP</h1>
@@ -91,7 +93,7 @@ const Landing: React.FC<LandingProps> = () => {
 							boxShadow: '1px 1px 5px 0px rgb(0, 0, 0, .25)',
 							maxWidth: isDesktop ? '350px' : '70%',
 							height: 'auto',
-							width: 'auto'
+							width: 'auto',
 						}}
 					/>
 				</Grid>
@@ -102,7 +104,8 @@ const Landing: React.FC<LandingProps> = () => {
 				container
 				direction={isDesktop ? 'row' : 'column'}
 				justify="center"
-				alignItems="center">
+				alignItems="center"
+			>
 				{/** explore subjects */}
 				<Grid item container justify="center" align="center" xs>
 					<h1>Explore as disciplinas do seu curso</h1>
@@ -126,7 +129,7 @@ const Landing: React.FC<LandingProps> = () => {
 							maxHeight: '700px',
 							maxWidth: '100%',
 							height: 'auto',
-							width: 'auto'
+							width: 'auto',
 						}}
 					/>
 				</Grid>
@@ -142,7 +145,6 @@ const Landing: React.FC<LandingProps> = () => {
 				alignItems="center"
 				style={{ gap: '30px' }}
 			>
-
 				<Grid item container direction="column">
 					<Grid item>
 						<h1>Fique por dentro de tudo!</h1>
@@ -158,7 +160,7 @@ const Landing: React.FC<LandingProps> = () => {
 							maxWidth: '100%',
 							height: 'auto',
 							width: 'auto',
-							contain: 'content'
+							contain: 'content',
 						}}
 					/>
 				</Grid>
@@ -170,7 +172,8 @@ const Landing: React.FC<LandingProps> = () => {
 				direction={isDesktop ? 'row' : 'column'}
 				wrap={'nowrap'}
 				justify="center"
-				alignItems="center">
+				alignItems="center"
+			>
 				{/** by students, for students */}
 				<Grid item container justify="center" align="center" xs>
 					<h1>De alunos para alunos</h1>
@@ -187,14 +190,16 @@ const Landing: React.FC<LandingProps> = () => {
 						<a
 							className="link"
 							href="https://github.com/Projeto-USPY"
-							style={{ color: theme.palette.primary.main }}>
+							style={{ color: theme.palette.primary.main }}
+						>
 							GitHub
 						</a>{' '}
 						ou entre em contato conosco{' '}
 						<a
 							className="link"
 							href="https://forms.gle/2Yrm1VGDJiDH1Dnm6"
-							style={{ color: theme.palette.primary.main }}>
+							style={{ color: theme.palette.primary.main }}
+						>
 							aqui
 						</a>
 						.
@@ -206,16 +211,19 @@ const Landing: React.FC<LandingProps> = () => {
 						justify="center"
 						align="center"
 						spacing={1}
-						style={{ margin: '10px 0 10px 0' }}>
+						style={{ margin: '10px 0 10px 0' }}
+					>
 						<Grid item>
 							<ContributeButton
 								text="QUERO ME CADASTRAR!"
-								url="/cadastro"></ContributeButton>
+								url="/cadastro"
+							></ContributeButton>
 						</Grid>
 						<Grid item>
 							<ContributeButton
 								text="QUERO CONTRIBUIR!"
-								url="https://forms.gle/2Yrm1VGDJiDH1Dnm6"></ContributeButton>
+								url="https://forms.gle/2Yrm1VGDJiDH1Dnm6"
+							></ContributeButton>
 						</Grid>
 					</Grid>
 				</Grid>
@@ -229,7 +237,7 @@ const Landing: React.FC<LandingProps> = () => {
 							maxWidth: '100%',
 							height: 'auto',
 							width: 'auto',
-							contain: 'content'
+							contain: 'content',
 						}}
 					/>
 				</Grid>
@@ -241,7 +249,8 @@ const Landing: React.FC<LandingProps> = () => {
 				direction="column"
 				justify="center"
 				alignItems="center"
-				style={{ margin: '50px 0 100px 0' }}>
+				style={{ margin: '50px 0 100px 0' }}
+			>
 				{/** FAQ */}
 				<h1>Perguntas Frequentes</h1>
 				<Grid item>

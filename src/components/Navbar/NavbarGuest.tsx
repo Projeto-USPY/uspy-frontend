@@ -18,7 +18,10 @@ import { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
 
 import './style.css'
 
-const buttonsGuest = [{ title: 'Login', route: buildLoginPageURI() }, { title: 'Cadastrar', route: buildRegisterPageURI() }]
+const buttonsGuest = [
+	{ title: 'Login', route: buildLoginPageURI() },
+	{ title: 'Cadastrar', route: buildRegisterPageURI() },
+]
 
 const Navbar: React.FC = () => {
 	const theme = useTheme()
@@ -29,36 +32,76 @@ const Navbar: React.FC = () => {
 	if (isLarge && isMobileMenuVisible) setIsMobileMenuVisible(false)
 
 	const goHome = () => {
-		if (history.location.pathname !== buildHomePageURI()) history.push(buildHomePageURI())
+		if (history.location.pathname !== buildHomePageURI())
+			history.push(buildHomePageURI())
 	}
 
-	const buttonsDiv = <>
-		<div>
-			{buttonsGuest.map((props, idx) => <Button className="h100" color="inherit" key={idx} onClick={() => history.push(props.route)}>{props.title}</Button>)}
-		</div>
-	</>
-	const menuIcon = <>
-		<IconButton style={{ color: 'white' }} aria-label="Menu" onClick={() => setIsMobileMenuVisible(!isMobileMenuVisible)}>
-			<MenuIcon />
-		</IconButton>
-	</>
+	const buttonsDiv = (
+		<>
+			<div>
+				{buttonsGuest.map((props, idx) => (
+					<Button
+						className="h100"
+						color="inherit"
+						key={idx}
+						onClick={() => history.push(props.route)}
+					>
+						{props.title}
+					</Button>
+				))}
+			</div>
+		</>
+	)
+	const menuIcon = (
+		<>
+			<IconButton
+				style={{ color: 'white' }}
+				aria-label="Menu"
+				onClick={() => setIsMobileMenuVisible(!isMobileMenuVisible)}
+			>
+				<MenuIcon />
+			</IconButton>
+		</>
+	)
 
-	const mobileMenu = <>
-		<Collapse in={isMobileMenuVisible}>
-			<Paper variant="outlined" square>
-				<ButtonGroup orientation="vertical" className="w100" color='primary'>
-					{buttonsGuest.map((props, idx) => <Button className="w100" key={idx} onClick={() => history.push(props.route)}> {props.title}</Button>)}
-				</ButtonGroup>
-			</Paper>
-		</Collapse>
-	</>
-	return <>
-		<Toolbar className="toolbar">
-			<img src={Logo} style={{ marginTop: '-.5rem', cursor: 'pointer' } } height={30} onClick={goHome} />
-			{isLarge ? buttonsDiv : menuIcon}
-		</Toolbar>
-		{ mobileMenu }
-	</>
+	const mobileMenu = (
+		<>
+			<Collapse in={isMobileMenuVisible}>
+				<Paper variant="outlined" square>
+					<ButtonGroup
+						orientation="vertical"
+						className="w100"
+						color="primary"
+					>
+						{buttonsGuest.map((props, idx) => (
+							<Button
+								className="w100"
+								key={idx}
+								onClick={() => history.push(props.route)}
+							>
+								{' '}
+								{props.title}
+							</Button>
+						))}
+					</ButtonGroup>
+				</Paper>
+			</Collapse>
+		</>
+	)
+	return (
+		<>
+			<Toolbar className="toolbar">
+				<img
+					src={Logo}
+					style={{ marginTop: '-.5rem', cursor: 'pointer' }}
+					height={30}
+					onClick={goHome}
+				/>
+				{isLarge ? buttonsDiv : menuIcon}
+			</Toolbar>
+			{mobileMenu}
+		</>
+	)
 }
 
 export default memo(Navbar)

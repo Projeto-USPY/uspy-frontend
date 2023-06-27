@@ -6,18 +6,24 @@ import Popover from '@material-ui/core/Popover'
 import { PieChart, Pie, ResponsiveContainer, Cell } from 'recharts'
 
 interface PropsType {
-    approval: number
-    neutral: number
-    disapproval: number
-    noStatsMessage?: string
+	approval: number
+	neutral: number
+	disapproval: number
+	noStatsMessage?: string
 	showQuestionMark?: boolean
 }
 
-function toPercentage (x: number): string {
+function toPercentage(x: number): string {
 	return (100 * x).toFixed(0) + '%'
 }
 
-const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disapproval, noStatsMessage = 'Não existem avaliações suficientes para este professor', showQuestionMark = false }: PropsType) => {
+const OfferingApprovalDonut: React.FC<PropsType> = ({
+	approval,
+	neutral,
+	disapproval,
+	noStatsMessage = 'Não existem avaliações suficientes para este professor',
+	showQuestionMark = false,
+}: PropsType) => {
 	let missingData = false
 	let errorMessage = ''
 	if (!approval && !neutral && !disapproval) {
@@ -33,7 +39,9 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 
 	// Popover (tooltip) stuff
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
-	const handlePopoverOpen = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+	const handlePopoverOpen = (
+		event: React.MouseEvent<HTMLElement, MouseEvent>,
+	) => {
 		setAnchorEl(event.currentTarget)
 	}
 	const handlePopoverClose = () => {
@@ -50,50 +58,54 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 	}, [])
 
 	const isPopoverOpen = Boolean(anchorEl)
-	const popover = <Popover
-		anchorEl={anchorEl}
-		open={isPopoverOpen}
-		style={{
-			pointerEvents: 'none'
-		}}
-		anchorOrigin={{
-			vertical: 'top',
-			horizontal: 'right'
-		}}
-		transformOrigin={{
-			vertical: 'top',
-			horizontal: 'left'
-		}}
-		onClose={handlePopoverClose}
-		disableRestoreFocus
-		disableScrollLock
-		elevation={3}
-	>
-		<Paper className="prompt tooltip-card">
-			{
-				errorMessage || (missingData ? noStatsMessage
-					: <ul className="donut-tooltip">
-						<li> Aprovam: {toPercentage(approval)} </li>
-						<li> Desaprovam: {toPercentage(disapproval)} </li>
-						<li> Neutros: {toPercentage(neutral)} </li>
-					</ul>)
-			}
-		</Paper>
-	</Popover>
+	const popover = (
+		<Popover
+			anchorEl={anchorEl}
+			open={isPopoverOpen}
+			style={{
+				pointerEvents: 'none',
+			}}
+			anchorOrigin={{
+				vertical: 'top',
+				horizontal: 'right',
+			}}
+			transformOrigin={{
+				vertical: 'top',
+				horizontal: 'left',
+			}}
+			onClose={handlePopoverClose}
+			disableRestoreFocus
+			disableScrollLock
+			elevation={3}
+		>
+			<Paper className="prompt tooltip-card">
+				{errorMessage ||
+					(missingData ? (
+						noStatsMessage
+					) : (
+						<ul className="donut-tooltip">
+							<li> Aprovam: {toPercentage(approval)} </li>
+							<li> Desaprovam: {toPercentage(disapproval)} </li>
+							<li> Neutros: {toPercentage(neutral)} </li>
+						</ul>
+					))}
+			</Paper>
+		</Popover>
+	)
 
 	const data = [
 		{
 			value: approval,
-			name: 'approval'
+			name: 'approval',
 		},
 		{
 			value: neutral,
-			name: 'neutral'
+			name: 'neutral',
 		},
 		{
 			value: disapproval,
-			name: 'disapproval'
-		}
+			name: 'disapproval',
+		},
 	]
 
 	const colors = ['#00910E', '#6a86a3', '#FF0000']
@@ -102,33 +114,52 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({ approval, neutral, disappr
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		position: 'relative'
+		position: 'relative',
 	}
 
 	console.log(`${errorMessage} # ${missingData}`)
 
-	return <>
-		<div style={wrapperStyle} onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
-			<ResponsiveContainer aspect={1} height={60}>
-				<PieChart width={60} height={60}>
-					<Pie dataKey='value' data={data} cx="50%" cy="50%" outerRadius={20} innerRadius={10} startAngle={90} endAngle={450}>
-						{
-							data.map((_, index) => (
-								<Cell key={`cell-${index}`} fill={errorMessage || missingData ? '#DEDEDE' : colors[index]}/>
-							))
-						}
-					</Pie>
-				</PieChart>
-			</ResponsiveContainer>
-			{ showQuestionMark
-				? <span style={{ position: 'absolute', color: 'grey' }}>
-					?
-				</span>
-				: null
-			}
-		</div>
-		{popover}
-	</>
+	return (
+		<>
+			<div
+				style={wrapperStyle}
+				onMouseEnter={handlePopoverOpen}
+				onMouseLeave={handlePopoverClose}
+			>
+				<ResponsiveContainer aspect={1} height={60}>
+					<PieChart width={60} height={60}>
+						<Pie
+							dataKey="value"
+							data={data}
+							cx="50%"
+							cy="50%"
+							outerRadius={20}
+							innerRadius={10}
+							startAngle={90}
+							endAngle={450}
+						>
+							{data.map((_, index) => (
+								<Cell
+									key={`cell-${index}`}
+									fill={
+										errorMessage || missingData
+											? '#DEDEDE'
+											: colors[index]
+									}
+								/>
+							))}
+						</Pie>
+					</PieChart>
+				</ResponsiveContainer>
+				{showQuestionMark ? (
+					<span style={{ position: 'absolute', color: 'grey' }}>
+						?
+					</span>
+				) : null}
+			</div>
+			{popover}
+		</>
+	)
 }
 
 export default React.memo(OfferingApprovalDonut)

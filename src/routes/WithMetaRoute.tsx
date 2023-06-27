@@ -11,15 +11,26 @@ interface WithMetaRoutePropsType extends RouteProps {
 	robots?: string[]
 }
 
-const WithMetaRoute: React.FC<WithMetaRoutePropsType> = ({ title, description, robots, ...rest }) => {
-	return <Route {...rest} component={null}>
-		<Helmet>
-			{title ? <title> {title} </title> : null}
-			{description ? <meta name="description" content={description} /> : null}
-			{robots ? <meta name="robots" content={robots.join(',')}/> : null}
-		</Helmet>
-		<rest.component/>
-	</Route>
+const WithMetaRoute: React.FC<WithMetaRoutePropsType> = ({
+	title,
+	description,
+	robots,
+	...rest
+}) => {
+	return (
+		<Route {...rest} component={null}>
+			<Helmet>
+				{title ? <title> {title} </title> : null}
+				{description ? (
+					<meta name="description" content={description} />
+				) : null}
+				{robots ? (
+					<meta name="robots" content={robots.join(',')} />
+				) : null}
+			</Helmet>
+			<rest.component />
+		</Route>
+	)
 }
 
 export default WithMetaRoute

@@ -14,13 +14,17 @@ export interface AppState {
 }
 
 // Types of Redux Actions
-export type ReduxActionType = 'LOGIN' | 'LOGOUT' | 'ALERT' | 'SET_LAST_UPDATED_ACCOUNT'
+export type ReduxActionType =
+	| 'LOGIN'
+	| 'LOGOUT'
+	| 'ALERT'
+	| 'SET_LAST_UPDATED_ACCOUNT'
 
 export interface ReduxAction extends Action {
 	type: ReduxActionType
 	payload:
-		User |		// 'LOGIN'
-		null |		// 'LOGOUT'
-		DialogError | // 'ALERT'
-		string // 'SET_LAST_UPDATED_ACCOUNT'
+		| User // 'LOGIN'
+		| null // 'LOGOUT'
+		| DialogError // 'ALERT'
+		| string // 'SET_LAST_UPDATED_ACCOUNT'
 }

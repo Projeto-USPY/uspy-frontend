@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from '@material-ui/core/Button'
@@ -8,7 +8,6 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
@@ -21,8 +20,8 @@ import PartialInput from 'components/PartialInput'
 import { useErrorDialog, useMySnackbar } from 'hooks'
 
 interface PropsType {
-    open: boolean
-    close: () => void
+	open: boolean
+	close: () => void
 }
 
 const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
@@ -30,27 +29,20 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 	const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false)
 	const [pending, setPending] = useState<boolean>(false)
 
-	const [captchaImg, setCaptchaImg] = useState<string>('')
-	const [captcha, setCaptcha] = useState<string>('')
-	const [showCaptchaError, setShowCaptchaError] = useState<boolean>(false)
-
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const notify = useMySnackbar()
 
-	const captchaOk = /^[\w\d]{4}$/.test(captcha)
-	const authCodeString = ['0', '1', '2', '3'].reduce((prev, cur) => prev + '-' + (document.querySelector(`#auth-code-${cur}`)?.value || ''), '').substr(1)
-	const authCodeOk = /^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(authCodeString)
+	const authCodeString = authCode
+		.reduce((prev, cur) => prev + '-' + cur, '')
+		.substring(1)
+	const authCodeOk = /^[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}/.test(
+		authCodeString,
+	)
 
 	const uspyAlert = useErrorDialog()
 
-	useEffect(() => {
-		api.getRegistrationCaptcha().then(captchaImg => {
-			setCaptchaImg(captchaImg)
-		})
-	}, [])
-
-	const handlePaste = (id: number, str: string) => {
+	const handleAuthCodePaste = (id: number, str: string) => {
 		const values = authCode.slice()
 		for (let i = id; i < 4; ++i) values[i] = ''
 		for (let i = 0; i < str.length; ++i) {
@@ -60,92 +52,106 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 		setAuthCode(values)
 	}
 
+	const handleAuthCodeChange = (id: number, str: string) => {
+		const values = authCode.slice()
+		values[id] = str
+		setAuthCode(values)
+	}
+
 	const dispatch = useDispatch()
 	const submit = () => {
 		setPending(true) // update is pending
-		api.updateAccount(authCodeString, captcha).then(() => {
-			notify('Histórico atualizado com sucesso', 'success')
-			setPending(false)
-			close()
+		api.updateAccount(authCodeString)
+			.then(() => {
+				notify('Histórico atualizado com sucesso', 'success')
+				setPending(false)
+				close()
 
-			api.isAuthenticated().then(([_, lastUpdated]) => {
-				dispatch(setLastUpdatedAccount(lastUpdated))
-			}).catch(err => {
-				console.error(`Error: (${err})`)
+				api.isAuthenticated()
+					.then(([_, lastUpdated]) => {
+						dispatch(setLastUpdatedAccount(lastUpdated))
+					})
+					.catch((err) => {
+						console.error(`Error: (${err})`)
+					})
 			})
-		}).catch(err => {
-			if (err.code === 'bad_request') {
-				uspyAlert('Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!')
-			} else {
-				uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde`, 'Falha no cadastro')
-			}
-			setCaptcha('')
-			setShowCaptchaError(false)
-			api.getRegistrationCaptcha().then(captchaImg => {
-				setCaptchaImg(captchaImg)
+			.catch((err) => {
+				if (err.code === 'bad_request') {
+					uspyAlert(
+						'Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!',
+					)
+				} else {
+					uspyAlert(
+						`Algo deu errado (${err.message}). Tente novamente mais tarde`,
+						'Falha no cadastro',
+					)
+				}
+				setPending(false)
 			})
-			setPending(false)
-		})
 	}
 
-	return <Dialog onClose={close} open={open}>
-		<DialogTitle> Atualizar histórico </DialogTitle>
-		<DialogContent>
-			<Grid container direction='column' alignItems='center' spacing={2}>
-				<Grid item>
-					<Typography>
-                        Atualize seu histórico obtendo um novo código de autenticidade do seu resumo escolar.
-						<InfoIcon fontSize='inherit' style={{ cursor: 'pointer' }} onClick={() => setInfoModalOpen(true)} />
-					</Typography>
-				</Grid>
-				<Grid item style={{ maxWidth: '400px', width: '100%' }}>
-					<Grid container justify={isDesktop ? 'center' : 'space-around'} alignItems='center' wrap='wrap' >
-						{authCode.map((val, idx) =>
-							<React.Fragment key={idx}>
-								{idx ? '-' : <span> &nbsp; </span>}
-								<PartialInput id={idx} initialValue={val} handlePaste={handlePaste}/>
-							</React.Fragment>
-						)}
+	return (
+		<Dialog onClose={close} open={open}>
+			<DialogTitle> Atualizar histórico </DialogTitle>
+			<DialogContent>
+				<Grid
+					container
+					direction="column"
+					alignItems="center"
+					spacing={2}
+				>
+					<Grid item>
+						<Typography>
+							Atualize seu histórico obtendo um novo código de
+							autenticidade do seu resumo escolar.
+							<InfoIcon
+								fontSize="inherit"
+								style={{ cursor: 'pointer' }}
+								onClick={() => setInfoModalOpen(true)}
+							/>
+						</Typography>
+					</Grid>
+					<Grid item style={{ maxWidth: '400px', width: '100%' }}>
+						<Grid
+							container
+							justify={isDesktop ? 'center' : 'space-around'}
+							alignItems="center"
+							wrap="wrap"
+						>
+							{authCode.map((val, idx) => (
+								<React.Fragment key={idx}>
+									{idx ? '-' : <span> &nbsp; </span>}
+									<PartialInput
+										id={idx}
+										value={val}
+										handlePaste={handleAuthCodePaste}
+										handleChange={handleAuthCodeChange}
+									/>
+								</React.Fragment>
+							))}
+						</Grid>
 					</Grid>
 				</Grid>
-				<Grid item style={{ maxWidth: '400px', width: '100%' }}>
-					<img
-						src={captchaImg}
-						style={{ width: '100%' }}
-						alt="Captcha não encontrado"
-					/>
-				</Grid>
-				<Grid item style={{ maxWidth: '400px', width: '100%' }}>
-					<TextField
-						label="Captcha"
-						error={!captchaOk && showCaptchaError}
-						helperText={!captchaOk && showCaptchaError ? 'Exatamente 4 caracteres com letras ou números' : ''}
-						value={captcha}
-						onBlur={() => setShowCaptchaError(true)}
-						onChange={(evt: any) => setCaptcha(evt.target.value)}
-						variant='outlined'
-						color='secondary'
-						size='small'
-						fullWidth
-					/>
-				</Grid>
-			</Grid>
-		</DialogContent>
-		<DialogActions>
-			<Button onClick={close} color="secondary">
-                Cancelar
-			</Button>
-			<Button
-				onClick={submit}
-				color="secondary"
-				disabled={!captchaOk || !authCodeOk}
-				endIcon={pending ? <CircularProgress size={20} /> : null}
-			>
-                Confirmar
-			</Button>
-		</DialogActions>
-		<InfoModal open={infoModalOpen} handleClose={() => setInfoModalOpen(false)}/>
-	</Dialog>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={close} color="secondary">
+					Cancelar
+				</Button>
+				<Button
+					onClick={submit}
+					color="secondary"
+					disabled={!authCodeOk || pending}
+					endIcon={pending ? <CircularProgress size={20} /> : null}
+				>
+					Confirmar
+				</Button>
+			</DialogActions>
+			<InfoModal
+				open={infoModalOpen}
+				handleClose={() => setInfoModalOpen(false)}
+			/>
+		</Dialog>
+	)
 }
 
 export default UpdateTranscriptModal

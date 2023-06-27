@@ -13,9 +13,15 @@ interface ImageBlockProps {
 	center?: boolean
 }
 
-const ImageBlock: React.FC<ImageBlockProps> = ({ imageSource, title, size, caption, center = false }) => {
+const ImageBlock: React.FC<ImageBlockProps> = ({
+	imageSource,
+	title,
+	size,
+	caption,
+	center = false,
+}) => {
 	const fullWidth = {
-		width: '100%'
+		width: '100%',
 	}
 
 	const theme = useTheme()
@@ -43,17 +49,28 @@ const ImageBlock: React.FC<ImageBlockProps> = ({ imageSource, title, size, capti
 		marginLeft: isMD ? '0 1rem' : '0',
 		marginRight: isMD ? '0 1rem' : '0',
 		marginTop: '2rem',
-		marginBottom: '2rem'
+		marginBottom: '2rem',
 	}
 
-	return <Grid style={margin} container justify={center ? 'center' : 'flex-start'}>
-		<Grid item xs={colsXS} md={colsMD} lg={colsLG}>
-			<div className='figure' style={fullWidth}>
-				<div><img src={imageSource} alt={title} style={fullWidth}/></div>
-				<figcaption> <Typography variant='caption'> {caption} </Typography></figcaption>
-			</div>
+	return (
+		<Grid
+			style={margin}
+			container
+			justify={center ? 'center' : 'flex-start'}
+		>
+			<Grid item xs={colsXS} md={colsMD} lg={colsLG}>
+				<div className="figure" style={fullWidth}>
+					<div>
+						<img src={imageSource} alt={title} style={fullWidth} />
+					</div>
+					<figcaption>
+						{' '}
+						<Typography variant="caption"> {caption} </Typography>
+					</figcaption>
+				</div>
+			</Grid>
 		</Grid>
-	</Grid>
+	)
 }
 
 export default ImageBlock

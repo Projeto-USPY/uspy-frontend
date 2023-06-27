@@ -4,10 +4,10 @@ export interface User {
 }
 export const guestUser: User = {
 	user: '0',
-	name: ''
+	name: '',
 }
 
 export const unknownUser: User = {
 	user: '',
-	name: ''
+	name: '',
 }
