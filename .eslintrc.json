@@ -6,7 +6,8 @@
 	"extends": [
 		"plugin:react/recommended",
 		"standard",
-		"plugin:cypress/recommended"
+		"plugin:cypress/recommended",
+		"prettier"
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
@@ -20,29 +21,13 @@
 		"react",
 		"@typescript-eslint",
 		"import-helpers",
-		"cypress"
+		"cypress",
+		"prettier"
 	],
 	"overrides": [{
 		"files": "*.ts"
 	}],
 	"rules": {
-		"indent": ["error", "tab"],
-		"no-tabs": 0,
-		"react/prop-types": 0,
-		"camelcase": "warn",
-		"import-helpers/order-imports": [
-			"warn",
-			{ // example configuration
-				"newlinesBetween": "always",
-				"groups": [
-					"/^react/",
-					"/^redux/",
-					"/^@material-ui/",
-					"/^types/",
-					"module"
-				],
-				"alphabetize": { "order": "asc", "ignoreCase": true }
-			}
-		]
+		"react/prop-types": 0
 	}
 }

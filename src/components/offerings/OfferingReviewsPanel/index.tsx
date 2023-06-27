@@ -11,28 +11,42 @@ import OfferingContext from 'contexts/OfferingContext'
 import ReviewContext from 'contexts/ReviewContext'
 
 const OfferingReviewsPanel = () => {
-	const { professor, course, specialization, code } = useContext(OfferingContext)
+	const { professor, course, specialization, code } =
+		useContext(OfferingContext)
 	const [userReview, setUserReview] = useState<OfferingReview | null>(null)
 	useEffect(() => {
-		api.getUserOfferingReview(course, specialization, code, professor).then(review => {
-			setUserReview(review)
-		}).catch(err => {
-			if (err.code === 'not_found') {
-				setUserReview(null)
-			} else {
-				console.error(err)
-			}
-		})
+		api.getUserOfferingReview(course, specialization, code, professor)
+			.then((review) => {
+				setUserReview(review)
+			})
+			.catch((err) => {
+				if (err.code === 'not_found') {
+					setUserReview(null)
+				} else {
+					console.error(err)
+				}
+			})
 	}, [course, specialization, code, professor])
-	return <div className='full-height full-width' style={{ position: 'relative', maxHeight: '100%', overflow: 'hidden' }}>
-		<ReviewContext.Provider value={{
-			userReview: userReview,
-			setUserReview: setUserReview
-		}} >
-			<OfferingReviewsFeed />
-			<OfferingReviewBox />
-		</ReviewContext.Provider>
-	</div>
+	return (
+		<div
+			className="full-height full-width"
+			style={{
+				position: 'relative',
+				maxHeight: '100%',
+				overflow: 'hidden',
+			}}
+		>
+			<ReviewContext.Provider
+				value={{
+					userReview: userReview,
+					setUserReview: setUserReview,
+				}}
+			>
+				<OfferingReviewsFeed />
+				<OfferingReviewBox />
+			</ReviewContext.Provider>
+		</div>
+	)
 }
 
 export default OfferingReviewsPanel

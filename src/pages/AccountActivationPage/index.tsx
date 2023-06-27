@@ -11,7 +11,7 @@ import ErrorScreen from 'components/ErrorScreen'
 import Navbar from 'components/Navbar'
 import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 
-export function buildURI (): string {
+export function buildURI(): string {
 	return '/account/verify'
 }
 
@@ -22,44 +22,60 @@ const AccountActivationPage = () => {
 
 	useEffect(() => {
 		const token = new URLSearchParams(window.location.search).get('token') // get token from URL params
-		api.verifyAccount(token).then(() => {
-			setVerifying(false)
-			setTimeout(() => {
-				history.replace(buildLoginPageURI())
-			}, 3000)
-		}).catch(err => {
-			setVerifying(false)
-			if (err.code === 'bad_request') {
-				setErrorMessage('Erro: este link expirou :(')
-			} else if (err.code === 'not_found') {
-				setErrorMessage('Erro: este usuário não existe')
-			} else {
-				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`, 'Falha na ativação')
-			}
-		})
+		api.verifyAccount(token)
+			.then(() => {
+				setVerifying(false)
+				setTimeout(() => {
+					history.replace(buildLoginPageURI())
+				}, 3000)
+			})
+			.catch((err) => {
+				setVerifying(false)
+				if (err.code === 'bad_request') {
+					setErrorMessage('Erro: este link expirou :(')
+				} else if (err.code === 'not_found') {
+					setErrorMessage('Erro: este usuário não existe')
+				} else {
+					setErrorMessage(
+						`Algo deu errado (${err.message}). Tente novamente mais tarde`,
+						'Falha na ativação',
+					)
+				}
+			})
 	}, [])
 
-	return <div className="main">
-		<main>
-			<Navbar/>
-			<div style={{ height: '150px' }}></div>
+	return (
+		<div className="main">
+			<main>
+				<Navbar />
+				<div style={{ height: '150px' }}></div>
 
-			{errorMessage
-				? <ErrorScreen message={errorMessage} />
-				: <Container>
-					<Grid container justify='center' alignItems='center' direction='column'>
-						<Grid item>
-							{
-								verifying
-									? <CircularProgress />
-									: <Typography variant='h4'> Conta verificada com sucesso! </Typography>
-							}
+				{errorMessage ? (
+					<ErrorScreen message={errorMessage} />
+				) : (
+					<Container>
+						<Grid
+							container
+							justify="center"
+							alignItems="center"
+							direction="column"
+						>
+							<Grid item>
+								{verifying ? (
+									<CircularProgress />
+								) : (
+									<Typography variant="h4">
+										{' '}
+										Conta verificada com sucesso!{' '}
+									</Typography>
+								)}
+							</Grid>
 						</Grid>
-					</Grid>
-				</Container>
-			}
-		</main>
-	</div>
+					</Container>
+				)}
+			</main>
+		</div>
+	)
 }
 
 export default AccountActivationPage

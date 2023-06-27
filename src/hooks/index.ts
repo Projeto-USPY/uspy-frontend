@@ -15,10 +15,10 @@ export const useMySnackbar = () => {
 			variant: type,
 			anchorOrigin: {
 				vertical: 'bottom',
-				horizontal: 'center'
+				horizontal: 'center',
 			},
 			autoHideDuration: 4000,
-			TransitionComponent: Slide
+			TransitionComponent: Slide,
 		})
 	}
 }

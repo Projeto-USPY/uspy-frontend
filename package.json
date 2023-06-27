@@ -7,6 +7,7 @@
   "author": "Lucas Turci and Thiago Preischadt",
   "scripts": {
     "start": "webpack serve --mode=development --env local",
+    "local": "webpack serve --mode=development --env local --port 3000",
     "cypress": "cypress run -C cypress.local.json",
     "cypress-ui": "cypress open -C cypress.local.json"
   },

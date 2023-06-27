@@ -8,10 +8,10 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 interface PropsType {
-    message: string
-    open: boolean
-    title?: string
-    close: () => void
+	message: string
+	open: boolean
+	title?: string
+	close: () => void
 }
 
 const ErrorDialog: React.FC<PropsType> = ({ message, open, title, close }) => {
@@ -27,19 +27,23 @@ const ErrorDialog: React.FC<PropsType> = ({ message, open, title, close }) => {
 		}
 	}, [open])
 
-	return <Dialog onClose={close} open={open}>
-		<DialogTitle> {ttitle || 'Ops!'} </DialogTitle>
-		<DialogContent>
-			<DialogContentText>
-				{mmessage}
-			</DialogContentText>
-		</DialogContent>
-		<DialogActions>
-			<Button id='dismiss-error-dialog' onClick={close} color="secondary">
-                Ok
-			</Button>
-		</DialogActions>
-	</Dialog>
+	return (
+		<Dialog onClose={close} open={open}>
+			<DialogTitle> {ttitle || 'Ops!'} </DialogTitle>
+			<DialogContent>
+				<DialogContentText>{mmessage}</DialogContentText>
+			</DialogContent>
+			<DialogActions>
+				<Button
+					id="dismiss-error-dialog"
+					onClick={close}
+					color="secondary"
+				>
+					Ok
+				</Button>
+			</DialogActions>
+		</Dialog>
+	)
 }
 
 export default ErrorDialog

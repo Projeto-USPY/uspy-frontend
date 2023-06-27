@@ -4,29 +4,32 @@ import { User, unknownUser, guestUser } from 'types/User'
 const initialState: AppState = {
 	user: unknownUser,
 	dialogError: null,
-	lastUpdatedAccount: ''
+	lastUpdatedAccount: '',
 }
 
-const reducer = (state: AppState = initialState, action: ReduxAction): AppState => {
+const reducer = (
+	state: AppState = initialState,
+	action: ReduxAction,
+): AppState => {
 	if (action.type === 'LOGIN') {
 		return {
 			...state,
-			user: action.payload as User
+			user: action.payload as User,
 		}
 	} else if (action.type === 'LOGOUT') {
 		return {
 			...state,
-			user: guestUser
+			user: guestUser,
 		}
 	} else if (action.type === 'ALERT') {
 		return {
 			...state,
-			dialogError: action.payload as DialogError
+			dialogError: action.payload as DialogError,
 		}
 	} else if (action.type === 'SET_LAST_UPDATED_ACCOUNT') {
 		return {
 			...state,
-			lastUpdatedAccount: action.payload as string
+			lastUpdatedAccount: action.payload as string,
 		}
 	}
 

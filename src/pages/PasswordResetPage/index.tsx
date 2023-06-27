@@ -14,7 +14,7 @@ import { useErrorDialog, useMySnackbar } from 'hooks'
 import { buildURI as buildLoginPageURI } from 'pages/LoginPage'
 import { validatePassword } from 'utils'
 
-export function buildURI (): string {
+export function buildURI(): string {
 	return '/account/password_reset'
 }
 
@@ -22,12 +22,15 @@ const textFieldCommonProps = {
 	variant: 'outlined',
 	color: 'secondary',
 	size: 'small',
-	fullWidth: true
+	fullWidth: true,
 }
 
 const PasswordResetPage: React.FC = () => {
 	const [password, setPassword] = useState<string[]>(['', ''])
-	const [editedPasswordField, setEditedPasswordField] = useState<boolean[]>([false, false])
+	const [editedPasswordField, setEditedPasswordField] = useState<boolean[]>([
+		false,
+		false,
+	])
 	const [pending, setPending] = useState<boolean>(false)
 
 	// get token from URL params
@@ -44,75 +47,123 @@ const PasswordResetPage: React.FC = () => {
 	const resetPassword = () => {
 		console.log('token', token)
 		setPending(true)
-		api.resetPassword(token, password[0]).then(() => {
-			setPending(false)
-			setTimeout(() => {
-				history.replace(buildLoginPageURI())
-			}, 1500)
-			notify('Senha redefinida com sucesso!', 'success')
-		}).catch(err => {
-			setPending(false)
-			if (err.code === 'bad_request') {
-				uspyAlert('Token inválido!')
-			} else if (err.code === 'not_found') {
-				uspyAlert('O usuário não existe!')
-			} else {
-				uspyAlert(`Algo deu errado (${err.message}). Tente novamente mais tarde!`)
-			}
-		})
+		api.resetPassword(token, password[0])
+			.then(() => {
+				setPending(false)
+				setTimeout(() => {
+					history.replace(buildLoginPageURI())
+				}, 1500)
+				notify('Senha redefinida com sucesso!', 'success')
+			})
+			.catch((err) => {
+				setPending(false)
+				if (err.code === 'bad_request') {
+					uspyAlert('Token inválido!')
+				} else if (err.code === 'not_found') {
+					uspyAlert('O usuário não existe!')
+				} else {
+					uspyAlert(
+						`Algo deu errado (${err.message}). Tente novamente mais tarde!`,
+					)
+				}
+			})
 	}
 
-	return <div className="main">
-		<main>
-			<Navbar/>
-			<div style={{ height: '150px' }}></div>
-			<Container>
-				<Grid container spacing={2} justify='center' alignItems='center' direction='column'>
-					<Grid item>
-						<Typography> A sua nova senha deve conter no mínimo 8 caracteres, com pelo menos um símbolo e um número. </Typography>
-						<br/>
+	return (
+		<div className="main">
+			<main>
+				<Navbar />
+				<div style={{ height: '150px' }}></div>
+				<Container>
+					<Grid
+						container
+						spacing={2}
+						justify="center"
+						alignItems="center"
+						direction="column"
+					>
+						<Grid item>
+							<Typography>
+								{' '}
+								A sua nova senha deve conter no mínimo 8
+								caracteres, com pelo menos um símbolo e um
+								número.{' '}
+							</Typography>
+							<br />
+						</Grid>
+						<Grid item>
+							<PasswordInput
+								label="Nova Senha"
+								id="pwd1"
+								value={password[0]}
+								error={editedPasswordField[0] && !passwordValid}
+								helperText={
+									editedPasswordField[0] && !passwordValid
+										? 'Senha não satisfaz os requisitos'
+										: ''
+								}
+								onBlur={() =>
+									setEditedPasswordField([
+										true,
+										editedPasswordField[1],
+									])
+								}
+								onChange={(evt: any) =>
+									setPassword([evt.target.value, password[1]])
+								}
+								{...textFieldCommonProps}
+							/>
+						</Grid>
+						<Grid item>
+							<PasswordInput
+								label="Confirmar senha"
+								id="pwd2"
+								value={password[1]}
+								error={
+									editedPasswordField[1] && !passwordsMatch
+								}
+								helperText={
+									editedPasswordField[1] && !passwordsMatch
+										? 'Senhas diferem'
+										: ''
+								}
+								onBlur={() =>
+									setEditedPasswordField([
+										editedPasswordField[1],
+										true,
+									])
+								}
+								onChange={(evt: any) =>
+									setPassword([password[0], evt.target.value])
+								}
+								{...textFieldCommonProps}
+							/>
+						</Grid>
+						<Grid item>
+							<Button
+								fullWidth
+								color="secondary"
+								size="medium"
+								id="submit"
+								variant="outlined"
+								onClick={resetPassword}
+								disabled={!passwordValid || !passwordsMatch}
+							>
+								{pending ? (
+									<CircularProgress
+										color="secondary"
+										size="1rem"
+									/>
+								) : (
+									'Redefinir senha'
+								)}
+							</Button>
+						</Grid>
 					</Grid>
-					<Grid item>
-						<PasswordInput
-							label="Nova Senha"
-							id="pwd1"
-							value={password[0]}
-							error={editedPasswordField[0] && !passwordValid}
-							helperText={editedPasswordField[0] && !passwordValid ? 'Senha não satisfaz os requisitos' : ''}
-							onBlur={() => setEditedPasswordField([true, editedPasswordField[1]])}
-							onChange={(evt: any) => setPassword([evt.target.value, password[1]])}
-							{...textFieldCommonProps}
-						/>
-					</Grid>
-					<Grid item>
-						<PasswordInput
-							label="Confirmar senha"
-							id="pwd2"
-							value={password[1]}
-							error={editedPasswordField[1] && !passwordsMatch}
-							helperText={editedPasswordField[1] && !passwordsMatch ? 'Senhas diferem' : ''}
-							onBlur={() => setEditedPasswordField([editedPasswordField[1], true])}
-							onChange={(evt: any) => setPassword([password[0], evt.target.value])}
-							{...textFieldCommonProps}
-						/>
-					</Grid>
-					<Grid item>
-						<Button
-							fullWidth
-							color="secondary"
-							size="medium"
-							id="submit"
-							variant="outlined"
-							onClick={resetPassword}
-							disabled={!passwordValid || !passwordsMatch}
-						>
-							{pending ? <CircularProgress color='secondary' size='1rem'/> : 'Redefinir senha'}
-						</Button>
-					</Grid>
-				</Grid>
-			</Container>
-		</main>
-	</div>
+				</Container>
+			</main>
+		</div>
+	)
 }
 
 export default PasswordResetPage

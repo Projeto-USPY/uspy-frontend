@@ -6,7 +6,7 @@ const mockReviews = [
 		edited: false,
 		timestamp: '2021-11-07T15:50:06.506Z',
 		upvotes: 3,
-		downvotes: 1
+		downvotes: 1,
 	},
 	{
 		uuid: '2',
@@ -15,7 +15,7 @@ const mockReviews = [
 		edited: false,
 		timestamp: '2021-10-07T12:50:06.506Z',
 		upvotes: 2,
-		downvotes: 0
+		downvotes: 0,
 	},
 	{
 		uuid: '3',
@@ -24,7 +24,7 @@ const mockReviews = [
 		edited: true,
 		timestamp: '2021-09-07T12:50:06.506Z',
 		upvotes: 0,
-		downvotes: 10
+		downvotes: 10,
 	},
 	{
 		uuid: '4',
@@ -33,8 +33,8 @@ const mockReviews = [
 		edited: true,
 		timestamp: '2021-10-07T12:50:06.506Z',
 		upvotes: 4,
-		downvotes: 0
-	}
+		downvotes: 0,
+	},
 ]
 
 export default mockReviews

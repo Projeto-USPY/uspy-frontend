@@ -13,27 +13,33 @@ const PasswordInput = (props: any) => {
 		setVisible(!visible)
 	}
 
-	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+	const handleMouseDownPassword = (
+		event: React.MouseEvent<HTMLButtonElement>,
+	) => {
 		event.preventDefault()
 	}
 
-	return <TextField
-		{...props}
-		type={visible ? 'text' : 'password'}
-		InputProps={{
-			endAdornment: <InputAdornment position="end">
-				<IconButton
-					aria-label="toggle password visibility"
-					onClick={handleClickShowPassword}
-					onMouseDown={handleMouseDownPassword}
-					disableFocusRipple
-					tabIndex={-1}
-				>
-					{visible ? <Visibility /> : <VisibilityOff />}
-				</IconButton>
-			</InputAdornment>
-		}}
-	/>
+	return (
+		<TextField
+			{...props}
+			type={visible ? 'text' : 'password'}
+			InputProps={{
+				endAdornment: (
+					<InputAdornment position="end">
+						<IconButton
+							aria-label="toggle password visibility"
+							onClick={handleClickShowPassword}
+							onMouseDown={handleMouseDownPassword}
+							disableFocusRipple
+							tabIndex={-1}
+						>
+							{visible ? <Visibility /> : <VisibilityOff />}
+						</IconButton>
+					</InputAdornment>
+				),
+			}}
+		/>
+	)
 }
 
 export default PasswordInput

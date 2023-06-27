@@ -24,24 +24,35 @@ export interface URLParameter {
 	code: string
 }
 
-export function buildURI (courseCode: string, courseSpecialization: string, subjectCode: string, professorCode?: string): string {
-	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}${professorCode ? '?professor=' + professorCode : ''}`
+export function buildURI(
+	courseCode: string,
+	courseSpecialization: string,
+	subjectCode: string,
+	professorCode?: string,
+): string {
+	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}${
+		professorCode ? '?professor=' + professorCode : ''
+	}`
 }
 
-export function getBreadcrumbLinks (course: string, specialization: string, code: string) {
+export function getBreadcrumbLinks(
+	course: string,
+	specialization: string,
+	code: string,
+) {
 	return [
 		{
 			url: buildSubjectsPageURI(),
-			text: 'Disciplinas'
+			text: 'Disciplinas',
 		},
 		{
 			url: buildSubjectPageURI(course, specialization, code),
-			text: code
+			text: code,
 		},
 		{
 			url: buildURI(course, specialization, code),
-			text: 'Oferecimentos'
-		}
+			text: 'Oferecimentos',
+		},
 	]
 }
 
@@ -57,61 +68,87 @@ const OfferingsPage = () => {
 	const selectedOfferingCode: string = useQueryParam().get('professor') || ''
 
 	useEffect(() => {
-		api.getSubjectWithCourseAndCode(course, specialization, code).then(data => {
-			setSubject(data)
-		}).catch(err => {
-			if (err.code === 'not_found') {
-				setErrorMessage('Não foi possível encontrar essa disciplina')
-			} else {
-				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
-				console.error(err)
-			}
-		})
+		api.getSubjectWithCourseAndCode(course, specialization, code)
+			.then((data) => {
+				setSubject(data)
+			})
+			.catch((err) => {
+				if (err.code === 'not_found') {
+					setErrorMessage(
+						'Não foi possível encontrar essa disciplina',
+					)
+				} else {
+					setErrorMessage(
+						`Algo deu errado (${err.message}). Tente novamente mais tarde`,
+					)
+					console.error(err)
+				}
+			})
 
-		api.getSubjectOfferings(course, specialization, code).then(data => {
-			setOfferings(data)
-		}).catch(err => {
-			if (err.code === 'not_found') {
-				setErrorMessage('Não foi possível encontrar oferecimentos para esta disciplina')
-			} else if (err.code === 'unauthorized') {
-				setErrorMessage('Você deve estar logado para ver esta página!')
-			} else {
-				setErrorMessage(`Algo deu errado (${err.message}). Tente novamente mais tarde`)
-				console.error(err)
-			}
-		})
+		api.getSubjectOfferings(course, specialization, code)
+			.then((data) => {
+				setOfferings(data)
+			})
+			.catch((err) => {
+				if (err.code === 'not_found') {
+					setErrorMessage(
+						'Não foi possível encontrar oferecimentos para esta disciplina',
+					)
+				} else if (err.code === 'unauthorized') {
+					setErrorMessage(
+						'Você deve estar logado para ver esta página!',
+					)
+				} else {
+					setErrorMessage(
+						`Algo deu errado (${err.message}). Tente novamente mais tarde`,
+					)
+					console.error(err)
+				}
+			})
 	}, [])
 
-	let selectedOffering: Offering = offerings?.find(o => o.code === selectedOfferingCode)
+	let selectedOffering: Offering = offerings?.find(
+		(o) => o.code === selectedOfferingCode,
+	)
 	if (!selectedOffering && offerings?.length) selectedOffering = offerings[0]
 
-	return <div className="main">
-		<Navbar />
-		<Grid container direction='column' className='full-height' wrap='nowrap'>
-			<Grid item xs="auto" style={{ minHeight: '72px' }} />
-			<Grid item xs>
-				{
-					errorMessage
-						? <ErrorScreen
+	return (
+		<div className="main">
+			<Navbar />
+			<Grid
+				container
+				direction="column"
+				className="full-height"
+				wrap="nowrap"
+			>
+				<Grid item xs="auto" style={{ minHeight: '72px' }} />
+				<Grid item xs>
+					{errorMessage ? (
+						<ErrorScreen
 							message={errorMessage}
-							breadcrumbs={getBreadcrumbLinks(course, specialization, code)}
+							breadcrumbs={getBreadcrumbLinks(
+								course,
+								specialization,
+								code,
+							)}
 						/>
-						: isDesktop
-							? <Desktop
-								offerings={offerings}
-								subject={subject}
-								selectedOffering={selectedOffering}
-							/>
-							: <Mobile
-								offerings={offerings}
-								subject={subject}
-								selectedOffering={selectedOffering}
-							/>
-
-				}
+					) : isDesktop ? (
+						<Desktop
+							offerings={offerings}
+							subject={subject}
+							selectedOffering={selectedOffering}
+						/>
+					) : (
+						<Mobile
+							offerings={offerings}
+							subject={subject}
+							selectedOffering={selectedOffering}
+						/>
+					)}
+				</Grid>
 			</Grid>
-		</Grid>
-	</div>
+		</div>
+	)
 }
 
 export default OfferingsPage

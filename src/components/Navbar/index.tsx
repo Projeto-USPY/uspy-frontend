@@ -11,14 +11,14 @@ import { User, unknownUser, guestUser } from 'types/User'
 import NavbarGuest from 'components/Navbar/NavbarGuest'
 import NavbarUser from 'components/Navbar/NavbarUser'
 
-const HideOnScroll: React.FC<any> = ({
-	children
-}) => {
+const HideOnScroll: React.FC<any> = ({ children }) => {
 	const trigger = useScrollTrigger()
 
-	return <Slide appear={false} direction="down" in={!trigger}>
-		{children}
-	</Slide>
+	return (
+		<Slide appear={false} direction="down" in={!trigger}>
+			{children}
+		</Slide>
+	)
 }
 
 interface NavbarProps {
@@ -26,11 +26,17 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ user, ...props }) => {
-	return <HideOnScroll {...props}>
-		<AppBar color='primary'>
-			{user === unknownUser || user === guestUser ? <NavbarGuest/> : <NavbarUser/>}
-		</AppBar>
-	</HideOnScroll>
+	return (
+		<HideOnScroll {...props}>
+			<AppBar color="primary">
+				{user === unknownUser || user === guestUser ? (
+					<NavbarGuest />
+				) : (
+					<NavbarUser />
+				)}
+			</AppBar>
+		</HideOnScroll>
+	)
 }
 
 const mapStateToProps = (state: AppState) => ({ user: state.user })
