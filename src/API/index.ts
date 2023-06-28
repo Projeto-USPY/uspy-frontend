@@ -9,6 +9,7 @@ import {
 	SubjectReview,
 	SubjectGradeStats,
 	SubjectGrade,
+	SubjectSibling,
 } from 'types/Subject'
 import { guestUser, User } from 'types/User'
 
@@ -112,6 +113,21 @@ class APIClient {
 			},
 		})
 		return data as CourseComplete
+	}
+
+	async getSubjectSiblings(
+		code: string,
+		course: string,
+		specialization: string,
+	): Promise<SubjectSibling[]> {
+		const { data } = await this.axiosClient.get('/api/subject/siblings', {
+			params: {
+				code,
+				course,
+				specialization,
+			},
+		})
+		return data as SubjectSibling[]
 	}
 
 	async getSubjectRelations(

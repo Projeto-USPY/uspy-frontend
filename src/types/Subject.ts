@@ -32,6 +32,12 @@ export interface Subject {
 	}
 }
 
+export interface SubjectSibling {
+	code: string
+	name: string
+	optional: boolean
+}
+
 export interface SubjectRelations {
 	code: string
 	predecessors: SubjectRequirement[][]
