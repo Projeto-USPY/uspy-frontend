@@ -33,6 +33,7 @@ import { copyObj } from 'utils'
 
 import CreditsIndicator from './CreditsIndicator'
 import GradeDistributionChart from './GradeDistributionChart'
+import SubjectSiblings from 'components/SubjectSiblings'
 
 export interface URLParameter {
 	course: string
@@ -365,8 +366,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 									<Grid
 										container
 										justify="center"
-										alignItems="center"
-									>
+										alignItems="center">
 										{offerings === null ? (
 											<CircularProgress />
 										) : offerings.length === 0 ? (
@@ -400,8 +400,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 													color="secondary"
 													size="medium"
 													variant="outlined"
-													onClick={goToOfferingsPage}
-												>
+													onClick={goToOfferingsPage}>
 													Ver Tudo
 												</Button>
 											</>
@@ -526,6 +525,22 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 								</CardContent>
 							</Card>
 						</Grid>
+						<Grid item container xs={12}>
+							<Card elevation={3}>
+								<CardContent>
+									<Typography variant="h6">
+										{' '}
+										Disciplinas do mesmo período{' '}
+									</Typography>
+									<br></br>
+									<SubjectSiblings
+										code={code}
+										course={course}
+										specialization={specialization}
+									/>
+								</CardContent>
+							</Card>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
@@ -563,8 +578,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 						<Grid
 							container
 							alignItems="center"
-							style={{ height: '50px' }}
-						>
+							style={{ height: '50px' }}>
 							<BreadCrumb
 								links={getBreadcrumbLinks(
 									course,
