@@ -39,6 +39,7 @@ import { validateEmail, validatePassword } from 'utils'
 
 import './style.css'
 import { Auth } from 'types/Auth'
+import LoadingEllipsis from 'components/LoadingEllipsis'
 
 const textFieldCommonProps = {
 	variant: 'outlined',
@@ -356,10 +357,20 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 											}}
 										/>
 									) : pendingValidation ? (
-										<CircularProgress
-											color="secondary"
-											size="1rem"
-										/>
+										<div style={{ "position": "relative", width: "100%" }}>
+											<CircularProgress
+												color="secondary"
+												size="1rem"
+											/>
+											{isDesktop ?
+												<div style={{ "position": "absolute", top: 0, left: '2rem', width: '200px' }}>
+													<Typography variant='caption'>
+														Isso pode demorar um pouco<LoadingEllipsis />
+													</Typography>
+												</div>
+												: null
+											}
+										</div>
 									) : (
 										<Button
 											color="secondary"
@@ -374,6 +385,22 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 									)}
 								</Grid>
 							</Grid>
+							{!isDesktop && pendingValidation ?
+								<Grid
+									container
+									direction="row"
+									justify="center"
+									alignItems="center"
+									spacing={2}
+								>
+									<Grid item>
+										<Typography variant='caption'>
+											Isso pode demorar um pouco<LoadingEllipsis />
+										</Typography>
+									</Grid>
+								</Grid>
+								: null
+							}
 						</Box>
 						{isDesktop ? (
 							<>
@@ -478,7 +505,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 										}
 										helperText={
 											password[0] !== password[1] &&
-											showPwd1Error
+												showPwd1Error
 												? 'Senhas diferem'
 												: ''
 										}

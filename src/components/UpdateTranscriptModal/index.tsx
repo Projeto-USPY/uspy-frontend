@@ -18,6 +18,7 @@ import api from 'API'
 import InfoModal from 'components/InfoModal'
 import PartialInput from 'components/PartialInput'
 import { useErrorDialog, useMySnackbar } from 'hooks'
+import LoadingEllipsis from 'components/LoadingEllipsis'
 
 interface PropsType {
 	open: boolean
@@ -131,6 +132,16 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 							))}
 						</Grid>
 					</Grid>
+					{pending ?
+						<Grid item container alignItems="center" justify='center'>
+							<Grid item>
+								<Typography variant='caption'>
+									Isso pode demorar um pouco<LoadingEllipsis />
+								</Typography>
+							</Grid>
+						</Grid>
+						: null
+					}
 				</Grid>
 			</DialogContent>
 			<DialogActions>
