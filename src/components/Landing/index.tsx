@@ -16,7 +16,7 @@ import './style.css'
 import FAQ from './Accordion'
 import Stats from './Stats'
 
-interface LandingProps {}
+interface LandingProps { }
 
 const Landing: React.FC<LandingProps> = () => {
 	const theme = useTheme()
@@ -26,8 +26,7 @@ const Landing: React.FC<LandingProps> = () => {
 		<Grid
 			container
 			direction="column"
-			justify="center"
-			align="center"
+			justifyContent="center"
 			alignItems="center"
 			style={{
 				gap: '75px',
@@ -40,7 +39,7 @@ const Landing: React.FC<LandingProps> = () => {
 				container
 				style={{ gap: '75px' }}
 				direction={isDesktop ? 'row' : 'column'}
-				justify="center"
+				justifyContent="center"
 				alignItems="center"
 			>
 				{/** review professors */}
@@ -71,11 +70,11 @@ const Landing: React.FC<LandingProps> = () => {
 				container
 				style={{ gap: '75px' }}
 				direction={isDesktop ? 'row' : 'column'}
-				justify="center"
+				justifyContent="center"
 				alignItems="center"
 			>
 				{/** track your progress */}
-				<Grid item container justify="center" xs>
+				<Grid item container justifyContent="center" xs>
 					<h1>Acompanhe seu progresso na USP</h1>
 					<p>
 						O USPY oferece ferramentas para você acompanhar de
@@ -83,7 +82,7 @@ const Landing: React.FC<LandingProps> = () => {
 					</p>
 				</Grid>
 
-				<Grid item container justify="center" xs>
+				<Grid item container justifyContent="center" xs>
 					<img
 						src={trackProgress}
 						alt="Animação de um celular acessando o histórico do aluno"
@@ -103,11 +102,11 @@ const Landing: React.FC<LandingProps> = () => {
 				item
 				container
 				direction={isDesktop ? 'row' : 'column'}
-				justify="center"
+				justifyContent="center"
 				alignItems="center"
 			>
 				{/** explore subjects */}
-				<Grid item container justify="center" align="center" xs>
+				<Grid item container justifyContent="center" alignItems="center" xs>
 					<h1>Explore as disciplinas do seu curso</h1>
 					<p>
 						Saiba tudo sobre as disciplinas que você precisará
@@ -121,7 +120,7 @@ const Landing: React.FC<LandingProps> = () => {
 					</p>
 				</Grid>
 
-				<Grid item container justify="center" align="center" xs>
+				<Grid item container justifyContent="center" alignItems="center" xs>
 					<img
 						src={explore}
 						alt="Imagens mostrando as funcionalidades de explore da plataorma"
@@ -141,7 +140,7 @@ const Landing: React.FC<LandingProps> = () => {
 				container
 				direction={isDesktop ? 'row' : 'column'}
 				wrap={'nowrap'}
-				justify="center"
+				justifyContent="center"
 				alignItems="center"
 				style={{ gap: '30px' }}
 			>
@@ -151,7 +150,7 @@ const Landing: React.FC<LandingProps> = () => {
 					</Grid>
 					<Stats></Stats>
 				</Grid>
-				<Grid item container justify="center" alignItems="center">
+				<Grid item container justifyContent="center" alignItems="center">
 					<img
 						src={stats}
 						alt="Imagens mostrando uma pessoa explorando estatísticas"
@@ -171,11 +170,11 @@ const Landing: React.FC<LandingProps> = () => {
 				container
 				direction={isDesktop ? 'row' : 'column'}
 				wrap={'nowrap'}
-				justify="center"
+				justifyContent="center"
 				alignItems="center"
 			>
 				{/** by students, for students */}
-				<Grid item container justify="center" align="center" xs>
+				<Grid item container justifyContent="center" alignItems="center" xs>
 					<h1>De alunos para alunos</h1>
 					<p>
 						O maior objetivo do USPY é tornar a vida acadêmica do
@@ -208,8 +207,8 @@ const Landing: React.FC<LandingProps> = () => {
 						item
 						container
 						direction="row"
-						justify="center"
-						align="center"
+						justifyContent="center"
+						alignItems="center"
 						spacing={1}
 						style={{ margin: '10px 0 10px 0' }}
 					>
@@ -228,7 +227,7 @@ const Landing: React.FC<LandingProps> = () => {
 					</Grid>
 				</Grid>
 
-				<Grid item container justify="center" alignItems="center" xs>
+				<Grid item container justifyContent="center" alignItems="center" xs>
 					<img
 						src={contribute}
 						alt="Imagem mostrando um laptop com alguns bonequinhos contribuindo"
@@ -247,7 +246,7 @@ const Landing: React.FC<LandingProps> = () => {
 				item
 				container
 				direction="column"
-				justify="center"
+				justifyContent="center"
 				alignItems="center"
 				style={{ margin: '50px 0 100px 0' }}
 			>
