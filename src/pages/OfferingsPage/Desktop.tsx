@@ -16,6 +16,7 @@ import OfferingReviewsPanel from 'components/offerings/OfferingReviewsPanel'
 import OfferingsList from 'components/offerings/OfferingsList'
 import OfferingContext from 'contexts/OfferingContext'
 import { buildURI, getBreadcrumbLinks, URLParameter } from 'pages/OfferingsPage'
+import { User } from 'types/User'
 
 const GrayCard = withStyles({
 	root: {
@@ -27,12 +28,14 @@ interface PropsType {
 	subject: Subject | null
 	offerings: Offering[] | null
 	selectedOffering: Offering | null
+	user: User
 }
 
 const Desktop: React.FC<PropsType> = ({
 	offerings,
 	subject,
 	selectedOffering,
+	user,
 }) => {
 	const { course, specialization, code } = useParams<URLParameter>()
 	const history = useHistory()
@@ -49,15 +52,13 @@ const Desktop: React.FC<PropsType> = ({
 				container
 				spacing={2}
 				direction="column"
-				className="full-height"
-			>
+				className="full-height">
 				<Grid
 					item
 					container
 					alignItems="center"
 					xs="auto"
-					style={{ height: '50px' }}
-				>
+					style={{ height: '50px' }}>
 					<Breadcrumb
 						links={getBreadcrumbLinks(course, specialization, code)}
 					/>
@@ -81,22 +82,19 @@ const Desktop: React.FC<PropsType> = ({
 							xs
 							spacing={2}
 							container
-							alignItems="stretch"
-						>
+							alignItems="stretch">
 							<Grid item xs={3}>
 								<GrayCard
 									elevation={3}
 									raised
 									className="full-height not-so-gray"
-									style={{ position: 'relative' }}
-								>
+									style={{ position: 'relative' }}>
 									<div
 										className="full-width full-height"
 										style={{
 											position: 'absolute',
 											overflow: 'auto',
-										}}
-									>
+										}}>
 										<OfferingsList
 											list={offerings}
 											selected={selectedOffering}
@@ -109,17 +107,15 @@ const Desktop: React.FC<PropsType> = ({
 								<GrayCard
 									elevation={3}
 									raised
-									className="full-height not-so-gray"
-								>
+									className="full-height not-so-gray">
 									<OfferingContext.Provider
 										value={{
 											professor: selectedOffering?.code,
 											course,
 											specialization,
 											code,
-										}}
-									>
-										<OfferingReviewsPanel />
+										}}>
+										<OfferingReviewsPanel user={user} />
 									</OfferingContext.Provider>
 								</GrayCard>
 							</Grid>
