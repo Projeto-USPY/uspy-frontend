@@ -81,7 +81,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	}
 
 	const changePassword = () => {
-		const old = document.querySelector('#old_pwd').value
+		const old = document.querySelector<HTMLInputElement>('#old_pwd').value
 		if (old === newPwd)
 			uspyAlert('Senhas nova e antiga não podem ser as mesmas')
 		else if (!validatePassword(newPwd)) uspyAlert('Senha inválida')

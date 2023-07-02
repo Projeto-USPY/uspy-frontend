@@ -145,7 +145,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	const emailOk = !showEmailError || validateEmail(email)
 
 	const registerClick = () => {
-		const acceptedTerms = document.querySelector('#accept').checked
+		const acceptedTerms = document.querySelector<HTMLInputElement>('#accept').checked
 
 		if (!validatePassword(password[0])) {
 			uspyAlert('A senha está inválida')

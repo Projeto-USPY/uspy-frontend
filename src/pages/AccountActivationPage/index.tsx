@@ -38,7 +38,6 @@ const AccountActivationPage = () => {
 				} else {
 					setErrorMessage(
 						`Algo deu errado (${err.message}). Tente novamente mais tarde`,
-						'Falha na ativação',
 					)
 				}
 			})
