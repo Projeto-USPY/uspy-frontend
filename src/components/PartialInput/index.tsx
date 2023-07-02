@@ -22,7 +22,7 @@ interface PartialInputProps {
 	value: string
 	handlePaste: Function
 	handleChange: Function
-	disabled: boolean
+	disabled?: boolean
 }
 const PartialInput: React.FC<PartialInputProps> = ({
 	id,
