@@ -40,14 +40,19 @@ const PartialInput: React.FC<PartialInputProps> = ({
 		let str = evt.target.value
 		str = str.replace(/-/g, '')
 		if (/^\w*$/.test(str)) {
-			console.log(evt.nativeEvent.inputType)
-			if (evt.nativeEvent.inputType === 'insertFromPaste') {
+			const nativeEvent = evt.nativeEvent as InputEvent
+			let inputType = ''
+			if (nativeEvent instanceof InputEvent) {
+				inputType = nativeEvent.inputType
+			}
+
+			if (inputType === 'insertFromPaste') {
 				// allow to paste input
 				handlePaste(id, str)
 			} else {
 				if (str.length <= 4) handleChange(id, str.toUpperCase())
 				if (str.length === 4) {
-					const next = document.querySelector(`#auth-code-${id + 1}`)
+					const next = document.querySelector<HTMLInputElement>(`#auth-code-${id + 1}`)
 					if (next) {
 						next.focus()
 					}
