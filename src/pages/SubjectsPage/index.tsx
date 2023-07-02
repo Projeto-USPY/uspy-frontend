@@ -15,7 +15,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { useTheme } from '@material-ui/styles'
+import { useTheme } from '@material-ui/core/styles'
 
 import { CourseWithSubjects } from 'types/Course'
 import { SubjectInfo } from 'types/Subject'

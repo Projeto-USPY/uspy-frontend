@@ -21,7 +21,7 @@ const CollapsibleText: React.FC<Props> = ({
 		return <Child {...childrenProps}>{text}</Child>
 	return (
 		<Child {...childrenProps}>
-			{collapsed ? text.substr(0, maxCharacters) + '...' : text}
+			{collapsed ? text.substring(0, maxCharacters) + '...' : text}
 			<Link
 				variant="caption"
 				color="secondary"

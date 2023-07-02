@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper'
 import Popover from '@material-ui/core/Popover'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/styles'
+import { useTheme } from '@material-ui/core/styles'
 
 import { SubjectRequirement } from 'types/Subject'
 

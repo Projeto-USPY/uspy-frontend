@@ -19,7 +19,7 @@ import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
-import { useTheme } from '@material-ui/styles'
+import { useTheme } from '@material-ui/core/styles'
 
 import { ReduxAction } from 'types/redux'
 import { User } from 'types/User'
@@ -478,7 +478,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 										}
 										helperText={
 											password[0] !== password[1] &&
-											showPwd1Error
+												showPwd1Error
 												? 'Senhas diferem'
 												: ''
 										}

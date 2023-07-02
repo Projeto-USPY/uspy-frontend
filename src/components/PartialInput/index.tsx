@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import InputBase from '@material-ui/core/InputBase'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
 	input: {
