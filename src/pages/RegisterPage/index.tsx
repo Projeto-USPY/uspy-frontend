@@ -14,7 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
-import TextField from '@material-ui/core/TextField'
+import TextField, { TextFieldProps } from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
@@ -40,7 +40,7 @@ import { validateEmail, validatePassword } from 'utils'
 import './style.css'
 import { Auth } from 'types/Auth'
 
-const textFieldCommonProps = {
+const textFieldCommonProps: TextFieldProps = {
 	variant: 'outlined',
 	color: 'secondary',
 	size: 'small',
