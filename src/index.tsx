@@ -150,7 +150,7 @@ const App = () => {
 								<WithMetaRoute
 									exact
 									path={buildSubjectsPageURI()}
-									component={SubjectsPage}
+									element={SubjectsPage}
 									{...getSubjectsPageMeta()}
 								/>
 								<LoggedOutRoute
@@ -171,7 +171,7 @@ const App = () => {
 								<WithMetaRoute
 									exact
 									path={buildAboutPageURI()}
-									component={AboutPage}
+									element={AboutPage}
 									{...getAboutPageMeta()}
 								/>
 								<Route
@@ -186,7 +186,7 @@ const App = () => {
 										':specialization',
 										':code',
 									)}
-									component={SubjectPage}
+									element={SubjectPage}
 									{...getSubjectPageMeta()}
 								/>
 								<LoggedInRoute
@@ -201,7 +201,7 @@ const App = () => {
 								<WithMetaRoute
 									exact
 									path={buildHomePageURI()}
-									component={HomePage}
+									element={HomePage}
 									{...getHomePageMeta()}
 								/>
 								<Route
