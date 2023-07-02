@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { ConnectedProps, connect } from 'react-redux'
 import { useHistory } from 'react-router'
 
-import { ActionCreator, Dispatch, bindActionCreators } from 'redux'
+import { Dispatch, bindActionCreators } from 'redux'
 
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
@@ -21,7 +21,6 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
 import { useTheme } from '@material-ui/core/styles'
 
-import { ReduxAction } from 'types/redux'
 import { User } from 'types/User'
 
 import { setUser } from 'actions'
@@ -47,15 +46,18 @@ const textFieldCommonProps: TextFieldProps = {
 	fullWidth: true,
 }
 
-interface RegisterPageProps {
-	setUser: ActionCreator<ReduxAction>
-}
+const mapDispatchToProps = (dispatch: Dispatch) =>
+	bindActionCreators({ setUser }, dispatch)
+
+const connector = connect(null, mapDispatchToProps)
+
+type RegisterPageProps = ConnectedProps<typeof connector>
 
 export function buildURI(): string {
 	return '/cadastro'
 }
 
-const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
+const RegisterPage = ({ setUser }: RegisterPageProps) => {
 	const notify = useMySnackbar()
 	const uspyAlert = useErrorDialog()
 
@@ -506,7 +508,4 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	)
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-	bindActionCreators({ setUser }, dispatch)
-
-export default connect(null, mapDispatchToProps)(RegisterPage)
+export default connector(RegisterPage)

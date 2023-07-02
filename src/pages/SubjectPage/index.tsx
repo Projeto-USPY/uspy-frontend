@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 
 import Button from '@material-ui/core/Button'
@@ -117,11 +117,14 @@ export function getMeta(): any {
 	}
 }
 
-interface PropsType {
+const mapStateToProps = (st: AppState) => ({ user: st.user })
+const connector = connect(mapStateToProps)
+
+interface SubjectPageProps extends ConnectedProps<typeof connector> {
 	user: User
 }
 
-const SubjectPage: React.FC<PropsType> = ({ user }) => {
+const SubjectPage = ({ user }: SubjectPageProps) => {
 	const { course, specialization, code } = useParams<URLParameter>()
 
 	const history = useHistory()
@@ -595,5 +598,4 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 		</div>
 	)
 }
-const mapStateToProps = (st: AppState) => ({ user: st.user })
-export default connect(mapStateToProps)(SubjectPage)
+export default connector(SubjectPage)

@@ -14,7 +14,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import TeachersData from '__mocks__/AllProfessors'
 import Navbar from 'components/Navbar'
-import { guestUser } from 'types/User'
 
 interface TeacherInfo {
 	Name: string
@@ -143,7 +142,7 @@ const TeachersPage = () => {
 	return (
 		<div className="main">
 			<main>
-				<Navbar user={guestUser} />
+				<Navbar />
 				<div style={{ height: '150px' }}></div>
 
 				<Container>

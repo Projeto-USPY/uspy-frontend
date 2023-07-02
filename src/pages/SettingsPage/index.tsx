@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { useHistory } from 'react-router'
 
-import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
+import { Dispatch, bindActionCreators } from 'redux'
 
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -13,8 +13,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { createTheme, useTheme, ThemeProvider } from '@material-ui/core/styles'
-
-import { ReduxAction } from 'types/redux'
 
 import { setUserNone } from 'actions'
 import api from 'API'
@@ -42,15 +40,18 @@ const dangerTheme = createTheme({
 	},
 })
 
-interface SettingsPageProps {
-	setUserNone: ActionCreator<ReduxAction>
-}
+const mapDispatchToProps = (dispatch: Dispatch) =>
+	bindActionCreators({ setUserNone }, dispatch)
 
 export function buildURI(): string {
 	return '/conta'
 }
 
-const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
+const connector = connect(null, mapDispatchToProps)
+
+type SettingsPageProps = ConnectedProps<typeof connector>;
+
+const SettingsPage = ({ setUserNone }: SettingsPageProps) => {
 	const [newPwd, setNewPwd] = useState<string>('')
 	const [showPwdError, setShowPwdError] = useState<boolean>(false)
 	const [isDeletingAccount, setIsDeletingAccount] = useState<boolean>(false)
@@ -237,7 +238,4 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	)
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-	bindActionCreators({ setUserNone }, dispatch)
-
-export default connect(null, mapDispatchToProps)(SettingsPage)
+export default connector(SettingsPage)
