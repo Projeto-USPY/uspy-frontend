@@ -14,7 +14,7 @@ const devOptions = {
 	}
 }
 
-function buildConfig (env, argv) {
+function buildConfig(env, argv) {
 	let envVars = {
 		API_URL: argv.mode === 'development' ? 'https://dev.uspy.me' : 'https://prod.uspy.me'
 	}
@@ -22,9 +22,9 @@ function buildConfig (env, argv) {
 		envVars = Object.assign({
 			API_URL: 'http://127.0.0.1:8080'
 		},
-		dotenv.config({
-			path: path.join(__dirname, '.env')
-		}).parsed
+			dotenv.config({
+				path: path.join(__dirname, '.env')
+			}).parsed
 		)
 	}
 	const envKeys = Object.keys(envVars).reduce((prev, next) => {
@@ -72,7 +72,7 @@ function buildConfig (env, argv) {
 			})
 		]
 	},
-	(env.local ? devOptions : {})
+		(env.local ? devOptions : {})
 	)
 }
 
