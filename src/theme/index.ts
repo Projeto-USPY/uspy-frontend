@@ -1,9 +1,9 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 
 // To find out light and dark variations of colors: https://material-ui.com/pt/customization/color/#picking-colors
 const primaryColor = '#68417f'
 const secondaryColor = '#415c77'
-const theme = createMuiTheme({
+const theme = createTheme({
 	palette: {
 		primary: {
 			light: '#A77BC3',

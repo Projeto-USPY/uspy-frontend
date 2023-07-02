@@ -10,10 +10,9 @@ import red from '@material-ui/core/colors/red'
 import Container from '@material-ui/core/Container'
 import Divider from '@material-ui/core/Divider'
 import Grid from '@material-ui/core/Grid'
-import { createMuiTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme, ThemeProvider } from '@material-ui/styles'
+import { createTheme, useTheme, ThemeProvider } from '@material-ui/core/styles'
 
 import { ReduxAction } from 'types/redux'
 
@@ -37,7 +36,7 @@ const textFieldCommonProps = {
 	},
 }
 
-const dangerTheme = createMuiTheme({
+const dangerTheme = createTheme({
 	palette: {
 		primary: red,
 	},
