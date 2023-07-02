@@ -307,7 +307,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			<CollapsibleText
 				text={subject.description}
 				maxCharacters={200}
-				Child={Typography as ReactElement}
+				component={Typography}
 				childrenProps={{}}
 			/>
 
@@ -386,7 +386,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 													secondary={'Ver avaliações'}
 													noStatsMessage={
 														user === unknownUser ||
-														user === guestUser
+															user === guestUser
 															? 'Registre-se ou faça login para ter acesso às estatísticas do professor'
 															: 'Não há avaliações para este professor'
 													}
@@ -425,8 +425,8 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 												subjectReview
 													? subjectReview.categories
 														? subjectReview
-																.categories
-																.worth_it
+															.categories
+															.worth_it
 															? 'S'
 															: 'N'
 														: null
@@ -476,9 +476,9 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 									{chartContent}
 
 									{canSeeChart &&
-									gradeStats &&
-									gradeStats.grades &&
-									Object.keys(gradeStats.grades).length >
+										gradeStats &&
+										gradeStats.grades &&
+										Object.keys(gradeStats.grades).length >
 										0 ? (
 										<>
 											<Typography variant="body1">

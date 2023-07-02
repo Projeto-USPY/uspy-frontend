@@ -1,16 +1,16 @@
-import React, { ReactElement, useState } from 'react'
+import React, { useState } from 'react'
 
 import Link from '@material-ui/core/Link'
 
 interface Props {
-	Child: ReactElement
+	component: React.ElementType
 	childrenProps: any
 	text: string
 	maxCharacters: number
 }
 
 const CollapsibleText: React.FC<Props> = ({
-	Child,
+	component: Child,
 	childrenProps,
 	text,
 	maxCharacters,
