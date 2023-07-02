@@ -1,9 +1,9 @@
 import React from 'react'
 
-import Grid from '@material-ui/core/Grid'
+import Grid, { GridSize } from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/styles'
+import { useTheme } from '@material-ui/core/styles'
 
 interface ImageBlockProps {
 	imageSource: string
@@ -28,9 +28,9 @@ const ImageBlock: React.FC<ImageBlockProps> = ({
 	const isMD = useMediaQuery(theme.breakpoints.up('md'))
 
 	// number of cols for each size
-	let colsXS = 10
-	let colsMD = 10
-	let colsLG = 10
+	let colsXS: GridSize = 10
+	let colsMD: GridSize = 10
+	let colsLG: GridSize = 10
 	if (size === 'small') {
 		colsXS = 12
 		colsMD = 8
