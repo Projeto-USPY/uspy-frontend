@@ -14,6 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import TeachersData from '__mocks__/AllProfessors'
 import Navbar from 'components/Navbar'
+import { guestUser } from 'types/User'
 
 interface TeacherInfo {
 	Name: string
@@ -89,10 +90,10 @@ const TeachersPage = () => {
 		console.log('Clicou no id = ', id)
 	}
 
-	const [teachers, setTeachers] = useState({})
+	const [teachers, setTeachers] = useState<any>({})
 
 	useEffect(() => {
-		const arr = {}
+		const arr: any = {}
 		TeachersData.forEach((val: TeacherInfo) => {
 			if (!arr[val.Department]) arr[val.Department] = []
 			arr[val.Department].push(val)
@@ -100,7 +101,7 @@ const TeachersPage = () => {
 		setTeachers(arr)
 	}, [])
 
-	const [expandedAccordions, setExpandedAccordions] = useState({})
+	const [expandedAccordions, setExpandedAccordions] = useState<any>({})
 
 	const handleAccordionClick = (key: string, state: boolean) => {
 		setExpandedAccordions({
@@ -142,7 +143,7 @@ const TeachersPage = () => {
 	return (
 		<div className="main">
 			<main>
-				<Navbar />
+				<Navbar user={guestUser} />
 				<div style={{ height: '150px' }}></div>
 
 				<Container>
