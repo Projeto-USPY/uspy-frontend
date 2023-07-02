@@ -196,6 +196,17 @@ class APIClient {
 		return data as User
 	}
 
+	async loginWithGoogle(
+		token: string,
+		remember: boolean,
+	): Promise<User> {
+		const { data } = await this.axiosClient.post('/account/login-with-google', {
+			token,
+			remember
+		})
+		return data as User
+	}
+
 	async logout() {
 		await this.axiosClient.get('account/logout')
 	}

@@ -23,10 +23,12 @@ import Navbar from 'components/Navbar'
 import PasswordRedefinitionModal from 'components/PasswordRedefinitionModal'
 import SendActivationEmailModal from 'components/SendActivationEmailModal'
 import { useMySnackbar, useErrorDialog } from 'hooks'
+import { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import './style.css'
-
-import { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
+import { User } from 'types/User'
 
 interface LoginPageProps {
 	setUser: ActionCreator<ReduxAction>
@@ -44,6 +46,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 		useState<boolean>(false)
 	const [showSendActivationEmailButton, setShowSendActivationEmailButton] =
 		useState<boolean>(false)
+	const [pending, setPending] = useState<boolean>(false)
 	const history = useHistory()
 	const notify = useMySnackbar()
 	const uspyAlert = useErrorDialog()
@@ -55,21 +58,25 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 		const val = evt.target.value
 		if (/^[0-9]*$/.test(val)) setNusp(val)
 	}
+
+	const onLoginSuccess = (user: User) => {
+		// Success!! Redirects to home page
+		setUser(user)
+		notify(`Bem vindo, ${user.name}!`, 'success')
+
+		// Redirect cases
+		const { from } =
+			location.state || ({ from: { pathname: '/' } } as any)
+		history.replace(from)
+	}
+
 	const handleLogin = () => {
 		const pwd = document.querySelector<HTMLInputElement>('#senha').value
 		const remember =
 			document.querySelector<HTMLInputElement>('#remember').checked
+		setPending(true)
 		api.login(nusp, pwd, remember)
-			.then((user) => {
-				// Success!! Redirects for home page
-				setUser(user)
-				notify(`Bem vindo, ${user.name}!`, 'success')
-
-				// Redirect cases
-				const { from } =
-					location.state || ({ from: { pathname: '/' } } as any)
-				history.replace(from)
-			})
+			.then(onLoginSuccess)
 			.catch((err) => {
 				if (err.code === 'bad_request' || err.code === 'unauthorized') {
 					uspyAlert('Número USP ou senha incorretos')
@@ -140,7 +147,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 															variant="outlined"
 															onKeyPress={(evt) =>
 																evt.key ===
-																'Enter'
+																	'Enter'
 																	? handleLogin()
 																	: null
 															}
@@ -178,11 +185,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 															color="secondary"
 															size="medium"
 															variant="outlined"
+															disabled={pending}
 															onClick={
 																handleLogin
 															}
 														>
-															Entrar
+															{pending ? (
+																<CircularProgress color="secondary" size="1rem" />
+															) : (
+																'Entrar'
+															)}
 														</Button>
 													</Grid>
 												</Grid>
@@ -237,6 +249,26 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 												</Link>
 											</Grid>
 										) : null}
+									</Grid>
+									<Grid item container justifyContent="center" style={{ marginTop: "1rem" }}>
+										<Grid item>
+											<GoogleLogin
+												size='large'
+												text='signin_with'
+												shape='rectangular'
+												onSuccess={(credentialResponse: CredentialResponse) => {
+													const token = credentialResponse.credential;
+													const remember =
+														document.querySelector<HTMLInputElement>('#remember').checked
+													api.loginWithGoogle(token, remember).then(onLoginSuccess).catch(err => {
+														console.error(err)
+													})
+												}}
+												onError={() => {
+													console.error('Login Failed');
+												}}
+											/>
+										</Grid>
 									</Grid>
 								</Grid>
 							</Grid>

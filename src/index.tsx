@@ -57,6 +57,7 @@ import TeachersPage, {
 import UseTermsPage, {
 	buildURI as buildUseTermsPageURI,
 } from 'pages/UseTermsPage'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import reducer from 'reducer'
 import LoggedInRoute from 'routes/LoggedInRoute'
 import LoggedOutRoute from 'routes/LoggedOutRoute'
@@ -119,101 +120,103 @@ const App = () => {
 	return (
 		<>
 			<StoreProvider store={store}>
-				<ThemeProvider theme={theme}>
-					<SnackbarProvider
-						maxSnack={1}
-						hideIconVariant
-						classes={{
-							variantSuccess: classes.success,
-							variantInfo: classes.info,
-						}}
-					>
-						<BrowserRouter>
-							<ScrollToTop />
-							<Switch>
-								<LoggedOutRoute
-									exact
-									path={buildLoginPageURI()}
-									component={LoginPage}
-								/>
-								<LoggedOutRoute
-									exact
-									path={buildRegisterPageURI()}
-									component={RegisterPage}
-								/>
-								<Route
-									exact
-									path={buildTeachersPageURI()}
-									component={TeachersPage}
-								/>
-								<WithMetaRoute
-									exact
-									path={buildSubjectsPageURI()}
-									component={SubjectsPage}
-									{...getSubjectsPageMeta()}
-								/>
-								<LoggedOutRoute
-									exact
-									path={buildPasswordResetPageURI()}
-									component={PasswordResetPage}
-								/>
-								<LoggedInRoute
-									exact
-									path={buildSettingsPageURI()}
-									component={SettingsPage}
-								/>
-								<LoggedInRoute
-									exact
-									path={buildProfilePageURI()}
-									component={ProfilePage}
-								/>
-								<WithMetaRoute
-									exact
-									path={buildAboutPageURI()}
-									component={AboutPage}
-									{...getAboutPageMeta()}
-								/>
-								<Route
-									exact
-									path={buildUseTermsPageURI()}
-									component={UseTermsPage}
-								/>
-								<WithMetaRoute
-									exact
-									path={buildSubjectPageURI(
-										':course',
-										':specialization',
-										':code',
-									)}
-									component={SubjectPage}
-									{...getSubjectPageMeta()}
-								/>
-								<LoggedInRoute
-									exact
-									path={buildOfferingsPageURI(
-										':course',
-										':specialization',
-										':code',
-									)}
-									component={OfferingsPage}
-								/>
-								<WithMetaRoute
-									exact
-									path={buildHomePageURI()}
-									component={HomePage}
-									{...getHomePageMeta()}
-								/>
-								<Route
-									exact
-									path={buildAccountActivationPageURI()}
-									component={AccountActivationPage}
-								/>
-								<Route path="/" component={NotFoundPage} />
-							</Switch>
-						</BrowserRouter>
-						<DialogManager />
-					</SnackbarProvider>
-				</ThemeProvider>
+				<GoogleOAuthProvider clientId='560099650466-1bgr52vihlbfjjvp9nebmd84vqofcsbm.apps.googleusercontent.com'>
+					<ThemeProvider theme={theme}>
+						<SnackbarProvider
+							maxSnack={1}
+							hideIconVariant
+							classes={{
+								variantSuccess: classes.success,
+								variantInfo: classes.info,
+							}}
+						>
+							<BrowserRouter>
+								<ScrollToTop />
+								<Switch>
+									<LoggedOutRoute
+										exact
+										path={buildLoginPageURI()}
+										component={LoginPage}
+									/>
+									<LoggedOutRoute
+										exact
+										path={buildRegisterPageURI()}
+										component={RegisterPage}
+									/>
+									<Route
+										exact
+										path={buildTeachersPageURI()}
+										component={TeachersPage}
+									/>
+									<WithMetaRoute
+										exact
+										path={buildSubjectsPageURI()}
+										component={SubjectsPage}
+										{...getSubjectsPageMeta()}
+									/>
+									<LoggedOutRoute
+										exact
+										path={buildPasswordResetPageURI()}
+										component={PasswordResetPage}
+									/>
+									<LoggedInRoute
+										exact
+										path={buildSettingsPageURI()}
+										component={SettingsPage}
+									/>
+									<LoggedInRoute
+										exact
+										path={buildProfilePageURI()}
+										component={ProfilePage}
+									/>
+									<WithMetaRoute
+										exact
+										path={buildAboutPageURI()}
+										component={AboutPage}
+										{...getAboutPageMeta()}
+									/>
+									<Route
+										exact
+										path={buildUseTermsPageURI()}
+										component={UseTermsPage}
+									/>
+									<WithMetaRoute
+										exact
+										path={buildSubjectPageURI(
+											':course',
+											':specialization',
+											':code',
+										)}
+										component={SubjectPage}
+										{...getSubjectPageMeta()}
+									/>
+									<LoggedInRoute
+										exact
+										path={buildOfferingsPageURI(
+											':course',
+											':specialization',
+											':code',
+										)}
+										component={OfferingsPage}
+									/>
+									<WithMetaRoute
+										exact
+										path={buildHomePageURI()}
+										component={HomePage}
+										{...getHomePageMeta()}
+									/>
+									<Route
+										exact
+										path={buildAccountActivationPageURI()}
+										component={AccountActivationPage}
+									/>
+									<Route path="/" component={NotFoundPage} />
+								</Switch>
+							</BrowserRouter>
+							<DialogManager />
+						</SnackbarProvider>
+					</ThemeProvider>
+				</GoogleOAuthProvider>
 			</StoreProvider>
 		</>
 	)
