@@ -403,7 +403,7 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 													color="secondary"
 													size="medium"
 													variant="outlined"
-													onClick={goToOfferingsPage}>
+													onClick={() => goToOfferingsPage()}>
 													Ver Tudo
 												</Button>
 											</>
