@@ -11,7 +11,6 @@ const devOptions = {
 	},
 	devServer: {
 		historyApiFallback: true,
-		host: '127.0.0.1',
 	},
 }
 
@@ -81,40 +80,7 @@ function buildConfig(env, argv) {
 				}),
 			],
 		},
-		module: {
-			rules: [
-				{
-					test: /\.(ts|js)x?$/,
-					exclude: /node_modules/,
-					include: /src/,
-					use: ['babel-loader', 'eslint-loader']
-				},
-				{
-					test: /\.css$/,
-					use: ['style-loader', 'css-loader']
-				},
-				{
-					test: /\.(png|jpg|jpeg|gif)$/,
-					use: ['file-loader']
-				},
-				{
-					test: /\.svg$/,
-					use: ['@svgr/webpack', 'file-loader']
-				}
-			]
-		},
-		resolve: {
-			extensions: ['.tsx', '.ts', '.js'],
-			modules: [path.join(__dirname, 'node_modules'), path.join(__dirname, 'src')]
-		},
-		plugins: [
-			new webpack.DefinePlugin(envKeys),
-			new HtmlWebpackPlugin({
-				favicon: './favicon.ico'
-			})
-		]
-	},
-		(env.local ? devOptions : {})
+		env.local ? devOptions : {},
 	)
 }
 
