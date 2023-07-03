@@ -2,98 +2,21 @@ import React, { useState, memo, useRef } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
-import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
+import { Dispatch, bindActionCreators } from 'redux'
 
 import IconButton from '@material-ui/core/IconButton'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
 import Toolbar from '@material-ui/core/Toolbar'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 
-import { ReduxAction } from 'types/redux'
-
 import { setUserNone } from 'actions'
-import api from 'API'
-import SimpleConfirmationDialog from 'components/SimpleConfirmationDialog'
-import { useMySnackbar } from 'hooks'
 import Logo from 'images/navbar_logo.svg'
 import { buildURI as buildHomePageURI } from 'pages/HomePage'
-import { buildURI as buildProfilePageURI } from 'pages/ProfilePage'
-import { buildURI as buildAccountPageURI } from 'pages/SettingsPage'
+import UserMenu from 'components/Navbar/UserMenu'
 
-interface UserMenuProps {
-	open: boolean
-	anchor: HTMLElement | null
-	setOpen: React.Dispatch<React.SetStateAction<boolean>>
-	setUserNone?: ActionCreator<ReduxAction>
-}
-
-let UserMenu: React.FC<UserMenuProps> = ({
-	open,
-	anchor,
-	setOpen,
-	setUserNone,
-}) => {
-	const history = useHistory()
-	const notify = useMySnackbar()
-	const [confirmationDialogOpen, setConfirmationDialogOpen] =
-		useState<boolean>(false)
-
-	const menuStyle = {
-		minWidth: '100px',
-	}
-	const handleLogout = () => {
-		notify('Sessão encerrada', 'info')
-		api.logout()
-		setUserNone()
-	}
-	return (
-		<Menu
-			open={open}
-			anchorEl={anchor}
-			onClose={() => setOpen(false)}
-			transformOrigin={{
-				vertical: -60,
-				horizontal: 'left',
-			}}
-		>
-			<MenuItem
-				onClick={() => history.push(buildProfilePageURI())}
-				style={menuStyle}
-			>
-				{' '}
-				Perfil{' '}
-			</MenuItem>
-			<MenuItem
-				onClick={() => history.push(buildAccountPageURI())}
-				style={menuStyle}
-			>
-				{' '}
-				Conta{' '}
-			</MenuItem>
-			<MenuItem
-				onClick={() => setConfirmationDialogOpen(true)}
-				style={menuStyle}
-			>
-				{' '}
-				Logout{' '}
-			</MenuItem>
-			<SimpleConfirmationDialog
-				title="Tem certeza que deseja sair?"
-				cancelText="Cancelar"
-				confirmText="Sim"
-				open={confirmationDialogOpen}
-				cancelCallback={() => setConfirmationDialogOpen(false)}
-				confirmCallback={handleLogout}
-			/>
-		</Menu>
-	)
-}
 const mapDispatchToProps = (dispatch: Dispatch) =>
 	bindActionCreators({ setUserNone }, dispatch)
-UserMenu = connect(null, mapDispatchToProps)(UserMenu)
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false)
 	const anchorRef = useRef<HTMLButtonElement>(null)
 
@@ -118,22 +41,20 @@ const Navbar: React.FC = () => {
 		</>
 	)
 
-	return (
-		<Toolbar className="toolbar">
-			<img
-				src={Logo}
-				style={{ marginTop: '-.5rem', cursor: 'pointer' }}
-				height={30}
-				onClick={goHome}
-			/>
-			{menuIcon}
-			<UserMenu
-				anchor={anchorRef.current}
-				open={menuOpen}
-				setOpen={setMenuOpen}
-			/>
-		</Toolbar>
-	)
+	return <Toolbar className="toolbar">
+		<img
+			src={Logo}
+			style={{ marginTop: '-.5rem', cursor: 'pointer' }}
+			height={30}
+			onClick={goHome}
+		/>
+		{menuIcon}
+		<UserMenu
+			anchor={anchorRef.current}
+			open={menuOpen}
+			setOpen={setMenuOpen}
+		/>
+	</Toolbar>
 }
 
 export default memo(connect(null, mapDispatchToProps)(Navbar))

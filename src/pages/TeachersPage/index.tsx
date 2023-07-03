@@ -89,10 +89,10 @@ const TeachersPage = () => {
 		console.log('Clicou no id = ', id)
 	}
 
-	const [teachers, setTeachers] = useState({})
+	const [teachers, setTeachers] = useState<any>({})
 
 	useEffect(() => {
-		const arr = {}
+		const arr: any = {}
 		TeachersData.forEach((val: TeacherInfo) => {
 			if (!arr[val.Department]) arr[val.Department] = []
 			arr[val.Department].push(val)
@@ -100,7 +100,7 @@ const TeachersPage = () => {
 		setTeachers(arr)
 	}, [])
 
-	const [expandedAccordions, setExpandedAccordions] = useState({})
+	const [expandedAccordions, setExpandedAccordions] = useState<any>({})
 
 	const handleAccordionClick = (key: string, state: boolean) => {
 		setExpandedAccordions({

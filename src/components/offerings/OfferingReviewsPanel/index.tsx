@@ -9,8 +9,13 @@ import OfferingReviewBox from 'components/offerings/OfferingReviewBox'
 import OfferingReviewsFeed from 'components/offerings/OfferingReviewsFeed'
 import OfferingContext from 'contexts/OfferingContext'
 import ReviewContext from 'contexts/ReviewContext'
+import { guestUser, unknownUser, User } from 'types/User'
 
-const OfferingReviewsPanel = () => {
+type PropsType = {
+	user: User
+}
+
+const OfferingReviewsPanel: React.FC<PropsType> = ({ user }) => {
 	const { professor, course, specialization, code } =
 		useContext(OfferingContext)
 	const [userReview, setUserReview] = useState<OfferingReview | null>(null)
@@ -34,14 +39,13 @@ const OfferingReviewsPanel = () => {
 				position: 'relative',
 				maxHeight: '100%',
 				overflow: 'hidden',
-			}}
-		>
+			}}>
 			<ReviewContext.Provider
 				value={{
 					userReview: userReview,
 					setUserReview: setUserReview,
-				}}
-			>
+					isGuest: user === guestUser || user === unknownUser,
+				}}>
 				<OfferingReviewsFeed />
 				<OfferingReviewBox />
 			</ReviewContext.Provider>

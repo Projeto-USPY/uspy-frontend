@@ -17,7 +17,7 @@ export const useMySnackbar = () => {
 				vertical: 'bottom',
 				horizontal: 'center',
 			},
-			autoHideDuration: 4000,
+			autoHideDuration: 2000,
 			TransitionComponent: Slide,
 		})
 	}

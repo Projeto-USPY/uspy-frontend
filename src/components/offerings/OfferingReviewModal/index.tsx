@@ -149,16 +149,10 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				close()
 			})
 			.catch((err) => {
-				if (err.code === 'forbidden') {
-					notify(
-						'Você precisa ter feito a matéria para avaliar',
-						'info',
-					)
-				} else {
-					uspyAlert(
-						`Algo de errado aconteceu (${err.message}). Tente novamente mais tarde!`,
-					)
-				}
+				uspyAlert(
+					`Algo de errado aconteceu (${err.message}). Tente novamente mais tarde!`,
+				)
+
 				setPending(false)
 			})
 	}, [comment, rate])
@@ -171,8 +165,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				style={{
 					backgroundColor: theme.palette.primary.main,
 					color: 'white',
-				}}
-			>
+				}}>
 				<CompressedTextWithTooltip
 					text={'Avaliar ' + subject.name}
 					maxCharacters={isDesktop ? 50 : 32}
@@ -186,14 +179,12 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 					direction="column"
 					justify="space-evenly"
 					alignItems="stretch"
-					spacing={2}
-				>
+					spacing={2}>
 					<Grid item xs="auto">
 						<FormControl>
 							<InputLabel
 								shrink
-								htmlFor="professor-modal-selector"
-							>
+								htmlFor="professor-modal-selector">
 								Professor
 							</InputLabel>
 							<NativeSelect
@@ -202,8 +193,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 								onChange={(evt) =>
 									setSelectedOffering(evt.target.value)
 								}
-								inputProps={{ id: 'professor-modal-selector' }}
-							>
+								inputProps={{ id: 'professor-modal-selector' }}>
 								{offerings.map((o) => (
 									<option key={o.code} value={o.code}>
 										{' '}
@@ -239,18 +229,15 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 							<Grid
 								container
 								alignItems="center"
-								direction="row-reverse"
-							>
+								direction="row-reverse">
 								<IconButton
-									onClick={() => setEditing(!editing)}
-								>
+									onClick={() => setEditing(!editing)}>
 									<Tooltip
 										title={
 											editing
 												? 'Travar avaliação'
 												: 'Editar avaliação'
-										}
-									>
+										}>
 										{editing ? (
 											<LockOpenIcon color="primary" />
 										) : (
@@ -260,8 +247,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 								</IconButton>
 								<Typography
 									variant="body2"
-									color="textSecondary"
-								>
+									color="textSecondary">
 									{editing ? '' : 'Destrave para editar '}{' '}
 									&nbsp;
 								</Typography>
@@ -285,8 +271,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 								selectedOffering,
 							)}
 							target="_blank"
-							style={{ fontSize: '0.875rem' }}
-						>
+							style={{ fontSize: '0.875rem' }}>
 							Ver avaliações
 						</Link>
 					</Grid>
@@ -303,8 +288,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 						(comment === userReview?.body &&
 							rate === userReview?.rating)
 					}
-					endIcon={pending ? <CircularProgress size={20} /> : null}
-				>
+					endIcon={pending ? <CircularProgress size={20} /> : null}>
 					{userReview === null ? 'ENVIAR' : 'EDITAR'}
 				</Button>
 			</DialogActions>

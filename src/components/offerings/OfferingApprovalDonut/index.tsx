@@ -110,7 +110,7 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({
 
 	const colors = ['#00910E', '#6a86a3', '#FF0000']
 
-	const wrapperStyle = {
+	const wrapperStyle: React.CSSProperties = {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',

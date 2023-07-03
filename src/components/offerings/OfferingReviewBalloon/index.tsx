@@ -5,6 +5,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
@@ -13,7 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ReportIcon from '@material-ui/icons/FlagOutlined'
-import withStyles from '@material-ui/styles/withStyles'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 import { OfferingReview } from 'types/Offering'
 
@@ -63,7 +64,7 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 
 	const { professor, course, specialization, code } =
 		useContext(OfferingContext)
-	const { setUserReview } = useContext(ReviewContext)
+	const { setUserReview, isGuest } = useContext(ReviewContext)
 
 	const notify = useMySnackbar()
 
@@ -90,6 +91,14 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 		review.downvotes +
 		(updatedVote ? vote - voteRegistered : 0)
 	const handleVote = (x: number) => {
+		if (isGuest) {
+			notify(
+				'Você precisa fazer login para avaliar um comentário',
+				'info',
+			)
+			return
+		}
+
 		api.submitOfferingReviewUserVote(
 			course,
 			specialization,
@@ -127,8 +136,7 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 		<>
 			<Dialog
 				onClose={() => setIsDeleteDialogOpen(false)}
-				open={isDeleteDialogOpen}
-			>
+				open={isDeleteDialogOpen}>
 				<DialogTitle> Excluir comentário </DialogTitle>
 				<DialogContent>
 					<DialogContentText>
@@ -139,15 +147,13 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 					<Button
 						id="dismiss-error-dialog"
 						onClick={() => setIsDeleteDialogOpen(false)}
-						color="secondary"
-					>
+						color="secondary">
 						Cancelar
 					</Button>
 					<Button
 						id="dismiss-error-dialog"
 						onClick={() => deleteComment()}
-						color="secondary"
-					>
+						color="secondary">
 						Confirmar
 					</Button>
 				</DialogActions>
@@ -155,14 +161,12 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 			<Paper
 				square
 				elevation={2}
-				className={`offering-review-balloon${locked ? '-locked' : ''}`}
-			>
+				className={`offering-review-balloon${locked ? '-locked' : ''}`}>
 				<Grid
 					container
 					direction="column"
 					alignItems="stretch"
-					className="full-height"
-				>
+					className="full-height">
 					<Grid item container alignItems="center" xs>
 						<Grid item xs>
 							<Typography variant="body1">
@@ -181,16 +185,13 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 						container
 						direction="row-reverse"
 						alignItems="flex-end"
-						xs="auto"
-					>
+						xs="auto">
 						{' '}
-						{/* Timestamp */}
 						{locked ? (
 							<IconButton
 								onClick={() => setIsDeleteDialogOpen(true)}
 								size="small"
-								style={{ margin: '0 -1rem 0 1rem' }}
-							>
+								style={{ margin: '0 -1rem 0 1rem' }}>
 								<Tooltip title="Deletar comentário">
 									<MyDeleteIcon
 										style={{ fontSize: '1rem' }}
@@ -199,7 +200,6 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 							</IconButton>
 						) : null}
 						<Typography variant="caption" color="textSecondary">
-							{' '}
 							<i>
 								{' '}
 								{getRelativeDate(
@@ -207,6 +207,16 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 								)}{' '}
 								{review.edited ? '(Editado)' : null}{' '}
 							</i>{' '}
+							{review.verified && (
+								<Tooltip title="Esse usuário completou essa disciplina">
+									<VerifiedUserIcon
+										style={{
+											margin: '0 -1rem 0 1rem',
+											color: '#115293',
+										}}
+										fontSize="small"></VerifiedUserIcon>
+								</Tooltip>
+							)}{' '}
 						</Typography>
 					</Grid>
 				</Grid>
@@ -216,8 +226,7 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 				direction="column"
 				justify="space-around"
 				alignItems="center"
-				style={{ width: 45 }}
-			>
+				style={{ width: 45 }}>
 				<Grid item container direction="column" alignItems="center">
 					<VoteButton
 						disabled={locked}
@@ -239,7 +248,17 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 					<Grid item>
 						{' '}
 						<ReportIcon
-							onClick={() => setReporting(true)}
+							onClick={() => {
+								if (isGuest) {
+									notify(
+										'Você precisa fazer login para denunciar um comentário',
+										'info',
+									)
+									return
+								}
+
+								setReporting(true)
+							}}
 							className="cursor-pointer"
 						/>{' '}
 					</Grid>

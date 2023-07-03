@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { useHistory } from 'react-router'
 
-import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
+import { Dispatch, bindActionCreators } from 'redux'
 
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -10,12 +10,9 @@ import red from '@material-ui/core/colors/red'
 import Container from '@material-ui/core/Container'
 import Divider from '@material-ui/core/Divider'
 import Grid from '@material-ui/core/Grid'
-import { createMuiTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme, ThemeProvider } from '@material-ui/styles'
-
-import { ReduxAction } from 'types/redux'
+import { createTheme, useTheme, ThemeProvider } from '@material-ui/core/styles'
 
 import { setUserNone } from 'actions'
 import api from 'API'
@@ -37,21 +34,24 @@ const textFieldCommonProps = {
 	},
 }
 
-const dangerTheme = createMuiTheme({
+const dangerTheme = createTheme({
 	palette: {
 		primary: red,
 	},
 })
 
-interface SettingsPageProps {
-	setUserNone: ActionCreator<ReduxAction>
-}
+const mapDispatchToProps = (dispatch: Dispatch) =>
+	bindActionCreators({ setUserNone }, dispatch)
 
 export function buildURI(): string {
 	return '/conta'
 }
 
-const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
+const connector = connect(null, mapDispatchToProps)
+
+type SettingsPageProps = ConnectedProps<typeof connector>;
+
+const SettingsPage = ({ setUserNone }: SettingsPageProps) => {
 	const [newPwd, setNewPwd] = useState<string>('')
 	const [showPwdError, setShowPwdError] = useState<boolean>(false)
 	const [isDeletingAccount, setIsDeletingAccount] = useState<boolean>(false)
@@ -82,7 +82,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	}
 
 	const changePassword = () => {
-		const old = document.querySelector('#old_pwd').value
+		const old = document.querySelector<HTMLInputElement>('#old_pwd').value
 		if (old === newPwd)
 			uspyAlert('Senhas nova e antiga não podem ser as mesmas')
 		else if (!validatePassword(newPwd)) uspyAlert('Senha inválida')
@@ -238,7 +238,4 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ setUserNone }) => {
 	)
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-	bindActionCreators({ setUserNone }, dispatch)
-
-export default connect(null, mapDispatchToProps)(SettingsPage)
+export default connector(SettingsPage)

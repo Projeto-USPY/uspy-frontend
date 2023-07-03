@@ -12,7 +12,7 @@ import Modal from '@material-ui/core/Modal'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import CloseIcon from '@material-ui/icons/CloseOutlined'
-import { useTheme } from '@material-ui/styles'
+import { useTheme } from '@material-ui/core/styles'
 
 import ImageBlock from 'components/ImageBlock'
 import AuthenticityCodeImage from 'images/authenticityCode.png'

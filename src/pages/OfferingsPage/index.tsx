@@ -17,6 +17,9 @@ import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
 
 import Desktop from './Desktop'
 import Mobile from './Mobile'
+import { User } from 'types/User'
+import { AppState } from 'types/redux'
+import { connect } from 'react-redux'
 
 export interface URLParameter {
 	course: string
@@ -56,7 +59,11 @@ export function getBreadcrumbLinks(
 	]
 }
 
-const OfferingsPage = () => {
+interface PropsType {
+	user: User
+}
+
+const OfferingsPage: React.FC<PropsType> = ({ user }) => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
@@ -119,8 +126,7 @@ const OfferingsPage = () => {
 				container
 				direction="column"
 				className="full-height"
-				wrap="nowrap"
-			>
+				wrap="nowrap">
 				<Grid item xs="auto" style={{ minHeight: '72px' }} />
 				<Grid item xs>
 					{errorMessage ? (
@@ -137,12 +143,14 @@ const OfferingsPage = () => {
 							offerings={offerings}
 							subject={subject}
 							selectedOffering={selectedOffering}
+							user={user}
 						/>
 					) : (
 						<Mobile
 							offerings={offerings}
 							subject={subject}
 							selectedOffering={selectedOffering}
+							user={user}
 						/>
 					)}
 				</Grid>
@@ -151,4 +159,5 @@ const OfferingsPage = () => {
 	)
 }
 
-export default OfferingsPage
+const mapStateToProps = (st: AppState) => ({ user: st.user })
+export default connect(mapStateToProps)(OfferingsPage)

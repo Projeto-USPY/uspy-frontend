@@ -16,17 +16,20 @@ import OfferingContext from 'contexts/OfferingContext'
 import { buildURI, getBreadcrumbLinks, URLParameter } from 'pages/OfferingsPage'
 
 import MobileOfferingSelector from './MobileOfferingSelector'
+import { User } from 'types/User'
 
 interface PropsType {
 	subject: Subject | null
 	offerings: Offering[] | null
 	selectedOffering: Offering | null
+	user: User
 }
 
 const Mobile: React.FC<PropsType> = ({
 	offerings,
 	subject,
 	selectedOffering,
+	user,
 }) => {
 	const [mobileOfferingSelectorOpen, setMobileOfferingSelectorOpen] =
 		useState<boolean>(false)
@@ -48,8 +51,7 @@ const Mobile: React.FC<PropsType> = ({
 				alignItems="center"
 				xs="auto"
 				style={{ height: '50px' }}
-				className="pad"
-			>
+				className="pad">
 				<Breadcrumb
 					links={getBreadcrumbLinks(course, specialization, code)}
 				/>
@@ -71,8 +73,7 @@ const Mobile: React.FC<PropsType> = ({
 						<Grid
 							container
 							direction="column"
-							className="full-height"
-						>
+							className="full-height">
 							<Grid item xs="auto" container className="pad">
 								<Grid item xs={8}>
 									<Typography variant="subtitle1">
@@ -86,8 +87,7 @@ const Mobile: React.FC<PropsType> = ({
 										fullWidth
 										onClick={() =>
 											setMobileOfferingSelectorOpen(true)
-										}
-									>
+										}>
 										<b>TROCAR</b>
 									</Button>
 								</Grid>
@@ -99,9 +99,8 @@ const Mobile: React.FC<PropsType> = ({
 										course,
 										specialization,
 										code,
-									}}
-								>
-									<OfferingReviewsPanel />
+									}}>
+									<OfferingReviewsPanel user={user} />
 								</OfferingContext.Provider>
 								{!mobileOfferingSelectorOpen ? null : (
 									<MobileOfferingSelector

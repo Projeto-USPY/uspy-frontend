@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 
 import { useTheme } from '@material-ui/core/styles'
 
@@ -7,7 +7,7 @@ interface PropsType {
 	color?: 'primary' | 'secondary'
 }
 
-const Circle: React.FC<PropsType> = ({
+const Circle: React.FC<PropsWithChildren<PropsType>> = ({
 	size,
 	children,
 	color = 'secondary',

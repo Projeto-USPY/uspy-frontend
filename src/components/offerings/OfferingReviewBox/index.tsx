@@ -37,8 +37,11 @@ const OfferingReviewBox = () => {
 	const notify = useMySnackbar()
 	const { professor, course, specialization, code } =
 		useContext(OfferingContext)
-	const { userReview: review, setUserReview: setReview } =
-		useContext(ReviewContext)
+	const {
+		userReview: review,
+		setUserReview: setReview,
+		isGuest,
+	} = useContext(ReviewContext)
 	const uspyAlert = useErrorDialog()
 
 	// Loaded review
@@ -107,8 +110,17 @@ const OfferingReviewBox = () => {
 				className="offering-review-form-accordion-button"
 				direction="row-reverse"
 				alignItems="center"
-				onClick={() => setIsReviewFormOpen(!isReviewFormOpen)}
-			>
+				onClick={() => {
+					if (isGuest) {
+						notify(
+							'Você precisa fazer login para avaliar um oferecimento',
+							'info',
+						)
+						return
+					}
+
+					setIsReviewFormOpen(!isReviewFormOpen)
+				}}>
 				<Grid item>
 					{isReviewFormOpen ? (
 						<ExpandLessIcon fontSize="large" />
@@ -125,8 +137,7 @@ const OfferingReviewBox = () => {
 						justify="space-evenly"
 						alignItems="stretch"
 						spacing={2}
-						className="offering-review-form-accordion-content"
-					>
+						className="offering-review-form-accordion-content">
 						<Grid container item justify="center" xs="auto">
 							<Typography variant="caption" color="textSecondary">
 								{' '}
@@ -149,18 +160,15 @@ const OfferingReviewBox = () => {
 								<Grid
 									container
 									alignItems="center"
-									direction="row-reverse"
-								>
+									direction="row-reverse">
 									<IconButton
-										onClick={() => setEditing(!editing)}
-									>
+										onClick={() => setEditing(!editing)}>
 										<Tooltip
 											title={
 												editing
 													? 'Travar avaliação'
 													: 'Editar avaliação'
-											}
-										>
+											}>
 											{editing ? (
 												<LockOpenIcon color="primary" />
 											) : (
@@ -170,8 +178,7 @@ const OfferingReviewBox = () => {
 									</IconButton>
 									<Typography
 										variant="body2"
-										color="textSecondary"
-									>
+										color="textSecondary">
 										{editing ? '' : 'Destrave para editar '}{' '}
 										&nbsp;
 									</Typography>
@@ -201,8 +208,7 @@ const OfferingReviewBox = () => {
 											(comment === review?.body &&
 												rate === review?.rating)
 										}
-										onClick={handleReviewSubmit}
-									>
+										onClick={handleReviewSubmit}>
 										{pending ? (
 											<CircularProgress color="secondary" />
 										) : review === null ? (
@@ -231,8 +237,7 @@ const OfferingReviewBox = () => {
 								rate === review?.rating)
 						}
 						onClick={handleReviewSubmit}
-						style={{ height: 40 }}
-					>
+						style={{ height: 40 }}>
 						{pending ? (
 							<CircularProgress color="secondary" size={20} />
 						) : review === null ? (
