@@ -61,6 +61,7 @@ import reducer from 'reducer'
 import LoggedInRoute from 'routes/LoggedInRoute'
 import LoggedOutRoute from 'routes/LoggedOutRoute'
 import WithMetaRoute from 'routes/WithMetaRoute'
+import { AppState, DialogError } from 'types/redux'
 import theme from 'theme'
 
 // CSS
@@ -95,7 +96,7 @@ const useStyles = makeStyles({
 })
 
 const DialogManager = () => {
-	const dialogError = useSelector((state) => state.dialogError)
+	const dialogError = useSelector<AppState, DialogError>(state => state.dialogError)
 	const dispatch = useDispatch()
 	console.log(dialogError)
 	return (
@@ -148,7 +149,7 @@ const App = () => {
 								<WithMetaRoute
 									exact
 									path={buildSubjectsPageURI()}
-									component={SubjectsPage}
+									element={SubjectsPage}
 									{...getSubjectsPageMeta()}
 								/>
 								<LoggedOutRoute
@@ -169,7 +170,7 @@ const App = () => {
 								<WithMetaRoute
 									exact
 									path={buildAboutPageURI()}
-									component={AboutPage}
+									element={AboutPage}
 									{...getAboutPageMeta()}
 								/>
 								<Route
@@ -184,7 +185,7 @@ const App = () => {
 										':specialization',
 										':code',
 									)}
-									component={SubjectPage}
+									element={SubjectPage}
 									{...getSubjectPageMeta()}
 								/>
 								<Route
@@ -199,7 +200,7 @@ const App = () => {
 								<WithMetaRoute
 									exact
 									path={buildHomePageURI()}
-									component={HomePage}
+									element={HomePage}
 									{...getHomePageMeta()}
 								/>
 								<Route

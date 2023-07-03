@@ -81,9 +81,9 @@ const SubjectSiblings: React.FC<SubjectSiblingsProps> = ({
 	}
 
 	return (
-		<Grid container spacing={2} alignItems={'flex-start'}>
+		<Grid container spacing={2} alignItems='flex-start'>
 			{siblings.map((sibling) => (
-				<Grid item fixed maxWidth="xl" key={sibling.code}>
+				<Grid item key={sibling.code}>
 					<Sibling
 						code={sibling.code}
 						name={sibling.name}

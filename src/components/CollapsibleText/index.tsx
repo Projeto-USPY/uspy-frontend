@@ -1,16 +1,16 @@
-import React, { ReactElement, useState } from 'react'
+import React, { useState } from 'react'
 
 import Link from '@material-ui/core/Link'
 
 interface Props {
-	Child: ReactElement
+	component: React.ElementType
 	childrenProps: any
 	text: string
 	maxCharacters: number
 }
 
 const CollapsibleText: React.FC<Props> = ({
-	Child,
+	component: Child,
 	childrenProps,
 	text,
 	maxCharacters,
@@ -21,7 +21,7 @@ const CollapsibleText: React.FC<Props> = ({
 		return <Child {...childrenProps}>{text}</Child>
 	return (
 		<Child {...childrenProps}>
-			{collapsed ? text.substr(0, maxCharacters) + '...' : text}
+			{collapsed ? text.substring(0, maxCharacters) + '...' : text}
 			<Link
 				variant="caption"
 				color="secondary"

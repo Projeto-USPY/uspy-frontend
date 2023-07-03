@@ -1,31 +1,32 @@
-import React, { memo } from 'react'
-import { connect } from 'react-redux'
+import React, { memo, PropsWithChildren, ReactElement } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 
 import AppBar from '@material-ui/core/AppBar'
 import Slide from '@material-ui/core/Slide'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 
 import { AppState } from 'types/redux'
-import { User, unknownUser, guestUser } from 'types/User'
+import { unknownUser, guestUser } from 'types/User'
 
 import NavbarGuest from 'components/Navbar/NavbarGuest'
 import NavbarUser from 'components/Navbar/NavbarUser'
 
-const HideOnScroll: React.FC<any> = ({ children }) => {
+const HideOnScroll: React.FC<PropsWithChildren> = ({ children }) => {
 	const trigger = useScrollTrigger()
 
 	return (
 		<Slide appear={false} direction="down" in={!trigger}>
-			{children}
+			{children as ReactElement}
 		</Slide>
 	)
 }
 
-interface NavbarProps {
-	user: User
-}
+const mapStateToProps = (state: AppState) => ({ user: state.user })
+const connector = connect(mapStateToProps)
 
-const Navbar: React.FC<NavbarProps> = ({ user, ...props }) => {
+type NavbarProps = ConnectedProps<typeof connector>
+
+const Navbar = ({ user, ...props }: NavbarProps) => {
 	return (
 		<HideOnScroll {...props}>
 			<AppBar color="primary">
@@ -39,6 +40,5 @@ const Navbar: React.FC<NavbarProps> = ({ user, ...props }) => {
 	)
 }
 
-const mapStateToProps = (state: AppState) => ({ user: state.user })
 
-export default memo(connect(mapStateToProps)(Navbar))
+export default memo(connector(Navbar))

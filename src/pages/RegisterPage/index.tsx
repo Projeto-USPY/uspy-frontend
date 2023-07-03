@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { ConnectedProps, connect } from 'react-redux'
 import { useHistory } from 'react-router'
 
-import { ActionCreator, Dispatch, bindActionCreators } from 'redux'
+import { Dispatch, bindActionCreators } from 'redux'
 
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
@@ -14,14 +14,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
-import TextField from '@material-ui/core/TextField'
+import TextField, { TextFieldProps } from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
-import { useTheme } from '@material-ui/styles'
+import { useTheme } from '@material-ui/core/styles'
 
-import { ReduxAction } from 'types/redux'
 import { User } from 'types/User'
 
 import { setUser } from 'actions'
@@ -40,22 +39,25 @@ import { validateEmail, validatePassword } from 'utils'
 import './style.css'
 import { Auth } from 'types/Auth'
 
-const textFieldCommonProps = {
+const textFieldCommonProps: TextFieldProps = {
 	variant: 'outlined',
 	color: 'secondary',
 	size: 'small',
 	fullWidth: true,
 }
 
-interface RegisterPageProps {
-	setUser: ActionCreator<ReduxAction>
-}
+const mapDispatchToProps = (dispatch: Dispatch) =>
+	bindActionCreators({ setUser }, dispatch)
+
+const connector = connect(null, mapDispatchToProps)
+
+type RegisterPageProps = ConnectedProps<typeof connector>
 
 export function buildURI(): string {
 	return '/cadastro'
 }
 
-const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
+const RegisterPage = ({ setUser }: RegisterPageProps) => {
 	const notify = useMySnackbar()
 	const uspyAlert = useErrorDialog()
 
@@ -145,7 +147,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	const emailOk = !showEmailError || validateEmail(email)
 
 	const registerClick = () => {
-		const acceptedTerms = document.querySelector('#accept').checked
+		const acceptedTerms = document.querySelector<HTMLInputElement>('#accept').checked
 
 		if (!validatePassword(password[0])) {
 			uspyAlert('A senha está inválida')
@@ -478,7 +480,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 										}
 										helperText={
 											password[0] !== password[1] &&
-											showPwd1Error
+												showPwd1Error
 												? 'Senhas diferem'
 												: ''
 										}
@@ -506,7 +508,4 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setUser }) => {
 	)
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-	bindActionCreators({ setUser }, dispatch)
-
-export default connect(null, mapDispatchToProps)(RegisterPage)
+export default connector(RegisterPage)

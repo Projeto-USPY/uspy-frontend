@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 interface props {
 	message: string
 	height: number
-	action?: Function
+	action?: () => void
 	actionTitle?: string
 }
 
@@ -17,7 +17,7 @@ const MessagePanel: React.FC<props> = ({
 	action,
 	actionTitle,
 }) => {
-	const style = {
+	const style: React.CSSProperties = {
 		height,
 		flexGrow: 1,
 		display: 'flex',

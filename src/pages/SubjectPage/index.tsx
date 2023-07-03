@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, ReactElement } from 'react'
-import { connect } from 'react-redux'
+import React, { useState, useEffect, useCallback } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 
 import Button from '@material-ui/core/Button'
@@ -117,11 +117,14 @@ export function getMeta(): any {
 	}
 }
 
-interface PropsType {
+const mapStateToProps = (st: AppState) => ({ user: st.user })
+const connector = connect(mapStateToProps)
+
+interface SubjectPageProps extends ConnectedProps<typeof connector> {
 	user: User
 }
 
-const SubjectPage: React.FC<PropsType> = ({ user }) => {
+const SubjectPage = ({ user }: SubjectPageProps) => {
 	const { course, specialization, code } = useParams<URLParameter>()
 
 	const history = useHistory()
@@ -295,7 +298,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 			<CollapsibleText
 				text={subject.description}
 				maxCharacters={200}
-				Child={Typography as ReactElement}
+				component={Typography}
 				childrenProps={{}}
 			/>
 
@@ -378,7 +381,7 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 													color="secondary"
 													size="medium"
 													variant="outlined"
-													onClick={goToOfferingsPage}>
+													onClick={() => goToOfferingsPage()}>
 													Ver Tudo
 												</Button>
 											</>
@@ -403,8 +406,8 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 												subjectReview
 													? subjectReview.categories
 														? subjectReview
-																.categories
-																.worth_it
+															.categories
+															.worth_it
 															? 'S'
 															: 'N'
 														: null
@@ -454,9 +457,9 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 									{chartContent}
 
 									{canSeeChart &&
-									gradeStats &&
-									gradeStats.grades &&
-									Object.keys(gradeStats.grades).length >
+										gradeStats &&
+										gradeStats.grades &&
+										Object.keys(gradeStats.grades).length >
 										0 ? (
 										<>
 											<Typography variant="body1">
@@ -573,5 +576,4 @@ const SubjectPage: React.FC<PropsType> = ({ user }) => {
 		</div>
 	)
 }
-const mapStateToProps = (st: AppState) => ({ user: st.user })
-export default connect(mapStateToProps)(SubjectPage)
+export default connector(SubjectPage)

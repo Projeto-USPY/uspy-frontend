@@ -14,7 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ReportIcon from '@material-ui/icons/FlagOutlined'
-import withStyles from '@material-ui/styles/withStyles'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 import { OfferingReview } from 'types/Offering'
 
