@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography'
 import { Offering } from 'types/Offering'
 import { AppState } from 'types/redux'
 import { Subject, SubjectGradeStats, SubjectReview } from 'types/Subject'
-import { User, unknownUser, guestUser } from 'types/User'
+import { User } from 'types/User'
 
 import api from 'API'
 import BreadCrumb from 'components/Breadcrumb'
@@ -196,29 +196,17 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 				setGradeStats(null)
 			})
 
-		if (user === unknownUser || user === guestUser) {
-			api.getSubjectOfferingsSummary(course, specialization, code)
-				.then((o) => {
-					setOfferings(o)
-				})
-				.catch((err) => {
-					if (err.code !== 'not_found') {
-						console.error(err)
-					}
-				})
-		} else {
-			api.getSubjectOfferings(course, specialization, code, 3)
-				.then((o) => {
-					setOfferings(o)
-				})
-				.catch((err) => {
-					if (err.code === 'not_found') {
-						setOfferings([])
-					} else {
-						console.error(err)
-					}
-				})
-		}
+		api.getSubjectOfferings(course, specialization, code, 3)
+			.then((o) => {
+				setOfferings(o)
+			})
+			.catch((err) => {
+				if (err.code === 'not_found') {
+					setOfferings([])
+				} else {
+					console.error(err)
+				}
+			})
 
 		api.getGrade(course, specialization, code)
 			.then((grade) => {
@@ -387,16 +375,6 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 														)
 													}}
 													secondary={'Ver avaliações'}
-													noStatsMessage={
-														user === unknownUser ||
-															user === guestUser
-															? 'Registre-se ou faça login para ter acesso às estatísticas do professor'
-															: 'Não há avaliações para este professor'
-													}
-													showQuestionMark={
-														user === unknownUser ||
-														user === guestUser
-													}
 												/>
 												<Button
 													fullWidth

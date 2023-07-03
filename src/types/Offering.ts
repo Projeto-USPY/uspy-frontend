@@ -20,6 +20,7 @@ export interface OfferingReview {
 	timestamp: string
 	upvotes: number
 	downvotes: number
+	verified?: boolean
 }
 
 export interface OfferingReviewVote {

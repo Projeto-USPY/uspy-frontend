@@ -127,8 +127,7 @@ const App = () => {
 						classes={{
 							variantSuccess: classes.success,
 							variantInfo: classes.info,
-						}}
-					>
+						}}>
 						<BrowserRouter>
 							<ScrollToTop />
 							<Switch>
@@ -189,7 +188,7 @@ const App = () => {
 									element={SubjectPage}
 									{...getSubjectPageMeta()}
 								/>
-								<LoggedInRoute
+								<Route
 									exact
 									path={buildOfferingsPageURI(
 										':course',

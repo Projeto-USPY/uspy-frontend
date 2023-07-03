@@ -200,38 +200,20 @@ class APIClient {
 		await this.axiosClient.get('account/logout')
 	}
 
-	async getSubjectOfferingsSummary(
-		course: string,
-		specialization: string,
-		code: string,
-	): Promise<Offering[]> {
-		const { data } = await this.axiosClient.get('/api/subject/offerings', {
-			params: {
-				code,
-				specialization,
-				course,
-			},
-		})
-		return data as Offering[]
-	}
-
 	async getSubjectOfferings(
 		course: string,
 		specialization: string,
 		code: string,
 		limit?: number,
 	): Promise<Offering[]> {
-		const { data } = await this.axiosClient.get(
-			'/api/restricted/subject/offerings',
-			{
-				params: {
-					code,
-					specialization,
-					course,
-					limit: limit || 100,
-				},
+		const { data } = await this.axiosClient.get('/api/subject/offerings', {
+			params: {
+				code,
+				specialization,
+				course,
+				limit: limit || 100,
 			},
-		)
+		})
 		return data as Offering[]
 	}
 
@@ -262,7 +244,7 @@ class APIClient {
 		professor: string,
 	): Promise<OfferingReview[]> {
 		const { data } = await this.axiosClient.get(
-			'/api/restricted/subject/offerings/comments',
+			'/api/subject/offerings/comments',
 			{
 				params: {
 					code,
@@ -430,6 +412,24 @@ class APIClient {
 			},
 		)
 		return data as SubjectGradeStats
+	}
+
+	async getSubjectVerification(
+		course: string,
+		specialization: string,
+		code: string,
+	): Promise<Boolean> {
+		const { data } = await this.axiosClient.get(
+			'/private/subject/verification',
+			{
+				params: {
+					course,
+					specialization,
+					code,
+				},
+			},
+		)
+		return data as Boolean
 	}
 
 	async getGrade(
