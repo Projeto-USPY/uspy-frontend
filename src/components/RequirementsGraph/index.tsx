@@ -30,7 +30,7 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const history = useHistory()
 
-	const style = {
+	const style: React.CSSProperties = {
 		height: isLink ? '30px' : '40px',
 		boxSizing: 'border-box',
 		padding: isLink ? '5px' : '10px',
@@ -111,6 +111,8 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 
 	return (
 		<>
+			{/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+			{/* @ts-ignore the archer element doesn't expect children, but I will allow this hack */}
 			<ArcherElement id={code} relations={relations}>
 				<div
 					style={style}
@@ -260,6 +262,8 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({
 					height={50}
 				/>
 			</div>
+			{/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+			{/* @ts-ignore the archer element doesn't expect children, but I will allow this hack */}
 			<ArcherContainer strokeColor="black" strokeWidth={1}>
 				{isLoading ? (
 					<Grid container justify="center">
