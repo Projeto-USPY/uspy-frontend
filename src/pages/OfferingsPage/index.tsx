@@ -17,9 +17,8 @@ import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
 
 import Desktop from './Desktop'
 import Mobile from './Mobile'
-import { User } from 'types/User'
 import { AppState } from 'types/redux'
-import { connect } from 'react-redux'
+import { ConnectedProps, connect } from 'react-redux'
 
 export interface URLParameter {
 	course: string
@@ -58,11 +57,12 @@ export function getBreadcrumbLinks(
 	]
 }
 
-interface PropsType {
-	user: User
-}
+const mapStateToProps = (st: AppState) => ({ user: st.user })
+const connector = connect(mapStateToProps)
 
-const OfferingsPage: React.FC<PropsType> = ({ user }) => {
+type OfferingsPageProps = ConnectedProps<typeof connector>
+
+const OfferingsPage = ({ user }: OfferingsPageProps) => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
@@ -158,5 +158,4 @@ const OfferingsPage: React.FC<PropsType> = ({ user }) => {
 	)
 }
 
-const mapStateToProps = (st: AppState) => ({ user: st.user })
-export default connect(mapStateToProps)(OfferingsPage)
+export default connector(OfferingsPage)
