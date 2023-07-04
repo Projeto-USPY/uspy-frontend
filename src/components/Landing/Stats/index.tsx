@@ -15,7 +15,7 @@ const Stats: React.FC = () => {
 	const [stats, setStats] = useState({} as APIStats)
 
 	useEffect(() => {
-		api.getStats().then((res) => {
+		api.getStats().then(res => {
 			setStats(res)
 		})
 	}, [])

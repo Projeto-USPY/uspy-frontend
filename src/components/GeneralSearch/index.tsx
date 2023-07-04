@@ -34,7 +34,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	// Institutes useEffect - run on mount
 	const [instituteOptions, setInstituteOptions] = useState<Institute[]>()
 	useEffect(() => {
-		api.getInstitutes().then((res) => {
+		api.getInstitutes().then(res => {
 			setInstituteOptions(res)
 		})
 	}, [])
@@ -42,7 +42,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	// Courses useEffect - run on change of institute
 	const [courseOptions, setCourseOptions] = useState<Course[]>([])
 	useEffect(() => {
-		api.getCourses(institute).then((res) => {
+		api.getCourses(institute).then(res => {
 			setCourseOptions(res)
 		})
 	}, [institute])
@@ -53,7 +53,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 		const [courseCode, specializationCode] = course
 		api.getSubjectSearch(institute, courseCode, specializationCode).then(
 			(res: CourseComplete) => {
-				const data = Object.keys(res.subjects).map((val) => ({
+				const data = Object.keys(res.subjects).map(val => ({
 					course: res.code,
 					specialization: res.specialization,
 					code: val,
@@ -159,7 +159,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 									)
 								}}
 								label="Procure por um instituto"
-								getOptionLabel={(option) =>
+								getOptionLabel={option =>
 									`${option.name} (${getInitials(
 										option.name,
 									)})`
@@ -195,7 +195,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 									setSearchDisabled(false)
 								}}
 								label="Procure por um curso"
-								getOptionLabel={(option) =>
+								getOptionLabel={option =>
 									`${option.name} (${getInitials(
 										option.name,
 									)}) (${option.shift ?? ''})`
@@ -222,7 +222,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 									maxHeight: '180px',
 								},
 							}}
-							renderInput={(params) => (
+							renderInput={params => (
 								<TextField
 									{...params}
 									color="secondary"
