@@ -50,8 +50,7 @@ function renderRow(
 			key={subject.code}
 			style={{ borderBottom: '1px solid #adadad' }}
 			component={Link}
-			to={buildSubjectPageURI(course, specialization, subject.code)}
-		>
+			to={buildSubjectPageURI(course, specialization, subject.code)}>
 			<ListItemText
 				primary={subject.code + ' - ' + subject.name}
 				disableTypography
@@ -67,7 +66,11 @@ interface SubjectListProps extends URLParameter {
 	sortByCode: boolean
 }
 
-const SubjectList: React.FC<SubjectListProps> = ({ course, specialization, sortByCode }) => {
+const SubjectList: React.FC<SubjectListProps> = ({
+	course,
+	specialization,
+	sortByCode,
+}) => {
 	const courseData = useContext(CourseDataContext)
 
 	const subjects = useMemo(() => transformResult(courseData), [courseData])
@@ -89,8 +92,7 @@ const SubjectList: React.FC<SubjectListProps> = ({ course, specialization, sortB
 	return (
 		<List
 			style={{ width: '100%', fontFamily: 'Raleway, sans-serif' }}
-			disablePadding
-		>
+			disablePadding>
 			<div hidden={sortByCode}> {listByName} </div>{' '}
 			{/* for otimization, make two */}
 			<div hidden={!sortByCode}> {listByCode} </div>
@@ -100,7 +102,10 @@ const SubjectList: React.FC<SubjectListProps> = ({ course, specialization, sortB
 
 type SubjectsPageContentProps = URLParameter
 
-const SubjectsPageContent = ({ course, specialization }: SubjectsPageContentProps) => {
+const SubjectsPageContent = ({
+	course,
+	specialization,
+}: SubjectsPageContentProps) => {
 	const [sortByCode, setSortByCode] = useState<boolean>(true)
 	const courseData = useContext(CourseDataContext)
 
@@ -122,8 +127,7 @@ const SubjectsPageContent = ({ course, specialization }: SubjectsPageContentProp
 					container
 					item
 					direction="row"
-					justifyContent={isDesktop ? 'flex-end' : 'center'}
-				>
+					justifyContent={isDesktop ? 'flex-end' : 'center'}>
 					<Grid item>
 						<input
 							type="radio"
@@ -147,7 +151,6 @@ const SubjectsPageContent = ({ course, specialization }: SubjectsPageContentProp
 				</Grid>
 				<Grid item>
 					<SubjectList
-
 						course={course}
 						specialization={specialization}
 						sortByCode={sortByCode}
@@ -171,11 +174,15 @@ const SubjectsPage = ({ course, specialization }: SubjectPageProps) => {
 
 				<Container>
 					<Typography variant="h4">
-						Disciplinas de {courseData?.name ?? <LoadingEllipsis interval={200} />}
+						Disciplinas de{' '}
+						{courseData?.name ?? <LoadingEllipsis interval={200} />}
 					</Typography>
 					<br></br>
 					<Box>
-						<SubjectsPageContent course={course} specialization={specialization} />
+						<SubjectsPageContent
+							course={course}
+							specialization={specialization}
+						/>
 					</Box>
 				</Container>
 			</main>
@@ -187,10 +194,11 @@ const SubjectsPageWrapper = () => {
 	const { course, specialization } = useParams<URLParameter>()
 	console.log(course, specialization)
 
-	return <WithSubjectsData course={course} specialization={specialization}>
-		<SubjectsPage course={course} specialization={specialization} />,
-	</WithSubjectsData>
-
+	return (
+		<WithSubjectsData course={course} specialization={specialization}>
+			<SubjectsPage course={course} specialization={specialization} />,
+		</WithSubjectsData>
+	)
 }
 
 export default SubjectsPageWrapper

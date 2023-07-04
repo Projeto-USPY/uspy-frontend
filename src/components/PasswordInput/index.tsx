@@ -31,8 +31,7 @@ const PasswordInput = (props: any) => {
 							onClick={handleClickShowPassword}
 							onMouseDown={handleMouseDownPassword}
 							disableFocusRipple
-							tabIndex={-1}
-						>
+							tabIndex={-1}>
 							{visible ? <Visibility /> : <VisibilityOff />}
 						</IconButton>
 					</InputAdornment>

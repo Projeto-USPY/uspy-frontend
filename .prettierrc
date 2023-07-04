@@ -4,5 +4,8 @@
 	"trailingComma": "all",
 	"jsxBracketSameLine": true,
 	"useTabs": true,
-	"tabWidth": 4
+	"tabWidth": 4,
+	"bracketSameLine": false,
+	"arrowParens": "avoid",
+	"bracketSpacing": true
 }

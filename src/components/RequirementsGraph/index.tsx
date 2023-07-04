@@ -92,8 +92,7 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 			}}
 			onClose={handlePopoverClose}
 			disableRestoreFocus
-			disableScrollLock
-		>
+			disableScrollLock>
 			<Paper elevation={2} className="prompt tooltip-card">
 				<Typography color="secondary">
 					<strong> {code}</strong>
@@ -118,8 +117,7 @@ const Box: React.FC<BoxProps> = ({ code, name, isLink, strong, relations }) => {
 					style={style}
 					onMouseEnter={popoverActive ? handlePopoverOpen : null}
 					onMouseLeave={popoverActive ? handlePopoverClose : null}
-					onClick={handleClick}
-				>
+					onClick={handleClick}>
 					{code}
 				</div>
 			</ArcherElement>
@@ -154,20 +152,20 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({
 		setIsLoading(true)
 
 		api.getSubjectRelations(course, specialization, code)
-			.then((data) => {
+			.then(data => {
 				setPredecessors(
 					(data.predecessors && data.predecessors[0]) || [],
 				) // for now get only the first set of requirements
 				setSuccessors(data.successors || [])
 				setIsLoading(false)
 			})
-			.catch((err) => {
+			.catch(err => {
 				setIsLoading(false)
 				console.error(`ERROR: ${err}`)
 			})
 	}, [course, specialization, code])
 
-	const mainRelations = successors.map((x) => ({
+	const mainRelations = successors.map(x => ({
 		targetId: x.code,
 		targetAnchor: 'left',
 		sourceAnchor: 'right',
@@ -179,8 +177,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({
 			container
 			spacing={3}
 			alignItems="stretch"
-			style={{ height: `${cardHeight}px` }}
-		>
+			style={{ height: `${cardHeight}px` }}>
 			<Grid
 				container
 				item
@@ -188,9 +185,8 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({
 				style={{ height: '100%' }}
 				justify="center"
 				alignItems="center"
-				xs={4}
-			>
-				{predecessors.map((req) => (
+				xs={4}>
+				{predecessors.map(req => (
 					<Box
 						key={req.code}
 						code={req.code}
@@ -215,8 +211,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({
 				style={{ height: '100%' }}
 				justify="center"
 				alignItems="center"
-				xs={4}
-			>
+				xs={4}>
 				<Box
 					code={code}
 					name={name}
@@ -232,9 +227,8 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({
 				style={{ height: '100%' }}
 				justify="center"
 				alignItems="center"
-				xs={4}
-			>
-				{successors.map((req) => (
+				xs={4}>
+				{successors.map(req => (
 					<Box
 						key={req.code}
 						code={req.code}
@@ -253,8 +247,7 @@ const RequirementsGraph: React.FC<RequirementsGraphProps> = ({
 				style={{
 					width: '100%',
 					display: noRequirement ? 'none' : 'block',
-				}}
-			>
+				}}>
 				<br />
 				<img
 					src={RequirementGraphCaption}

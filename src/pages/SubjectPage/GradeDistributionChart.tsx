@@ -39,13 +39,11 @@ const ReferenceLineLabel: React.FC<ReferenceLineLabelProps> = ({
 				strokeOpacity={1}
 				strokeWidth={2}
 				y1={viewBox.y + margin - 15}
-				y2={viewBox.y}
-			></line>
+				y2={viewBox.y}></line>
 			<foreignObject
 				{...viewBox}
 				width={width}
-				x={x < 5 ? viewBox.x : viewBox.x - width}
-			>
+				x={x < 5 ? viewBox.x : viewBox.x - width}>
 				<div
 					style={{
 						height: '18px',
@@ -54,8 +52,7 @@ const ReferenceLineLabel: React.FC<ReferenceLineLabelProps> = ({
 						marginTop: `${margin - 15}px`,
 						whiteSpace: 'nowrap',
 						fontSize: '11pt',
-					}}
-				>
+					}}>
 					<p>{message}</p>
 				</div>
 			</foreignObject>
@@ -126,8 +123,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({
 				marginLeft: '-20px',
 				paddingTop: '20px',
 				overflow: 'visible',
-			}}
-		>
+			}}>
 			<ResponsiveContainer>
 				<BarChart data={data}>
 					<Bar barSize={200} dataKey="grade" fill="#68417FCC" />
@@ -136,8 +132,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({
 						tickLine={false}
 						ticks={[0, 2, 4, 6, 8, 10]}
 						type="number"
-						domain={[0, 10]}
-					>
+						domain={[0, 10]}>
 						<Label
 							value="Notas"
 							position="insideBottom"
@@ -147,8 +142,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({
 					<YAxis
 						dataKey="grade"
 						tickLine={false}
-						domain={[0, Math.ceil(1.3 * maxVal)]}
-					>
+						domain={[0, Math.ceil(1.3 * maxVal)]}>
 						<Label
 							value="Quantidade"
 							angle={-90}
@@ -164,8 +158,7 @@ const GradeDistributionChart: React.FC<GradeDistributionChartProps> = ({
 								x={lineProps.grade}
 								key={idx}
 								isFront
-								stroke="red"
-							>
+								stroke="red">
 								<Label
 									position="insideTopRight"
 									content={({ viewBox }) => (

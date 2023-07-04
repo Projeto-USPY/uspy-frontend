@@ -41,7 +41,7 @@ const AccordionSummary = withStyles({
 	expanded: {},
 })(MuiAccordionSummary)
 
-const AccordionDetails = withStyles((theme) => ({
+const AccordionDetails = withStyles(theme => ({
 	root: {
 		padding: theme.spacing(2),
 	},
@@ -69,8 +69,7 @@ const AccordionCard: React.FC<AccordionCardPropsType> = ({
 		<Accordion square expanded={expanded} onChange={handleChange(id)}>
 			<AccordionSummary
 				aria-controls={`${id}-content`}
-				id={`${id}-header`}
-			>
+				id={`${id}-header`}>
 				<Typography align="justify">{header}</Typography>
 			</AccordionSummary>
 			<AccordionDetails>

@@ -22,16 +22,14 @@ const SkeletonProgress = () => {
 					container
 					key={idx}
 					direction="row-reverse"
-					alignItems="stretch"
-				>
+					alignItems="stretch">
 					<Grid
 						item
 						container
 						direction="column"
 						justify="center"
 						alignItems="center"
-						style={{ width: 45 }}
-					>
+						style={{ width: 45 }}>
 						<Skeleton
 							variant="rect"
 							width={1}
@@ -69,11 +67,11 @@ const OfferingReviewsFeed = () => {
 	useEffect(() => {
 		setLoading(true)
 		api.getOfferingReviews(course, specialization, code, professor)
-			.then((reviews) => {
+			.then(reviews => {
 				setLoading(false)
 				setReviews(reviews)
 			})
-			.catch((err) => {
+			.catch(err => {
 				setLoading(false)
 				if (err.code === 'not_found') {
 					setReviews([])
@@ -96,8 +94,7 @@ const OfferingReviewsFeed = () => {
 				justify="center"
 				direction="column"
 				alignItems="center"
-				className="offering-reviews-feed full-width"
-			>
+				className="offering-reviews-feed full-width">
 				<Grid item style={{ textAlign: 'center' }}>
 					<Typography variant="h6">
 						Nenhum comentário foi encontrado para este oferecimento.
@@ -117,8 +114,7 @@ const OfferingReviewsFeed = () => {
 					container
 					spacing={2}
 					direction="column"
-					alignItems="stretch"
-				>
+					alignItems="stretch">
 					{userReview ? (
 						<>
 							<Grid
@@ -126,8 +122,7 @@ const OfferingReviewsFeed = () => {
 								container
 								justify="flex-end"
 								wrap="nowrap"
-								alignItems="stretch"
-							>
+								alignItems="stretch">
 								<OfferingReviewBalloon
 									review={userReview}
 									locked
@@ -137,7 +132,7 @@ const OfferingReviewsFeed = () => {
 						</>
 					) : null}
 
-					{reviews.map((rev) =>
+					{reviews.map(rev =>
 						userReview?.uuid === rev.uuid ? null : (
 							<Grid
 								item
@@ -145,8 +140,7 @@ const OfferingReviewsFeed = () => {
 								key={rev.uuid}
 								wrap="nowrap"
 								justify="flex-end"
-								alignItems="stretch"
-							>
+								alignItems="stretch">
 								<OfferingReviewBalloon review={rev} />
 							</Grid>
 						),

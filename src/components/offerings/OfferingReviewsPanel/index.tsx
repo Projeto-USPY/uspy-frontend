@@ -21,10 +21,10 @@ const OfferingReviewsPanel: React.FC<PropsType> = ({ user }) => {
 	const [userReview, setUserReview] = useState<OfferingReview | null>(null)
 	useEffect(() => {
 		api.getUserOfferingReview(course, specialization, code, professor)
-			.then((review) => {
+			.then(review => {
 				setUserReview(review)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'not_found') {
 					setUserReview(null)
 				} else {

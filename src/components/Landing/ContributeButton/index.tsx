@@ -13,8 +13,7 @@ const ContributeButton: React.FC<PropsType> = ({ text, url }) => {
 	return (
 		<button
 			className="btn"
-			style={{ backgroundColor: theme.palette.primary.main }}
-		>
+			style={{ backgroundColor: theme.palette.primary.main }}>
 			<a href={url}>{text}</a>
 		</button>
 	)

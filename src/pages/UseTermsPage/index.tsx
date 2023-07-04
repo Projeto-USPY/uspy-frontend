@@ -82,8 +82,7 @@ const UseTermsPage = () => {
 					style={{
 						padding: isDesktop ? '1rem' : '0',
 						lineHeight: '150%',
-					}}
-				>
+					}}>
 					<CardContent>
 						<p>
 							{' '}
@@ -308,8 +307,7 @@ const UseTermsPage = () => {
 										!isDesktop ? 'checkbox' : 'default'
 									}
 									size={isDesktop ? 'medium' : 'small'}
-									aria-label="Tabela de cookies"
-								>
+									aria-label="Tabela de cookies">
 									<TableHead>
 										<TableRow>
 											<TableCell align="center">
@@ -331,17 +329,15 @@ const UseTermsPage = () => {
 										</TableRow>
 									</TableHead>
 									<TableBody>
-										{cookieList.map((cookieDescription) => (
+										{cookieList.map(cookieDescription => (
 											<TableRow
-												key={cookieDescription.name}
-											>
+												key={cookieDescription.name}>
 												<TableCell
 													align="center"
 													style={{
 														fontFamily:
 															"'Roboto Mono', monospace",
-													}}
-												>
+													}}>
 													{' '}
 													{
 														cookieDescription.name

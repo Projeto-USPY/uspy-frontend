@@ -72,11 +72,11 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 
 	useEffect(() => {
 		api.getSubjectOfferings(course, specialization, code)
-			.then((data) => {
+			.then(data => {
 				setOfferings(data)
 				setSelectedOffering(data[0].code)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'not_found') {
 					notify(
 						'Não foi possível encontrar oferecimentos para esta disciplina',
@@ -107,11 +107,11 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				code,
 				selectedOffering,
 			)
-				.then((review) => {
+				.then(review => {
 					setUserReview(review)
 					setLoadingReview(false)
 				})
-				.catch((err) => {
+				.catch(err => {
 					if (err.code === 'not_found') {
 						setUserReview(null)
 					} else {
@@ -148,7 +148,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				notify('Sua avaliação foi enviada!', 'success')
 				close()
 			})
-			.catch((err) => {
+			.catch(err => {
 				uspyAlert(
 					`Algo de errado aconteceu (${err.message}). Tente novamente mais tarde!`,
 				)
@@ -190,11 +190,11 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 							<NativeSelect
 								name="professor"
 								value={selectedOffering}
-								onChange={(evt) =>
+								onChange={evt =>
 									setSelectedOffering(evt.target.value)
 								}
 								inputProps={{ id: 'professor-modal-selector' }}>
-								{offerings.map((o) => (
+								{offerings.map(o => (
 									<option key={o.code} value={o.code}>
 										{' '}
 										{o.professor}{' '}
@@ -219,7 +219,7 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 					<Grid item xs>
 						<OfferingReviewInput
 							content={comment}
-							onChange={(s) => handleCommentChange(s)}
+							onChange={s => handleCommentChange(s)}
 							rows={isDesktop ? 6 : 12}
 							limit={500}
 							placeholder="Escreva seu comentário aqui..."

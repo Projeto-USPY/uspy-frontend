@@ -32,8 +32,9 @@ export function buildURI(
 	subjectCode: string,
 	professorCode?: string,
 ): string {
-	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}${professorCode ? '?professor=' + professorCode : ''
-		}`
+	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}${
+		professorCode ? '?professor=' + professorCode : ''
+	}`
 }
 
 export function getBreadcrumbLinks(
@@ -75,10 +76,10 @@ const OfferingsPage = ({ user }: OfferingsPageProps) => {
 
 	useEffect(() => {
 		api.getSubjectWithCourseAndCode(course, specialization, code)
-			.then((data) => {
+			.then(data => {
 				setSubject(data)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'not_found') {
 					setErrorMessage(
 						'Não foi possível encontrar essa disciplina',
@@ -92,10 +93,10 @@ const OfferingsPage = ({ user }: OfferingsPageProps) => {
 			})
 
 		api.getSubjectOfferings(course, specialization, code)
-			.then((data) => {
+			.then(data => {
 				setOfferings(data)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'not_found') {
 					setErrorMessage(
 						'Não foi possível encontrar oferecimentos para esta disciplina',
@@ -114,7 +115,7 @@ const OfferingsPage = ({ user }: OfferingsPageProps) => {
 	}, [])
 
 	let selectedOffering: Offering = offerings?.find(
-		(o) => o.code === selectedOfferingCode,
+		o => o.code === selectedOfferingCode,
 	)
 	if (!selectedOffering && offerings?.length) selectedOffering = offerings[0]
 

@@ -46,8 +46,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
 			}}
 			BackdropProps={{
 				timeout: 500,
-			}}
-		>
+			}}>
 			<Fade in={open}>
 				<div
 					style={{
@@ -56,20 +55,17 @@ const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
 						background: 'white',
 						overflow: 'auto',
 						position: 'relative',
-					}}
-				>
+					}}>
 					<Grid
 						container
 						justify="flex-end"
-						style={{ position: 'fixed', top: '0px', left: '0px' }}
-					>
+						style={{ position: 'fixed', top: '0px', left: '0px' }}>
 						<Grid item>
 							<IconButton
 								onClick={handleClose}
 								size="medium"
 								aria-label="close"
-								disableRipple
-							>
+								disableRipple>
 								<CloseIcon
 									fontSize="large"
 									style={{
@@ -91,8 +87,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
 							<Link
 								color="secondary"
 								href="https://uspdigital.usp.br/jupiterweb/historicoEscolar"
-								target="_blank"
-							>
+								target="_blank">
 								{' '}
 								JupiterWeb{' '}
 							</Link>
@@ -144,8 +139,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
 							<Link
 								color="secondary"
 								href={buildUseTermsPageURI()}
-								target="_blank"
-							>
+								target="_blank">
 								{' '}
 								termos e condições
 							</Link>
@@ -164,8 +158,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ open, handleClose }) => {
 							color="primary"
 							size="medium"
 							variant="outlined"
-							onClick={handleClose}
-						>
+							onClick={handleClose}>
 							Ok
 						</Button>
 					</Box>

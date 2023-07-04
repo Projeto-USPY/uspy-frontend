@@ -99,8 +99,7 @@ const content: RowContent[] = [
 					<Link
 						color="secondary"
 						target="_blank"
-						href="https://github.com/projeto-uspy"
-					>
+						href="https://github.com/projeto-uspy">
 						GitHub
 					</Link>
 					. Qualquer dúvida ou colaboração será recebida com muito
@@ -123,8 +122,7 @@ const Row: React.FC<RowProps> = ({ title, text, image, imageLeft }) => {
 				container
 				direction={imageLeft ? 'row' : 'row-reverse'}
 				alignItems="center"
-				spacing={5}
-			>
+				spacing={5}>
 				<Grid item xs={12} sm={'auto'}>
 					<center>
 						<img src={image} />

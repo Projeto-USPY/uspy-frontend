@@ -29,7 +29,7 @@ const AccountActivationPage = () => {
 					history.replace(buildLoginPageURI())
 				}, 3000)
 			})
-			.catch((err) => {
+			.catch(err => {
 				setVerifying(false)
 				if (err.code === 'bad_request') {
 					setErrorMessage('Erro: este link expirou :(')
@@ -57,8 +57,7 @@ const AccountActivationPage = () => {
 							container
 							justify="center"
 							alignItems="center"
-							direction="column"
-						>
+							direction="column">
 							<Grid item>
 								{verifying ? (
 									<CircularProgress />

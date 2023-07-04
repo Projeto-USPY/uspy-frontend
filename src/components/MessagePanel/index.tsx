@@ -39,8 +39,7 @@ const MessagePanel: React.FC<props> = ({
 						<Button
 							onClick={action}
 							color="primary"
-							variant="contained"
-						>
+							variant="contained">
 							{' '}
 							{actionTitle}{' '}
 						</Button>

@@ -57,8 +57,7 @@ const HomePage = () => {
 				container
 				direction="column"
 				justify="center"
-				style={{ height: '100vh', width: '100%' }}
-			>
+				style={{ height: '100vh', width: '100%' }}>
 				<Grid item>
 					<Navbar />
 					<div style={{ height: '64px' }}></div>
@@ -69,15 +68,13 @@ const HomePage = () => {
 					direction="column"
 					justify="space-around"
 					alignItems="stretch"
-					style={{ gap: '30px' }}
-				>
+					style={{ gap: '30px' }}>
 					<Grid
 						item
 						container
 						direction="column"
 						justify="center"
-						alignItems="center"
-					>
+						alignItems="center">
 						<Grid item>
 							<img
 								width={isLarge ? 350 : '100%'}
@@ -95,8 +92,7 @@ const HomePage = () => {
 						container
 						direction="column"
 						alignItems="center"
-						style={{ gap: '15px' }}
-					>
+						style={{ gap: '15px' }}>
 						<div className="hor-centered">
 							<Fab
 								size="small"
@@ -106,8 +102,7 @@ const HomePage = () => {
 									seeMoreRef.current.scrollIntoView({
 										behavior: 'smooth',
 									})
-								}}
-							>
+								}}>
 								<SvgIcon
 									className="point-arrow-down-child"
 									component={ArrowDownIcon}
@@ -142,8 +137,7 @@ const HomePage = () => {
 					bottom: 20,
 					left: 'auto',
 					position: 'fixed',
-				}}
-			>
+				}}>
 				<NavigationIcon />
 			</Fab>
 		</>

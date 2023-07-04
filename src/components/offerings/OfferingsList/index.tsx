@@ -27,7 +27,7 @@ function createYearsList(offering: Offering): React.ReactNode {
 			return aa === bb ? 0 : a > b ? -1 : 1
 		})
 		.slice(0, 5)
-		.map((year) => (
+		.map(year => (
 			<Chip
 				component="span"
 				size="small"
@@ -50,14 +50,13 @@ const OfferingsList: React.FC<PropsType> = ({
 }: PropsType) => {
 	return (
 		<List style={{ maxWidth, backgroundColor: 'white' }}>
-			{list.map((offering) => (
+			{list.map(offering => (
 				<ListItem
 					button
 					key={offering.code}
 					selected={offering.code === selected?.code}
 					color="secondary"
-					onClick={() => setSelected(offering)}
-				>
+					onClick={() => setSelected(offering)}>
 					<ListItemText
 						primary={offering.professor}
 						secondary={

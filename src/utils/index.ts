@@ -51,7 +51,7 @@ export function unique<T>(arr: T[]): T[] {
 	const ret: T[] = []
 
 	const st = new Set<T>()
-	arr.forEach((el) => {
+	arr.forEach(el => {
 		if (!st.has(el)) {
 			ret.push(el)
 			st.add(el)

@@ -81,12 +81,12 @@ const OfferingReviewBox = () => {
 			comment,
 			rate,
 		)
-			.then((review) => {
+			.then(review => {
 				notify('Sua avaliação foi enviada!', 'success')
 				setReview(review)
 				setPending(false)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'forbidden') {
 					notify(
 						'Você precisa ter feito a matéria para avaliar',
@@ -150,7 +150,7 @@ const OfferingReviewBox = () => {
 						<Grid item xs>
 							<OfferingReviewInput
 								content={comment}
-								onChange={(s) => handleCommentChange(s)}
+								onChange={s => handleCommentChange(s)}
 								rows={isDesktop ? 6 : 12}
 								limit={COMMENT_LIMIT}
 								placeholder="Escreva seu comentário aqui..."
