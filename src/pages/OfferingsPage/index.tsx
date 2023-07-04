@@ -33,9 +33,8 @@ export function buildURI(
 	subjectCode: string,
 	professorCode?: string,
 ): string {
-	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}${
-		professorCode ? '?professor=' + professorCode : ''
-	}`
+	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}${professorCode ? '?professor=' + professorCode : ''
+		}`
 }
 
 export function getBreadcrumbLinks(
@@ -45,7 +44,7 @@ export function getBreadcrumbLinks(
 ) {
 	return [
 		{
-			url: buildSubjectsPageURI(),
+			url: buildSubjectsPageURI(course, specialization),
 			text: 'Disciplinas',
 		},
 		{

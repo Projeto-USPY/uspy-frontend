@@ -48,7 +48,7 @@ function getBreadcrumbLinks(
 ) {
 	return [
 		{
-			url: buildSubjectsPageURI(),
+			url: buildSubjectsPageURI(course, specialization),
 			text: 'Disciplinas',
 		},
 		{

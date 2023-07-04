@@ -100,14 +100,28 @@ class APIClient {
 		return data as Course[]
 	}
 
-	async getCourseComplete(
+	async getSubjectSearch(
 		institute: string,
 		course: string,
 		specialization: string,
 	): Promise<CourseComplete> {
-		const { data } = await this.axiosClient.get('/api/subject/all', {
+		const { data } = await this.axiosClient.get('/api/subject/search', {
 			params: {
 				institute,
+				course,
+				specialization,
+			},
+		})
+		return data as CourseComplete
+	}
+
+
+	async getSubjectList(
+		course: string,
+		specialization: string,
+	): Promise<CourseComplete> {
+		const { data } = await this.axiosClient.get('/api/subject/list', {
+			params: {
 				course,
 				specialization,
 			},

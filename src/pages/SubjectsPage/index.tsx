@@ -1,9 +1,6 @@
 import React, { useState, useMemo, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
-import MuiAccordion from '@material-ui/core/Accordion'
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails'
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary'
 import Box from '@material-ui/core/Box'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Container from '@material-ui/core/Container'
@@ -11,58 +8,36 @@ import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import { useTheme, withStyles } from '@material-ui/core/styles'
+import { useTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
-import { CourseWithSubjects } from 'types/Course'
 import { SubjectInfo } from 'types/Subject'
 
 import Navbar from 'components/Navbar'
-import withSubjectsData, { SubjectsDataContext } from 'HOCs/withSubjectsData'
+import WithSubjectsData, { CourseDataContext } from 'HOCs/WithSubjectsData'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
+import { CourseComplete } from 'types/Course'
+import LoadingEllipsis from 'components/LoadingEllipsis'
 
-const Accordion = withStyles({
-	root: {
-		border: '1px solid rgba(0, 0, 0, .125)',
-		boxShadow: 'none',
-		'&:not(:last-child)': {
-			borderBottom: 0,
-		},
-		'&:before': {
-			display: 'none',
-		},
-		'&$expanded': {
-			margin: 'auto',
-		},
-	},
-	expanded: {},
-})(MuiAccordion)
+export function buildURI(course: string, specialization: string): string {
+	return `/disciplinas/${course}/${specialization}`
+}
 
-const AccordionSummary = withStyles({
-	root: {
-		backgroundColor: 'rgba(0, 0, 0, .03)',
-		borderBottom: '1px solid rgba(0, 0, 0, .125)',
-		marginBottom: -1,
-		minHeight: 56,
-		'&$expanded': {
-			minHeight: 56,
-		},
-	},
-	content: {
-		'&$expanded': {
-			margin: '12px 0',
-		},
-	},
-	expanded: {},
-})(MuiAccordionSummary)
+export function getMeta(): any {
+	return {
+		title: 'USPY - Disciplinas',
+		description: 'Explore os cursos e disciplinas disponíveis no USPY',
+		robots: ['index', 'follow'],
+	}
+}
 
-const AccordionDetails = withStyles((theme) => ({
-	root: {
-		padding: 0,
-	},
-}))(MuiAccordionDetails)
+function transformResult(course: CourseComplete): SubjectInfo[] {
+	return Object.entries(course.subjects).map(([code, name]) => ({
+		code,
+		name,
+	}))
+}
 
 function renderRow(
 	course: string,
@@ -84,81 +59,57 @@ function renderRow(
 		</ListItem>
 	)
 }
-
-interface SubjectListProps {
-	arr: CourseWithSubjects
+interface URLParameter {
+	course: string
+	specialization: string
+}
+interface SubjectListProps extends URLParameter {
 	sortByCode: boolean
 }
 
-export function buildURI(): string {
-	return '/disciplinas'
-}
+const SubjectList: React.FC<SubjectListProps> = ({ course, specialization, sortByCode }) => {
+	const courseData = useContext(CourseDataContext)
 
-export function getMeta(): any {
-	return {
-		title: 'USPY - Disciplinas',
-		description: 'Explore os cursos e disciplinas disponíveis no USPY',
-		robots: ['index', 'follow'],
-	}
-}
+	const subjects = useMemo(() => transformResult(courseData), [courseData])
 
-const SubjectList: React.FC<SubjectListProps> = ({ arr, sortByCode }) => {
-	const [open, setOpen] = useState<boolean>(false)
-
-	const getList = (course: CourseWithSubjects, sortByCode: boolean) => {
-		const code = course.code
-		const specialization = course.specialization
-		course.subjects.sort((s1: SubjectInfo, s2: SubjectInfo) => {
+	const getList = (subjects: SubjectInfo[], sortByCode: boolean) => {
+		subjects.sort((s1: SubjectInfo, s2: SubjectInfo) => {
 			if (sortByCode) {
 				return s1.code < s2.code ? -1 : s1.code === s2.code ? 0 : 1
 			} else {
 				return s1.name < s2.name ? -1 : s1.name === s2.name ? 0 : 1
 			}
 		})
-		return course.subjects.map((s) => renderRow(code, specialization, s))
+		return subjects.map(s => renderRow(course, specialization, s))
 	}
 
-	const listByCode = useMemo(() => getList(arr, true), [])
-	const listByName = useMemo(() => getList(arr, false), [])
+	const listByCode = useMemo(() => getList(subjects, true), [])
+	const listByName = useMemo(() => getList(subjects, false), [])
 
 	return (
-		<Accordion
-			square
-			expanded={open}
-			onChange={() => {
-				setOpen(!open)
-			}}
-			TransitionProps={{ timeout: 20 }}
+		<List
+			style={{ width: '100%', fontFamily: 'Raleway, sans-serif' }}
+			disablePadding
 		>
-			<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-				<Typography>
-					<strong>{arr.name}</strong>
-				</Typography>
-			</AccordionSummary>
-			<AccordionDetails>
-				<List
-					style={{ width: '100%', fontFamily: 'Raleway, sans-serif' }}
-					disablePadding
-				>
-					<div hidden={sortByCode}> {listByName} </div>{' '}
-					{/* for otimization, make two */}
-					<div hidden={!sortByCode}> {listByCode} </div>
-				</List>
-			</AccordionDetails>
-		</Accordion>
+			<div hidden={sortByCode}> {listByName} </div>{' '}
+			{/* for otimization, make two */}
+			<div hidden={!sortByCode}> {listByCode} </div>
+		</List>
 	)
 }
 
-const Accordions = () => {
+type SubjectsPageContentProps = URLParameter
+
+const SubjectsPageContent = ({ course, specialization }: SubjectsPageContentProps) => {
 	const [sortByCode, setSortByCode] = useState<boolean>(true)
-	const coursesData = useContext(SubjectsDataContext)
+	const courseData = useContext(CourseDataContext)
 
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
-	if (!coursesData.length)
+	if (courseData === null)
 		return (
-			<Grid container justify="center" alignItems="center">
+			<Grid container justifyContent="center" alignItems="center">
 				<Grid item>
 					<CircularProgress />
 				</Grid>
@@ -171,7 +122,7 @@ const Accordions = () => {
 					container
 					item
 					direction="row"
-					justify={isDesktop ? 'flex-end' : 'center'}
+					justifyContent={isDesktop ? 'flex-end' : 'center'}
 				>
 					<Grid item>
 						<input
@@ -195,20 +146,23 @@ const Accordions = () => {
 					</Grid>
 				</Grid>
 				<Grid item>
-					{coursesData.map((c: CourseWithSubjects) => (
-						<SubjectList
-							key={c.name}
-							arr={c}
-							sortByCode={sortByCode}
-						/>
-					))}
+					<SubjectList
+
+						course={course}
+						specialization={specialization}
+						sortByCode={sortByCode}
+					/>
 				</Grid>
 			</Grid>
 		)
 	}
 }
 
-const SubjectsPage = () => {
+type SubjectPageProps = URLParameter
+
+const SubjectsPage = ({ course, specialization }: SubjectPageProps) => {
+	const courseData = useContext(CourseDataContext)
+
 	return (
 		<div className="main">
 			<main>
@@ -216,16 +170,27 @@ const SubjectsPage = () => {
 				<div style={{ height: '150px' }}></div>
 
 				<Container>
-					<Typography>
-						{' '}
-						As disciplinas estão organizadas por curso:{' '}
+					<Typography variant="h4">
+						Disciplinas de {courseData?.name ?? <LoadingEllipsis interval={200} />}
 					</Typography>
 					<br></br>
-					<Box>{withSubjectsData(<Accordions />)}</Box>
+					<Box>
+						<SubjectsPageContent course={course} specialization={specialization} />
+					</Box>
 				</Container>
 			</main>
 		</div>
 	)
 }
 
-export default SubjectsPage
+const SubjectsPageWrapper = () => {
+	const { course, specialization } = useParams<URLParameter>()
+	console.log(course, specialization)
+
+	return <WithSubjectsData course={course} specialization={specialization}>
+		<SubjectsPage course={course} specialization={specialization} />,
+	</WithSubjectsData>
+
+}
+
+export default SubjectsPageWrapper

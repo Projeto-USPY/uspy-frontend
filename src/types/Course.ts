@@ -1,5 +1,3 @@
-import { SubjectInfo } from 'types/Subject'
-
 export interface Institute {
 	name: string
 	code: string
@@ -13,9 +11,6 @@ export interface Course {
 
 export interface CourseComplete extends Course {
 	shift: string
-	subjects: any
+	subjects: { [code: string]: string }
 }
 
-export interface CourseWithSubjects extends Course {
-	subjects: SubjectInfo[]
-}
