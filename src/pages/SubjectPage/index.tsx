@@ -60,7 +60,7 @@ function getBreadcrumbLinks(
 
 interface SubjectEvaluationRadioProps {
 	chosen: 'S' | 'N' | null
-	clickCallback: Function
+	clickCallback: (str: string) => void
 }
 
 const SubjectEvaluationRadio: React.FC<SubjectEvaluationRadioProps> = ({
@@ -72,7 +72,7 @@ const SubjectEvaluationRadio: React.FC<SubjectEvaluationRadioProps> = ({
 	return (
 		<Grid container justify="space-between" alignItems="center">
 			<p> Vale a pena? </p>
-			{options.map(c => (
+			{options.map((c) => (
 				<div key={c}>
 					<Radio
 						checked={c === chosen}
@@ -91,7 +91,7 @@ function getSubjectRequirementsList(sub: Subject) {
 		throw new Error(
 			"Subject requirement list is empty when it shouldn't be",
 		)
-	return sub.requirements[0].map(req => req.code).join(', ')
+	return sub.requirements[0].map((req) => req.code).join(', ')
 }
 
 function getRecommendationRate(recommend: number, total: number) {
@@ -147,11 +147,11 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 		setErrorMessage('')
 
 		api.getSubjectWithCourseAndCode(course, specialization, code)
-			.then(data => {
+			.then((data) => {
 				setSubject(data)
 				setIsLoading(false)
 			})
-			.catch(err => {
+			.catch((err) => {
 				setIsLoading(false)
 				if (err.code === 'not_found') {
 					setErrorMessage(
@@ -173,11 +173,11 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 		setOfferings(null)
 
 		api.getSubjectReview(course, specialization, code)
-			.then(rev => {
+			.then((rev) => {
 				setSubjectReview(rev)
 				setEvaluateSubject(true)
 			})
-			.catch(err => {
+			.catch((err) => {
 				if (err.code === 'not_found') {
 					setEvaluateSubject(true)
 				} else {
@@ -187,7 +187,7 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 			})
 
 		api.getSubjectGrades(course, specialization, code)
-			.then(gradeStats => {
+			.then((gradeStats) => {
 				setCanSeeChart(true)
 				setGradeStats(gradeStats)
 			})
@@ -197,10 +197,10 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 			})
 
 		api.getSubjectOfferings(course, specialization, code, 3)
-			.then(o => {
+			.then((o) => {
 				setOfferings(o)
 			})
-			.catch(err => {
+			.catch((err) => {
 				if (err.code === 'not_found') {
 					setOfferings([])
 				} else {
@@ -209,10 +209,10 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 			})
 
 		api.getGrade(course, specialization, code)
-			.then(grade => {
+			.then((grade) => {
 				setYourGrade(grade.grade)
 			})
-			.catch(err => {
+			.catch((err) => {
 				if (err.code !== 'not_found') {
 					console.error(err)
 				}
@@ -408,8 +408,8 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 												subjectReview
 													? subjectReview.categories
 														? subjectReview
-																.categories
-																.worth_it
+															.categories
+															.worth_it
 															? 'S'
 															: 'N'
 														: null
@@ -459,9 +459,9 @@ const SubjectPage = ({ user }: SubjectPageProps) => {
 									{chartContent}
 
 									{canSeeChart &&
-									gradeStats &&
-									gradeStats.grades &&
-									Object.keys(gradeStats.grades).length >
+										gradeStats &&
+										gradeStats.grades &&
+										Object.keys(gradeStats.grades).length >
 										0 ? (
 										<>
 											<Typography variant="body1">

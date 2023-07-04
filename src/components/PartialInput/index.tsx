@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import InputBase from '@material-ui/core/InputBase'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	input: {
 		fontFamily: 'Courier',
 		[theme.breakpoints.up('sm')]: {
@@ -20,8 +20,8 @@ const useStyles = makeStyles(theme => ({
 interface PartialInputProps {
 	id: number
 	value: string
-	handlePaste: Function
-	handleChange: Function
+	handlePaste: (id: number, str: string) => void
+	handleChange: (id: number, str: string) => void
 	disabled?: boolean
 }
 const PartialInput: React.FC<PartialInputProps> = ({
@@ -87,7 +87,7 @@ const PartialInput: React.FC<PartialInputProps> = ({
 			inputProps={inputProps}
 			value={value}
 			id={`auth-code-${id}`}
-			onChange={evt => onChange(evt)}
+			onChange={(evt) => onChange(evt)}
 		/>
 	)
 }
