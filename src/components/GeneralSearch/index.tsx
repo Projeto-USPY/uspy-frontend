@@ -51,7 +51,7 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	const [subjectOptions, setSubjectOptions] = useState([])
 	useEffect(() => {
 		const [courseCode, specializationCode] = course
-		api.getCourseComplete(institute, courseCode, specializationCode).then(
+		api.getSubjectSearch(institute, courseCode, specializationCode).then(
 			(res: CourseComplete) => {
 				const data = Object.keys(res.subjects).map((val) => ({
 					course: res.code,

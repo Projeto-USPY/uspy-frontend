@@ -148,7 +148,10 @@ const App = () => {
 								/>
 								<WithMetaRoute
 									exact
-									path={buildSubjectsPageURI()}
+									path={buildSubjectsPageURI(
+										':course',
+										':specialization',
+									)}
 									element={SubjectsPage}
 									{...getSubjectsPageMeta()}
 								/>
