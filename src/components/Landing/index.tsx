@@ -16,9 +16,7 @@ import './style.css'
 import FAQ from './Accordion'
 import Stats from './Stats'
 
-interface LandingProps {}
-
-const Landing: React.FC<LandingProps> = () => {
+const Landing: React.FC = () => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 

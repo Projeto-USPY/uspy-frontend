@@ -55,19 +55,22 @@ const AccordionSummary = withStyles({
 	expanded: {},
 })(MuiAccordionSummary)
 
-const AccordionDetails = withStyles(theme => ({
+const AccordionDetails = withStyles((theme) => ({
 	root: {
 		padding: 0,
 	},
 }))(MuiAccordionDetails)
 
-const MyListItem = withStyles(theme => ({
+const MyListItem = withStyles(() => ({
 	root: {
 		borderBottom: '1px solid #adadad',
 	},
 }))(ListItem)
 
-function renderRow(t: TeacherInfo, clickCallback: Function) {
+function renderRow(
+	t: TeacherInfo,
+	clickCallback: (department?: string) => void,
+) {
 	return (
 		<MyListItem
 			button
@@ -84,7 +87,7 @@ export function buildURI(): string {
 }
 
 const TeachersPage = () => {
-	const clickItem = (id: number) => {
+	const clickItem = (id: string) => {
 		console.log('Clicou no id = ', id)
 	}
 
