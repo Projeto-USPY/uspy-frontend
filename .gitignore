@@ -105,6 +105,3 @@ dist
 
 # Don't track cypress videos, but keep them for uploading them on an issue, for example
 cypress/videos/
-
-#vscode folder
-.vscode/
