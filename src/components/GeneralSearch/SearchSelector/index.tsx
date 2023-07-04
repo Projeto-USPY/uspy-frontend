@@ -33,7 +33,7 @@ const SearchSelector: React.FC<PropsType> = ({
 			options={options}
 			getOptionLabel={getOptionLabel}
 			onChange={(evt, value) => onChange(value)}
-			renderInput={(params) => (
+			renderInput={params => (
 				<TextField
 					{...params}
 					color="secondary"

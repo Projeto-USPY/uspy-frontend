@@ -19,8 +19,7 @@ const CreditsIndicator: React.FC<Props> = ({ title, value }) => {
 			spacing={0}
 			alignItems="center"
 			justify="center"
-			direction="column"
-		>
+			direction="column">
 			<span style={{ color: theme.palette.secondary.main }}>{title}</span>
 			<Circle size={40}>
 				{' '}

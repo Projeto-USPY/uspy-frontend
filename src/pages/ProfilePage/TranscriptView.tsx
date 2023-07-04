@@ -40,7 +40,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 	)
 
 	const years = useMemo(
-		() => unique(semesters.map((sem) => Math.floor(sem / 2))),
+		() => unique(semesters.map(sem => Math.floor(sem / 2))),
 		[semesters],
 	)
 	const selectedYear = years[selectedTab]
@@ -48,11 +48,11 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 	useEffect(() => {
 		setPending(true)
 		api.getRecords(selectedYear, selectedSemester + 1)
-			.then((records) => {
+			.then(records => {
 				setRecords(records)
 				setPending(false)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'not_found') {
 					setErrorMessage(
 						'Não foram encontradas disciplinas para este curso',
@@ -74,7 +74,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 	const changeTab = (_: React.ChangeEvent, tab: number) => {
 		setSelectedTab(tab)
-		const sem = semesters.find((val) => Math.floor(val / 2) === years[tab])
+		const sem = semesters.find(val => Math.floor(val / 2) === years[tab])
 		setSelectedSemester(sem % 2 || 0)
 	}
 
@@ -103,9 +103,8 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 			size={isDesktop ? 'large' : 'medium'}
 			color="secondary"
 			variant="outlined"
-			fullWidth={!isDesktop}
-		>
-			{[0, 1].map((idx) => (
+			fullWidth={!isDesktop}>
+			{[0, 1].map(idx => (
 				<Button
 					key={idx}
 					disabled={
@@ -120,8 +119,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 									backgroundColor: '#415C7788',
 							  }
 							: {}
-					}
-				>
+					}>
 					{idx + 1}º Semestre
 				</Button>
 			))}
@@ -144,8 +142,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 									(idx === 0
 										? semesters[0]
 										: semesters[semesters.length - 1])
-								}
-							>
+								}>
 								<Icon
 									fontSize={isDesktop ? 'default' : 'large'}
 								/>
@@ -166,16 +163,14 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 				style={{
 					backgroundColor: theme.palette.primary.main,
 					borderRadius: '10px',
-				}}
-			>
+				}}>
 				<Tabs
 					value={selectedTab}
 					onChange={changeTab}
 					indicatorColor="primary"
 					variant="scrollable"
 					scrollButtons="on"
-					style={{ color: 'white' }}
-				>
+					style={{ color: 'white' }}>
 					{years.map((year, idx) => (
 						<Tab key={idx} label={<b>{year}</b>} />
 					))}
@@ -184,15 +179,13 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 			<Paper
 				variant={isDesktop ? 'outlined' : 'elevation'}
 				elevation={isDesktop ? 1 : 0}
-				className="transcript-body"
-			>
+				className="transcript-body">
 				<div className="pad">{navigator}</div>
 				<Grid
 					container
 					direction="row-reverse"
 					className="disclosure"
-					style={{ textAlign: 'center' }}
-				>
+					style={{ textAlign: 'center' }}>
 					{disclosure}
 				</Grid>
 				<br />
@@ -219,8 +212,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 					<Grid
 						container
 						justify="space-around"
-						className="transcript-arrow-navigator"
-					>
+						className="transcript-arrow-navigator">
 						<Grid item>
 							<Button
 								color="secondary"
@@ -229,8 +221,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 								disabled={
 									2 * selectedYear + selectedSemester ===
 									semesters[0]
-								}
-							>
+								}>
 								Anterior
 							</Button>
 						</Grid>
@@ -242,8 +233,7 @@ const TranscriptView: React.FC<TranscriptViewPropsType> = ({ semesters }) => {
 								disabled={
 									2 * selectedYear + selectedSemester ===
 									semesters[semesters.length - 1]
-								}
-							>
+								}>
 								Próximo
 							</Button>
 						</Grid>

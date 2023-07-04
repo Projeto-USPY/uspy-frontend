@@ -40,5 +40,4 @@ const Navbar = ({ user, ...props }: NavbarProps) => {
 	)
 }
 
-
 export default memo(connector(Navbar))

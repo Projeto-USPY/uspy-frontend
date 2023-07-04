@@ -10,7 +10,7 @@ import GithubLogo from 'images/GithubLogo.svg'
 import { buildURI as buildAboutPageURI } from 'pages/AboutPage'
 import { buildURI as buildUseTermsPageURI } from 'pages/UseTermsPage'
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(theme =>
 	createStyles({
 		footer: {
 			backgroundColor: theme.palette.primary.main,
@@ -32,14 +32,12 @@ const Footer: React.FC = () => {
 			container
 			justify="space-evenly"
 			alignItems="center"
-			className={classes.footer}
-		>
+			className={classes.footer}>
 			<Grid item container alignItems="center" direction="column" xs={4}>
 				<Grid item>
 					<Link
 						href={buildUseTermsPageURI()}
-						style={{ color: 'white' }}
-					>
+						style={{ color: 'white' }}>
 						Termos de Uso
 					</Link>
 				</Grid>
@@ -66,8 +64,7 @@ const Footer: React.FC = () => {
 					container
 					xs={4}
 					justify="center"
-					alignItems="center"
-				>
+					alignItems="center">
 					<Typography variant="body2"> {text} </Typography>
 				</Grid>
 			) : null}

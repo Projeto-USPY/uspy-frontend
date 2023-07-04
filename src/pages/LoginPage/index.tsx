@@ -60,7 +60,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 		const remember =
 			document.querySelector<HTMLInputElement>('#remember').checked
 		api.login(nusp, pwd, remember)
-			.then((user) => {
+			.then(user => {
 				// Success!! Redirects for home page
 				setUser(user)
 				notify(`Bem vindo, ${user.name}!`, 'success')
@@ -70,7 +70,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 					location.state || ({ from: { pathname: '/' } } as any)
 				history.replace(from)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'bad_request' || err.code === 'unauthorized') {
 					uspyAlert('Número USP ou senha incorretos')
 				} else if (err.code === 'unverified_user') {
@@ -99,8 +99,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 									container
 									justify="center"
 									direction="column"
-									spacing={1}
-								>
+									spacing={1}>
 									<Grid item>
 										<Paper variant="outlined">
 											<Box p={2}>
@@ -108,8 +107,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 													container
 													spacing={2}
 													alignItems="stretch"
-													direction="column"
-												>
+													direction="column">
 													<Grid item>
 														<TextField
 															fullWidth
@@ -121,7 +119,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 															type="text"
 															variant="outlined"
 															value={nusp}
-															onChange={(evt) =>
+															onChange={evt =>
 																handleNUSPInputChange(
 																	evt,
 																)
@@ -138,7 +136,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 															size="small"
 															type="password"
 															variant="outlined"
-															onKeyPress={(evt) =>
+															onKeyPress={evt =>
 																evt.key ===
 																'Enter'
 																	? handleLogin()
@@ -152,8 +150,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 															marginTop: '-1rem',
 															marginBottom:
 																'-1rem',
-														}}
-													>
+														}}>
 														<FormControlLabel
 															control={
 																<Checkbox
@@ -180,8 +177,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 															variant="outlined"
 															onClick={
 																handleLogin
-															}
-														>
+															}>
 															Entrar
 														</Button>
 													</Grid>
@@ -194,8 +190,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 										container
 										spacing={1}
 										justify="center"
-										wrap="wrap"
-									>
+										wrap="wrap">
 										<Grid item>
 											<Link
 												variant="caption"
@@ -205,8 +200,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 													setPasswordRedefinitionModalOpen(
 														true,
 													)
-												}
-											>
+												}>
 												Esqueci a senha
 											</Link>
 										</Grid>
@@ -214,8 +208,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 											<Link
 												variant="caption"
 												color="secondary"
-												href={buildRegisterPageURI()}
-											>
+												href={buildRegisterPageURI()}>
 												Cadastrar
 											</Link>
 										</Grid>
@@ -231,8 +224,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 														setSendActivationEmailModalOpen(
 															true,
 														)
-													}
-												>
+													}>
 													Reenviar email de ativação
 												</Link>
 											</Grid>

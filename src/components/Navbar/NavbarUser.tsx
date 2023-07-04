@@ -34,27 +34,28 @@ const Navbar = () => {
 				ref={anchorRef}
 				style={{ color: 'white' }}
 				aria-label="Menu"
-				onClick={() => setMenuOpen(true)}
-			>
+				onClick={() => setMenuOpen(true)}>
 				<AccountCircleIcon />
 			</IconButton>
 		</>
 	)
 
-	return <Toolbar className="toolbar">
-		<img
-			src={Logo}
-			style={{ marginTop: '-.5rem', cursor: 'pointer' }}
-			height={30}
-			onClick={goHome}
-		/>
-		{menuIcon}
-		<UserMenu
-			anchor={anchorRef.current}
-			open={menuOpen}
-			setOpen={setMenuOpen}
-		/>
-	</Toolbar>
+	return (
+		<Toolbar className="toolbar">
+			<img
+				src={Logo}
+				style={{ marginTop: '-.5rem', cursor: 'pointer' }}
+				height={30}
+				onClick={goHome}
+			/>
+			{menuIcon}
+			<UserMenu
+				anchor={anchorRef.current}
+				open={menuOpen}
+				setOpen={setMenuOpen}
+			/>
+		</Toolbar>
+	)
 }
 
 export default memo(connect(null, mapDispatchToProps)(Navbar))

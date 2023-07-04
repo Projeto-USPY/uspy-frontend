@@ -16,7 +16,7 @@ import './style.css'
 import FAQ from './Accordion'
 import Stats from './Stats'
 
-interface LandingProps { }
+interface LandingProps {}
 
 const Landing: React.FC<LandingProps> = () => {
 	const theme = useTheme()
@@ -32,16 +32,14 @@ const Landing: React.FC<LandingProps> = () => {
 				gap: '75px',
 				paddingLeft: !isDesktop ? '15px' : 0,
 				paddingRight: !isDesktop ? '15px' : 0,
-			}}
-		>
+			}}>
 			<Grid
 				item
 				container
 				style={{ gap: '75px' }}
 				direction={isDesktop ? 'row' : 'column'}
 				justifyContent="center"
-				alignItems="center"
-			>
+				alignItems="center">
 				{/** review professors */}
 				<Grid item xs>
 					<h1>Avalie seus professores prediletos</h1>
@@ -71,8 +69,7 @@ const Landing: React.FC<LandingProps> = () => {
 				style={{ gap: '75px' }}
 				direction={isDesktop ? 'row' : 'column'}
 				justifyContent="center"
-				alignItems="center"
-			>
+				alignItems="center">
 				{/** track your progress */}
 				<Grid item container justifyContent="center" xs>
 					<h1>Acompanhe seu progresso na USP</h1>
@@ -103,10 +100,14 @@ const Landing: React.FC<LandingProps> = () => {
 				container
 				direction={isDesktop ? 'row' : 'column'}
 				justifyContent="center"
-				alignItems="center"
-			>
+				alignItems="center">
 				{/** explore subjects */}
-				<Grid item container justifyContent="center" alignItems="center" xs>
+				<Grid
+					item
+					container
+					justifyContent="center"
+					alignItems="center"
+					xs>
 					<h1>Explore as disciplinas do seu curso</h1>
 					<p>
 						Saiba tudo sobre as disciplinas que você precisará
@@ -120,7 +121,12 @@ const Landing: React.FC<LandingProps> = () => {
 					</p>
 				</Grid>
 
-				<Grid item container justifyContent="center" alignItems="center" xs>
+				<Grid
+					item
+					container
+					justifyContent="center"
+					alignItems="center"
+					xs>
 					<img
 						src={explore}
 						alt="Imagens mostrando as funcionalidades de explore da plataorma"
@@ -142,15 +148,18 @@ const Landing: React.FC<LandingProps> = () => {
 				wrap={'nowrap'}
 				justifyContent="center"
 				alignItems="center"
-				style={{ gap: '30px' }}
-			>
+				style={{ gap: '30px' }}>
 				<Grid item container direction="column">
 					<Grid item>
 						<h1>Fique por dentro de tudo!</h1>
 					</Grid>
 					<Stats></Stats>
 				</Grid>
-				<Grid item container justifyContent="center" alignItems="center">
+				<Grid
+					item
+					container
+					justifyContent="center"
+					alignItems="center">
 					<img
 						src={stats}
 						alt="Imagens mostrando uma pessoa explorando estatísticas"
@@ -171,10 +180,14 @@ const Landing: React.FC<LandingProps> = () => {
 				direction={isDesktop ? 'row' : 'column'}
 				wrap={'nowrap'}
 				justifyContent="center"
-				alignItems="center"
-			>
+				alignItems="center">
 				{/** by students, for students */}
-				<Grid item container justifyContent="center" alignItems="center" xs>
+				<Grid
+					item
+					container
+					justifyContent="center"
+					alignItems="center"
+					xs>
 					<h1>De alunos para alunos</h1>
 					<p>
 						O maior objetivo do USPY é tornar a vida acadêmica do
@@ -189,16 +202,14 @@ const Landing: React.FC<LandingProps> = () => {
 						<a
 							className="link"
 							href="https://github.com/Projeto-USPY"
-							style={{ color: theme.palette.primary.main }}
-						>
+							style={{ color: theme.palette.primary.main }}>
 							GitHub
 						</a>{' '}
 						ou entre em contato conosco{' '}
 						<a
 							className="link"
 							href="https://forms.gle/2Yrm1VGDJiDH1Dnm6"
-							style={{ color: theme.palette.primary.main }}
-						>
+							style={{ color: theme.palette.primary.main }}>
 							aqui
 						</a>
 						.
@@ -210,24 +221,26 @@ const Landing: React.FC<LandingProps> = () => {
 						justifyContent="center"
 						alignItems="center"
 						spacing={1}
-						style={{ margin: '10px 0 10px 0' }}
-					>
+						style={{ margin: '10px 0 10px 0' }}>
 						<Grid item>
 							<ContributeButton
 								text="QUERO ME CADASTRAR!"
-								url="/cadastro"
-							></ContributeButton>
+								url="/cadastro"></ContributeButton>
 						</Grid>
 						<Grid item>
 							<ContributeButton
 								text="QUERO CONTRIBUIR!"
-								url="https://forms.gle/2Yrm1VGDJiDH1Dnm6"
-							></ContributeButton>
+								url="https://forms.gle/2Yrm1VGDJiDH1Dnm6"></ContributeButton>
 						</Grid>
 					</Grid>
 				</Grid>
 
-				<Grid item container justifyContent="center" alignItems="center" xs>
+				<Grid
+					item
+					container
+					justifyContent="center"
+					alignItems="center"
+					xs>
 					<img
 						src={contribute}
 						alt="Imagem mostrando um laptop com alguns bonequinhos contribuindo"
@@ -248,8 +261,7 @@ const Landing: React.FC<LandingProps> = () => {
 				direction="column"
 				justifyContent="center"
 				alignItems="center"
-				style={{ margin: '50px 0 100px 0' }}
-			>
+				style={{ margin: '50px 0 100px 0' }}>
 				{/** FAQ */}
 				<h1>Perguntas Frequentes</h1>
 				<Grid item>

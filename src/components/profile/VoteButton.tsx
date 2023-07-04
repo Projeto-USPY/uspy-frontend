@@ -38,8 +38,7 @@ export const VoteButton: React.FC<VoteButtonPropsType> = ({
 	return (
 		<Tooltip
 			title={`${type === 'up' ? 'G' : 'Não g'}ostei dessa disciplina`}
-			placement="top"
-		>
+			placement="top">
 			<IconButton onClick={onClick}>
 				<Icon color={color} fontSize={size} />
 			</IconButton>
@@ -67,11 +66,11 @@ export const VoteButtonGroup: React.FC<VoteButtonGroupPropsType> = ({
 
 	useEffect(() => {
 		api.getSubjectReview(course, specialization, code)
-			.then((rev) => {
+			.then(rev => {
 				setSubjectReview(rev)
 				setPending(false)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code !== 'not_found') {
 					// either user is not logged in or user
 					// was not enrolled in subject, so this should never happen
@@ -97,7 +96,7 @@ export const VoteButtonGroup: React.FC<VoteButtonGroupPropsType> = ({
 
 	return (
 		<>
-			{['down', 'up'].map((type) => (
+			{['down', 'up'].map(type => (
 				<VoteButton
 					type={type as 'up' | 'down'}
 					key={type}

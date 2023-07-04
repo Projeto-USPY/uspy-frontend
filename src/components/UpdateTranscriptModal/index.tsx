@@ -71,11 +71,11 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 					.then(([_, lastUpdated]) => {
 						dispatch(setLastUpdatedAccount(lastUpdated))
 					})
-					.catch((err) => {
+					.catch(err => {
 						console.error(`Error: (${err})`)
 					})
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'bad_request') {
 					uspyAlert(
 						'Código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!',
@@ -98,8 +98,7 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 					container
 					direction="column"
 					alignItems="center"
-					spacing={2}
-				>
+					spacing={2}>
 					<Grid item>
 						<Typography>
 							Atualize seu histórico obtendo um novo código de
@@ -116,8 +115,7 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 							container
 							justify={isDesktop ? 'center' : 'space-around'}
 							alignItems="center"
-							wrap="wrap"
-						>
+							wrap="wrap">
 							{authCode.map((val, idx) => (
 								<React.Fragment key={idx}>
 									{idx ? '-' : <span> &nbsp; </span>}
@@ -141,8 +139,7 @@ const UpdateTranscriptModal: React.FC<PropsType> = ({ open, close }) => {
 					onClick={submit}
 					color="secondary"
 					disabled={!authCodeOk || pending}
-					endIcon={pending ? <CircularProgress size={20} /> : null}
-				>
+					endIcon={pending ? <CircularProgress size={20} /> : null}>
 					Confirmar
 				</Button>
 			</DialogActions>

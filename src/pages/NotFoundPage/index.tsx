@@ -20,8 +20,7 @@ const NotFoundPage = () => {
 						container
 						justify="center"
 						alignItems="center"
-						direction="column"
-					>
+						direction="column">
 						<Grid item>
 							<Typography variant="h4">
 								{' '}

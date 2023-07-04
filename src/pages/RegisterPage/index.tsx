@@ -121,7 +121,7 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 					setAuth(auth)
 					setPendingValidation(false) // validation is not pending anymore
 				})
-				.catch((err) => {
+				.catch(err => {
 					uspyAlert(
 						`Algo deu errado (${err.message}). Tente novamente mais tarde`,
 						'Certifique-se de esse código é válido e não está expirado',
@@ -147,7 +147,8 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 	const emailOk = !showEmailError || validateEmail(email)
 
 	const registerClick = () => {
-		const acceptedTerms = document.querySelector<HTMLInputElement>('#accept').checked
+		const acceptedTerms =
+			document.querySelector<HTMLInputElement>('#accept').checked
 
 		if (!validatePassword(password[0])) {
 			uspyAlert('A senha está inválida')
@@ -170,7 +171,7 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 					setPendingSignup(false)
 					history.push(buildLoginPageURI())
 				})
-				.catch((err) => {
+				.catch(err => {
 					if (err.code === 'bad_request') {
 						uspyAlert(
 							'Email, código de autenticidade ou captcha inválidos. Lembre-se que o código de autenticidade usado deve ter sido gerado na última hora!',
@@ -209,8 +210,7 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 							<Link
 								color="secondary"
 								href={buildUseTermsPageURI()}
-								target="_blank"
-							>
+								target="_blank">
 								{' '}
 								termos e condições{' '}
 							</Link>
@@ -224,8 +224,7 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 				id="submit"
 				variant="outlined"
 				disabled={pendingSignup}
-				onClick={registerClick}
-			>
+				onClick={registerClick}>
 				{pendingSignup ? (
 					<CircularProgress color="secondary" size="1rem" />
 				) : (
@@ -253,8 +252,7 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 								<Link
 									color="secondary"
 									href={buildUseTermsPageURI()}
-									target="_blank"
-								>
+									target="_blank">
 									{' '}
 									termos e condições{' '}
 								</Link>
@@ -270,8 +268,7 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 					size="medium"
 					id="submit"
 					variant="outlined"
-					onClick={registerClick}
-				>
+					onClick={registerClick}>
 					{pendingSignup ? (
 						<CircularProgress color="secondary" size="1rem" />
 					) : (
@@ -296,8 +293,9 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 							]}
 						/>
 						<div
-							style={{ height: `${isDesktop ? '50' : '30'}px` }}
-						></div>{' '}
+							style={{
+								height: `${isDesktop ? '50' : '30'}px`,
+							}}></div>{' '}
 						{/* Separa 50 verticalmente, ou 30 verticalmente se for mobile */}
 						<Typography>
 							{' '}
@@ -316,17 +314,15 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 								direction="row"
 								justify="center"
 								alignItems="center"
-								spacing={2}
-							>
+								spacing={2}>
 								<Grid
 									item
 									justify={
 										isDesktop ? 'center' : 'space-around'
 									}
 									alignItems="center"
-									wrap="wrap"
-								>
-									{inputs.map((val) => (
+									wrap="wrap">
+									{inputs.map(val => (
 										<React.Fragment key={val}>
 											<PartialInput
 												disabled={
@@ -369,8 +365,7 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 											id="submit"
 											variant="outlined"
 											disabled={pendingValidation}
-											onClick={validateClick}
-										>
+											onClick={validateClick}>
 											Validar
 										</Button>
 									)}
@@ -390,16 +385,14 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 							container
 							spacing={6}
 							direction={isDesktop ? 'row' : 'column'}
-							justify="center"
-						>
+							justify="center">
 							<Grid
 								item
 								container
 								xs={12}
 								sm={6}
 								direction="column"
-								justify="center"
-							>
+								justify="center">
 								{' '}
 								{/* Email and password fields */}
 								<Grid item>
@@ -422,7 +415,7 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 											emailOk ? '' : 'Email inválido'
 										}
 										onBlur={() => setShowEmailError(true)}
-										onChange={(evt) =>
+										onChange={evt =>
 											handleChange(
 												evt.target.value,
 												'email',
@@ -480,7 +473,7 @@ const RegisterPage = ({ setUser }: RegisterPageProps) => {
 										}
 										helperText={
 											password[0] !== password[1] &&
-												showPwd1Error
+											showPwd1Error
 												? 'Senhas diferem'
 												: ''
 										}

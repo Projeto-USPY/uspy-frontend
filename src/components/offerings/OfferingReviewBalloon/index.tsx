@@ -76,10 +76,10 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 			professor,
 			review.uuid,
 		)
-			.then((vote) => {
+			.then(vote => {
 				setVoteRegistered(vote.type === 'upvote' ? 1 : -1)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code !== 'not_found') {
 					console.error(err)
 				}
@@ -124,7 +124,7 @@ const OfferingReviewBalloon: React.FC<PropsType> = ({
 				setUserReview(null)
 				notify('Sua avaliação foi removida com sucesso!', 'success')
 			})
-			.catch((err) => {
+			.catch(err => {
 				setIsDeleteDialogOpen(false)
 				notify(
 					`Algo deu errado (${err.message}). Tente novamente mais tarde!`,

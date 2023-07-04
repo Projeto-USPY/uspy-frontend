@@ -35,7 +35,7 @@ const SendActivationEmailModal: React.FC<SendActivationEmailModalProps> = ({
 				notify('Email enviado com sucesso', 'success')
 				handleClose()
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.error(err)
 				uspyAlert(
 					`Algo deu errado ${err.message}. Tente novamente mais tarde.`,
@@ -81,8 +81,7 @@ const SendActivationEmailModal: React.FC<SendActivationEmailModalProps> = ({
 					size="medium"
 					variant="outlined"
 					onClick={sendEmail}
-					disabled={!validateEmail(email)}
-				>
+					disabled={!validateEmail(email)}>
 					Enviar
 				</Button>
 			</DialogActions>

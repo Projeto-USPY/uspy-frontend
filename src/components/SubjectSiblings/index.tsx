@@ -61,11 +61,11 @@ const SubjectSiblings: React.FC<SubjectSiblingsProps> = ({
 
 	useEffect(() => {
 		api.getSubjectSiblings(code, course, specialization)
-			.then((res) => {
+			.then(res => {
 				setSiblings(res.sort((a, b) => a.name.length - b.name.length))
 				setIsLoading(false)
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.log(err)
 			})
 	}, [code, course, specialization])
@@ -81,8 +81,8 @@ const SubjectSiblings: React.FC<SubjectSiblingsProps> = ({
 	}
 
 	return (
-		<Grid container spacing={2} alignItems='flex-start'>
-			{siblings.map((sibling) => (
+		<Grid container spacing={2} alignItems="flex-start">
+			{siblings.map(sibling => (
 				<Grid item key={sibling.code}>
 					<Sibling
 						code={sibling.code}

@@ -97,14 +97,12 @@ const TranscriptList: React.FC<PropsType> = ({
 						selected={selectedRow === row}
 						onClick={() =>
 							setSelectedRow(selectedRow === row ? null : row)
-						}
-					>
+						}>
 						<ListItemText
 							primary={
 								<Link
 									color="secondary"
-									href={buildSubjectLink(record)}
-								>
+									href={buildSubjectLink(record)}>
 									{record.code}
 								</Link>
 							}
@@ -124,15 +122,13 @@ const TranscriptList: React.FC<PropsType> = ({
 					<Collapse
 						in={selectedRow === row}
 						timeout="auto"
-						unmountOnExit
-					>
+						unmountOnExit>
 						<div className="pad1">
 							<Typography>
 								<Link
 									color="textPrimary"
 									href={buildSubjectLink(record)}
-									target="_blank"
-								>
+									target="_blank">
 									{' '}
 									{record.name}{' '}
 								</Link>
@@ -142,14 +138,12 @@ const TranscriptList: React.FC<PropsType> = ({
 							container
 							justify="center"
 							spacing={1}
-							className="pad1"
-						>
+							className="pad1">
 							<Grid item>
 								<Grid
 									container
 									direction="column"
-									alignItems="center"
-								>
+									alignItems="center">
 									<span className="prompt"> MÉDIA </span>
 									<span className="prompt">
 										<RedIf condition={record.grade < 5}>
@@ -162,13 +156,11 @@ const TranscriptList: React.FC<PropsType> = ({
 								<Grid
 									container
 									direction="column"
-									alignItems="center"
-								>
+									alignItems="center">
 									<span className="prompt"> FREQUÊNCIA </span>
 									<span className="prompt">
 										<RedIf
-											condition={record.frequency < 70}
-										>
+											condition={record.frequency < 70}>
 											{record.frequency}%
 										</RedIf>
 									</span>
@@ -178,16 +170,14 @@ const TranscriptList: React.FC<PropsType> = ({
 								<Grid
 									container
 									direction="column"
-									alignItems="center"
-								>
+									alignItems="center">
 									<span className="prompt"> STATUS </span>
 									<span className="prompt">
 										<RedIf
 											condition={
 												record.frequency < 70 ||
 												record.grade < 5
-											}
-										>
+											}>
 											{record.frequency < 70 ||
 											record.grade < 5
 												? 'REPROVADO'
@@ -201,8 +191,7 @@ const TranscriptList: React.FC<PropsType> = ({
 							container
 							spacing={2}
 							justify="center"
-							alignItems="center"
-						>
+							alignItems="center">
 							<Grid item>
 								<Typography align="center">
 									Gostou da disciplina?
@@ -213,8 +202,7 @@ const TranscriptList: React.FC<PropsType> = ({
 									className="full-height"
 									container
 									justify="center"
-									alignItems="center"
-								>
+									alignItems="center">
 									<VoteButtonGroup
 										record={record}
 										color="secondary"
@@ -245,8 +233,7 @@ const TranscriptList: React.FC<PropsType> = ({
 											component={ReviewsIcon}
 											viewBox="0 0 24 24"
 										/>
-									}
-								>
+									}>
 									AVALIAÇÕES
 								</Button>
 							</Grid>
@@ -283,8 +270,7 @@ const TranscriptList: React.FC<PropsType> = ({
 												}}
 											/>
 										) : null
-									}
-								>
+									}>
 									AVALIAR
 								</Button>
 							</Grid>

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import InputBase from '@material-ui/core/InputBase'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
 	input: {
 		fontFamily: 'Courier',
 		[theme.breakpoints.up('sm')]: {
@@ -52,7 +52,9 @@ const PartialInput: React.FC<PartialInputProps> = ({
 			} else {
 				if (str.length <= 4) handleChange(id, str.toUpperCase())
 				if (str.length === 4) {
-					const next = document.querySelector<HTMLInputElement>(`#auth-code-${id + 1}`)
+					const next = document.querySelector<HTMLInputElement>(
+						`#auth-code-${id + 1}`,
+					)
 					if (next) {
 						next.focus()
 					}
@@ -85,7 +87,7 @@ const PartialInput: React.FC<PartialInputProps> = ({
 			inputProps={inputProps}
 			value={value}
 			id={`auth-code-${id}`}
-			onChange={(evt) => onChange(evt)}
+			onChange={evt => onChange(evt)}
 		/>
 	)
 }

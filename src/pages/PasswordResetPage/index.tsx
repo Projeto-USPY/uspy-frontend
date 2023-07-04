@@ -55,7 +55,7 @@ const PasswordResetPage: React.FC = () => {
 				}, 1500)
 				notify('Senha redefinida com sucesso!', 'success')
 			})
-			.catch((err) => {
+			.catch(err => {
 				setPending(false)
 				if (err.code === 'bad_request') {
 					uspyAlert('Token inválido!')
@@ -80,8 +80,7 @@ const PasswordResetPage: React.FC = () => {
 						spacing={2}
 						justify="center"
 						alignItems="center"
-						direction="column"
-					>
+						direction="column">
 						<Grid item>
 							<Typography>
 								{' '}
@@ -147,8 +146,7 @@ const PasswordResetPage: React.FC = () => {
 								id="submit"
 								variant="outlined"
 								onClick={resetPassword}
-								disabled={!passwordValid || !passwordsMatch}
-							>
+								disabled={!passwordValid || !passwordsMatch}>
 								{pending ? (
 									<CircularProgress
 										color="secondary"

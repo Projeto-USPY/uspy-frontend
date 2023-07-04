@@ -56,8 +56,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({
 		<Grid
 			style={margin}
 			container
-			justify={center ? 'center' : 'flex-start'}
-		>
+			justify={center ? 'center' : 'flex-start'}>
 			<Grid item xs={colsXS} md={colsMD} lg={colsLG}>
 				<div className="figure" style={fullWidth}>
 					<div>

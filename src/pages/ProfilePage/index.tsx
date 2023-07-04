@@ -41,11 +41,11 @@ const ProfilePage = () => {
 	// get semesters where transcript has records
 	useEffect(() => {
 		api.getTranscriptYears()
-			.then((years) => {
+			.then(years => {
 				const semesters: number[] = []
 				// semesters[i] is semesters[i]/2.semesters[i]%2
-				years.forEach((el) => {
-					el.semesters.forEach((sem) => {
+				years.forEach(el => {
+					el.semesters.forEach(sem => {
 						semesters.push(2 * el.year + sem - 1)
 					})
 				})
@@ -56,7 +56,7 @@ const ProfilePage = () => {
 					)
 				}
 			})
-			.catch((err) => {
+			.catch(err => {
 				setErrorMessage(
 					`Algo deu errado (${err.message}). Tente novamente mais tarde`,
 				)
@@ -75,8 +75,7 @@ const ProfilePage = () => {
 					<Grid
 						container
 						alignItems="center"
-						style={{ height: '50px' }}
-					>
+						style={{ height: '50px' }}>
 						<BreadCrumb
 							links={[
 								{
@@ -113,8 +112,7 @@ const ProfilePage = () => {
 									container
 									direction="column"
 									alignItems="flex-end"
-									spacing={1}
-								>
+									spacing={1}>
 									<Grid item>
 										<Button
 											size={isDesktop ? 'large' : 'small'}
@@ -124,8 +122,7 @@ const ProfilePage = () => {
 												setUpdateTranscriptModalOpen(
 													true,
 												)
-											}
-										>
+											}>
 											Atualizar &nbsp;&nbsp;
 											<CloudUploadOutlinedIcon fontSize="small" />
 										</Button>
@@ -153,8 +150,9 @@ const ProfilePage = () => {
 							}
 						/>
 						<CardContent
-							style={{ padding: isDesktop ? '16px 32px' : '0 0' }}
-						>
+							style={{
+								padding: isDesktop ? '16px 32px' : '0 0',
+							}}>
 							{!errorMessage ? (
 								semesters ? (
 									<TranscriptView semesters={semesters} />

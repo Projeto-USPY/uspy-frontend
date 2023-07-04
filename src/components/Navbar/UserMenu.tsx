@@ -14,74 +14,65 @@ import { useHistory } from 'react-router'
 import React, { useState } from 'react'
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-    bindActionCreators({ setUserNone }, dispatch)
+	bindActionCreators({ setUserNone }, dispatch)
 
 const connector = connect(null, mapDispatchToProps)
 interface UserMenuProps extends ConnectedProps<typeof connector> {
-    open: boolean
-    anchor: HTMLElement | null
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+	open: boolean
+	anchor: HTMLElement | null
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const UserMenu = ({
-    open,
-    anchor,
-    setOpen,
-    setUserNone,
-}: UserMenuProps) => {
-    const history = useHistory()
-    const notify = useMySnackbar()
-    const [confirmationDialogOpen, setConfirmationDialogOpen] =
-        useState<boolean>(false)
+const UserMenu = ({ open, anchor, setOpen, setUserNone }: UserMenuProps) => {
+	const history = useHistory()
+	const notify = useMySnackbar()
+	const [confirmationDialogOpen, setConfirmationDialogOpen] =
+		useState<boolean>(false)
 
-    const menuStyle = {
-        minWidth: '100px',
-    }
-    const handleLogout = () => {
-        notify('Sessão encerrada', 'info')
-        api.logout()
-        setUserNone()
-    }
-    return (
-        <Menu
-            open={open}
-            anchorEl={anchor}
-            onClose={() => setOpen(false)}
-            transformOrigin={{
-                vertical: -60,
-                horizontal: 'left',
-            }}
-        >
-            <MenuItem
-                onClick={() => history.push(buildProfilePageURI())}
-                style={menuStyle}
-            >
-                {' '}
-                Perfil{' '}
-            </MenuItem>
-            <MenuItem
-                onClick={() => history.push(buildAccountPageURI())}
-                style={menuStyle}
-            >
-                {' '}
-                Conta{' '}
-            </MenuItem>
-            <MenuItem
-                onClick={() => setConfirmationDialogOpen(true)}
-                style={menuStyle}
-            >
-                {' '}
-                Logout{' '}
-            </MenuItem>
-            <SimpleConfirmationDialog
-                title="Tem certeza que deseja sair?"
-                cancelText="Cancelar"
-                confirmText="Sim"
-                open={confirmationDialogOpen}
-                cancelCallback={() => setConfirmationDialogOpen(false)}
-                confirmCallback={handleLogout}
-            />
-        </Menu>
-    )
+	const menuStyle = {
+		minWidth: '100px',
+	}
+	const handleLogout = () => {
+		notify('Sessão encerrada', 'info')
+		api.logout()
+		setUserNone()
+	}
+	return (
+		<Menu
+			open={open}
+			anchorEl={anchor}
+			onClose={() => setOpen(false)}
+			transformOrigin={{
+				vertical: -60,
+				horizontal: 'left',
+			}}>
+			<MenuItem
+				onClick={() => history.push(buildProfilePageURI())}
+				style={menuStyle}>
+				{' '}
+				Perfil{' '}
+			</MenuItem>
+			<MenuItem
+				onClick={() => history.push(buildAccountPageURI())}
+				style={menuStyle}>
+				{' '}
+				Conta{' '}
+			</MenuItem>
+			<MenuItem
+				onClick={() => setConfirmationDialogOpen(true)}
+				style={menuStyle}>
+				{' '}
+				Logout{' '}
+			</MenuItem>
+			<SimpleConfirmationDialog
+				title="Tem certeza que deseja sair?"
+				cancelText="Cancelar"
+				confirmText="Sim"
+				open={confirmationDialogOpen}
+				cancelCallback={() => setConfirmationDialogOpen(false)}
+				confirmCallback={handleLogout}
+			/>
+		</Menu>
+	)
 }
 export default connector(UserMenu)
