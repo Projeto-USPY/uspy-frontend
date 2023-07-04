@@ -55,7 +55,7 @@ const AccordionSummary = withStyles({
 	expanded: {},
 })(MuiAccordionSummary)
 
-const AccordionDetails = withStyles((theme) => ({
+const AccordionDetails = withStyles(theme => ({
 	root: {
 		padding: 0,
 	},
