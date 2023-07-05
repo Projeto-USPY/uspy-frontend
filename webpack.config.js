@@ -3,6 +3,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 const HtmlWebpackPlugin = require('./html-webpack-plugin.js')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 // Options for development mode
 const devOptions = {
@@ -50,7 +51,7 @@ function buildConfig(env, argv) {
 						test: /\.(ts|js)x?$/,
 						exclude: /node_modules/,
 						include: /src/,
-						use: ['babel-loader', 'eslint-loader'],
+						use: ['babel-loader', 'ts-loader'],
 					},
 					{
 						test: /\.css$/,
@@ -78,6 +79,7 @@ function buildConfig(env, argv) {
 				new HtmlWebpackPlugin({
 					favicon: './favicon.ico',
 				}),
+				new ESLintPlugin({})
 			],
 		},
 		env.local ? devOptions : {},
