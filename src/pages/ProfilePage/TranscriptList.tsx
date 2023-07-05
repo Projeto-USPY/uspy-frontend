@@ -20,8 +20,8 @@ import { SubjectKey } from 'types/Subject'
 
 import CompressedTextWithTooltip from 'components/CompressedTextWithTooltip'
 import { VoteButtonGroup } from 'components/profile/VoteButton'
-import { ReactComponent as ReviewsIcon } from 'images/reviews.svg'
-import { ReactComponent as WriteCommentIcon } from 'images/write-comment.svg'
+import ReviewsIcon from 'images/reviews.svg?react'
+import WriteCommentIcon from 'images/write-comment.svg?react'
 import { buildURI as buildOfferingsPageURI } from 'pages/OfferingsPage'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 

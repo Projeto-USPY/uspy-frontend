@@ -19,7 +19,7 @@ import './style.css'
 import Typography from '@material-ui/core/Typography'
 
 import logo from 'images/logo.svg'
-import { ReactComponent as ArrowDownIcon } from 'images/arrow-down.svg'
+import ArrowDownIcon from 'images/arrow-down.svg?react'
 
 export function buildURI(): string {
 	return '/'

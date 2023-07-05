@@ -1,8 +1,9 @@
 declare module '*.svg' {
-	export const ReactComponent: React.FunctionComponent<
-		React.SVGAttributes<SVGElement>
-	>
 	export default any
+}
+
+declare module '*.svg?react' {
+	export default React.FunctionComponent<React.SVGAttributes<SVGElement>>
 }
 
 declare module '*.png' {

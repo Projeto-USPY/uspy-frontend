@@ -18,7 +18,7 @@ import { Record } from 'types/Record'
 import { SubjectKey } from 'types/Subject'
 
 import { VoteButtonGroup } from 'components/profile/VoteButton'
-import { ReactComponent as WriteComment } from 'images/write-comment.svg'
+import WriteComment from 'images/write-comment.svg?react'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 
 interface PropsType {

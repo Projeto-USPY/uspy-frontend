@@ -58,13 +58,15 @@ function buildConfig(env, argv) {
 						use: ['style-loader', 'css-loader'],
 					},
 					{
-						test: /\.(png|jpg|jpeg|gif)$/,
-						use: ['file-loader'],
+						test: /\.(png|jpg|jpeg|gif|svg)$/,
+						resourceQuery: { not: [/react/] },
+						type: 'asset/resource',
 					},
 					{
 						test: /\.svg$/,
-						use: ['@svgr/webpack', 'file-loader'],
-					},
+						resourceQuery: /react/,
+						use: ['@svgr/webpack'],
+					}
 				],
 			},
 			resolve: {
