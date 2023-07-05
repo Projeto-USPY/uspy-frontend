@@ -10,6 +10,7 @@ const devOptions = {
 	watchOptions: {
 		poll: 1000, // polls every second
 	},
+	devtool: 'inline-source-map',
 	devServer: {
 		historyApiFallback: true,
 	},
