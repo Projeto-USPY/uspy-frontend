@@ -28,11 +28,13 @@
 		"@typescript-eslint",
 		"import-helpers",
 		"cypress",
-		"prettier"
+		"prettier",
+		"unused-imports"
 	],
 	"rules": {
 		"react/prop-types": 0,
-		"prettier/prettier": "warn"
+		"prettier/prettier": "warn",
+		"unused-imports/no-unused-imports": "warn"
 	},
 	"settings": {
 		"react": {
