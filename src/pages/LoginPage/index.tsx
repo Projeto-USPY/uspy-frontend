@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { Dispatch, bindActionCreators, ActionCreator } from 'redux'
+import { Dispatch, bindActionCreators } from 'redux'
 
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
@@ -15,8 +15,6 @@ import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
-import { ReduxAction } from 'types/redux'
-
 import { setUser } from 'actions'
 import api from 'API'
 import Navbar from 'components/Navbar'
@@ -28,15 +26,17 @@ import './style.css'
 
 import { buildURI as buildRegisterPageURI } from 'pages/RegisterPage'
 
-interface LoginPageProps {
-	setUser: ActionCreator<ReduxAction>
-}
-
 export function buildURI(): string {
 	return '/login'
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
+const mapDispatchToProps = (dispatch: Dispatch) =>
+	bindActionCreators({ setUser }, dispatch)
+
+const connector = connect(null, mapDispatchToProps)
+type LoginPageProps = ConnectedProps<typeof connector>
+
+const LoginPage = ({ setUser }: LoginPageProps) => {
 	const [nusp, setNusp] = useState('')
 	const [passwordRedefinitionModalOpen, setPasswordRedefinitionModalOpen] =
 		useState<boolean>(false)
@@ -260,7 +260,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ setUser }) => {
 	)
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-	bindActionCreators({ setUser }, dispatch)
+
 
 export default connect(null, mapDispatchToProps)(LoginPage)

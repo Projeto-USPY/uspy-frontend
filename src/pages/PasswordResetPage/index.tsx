@@ -25,7 +25,7 @@ const textFieldCommonProps = {
 	fullWidth: true,
 }
 
-const PasswordResetPage: React.FC = () => {
+const PasswordResetPage = (): React.ReactElement => {
 	const [password, setPassword] = useState<string[]>(['', ''])
 	const [editedPasswordField, setEditedPasswordField] = useState<boolean[]>([
 		false,

@@ -1,15 +1,19 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { RouteProps, Route, Redirect } from 'react-router'
 
 import { AppState } from 'types/redux'
-import { User, unknownUser, guestUser } from 'types/User'
+import { unknownUser, guestUser } from 'types/User'
 
-interface LoggedOutRouteProps extends RouteProps {
-	user: User
-}
+const mapStateToProps = (state: AppState) => ({
+	user: state.user,
+})
+const connector = connect(mapStateToProps)
 
-const LoggedOutRoute: React.FC<LoggedOutRouteProps> = ({ user, ...rest }) => {
+type LoggedOutRouteProps = ConnectedProps<typeof connector> & RouteProps
+
+// This redirects to the home page if the user is logged in
+const LoggedOutRoute = ({ user, ...rest }: LoggedOutRouteProps) => {
 	if (user === unknownUser)
 		return null // Render nothing, because what we have means that we are waiting for the account/profile request
 	else if (user !== guestUser) {
@@ -23,8 +27,5 @@ const LoggedOutRoute: React.FC<LoggedOutRouteProps> = ({ user, ...rest }) => {
 	} else return <Route {...rest} />
 }
 
-const mapStateToProps = (state: AppState) => ({
-	user: state.user,
-})
 
-export default connect(mapStateToProps)(LoggedOutRoute)
+export default connector(LoggedOutRoute)
