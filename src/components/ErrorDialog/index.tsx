@@ -37,8 +37,7 @@ const ErrorDialog: React.FC<PropsType> = ({ message, open, title, close }) => {
 				<Button
 					id="dismiss-error-dialog"
 					onClick={close}
-					color="secondary"
-				>
+					color="secondary">
 					Ok
 				</Button>
 			</DialogActions>

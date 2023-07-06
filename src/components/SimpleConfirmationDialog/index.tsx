@@ -31,8 +31,7 @@ const SimpleConfirmationDialog: React.FC<SimpleConfirmationDialogProps> = ({
 		<Dialog
 			open={open}
 			onClose={cancelCallback}
-			PaperComponent={PaperComponent}
-		>
+			PaperComponent={PaperComponent}>
 			<DialogTitle>{title}</DialogTitle>
 			{body ? (
 				<DialogContent>

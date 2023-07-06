@@ -57,16 +57,14 @@ const OfferingEmotesSelector: React.FC<PropsType> = ({
 			container
 			direction="row"
 			justify={compact ? 'space-around' : 'center'}
-			spacing={compact ? 1 : 2}
-		>
+			spacing={compact ? 1 : 2}>
 			{emotes.map((emote, idx) => (
 				<Grid xs="auto" item key={idx}>
 					<Grid
 						container
 						direction="column"
 						justify="center"
-						alignItems="center"
-					>
+						alignItems="center">
 						<div
 							tabIndex={idx}
 							className={`
@@ -74,8 +72,7 @@ const OfferingEmotesSelector: React.FC<PropsType> = ({
                 move-up-hover-parent 
                 move-down-on-click-parent 
                 ${rate === idx + 1 ? 'img-popped' : ''}
-            `}
-						>
+            `}>
 							<img
 								src={emote.emote}
 								height={isDesktop ? 36 : 24}
@@ -99,8 +96,7 @@ const OfferingEmotesSelector: React.FC<PropsType> = ({
 								idx + 1 === rate
 									? 'textPrimary'
 									: 'textSecondary'
-							}
-						>
+							}>
 							{emote.caption}
 						</Typography>
 					</Grid>

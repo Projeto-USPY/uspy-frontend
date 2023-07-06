@@ -44,8 +44,7 @@ const Navbar: React.FC = () => {
 						className="h100"
 						color="inherit"
 						key={idx}
-						onClick={() => history.push(props.route)}
-					>
+						onClick={() => history.push(props.route)}>
 						{props.title}
 					</Button>
 				))}
@@ -57,8 +56,7 @@ const Navbar: React.FC = () => {
 			<IconButton
 				style={{ color: 'white' }}
 				aria-label="Menu"
-				onClick={() => setIsMobileMenuVisible(!isMobileMenuVisible)}
-			>
+				onClick={() => setIsMobileMenuVisible(!isMobileMenuVisible)}>
 				<MenuIcon />
 			</IconButton>
 		</>
@@ -71,14 +69,12 @@ const Navbar: React.FC = () => {
 					<ButtonGroup
 						orientation="vertical"
 						className="w100"
-						color="primary"
-					>
+						color="primary">
 						{buttonsGuest.map((props, idx) => (
 							<Button
 								className="w100"
 								key={idx}
-								onClick={() => history.push(props.route)}
-							>
+								onClick={() => history.push(props.route)}>
 								{' '}
 								{props.title}
 							</Button>

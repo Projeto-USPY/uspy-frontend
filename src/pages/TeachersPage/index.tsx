@@ -55,25 +55,27 @@ const AccordionSummary = withStyles({
 	expanded: {},
 })(MuiAccordionSummary)
 
-const AccordionDetails = withStyles((theme) => ({
+const AccordionDetails = withStyles(theme => ({
 	root: {
 		padding: 0,
 	},
 }))(MuiAccordionDetails)
 
-const MyListItem = withStyles((theme) => ({
+const MyListItem = withStyles(() => ({
 	root: {
 		borderBottom: '1px solid #adadad',
 	},
 }))(ListItem)
 
-function renderRow(t: TeacherInfo, clickCallback: Function) {
+function renderRow(
+	t: TeacherInfo,
+	clickCallback: (department?: string) => void,
+) {
 	return (
 		<MyListItem
 			button
 			key={t.Name}
-			onClick={() => clickCallback(t.Department)}
-		>
+			onClick={() => clickCallback(t.Department)}>
 			<ListItemText primary={t.Name} disableTypography />
 		</MyListItem>
 	)
@@ -85,7 +87,7 @@ export function buildURI(): string {
 }
 
 const TeachersPage = () => {
-	const clickItem = (id: number) => {
+	const clickItem = (id: string) => {
 		console.log('Clicou no id = ', id)
 	}
 
@@ -116,8 +118,7 @@ const TeachersPage = () => {
 				square
 				expanded={isExpanded}
 				onChange={() => handleAccordionClick(key, !isExpanded)}
-				TransitionProps={{ timeout: 200 }}
-			>
+				TransitionProps={{ timeout: 200 }}>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography>
 						<strong>{key}</strong>
@@ -129,8 +130,7 @@ const TeachersPage = () => {
 							width: '100%',
 							fontFamily: 'Raleway, sans-serif',
 						}}
-						disablePadding
-					>
+						disablePadding>
 						{teachers[key].map((t: TeacherInfo) =>
 							renderRow(t, clickItem),
 						)}

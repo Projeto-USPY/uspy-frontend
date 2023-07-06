@@ -3,11 +3,17 @@
 		"browser": true,
 		"es2015": true
 	},
+	"ignorePatterns": [
+		"node_modules/",
+		"*.js"
+	],
 	"extends": [
+		"eslint:recommended",
 		"plugin:react/recommended",
-		"standard",
 		"plugin:cypress/recommended",
-		"prettier"
+		"plugin:@typescript-eslint/recommended",
+		"prettier",
+		"prettier/@typescript-eslint"
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
@@ -22,12 +28,17 @@
 		"@typescript-eslint",
 		"import-helpers",
 		"cypress",
-		"prettier"
+		"prettier",
+		"unused-imports"
 	],
-	"overrides": [{
-		"files": "*.ts"
-	}],
 	"rules": {
-		"react/prop-types": 0
+		"react/prop-types": 0,
+		"prettier/prettier": "warn",
+		"unused-imports/no-unused-imports": "warn"
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
 	}
 }

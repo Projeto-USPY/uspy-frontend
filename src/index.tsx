@@ -75,7 +75,7 @@ function checkUserExists() {
 			store.dispatch(setUser(user))
 			store.dispatch(setLastUpdatedAccount(lastUpdated))
 		})
-		.catch((err) => {
+		.catch(err => {
 			console.error(`Error: (${err})`)
 		})
 }
@@ -96,9 +96,10 @@ const useStyles = makeStyles({
 })
 
 const DialogManager = () => {
-	const dialogError = useSelector<AppState, DialogError>(state => state.dialogError)
+	const dialogError = useSelector<AppState, DialogError>(
+		state => state.dialogError,
+	)
 	const dispatch = useDispatch()
-	console.log(dialogError)
 	return (
 		<ErrorDialog
 			open={!!dialogError && Boolean(dialogError.message)}

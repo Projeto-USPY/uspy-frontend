@@ -11,11 +11,11 @@ import offeringStatIcon from 'images/offering_stat_icon.svg'
 import subjectStatIcon from 'images/subject_stat_icon.svg'
 import userStatIcon from 'images/user_stat_icon.svg'
 
-const Stats: React.FC<{}> = () => {
+const Stats: React.FC = () => {
 	const [stats, setStats] = useState({} as APIStats)
 
 	useEffect(() => {
-		api.getStats().then((res) => {
+		api.getStats().then(res => {
 			setStats(res)
 		})
 	}, [])
@@ -25,8 +25,7 @@ const Stats: React.FC<{}> = () => {
 			container
 			justify="center"
 			alignItems="center"
-			style={{ gap: '15px' }}
-		>
+			style={{ gap: '15px' }}>
 			<Grid item>
 				<img
 					style={{ maxHeight: '3em', height: 'auto' }}

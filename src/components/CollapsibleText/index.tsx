@@ -26,8 +26,7 @@ const CollapsibleText: React.FC<Props> = ({
 				variant="caption"
 				color="secondary"
 				style={{ cursor: 'pointer' }}
-				onClick={() => setCollapsed(!collapsed)}
-			>
+				onClick={() => setCollapsed(!collapsed)}>
 				{' '}
 				{collapsed ? 'ver mais' : 'ver menos'}
 			</Link>

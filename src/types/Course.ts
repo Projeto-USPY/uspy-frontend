@@ -13,4 +13,3 @@ export interface CourseComplete extends Course {
 	shift: string
 	subjects: { [code: string]: string }
 }
-

@@ -25,7 +25,7 @@ const textFieldCommonProps = {
 	fullWidth: true,
 }
 
-const PasswordResetPage: React.FC = () => {
+const PasswordResetPage = (): React.ReactElement => {
 	const [password, setPassword] = useState<string[]>(['', ''])
 	const [editedPasswordField, setEditedPasswordField] = useState<boolean[]>([
 		false,
@@ -45,7 +45,6 @@ const PasswordResetPage: React.FC = () => {
 	const passwordsMatch = password[0] === password[1]
 
 	const resetPassword = () => {
-		console.log('token', token)
 		setPending(true)
 		api.resetPassword(token, password[0])
 			.then(() => {
@@ -55,7 +54,7 @@ const PasswordResetPage: React.FC = () => {
 				}, 1500)
 				notify('Senha redefinida com sucesso!', 'success')
 			})
-			.catch((err) => {
+			.catch(err => {
 				setPending(false)
 				if (err.code === 'bad_request') {
 					uspyAlert('Token inválido!')
@@ -80,8 +79,7 @@ const PasswordResetPage: React.FC = () => {
 						spacing={2}
 						justify="center"
 						alignItems="center"
-						direction="column"
-					>
+						direction="column">
 						<Grid item>
 							<Typography>
 								{' '}
@@ -147,8 +145,7 @@ const PasswordResetPage: React.FC = () => {
 								id="submit"
 								variant="outlined"
 								onClick={resetPassword}
-								disabled={!passwordValid || !passwordsMatch}
-							>
+								disabled={!passwordValid || !passwordsMatch}>
 								{pending ? (
 									<CircularProgress
 										color="secondary"

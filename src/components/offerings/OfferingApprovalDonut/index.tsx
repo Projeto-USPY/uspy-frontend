@@ -76,8 +76,7 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({
 			onClose={handlePopoverClose}
 			disableRestoreFocus
 			disableScrollLock
-			elevation={3}
-		>
+			elevation={3}>
 			<Paper className="prompt tooltip-card">
 				{errorMessage ||
 					(missingData ? (
@@ -117,15 +116,12 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({
 		position: 'relative',
 	}
 
-	console.log(`${errorMessage} # ${missingData}`)
-
 	return (
 		<>
 			<div
 				style={wrapperStyle}
 				onMouseEnter={handlePopoverOpen}
-				onMouseLeave={handlePopoverClose}
-			>
+				onMouseLeave={handlePopoverClose}>
 				<ResponsiveContainer aspect={1} height={60}>
 					<PieChart width={60} height={60}>
 						<Pie
@@ -136,8 +132,7 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({
 							outerRadius={20}
 							innerRadius={10}
 							startAngle={90}
-							endAngle={450}
-						>
+							endAngle={450}>
 							{data.map((_, index) => (
 								<Cell
 									key={`cell-${index}`}

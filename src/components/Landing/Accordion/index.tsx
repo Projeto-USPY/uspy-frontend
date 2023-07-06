@@ -41,7 +41,7 @@ const AccordionSummary = withStyles({
 	expanded: {},
 })(MuiAccordionSummary)
 
-const AccordionDetails = withStyles((theme) => ({
+const AccordionDetails = withStyles(theme => ({
 	root: {
 		padding: theme.spacing(2),
 	},
@@ -55,7 +55,7 @@ interface AccordionCardPropsType {
 
 	handleChange: (
 		panel: string,
-	) => (event: React.ChangeEvent<{}>, expanded: boolean) => void
+	) => (event: React.ChangeEvent<unknown>, expanded: boolean) => void
 }
 
 const AccordionCard: React.FC<AccordionCardPropsType> = ({
@@ -69,8 +69,7 @@ const AccordionCard: React.FC<AccordionCardPropsType> = ({
 		<Accordion square expanded={expanded} onChange={handleChange(id)}>
 			<AccordionSummary
 				aria-controls={`${id}-content`}
-				id={`${id}-header`}
-			>
+				id={`${id}-header`}>
 				<Typography align="justify">{header}</Typography>
 			</AccordionSummary>
 			<AccordionDetails>
@@ -84,8 +83,7 @@ const FAQ: React.FC = () => {
 	const [expanded, setExpanded] = React.useState<string | false>('panel1')
 
 	const handleChange =
-		(panel: string) =>
-		(event: React.ChangeEvent<{}>, newExpanded: boolean) => {
+		(panel: string) => (_: unknown, newExpanded: boolean) => {
 			setExpanded(newExpanded ? panel : false)
 		}
 

@@ -3,12 +3,14 @@ const path = require('path')
 const webpack = require('webpack')
 
 const HtmlWebpackPlugin = require('./html-webpack-plugin.js')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 // Options for development mode
 const devOptions = {
 	watchOptions: {
 		poll: 1000, // polls every second
 	},
+	devtool: 'inline-source-map',
 	devServer: {
 		historyApiFallback: true,
 	},
@@ -50,20 +52,22 @@ function buildConfig(env, argv) {
 						test: /\.(ts|js)x?$/,
 						exclude: /node_modules/,
 						include: /src/,
-						use: ['babel-loader', 'eslint-loader'],
+						use: ['babel-loader', 'ts-loader'],
 					},
 					{
 						test: /\.css$/,
 						use: ['style-loader', 'css-loader'],
 					},
 					{
-						test: /\.(png|jpg|jpeg|gif)$/,
-						use: ['file-loader'],
+						test: /\.(png|jpg|jpeg|gif|svg)$/,
+						resourceQuery: { not: [/react/] },
+						type: 'asset/resource',
 					},
 					{
 						test: /\.svg$/,
-						use: ['@svgr/webpack', 'file-loader'],
-					},
+						resourceQuery: /react/,
+						use: ['@svgr/webpack'],
+					}
 				],
 			},
 			resolve: {
@@ -78,6 +82,7 @@ function buildConfig(env, argv) {
 				new HtmlWebpackPlugin({
 					favicon: './favicon.ico',
 				}),
+				new ESLintPlugin({})
 			],
 		},
 		env.local ? devOptions : {},

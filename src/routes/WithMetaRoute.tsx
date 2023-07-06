@@ -12,8 +12,16 @@ interface WithMetaRoutePropsType extends RouteProps {
 	element?: React.ComponentType
 }
 
-const WithMetaRoute: React.FC<WithMetaRoutePropsType> = (props: WithMetaRoutePropsType) => {
-	const { title, element: ChildrenElement, description, robots, ...rest } = props
+const WithMetaRoute: React.FC<WithMetaRoutePropsType> = (
+	props: WithMetaRoutePropsType,
+) => {
+	const {
+		title,
+		element: ChildrenElement,
+		description,
+		robots,
+		...rest
+	} = props
 	return (
 		<Route {...rest}>
 			<Helmet>

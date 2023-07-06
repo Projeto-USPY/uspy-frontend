@@ -34,13 +34,11 @@ const ErrorScreen: React.FC<PropsType> = ({ message, breadcrumbs }) => {
 					container
 					direction="column"
 					justify="center"
-					alignItems="center"
-				>
+					alignItems="center">
 					<Grid item>
 						<Typography
 							variant={isDesktop ? 'h4' : 'h5'}
-							align="center"
-						>
+							align="center">
 							{' '}
 							{message}{' '}
 						</Typography>

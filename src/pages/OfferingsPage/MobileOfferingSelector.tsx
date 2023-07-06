@@ -40,8 +40,7 @@ const MobileOfferingSelector: React.FC<PropsType> = ({
 					in={open && !isClosing}
 					mountOnEnter
 					unmountOnExit
-					timeout={500}
-				>
+					timeout={500}>
 					<div style={{ background: 'white' }}>
 						<OfferingsList
 							list={offerings}
@@ -56,19 +55,16 @@ const MobileOfferingSelector: React.FC<PropsType> = ({
 					direction="up"
 					in={open && !isClosing}
 					mountOnEnter
-					unmountOnExit
-				>
+					unmountOnExit>
 					<div
 						className="full-width full-height"
-						style={{ backgroundColor: 'white' }}
-					>
+						style={{ backgroundColor: 'white' }}>
 						<Button
 							fullWidth
 							color="secondary"
 							size="large"
 							onClick={handleClose}
-							variant="outlined"
-						>
+							variant="outlined">
 							CANCELAR
 						</Button>
 					</div>

@@ -7,6 +7,7 @@ interface PropsType {
 	options: any[]
 	onChange: (o: any) => void
 	getOptionLabel: (o: any) => string
+	value: { code: string; name: string }
 	label: string
 	hidden: boolean
 }
@@ -15,6 +16,7 @@ const SearchSelector: React.FC<PropsType> = ({
 	options,
 	onChange,
 	getOptionLabel,
+	value,
 	label,
 	hidden,
 }) => {
@@ -30,10 +32,11 @@ const SearchSelector: React.FC<PropsType> = ({
 			style={{
 				display: hidden ? 'none' : 'block',
 			}}
+			value={value}
 			options={options}
 			getOptionLabel={getOptionLabel}
-			onChange={(evt, value) => onChange(value)}
-			renderInput={(params) => (
+			onChange={(_evt, value) => onChange(value)}
+			renderInput={params => (
 				<TextField
 					{...params}
 					color="secondary"

@@ -19,7 +19,7 @@ interface PropsType {
 	close: () => void
 }
 
-const ReportField = withStyles((theme) => ({
+const ReportField = withStyles(theme => ({
 	root: {
 		border: '1px solid #e2e2e1',
 		overflow: 'hidden',
@@ -61,7 +61,7 @@ const OfferingReviewReportDialog: React.FC<PropsType> = ({
 				notify('Sua denúncia foi enviada', 'success')
 				close()
 			})
-			.catch((err) => {
+			.catch(err => {
 				notify('Algo deu errado, tente novamente mais tarde', 'error')
 				console.error(err)
 			})
@@ -87,7 +87,7 @@ const OfferingReviewReportDialog: React.FC<PropsType> = ({
 				</DialogContentText>
 				<ReportField
 					autoFocus
-					onChange={(evt) => handleCommentChange(evt.target.value)}
+					onChange={evt => handleCommentChange(evt.target.value)}
 					fullWidth
 					multiline
 					InputProps={{ disableUnderline: true }}
@@ -102,8 +102,7 @@ const OfferingReviewReportDialog: React.FC<PropsType> = ({
 				<Button
 					disabled={comment.length < COMMENT_THRESHOLD}
 					onClick={handleSubmit}
-					color="primary"
-				>
+					color="primary">
 					Enviar
 				</Button>
 			</DialogActions>

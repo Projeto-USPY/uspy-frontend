@@ -28,8 +28,8 @@ class APIClient {
 		})
 
 		this.axiosClient.interceptors.response.use(
-			(response) => response,
-			(error) => {
+			response => response,
+			error => {
 				const data = error.response.data || {}
 				const statusCode = error.response.status
 				data.code = data.code || statusCodeToError[statusCode]
@@ -114,7 +114,6 @@ class APIClient {
 		})
 		return data as CourseComplete
 	}
-
 
 	async getSubjectList(
 		course: string,
@@ -432,7 +431,7 @@ class APIClient {
 		course: string,
 		specialization: string,
 		code: string,
-	): Promise<Boolean> {
+	): Promise<boolean> {
 		const { data } = await this.axiosClient.get(
 			'/private/subject/verification',
 			{
@@ -443,7 +442,7 @@ class APIClient {
 				},
 			},
 		)
-		return data as Boolean
+		return data as boolean
 	}
 
 	async getGrade(

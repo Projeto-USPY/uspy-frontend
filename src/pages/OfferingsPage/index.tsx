@@ -17,9 +17,8 @@ import { buildURI as buildSubjectsPageURI } from 'pages/SubjectsPage'
 
 import Desktop from './Desktop'
 import Mobile from './Mobile'
-import { User } from 'types/User'
 import { AppState } from 'types/redux'
-import { connect } from 'react-redux'
+import { ConnectedProps, connect } from 'react-redux'
 
 export interface URLParameter {
 	course: string
@@ -33,8 +32,9 @@ export function buildURI(
 	subjectCode: string,
 	professorCode?: string,
 ): string {
-	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}${professorCode ? '?professor=' + professorCode : ''
-		}`
+	return `/oferecimentos/${courseCode}/${courseSpecialization}/${subjectCode}${
+		professorCode ? '?professor=' + professorCode : ''
+	}`
 }
 
 export function getBreadcrumbLinks(
@@ -58,11 +58,12 @@ export function getBreadcrumbLinks(
 	]
 }
 
-interface PropsType {
-	user: User
-}
+const mapStateToProps = (st: AppState) => ({ user: st.user })
+const connector = connect(mapStateToProps)
 
-const OfferingsPage: React.FC<PropsType> = ({ user }) => {
+type OfferingsPageProps = ConnectedProps<typeof connector>
+
+const OfferingsPage = ({ user }: OfferingsPageProps) => {
 	const theme = useTheme()
 	const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
 
@@ -75,10 +76,10 @@ const OfferingsPage: React.FC<PropsType> = ({ user }) => {
 
 	useEffect(() => {
 		api.getSubjectWithCourseAndCode(course, specialization, code)
-			.then((data) => {
+			.then(data => {
 				setSubject(data)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'not_found') {
 					setErrorMessage(
 						'Não foi possível encontrar essa disciplina',
@@ -92,10 +93,10 @@ const OfferingsPage: React.FC<PropsType> = ({ user }) => {
 			})
 
 		api.getSubjectOfferings(course, specialization, code)
-			.then((data) => {
+			.then(data => {
 				setOfferings(data)
 			})
-			.catch((err) => {
+			.catch(err => {
 				if (err.code === 'not_found') {
 					setErrorMessage(
 						'Não foi possível encontrar oferecimentos para esta disciplina',
@@ -114,7 +115,7 @@ const OfferingsPage: React.FC<PropsType> = ({ user }) => {
 	}, [])
 
 	let selectedOffering: Offering = offerings?.find(
-		(o) => o.code === selectedOfferingCode,
+		o => o.code === selectedOfferingCode,
 	)
 	if (!selectedOffering && offerings?.length) selectedOffering = offerings[0]
 
@@ -158,5 +159,4 @@ const OfferingsPage: React.FC<PropsType> = ({ user }) => {
 	)
 }
 
-const mapStateToProps = (st: AppState) => ({ user: st.user })
-export default connect(mapStateToProps)(OfferingsPage)
+export default connector(OfferingsPage)

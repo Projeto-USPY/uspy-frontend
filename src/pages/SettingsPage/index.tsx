@@ -49,7 +49,7 @@ export function buildURI(): string {
 
 const connector = connect(null, mapDispatchToProps)
 
-type SettingsPageProps = ConnectedProps<typeof connector>;
+type SettingsPageProps = ConnectedProps<typeof connector>
 
 const SettingsPage = ({ setUserNone }: SettingsPageProps) => {
 	const [newPwd, setNewPwd] = useState<string>('')
@@ -72,7 +72,7 @@ const SettingsPage = ({ setUserNone }: SettingsPageProps) => {
 				notify('Conta deletada!', 'info')
 				history.push(buildHomePageURI()) // redirect to home page
 			})
-			.catch((err) => {
+			.catch(err => {
 				setIsDeletingAccount(false)
 				uspyAlert(
 					`Algo deu errado (${err.message}).`,
@@ -89,7 +89,7 @@ const SettingsPage = ({ setUserNone }: SettingsPageProps) => {
 		else {
 			api.changePassword(old, newPwd)
 				.then(() => notify('Senha alterada com sucesso!', 'success'))
-				.catch((err) => {
+				.catch(err => {
 					if (err.code === 'bad_request') {
 						uspyAlert(
 							`Algo aconteceu e o status (${err.status}) foi recebido.`,
@@ -121,8 +121,7 @@ const SettingsPage = ({ setUserNone }: SettingsPageProps) => {
 					<Grid
 						container
 						alignItems="center"
-						style={{ height: '50px' }}
-					>
+						style={{ height: '50px' }}>
 						<BreadCrumb
 							links={[
 								{
@@ -155,8 +154,7 @@ const SettingsPage = ({ setUserNone }: SettingsPageProps) => {
 					<Grid
 						container
 						direction={isDesktop ? 'row' : 'column'}
-						spacing={2}
-					>
+						spacing={2}>
 						<Grid item>
 							<InputPassword
 								label="Senha Antiga"
@@ -193,8 +191,7 @@ const SettingsPage = ({ setUserNone }: SettingsPageProps) => {
 								variant="outlined"
 								style={{ height: '55px' }}
 								fullWidth={!isDesktop}
-								onClick={changePassword}
-							>
+								onClick={changePassword}>
 								Alterar
 							</Button>
 						</Grid>
@@ -212,8 +209,7 @@ const SettingsPage = ({ setUserNone }: SettingsPageProps) => {
 									fullWidth={!isDesktop}
 									onClick={() =>
 										setConfirmationDialogOpen(true)
-									}
-								>
+									}>
 									{isDeletingAccount ? (
 										<CircularProgress size="1rem" />
 									) : (

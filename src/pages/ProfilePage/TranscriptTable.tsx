@@ -18,7 +18,7 @@ import { Record } from 'types/Record'
 import { SubjectKey } from 'types/Subject'
 
 import { VoteButtonGroup } from 'components/profile/VoteButton'
-import { ReactComponent as WriteComment } from 'images/write-comment.svg'
+import WriteComment from 'images/write-comment.svg?react'
 import { buildURI as buildSubjectPageURI } from 'pages/SubjectPage'
 
 interface PropsType {
@@ -119,16 +119,14 @@ const TranscriptTable: React.FC<PropsType> = ({
 						<TableCell>
 							<Link
 								color="secondary"
-								href={buildSubjectLink(record)}
-							>
+								href={buildSubjectLink(record)}>
 								{record.code}
 							</Link>
 						</TableCell>
 						<TableCell>
 							<Link
 								color="secondary"
-								href={buildSubjectLink(record)}
-							>
+								href={buildSubjectLink(record)}>
 								{record.name}
 							</Link>
 						</TableCell>
@@ -144,14 +142,12 @@ const TranscriptTable: React.FC<PropsType> = ({
 						</TableCell>
 						<TableCell
 							align="center"
-							style={{ whiteSpace: 'nowrap' }}
-						>
+							style={{ whiteSpace: 'nowrap' }}>
 							<VoteButtonGroup record={record} />
 						</TableCell>
 						<TableCell
 							align="right"
-							style={{ whiteSpace: 'nowrap' }}
-						>
+							style={{ whiteSpace: 'nowrap' }}>
 							<IconButton
 								onClick={() =>
 									reviewSubject({
@@ -160,8 +156,7 @@ const TranscriptTable: React.FC<PropsType> = ({
 										code: record.code,
 										name: record.name,
 									})
-								}
-							>
+								}>
 								<SvgIcon
 									fontSize="large"
 									color="primary"
