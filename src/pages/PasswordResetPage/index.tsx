@@ -45,7 +45,6 @@ const PasswordResetPage = (): React.ReactElement => {
 	const passwordsMatch = password[0] === password[1]
 
 	const resetPassword = () => {
-		console.log('token', token)
 		setPending(true)
 		api.resetPassword(token, password[0])
 			.then(() => {

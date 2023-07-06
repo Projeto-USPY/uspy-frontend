@@ -192,7 +192,6 @@ const SubjectsPage = ({ course, specialization }: SubjectPageProps) => {
 
 const SubjectsPageWrapper = () => {
 	const { course, specialization } = useParams<URLParameter>()
-	console.log(course, specialization)
 
 	return (
 		<WithSubjectsData course={course} specialization={specialization}>

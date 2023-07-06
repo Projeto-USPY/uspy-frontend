@@ -116,8 +116,6 @@ const OfferingApprovalDonut: React.FC<PropsType> = ({
 		position: 'relative',
 	}
 
-	console.log(`${errorMessage} # ${missingData}`)
-
 	return (
 		<>
 			<div

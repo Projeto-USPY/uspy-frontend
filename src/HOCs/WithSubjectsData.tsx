@@ -25,7 +25,6 @@ const WithSubjectsData = ({
 	const [subjectsData, setSubjectsData] = useState<CourseComplete>(null)
 
 	const notify = useMySnackbar()
-	console.log(course, specialization)
 
 	useEffect(() => {
 		api.getSubjectList(course, specialization)

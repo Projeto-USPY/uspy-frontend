@@ -66,7 +66,7 @@ const SubjectSiblings: React.FC<SubjectSiblingsProps> = ({
 				setIsLoading(false)
 			})
 			.catch(err => {
-				console.log(err)
+				console.error(err)
 			})
 	}, [code, course, specialization])
 

@@ -100,7 +100,6 @@ const DialogManager = () => {
 		state => state.dialogError,
 	)
 	const dispatch = useDispatch()
-	console.log(dialogError)
 	return (
 		<ErrorDialog
 			open={!!dialogError && Boolean(dialogError.message)}

@@ -36,7 +36,6 @@ const ProfilePage = () => {
 		(state: AppState) => state.lastUpdatedAccount,
 	)
 	const user = useSelector((state: AppState) => state.user)
-	console.log('Mostrando pagina de perfil de', user.name)
 
 	// get semesters where transcript has records
 	useEffect(() => {
