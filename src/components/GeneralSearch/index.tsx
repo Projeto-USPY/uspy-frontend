@@ -22,27 +22,26 @@ import './style.css'
 import { useMySnackbar } from 'hooks'
 import { SubjectKey } from 'types/Subject'
 
-const getParametersFromStorage = (): [Institute, Course] => {
+export const getSearchParamsFromStorage = (): [Institute, Course] => {
 	const instituteCode = localStorage.getItem('selected-institute')
 	const courseAndSpec = localStorage.getItem('selected-course')
-	if (!(instituteCode && courseAndSpec)) {
-		return [null, null]
-	}
 
 	const institute = instituteCode && {
 		code: instituteCode,
 		name: '',
 	}
-	const [courseCode, spec] = courseAndSpec.split('-')
-	const course = courseAndSpec && {
+
+	if (!courseAndSpec) {
+		return [institute, null]
+	}
+	const [courseCode, spec] = courseAndSpec.split('-') ?? []
+	const course = {
 		code: courseCode,
 		specialization: spec,
 		name: '',
 	}
 	return [institute, course]
 }
-
-const [savedInstitute, savedCourse] = getParametersFromStorage()
 
 const getSubjectLabel = (opt: SubjectKey): string => {
 	if (!opt?.code) return ''
@@ -81,26 +80,33 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 	const isLarge = useMediaQuery(theme.breakpoints.up('sm'))
 	const notify = useMySnackbar()
 
-	const [institute, setInstitute] = useState<Institute>(savedInstitute)
-	const [course, setCourse] = useState<Course>(savedCourse)
+	const [institute, setInstitute] = useState<Institute>(null)
+	const [course, setCourse] = useState<Course>(null)
 
 	const [instituteOptions, setInstituteOptions] = useState<Institute[]>([])
 	const [courseOptions, setCourseOptions] = useState<Course[]>([])
 
 	const [instituteInputCollapse, setInstituteInputCollapse] =
-		useState<boolean>(savedInstitute === null)
-	const [courseInputCollapse, setCourseInputCollapse] = useState<boolean>(
-		savedCourse === null,
-	)
+		useState<boolean>(true)
+	const [courseInputCollapse, setCourseInputCollapse] =
+		useState<boolean>(true)
 
 	useEffect(() => {
+		const [savedInstitute, savedCourse] = getSearchParamsFromStorage()
+
+		setCourse(savedCourse)
+		setCourseInputCollapse(!savedCourse)
+		setInstitute(savedInstitute)
+		setInstituteInputCollapse(!savedInstitute)
+
 		api.getInstitutes()
 			.then(res => {
 				setInstituteOptions(res)
-				if (institute) {
+				setInstitute(institute => {
+					if (!institute) return institute
 					const entry = res.find(i => i.code === institute.code)
 					setInstitute(entry)
-				}
+				})
 			})
 			.catch(err => {
 				notify('Erro desconhecido ao carregar institutos', 'error')
@@ -115,10 +121,11 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 		api.getCourses(institute.code)
 			.then(res => {
 				setCourseOptions(res)
-				if (course) {
-					const entry = res.find(c => c.code === course.code)
-					setCourse(entry ?? course)
-				}
+				setCourse(course => {
+					if (!course) return course
+					const entry = res.find(i => i.code === course.code)
+					setCourse(entry)
+				})
 			})
 			.catch(err => {
 				if (err.status === 404) {
@@ -160,6 +167,29 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 
 	const onChange = (_evt: unknown, value: SubjectKey) => {
 		handleChange(value.course, value.specialization, value.code)
+	}
+
+	const handleSelectorChange = (
+		val: Institute | Course,
+		type: 'institute' | 'course',
+	) => {
+		if (type === 'institute') {
+			setInstitute(val as Institute)
+			setSubjectOptions([])
+			handleSelectorChange(null, 'course')
+			setInstituteInputCollapse(val === null)
+		} else {
+			setCourse(val as Course)
+			setCourseInputCollapse(val === null)
+		}
+		if (val === null) {
+			localStorage.removeItem('selected-' + type)
+		} else {
+			const storageCode =
+				val.code +
+				(type === 'course' ? '-' + (val as Course).specialization : '')
+			localStorage.setItem('selected-' + type, storageCode)
+		}
 	}
 
 	const searchDisabled = !institute || !course
@@ -204,17 +234,9 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 							<SearchSelector
 								hidden={!instituteInputCollapse}
 								options={instituteOptions}
-								onChange={(val: Institute) => {
-									setInstitute(val)
-									setCourse(null)
-									setSubjectOptions([])
-									if (val) {
-										localStorage.setItem(
-											'selected-institute',
-											val.code,
-										)
-									}
-								}}
+								onChange={val =>
+									handleSelectorChange(val, 'institute')
+								}
 								value={institute}
 								label="Procure por um instituto"
 								getOptionLabel={getInstituteLabel}
@@ -242,16 +264,9 @@ const GeneralSearch: React.FC<GeneralSearchInputProps> = ({ handleChange }) => {
 							<SearchSelector
 								hidden={!courseInputCollapse}
 								options={courseOptions}
-								onChange={(val: Course) => {
-									setCourse(val)
-									setSubjectOptions([])
-									if (val) {
-										localStorage.setItem(
-											'selected-course',
-											`${val.code}-${val.specialization}`,
-										)
-									}
-								}}
+								onChange={val =>
+									handleSelectorChange(val, 'course')
+								}
 								value={course}
 								label="Procure por um curso"
 								getOptionLabel={getCourseLabel}
