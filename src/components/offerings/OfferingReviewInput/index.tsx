@@ -1,7 +1,6 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import './style.css'
-import OfferingContext from 'contexts/OfferingContext'
 
 interface PropsType {
 	content: string
@@ -10,6 +9,9 @@ interface PropsType {
 	rows: number
 	placeholder: string
 	disabled: boolean
+	offering: string
+	savedComment: string
+	pendingSavedComment: boolean
 }
 
 const OfferingReviewInput: React.FC<PropsType> = ({
@@ -19,41 +21,39 @@ const OfferingReviewInput: React.FC<PropsType> = ({
 	onChange,
 	placeholder,
 	disabled,
+	savedComment,
+	pendingSavedComment,
 }) => {
 	const ref1 = React.useRef(null)
 	const ref2 = React.useRef(null)
-
-	const { professor, course, specialization, code } =
-		useContext(OfferingContext)
 
 	const style = {
 		height: `${1.1876 * rows}em`,
 	}
 
-	const update = (evt: React.SyntheticEvent) => {
+	const update = () => {
 		onChange(ref1.current.innerText)
 		ref2.current.scrollTop = ref1.current.scrollTop
 	}
 
-	const [reRenderEditor, setReRenderEditor] = React.useState(0)
-	React.useEffect(() => {
-		setReRenderEditor(reRenderEditor + 1)
-	}, [disabled, course, specialization, code, professor])
+	/* The following useMemo is a hack (aka gambiarra) used to not make the component 
+		be re-rendered on every change of its content, 
+	*/
 
 	const editorDiv = useMemo(() => {
+		const body = pendingSavedComment ? '' : savedComment
 		return (
 			<div
 				ref={ref1}
 				style={style}
-				key={reRenderEditor}
 				contentEditable={!disabled}
 				suppressContentEditableWarning
 				onScroll={update}
 				onInput={update}>
-				{content}
+				{body}
 			</div>
 		)
-	}, [reRenderEditor])
+	}, [pendingSavedComment, savedComment, disabled])
 
 	return (
 		<div
@@ -65,7 +65,7 @@ const OfferingReviewInput: React.FC<PropsType> = ({
 				<span>{content.substr(limit)}</span>
 			</div>
 			<div className="placeholder">
-				{content.length ? '' : placeholder}
+				{content.length || disabled ? '' : placeholder}
 			</div>
 			<span style={{ display: 'block', marginTop: 12 }}>
 				{content.length > limit ? (

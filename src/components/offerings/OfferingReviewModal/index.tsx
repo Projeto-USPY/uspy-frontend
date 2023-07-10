@@ -57,15 +57,9 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 	const { course, specialization, code } = subject
 	const notify = useMySnackbar()
 
-	// Loaded review
-	useEffect(() => {
-		setComment(userReview?.body || '')
-		setRate(userReview?.rating || null)
-		setEditing(false)
-	}, [userReview])
-
 	// Reset component when selected professor changes
 	useEffect(() => {
+		setComment('')
 		setPending(false)
 		setEditing(false)
 	}, [selectedOffering])
@@ -98,6 +92,14 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 			})
 	}, [course, specialization, code])
 
+	const setLoadedUserReview = (review: OfferingReview) => {
+		setUserReview(review)
+		setComment(review?.body || '')
+		setRate(review?.rating || null)
+		setEditing(false)
+		setLoadingReview(false)
+	}
+
 	useEffect(() => {
 		if (selectedOffering) {
 			setLoadingReview(true)
@@ -108,16 +110,14 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 				selectedOffering,
 			)
 				.then(review => {
-					setUserReview(review)
-					setLoadingReview(false)
+					setLoadedUserReview(review)
 				})
 				.catch(err => {
 					if (err.code === 'not_found') {
-						setUserReview(null)
+						setLoadedUserReview(null)
 					} else {
 						console.error(err)
 					}
-					setLoadingReview(false)
 				})
 		}
 	}, [course, specialization, code, selectedOffering])
@@ -224,6 +224,9 @@ const OfferingReviewModal: React.FC<PropsType> = ({ subject, close }) => {
 							limit={500}
 							placeholder="Escreva seu comentário aqui..."
 							disabled={isLocked || loadingReview}
+							offering={selectedOffering}
+							savedComment={userReview?.body || ''}
+							pendingSavedComment={loadingReview}
 						/>
 						{userReview ? (
 							<Grid
