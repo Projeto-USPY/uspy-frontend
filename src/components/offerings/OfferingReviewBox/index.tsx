@@ -57,6 +57,7 @@ const OfferingReviewBox = () => {
 		setRate(null)
 		setPending(false)
 		setEditing(false)
+		setIsReviewFormOpen(false)
 	}, [professor])
 
 	const handleCommentChange = (s: string) => {
@@ -155,6 +156,9 @@ const OfferingReviewBox = () => {
 								limit={COMMENT_LIMIT}
 								placeholder="Escreva seu comentário aqui..."
 								disabled={isLocked}
+								offering={professor}
+								savedComment={review?.body || ''}
+								pendingSavedComment={review === null}
 							/>
 							{review ? (
 								<Grid
